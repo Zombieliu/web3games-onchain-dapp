@@ -26,8 +26,6 @@ const Home = () =>{
             </div>
             <Tail/>
         </div>
-
-
     )
 }
 

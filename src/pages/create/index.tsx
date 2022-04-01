@@ -89,7 +89,7 @@ const Create = () =>{
                                             <input type="text"
                                                    className=" bg-gray-700 bg-opacity-30 text-xs md:text-sm text-white  rounded-lg p-2 w-48    hover:border-black focus:border-black transition duration-300  outline-none"
                                                    placeholder="0.0"
-                                                   id="IC"
+                                                   id=""
                                             />
                                         </div>
                                         <div className="text-sm mt-2 flex ml-1 text-gray-400">Balance: 0</div>

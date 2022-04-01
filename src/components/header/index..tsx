@@ -24,9 +24,10 @@ function classNames(...classes) {
         {
             title: "NFT",
             contents: [
-                { name: 'Marketplaces', href: '/home', },
+                { name: 'Marketplaces', href: '/marketplaces', },
                 { name: 'Details', href: '/home', },
-                { name: 'Details', href: '/home', },
+                { name: 'Rankings', href: '/ranking', },
+                { name: 'Drops', href: '/home', },
 
             ]},
         {
@@ -102,7 +103,7 @@ const Header = () =>{
                                     <a>
                                         <span className="sr-only">Workflow</span>
                                         <img
-                                            className=" w-auto h-10  "
+                                            className="w-auto h-10  "
                                             src="/logo.png"
                                             alt=""
                                         />
