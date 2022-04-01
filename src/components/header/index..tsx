@@ -21,17 +21,41 @@ function classNames(...classes) {
              {  name: 'Pools ', href: '/pools',},
              { name: 'Create', href: '/create',}
          ]},
+        {
+            title: "NFT",
+            contents: [
+                { name: 'Marketplaces', href: '/home', },
+                { name: 'Details', href: '/home', },
+                { name: 'Details', href: '/home', },
+
+            ]},
+        {
+            title: "Dao",
+            contents: [
+                { name: 'Democracy', href: '/', },
+                { name: 'Council', href: '/', },
+                { name: 'Treasury', href: '/', },
+                { name: 'Bounties', href: '/', },
+                { name: 'Technology', href: '/', },
+
+            ]},
+        {
+            title: "Browser",
+            contents: [
+                { name: 'Explore', href: 'https://explorer-devnet.web3games.org/', },
+                { name: 'Portal', href: 'https://portal.web3games.org/', },
+            ]},
 
     ]
 
 
     return (
-        <div className=" flex justify-center px-5 ">
+        <div className=" grid grid-cols-3  md:grid-cols-7 xl:grid-cols-12 ">
             {navigation.map(item=>(
          <Menu as="div" key={item.title} className="relative inline-block text-left font-semibold mr-5">
             <div>
-                <Menu.Button className="w-12 py-2.5 text-sm leading-5  rounded-lg text-base font-medium text-gray-100
-                                  focus: ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-60 flex ">
+                <Menu.Button className=" py-2.5 text-sm leading-5  rounded-lg text-base font-medium text-gray-100
+                                  focus: ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-90 flex justify-center">
                     {item.title}      <div><i className="fa fa-angle-down ml-2" aria-hidden="true"></i></div>
                 </Menu.Button>
             </div>
@@ -45,7 +69,7 @@ function classNames(...classes) {
                 leaveFrom="transform opacity-100 scale-100"
                 leaveTo="transform opacity-0 scale-95"
             >
-                <Menu.Items className="origin-top-right absolute right-0 mt-1 -mr-10  xl:-mr-16 w-36 border-2 border-gray-800 rounded-md shadow-lg bg-black ring-1 ring-black ring-opacity-5 focus:outline-none">
+                <Menu.Items className="origin-top-right absolute  mt-1 -mr-10 z-20   border-2 border-gray-800 rounded-md shadow-lg bg-black  focus:outline-none">
                     <div className="py-1  text-gray-400">
                         {item.contents.map((contents)=>(
                         <Menu.Item key={contents.name}>
@@ -138,8 +162,8 @@ const Header = () =>{
                                         <div className="flex items-center justify-between">
                                             <div>
                                                 <img
-                                                    className="h-8 w-auto"
-                                                    src='https://cdn.discordapp.com/attachments/897398778166906911/918367515242029106/viewfile.png'
+                                                    className="h-10 w-auto"
+                                                    src='/logo.png'
                                                     alt="Workflow"
                                                 />
                                             </div>
@@ -152,7 +176,7 @@ const Header = () =>{
                                         </div>
 
                                     </div>
-                                    <div className="py-6 ">
+                                    <div className="py-6 px-8">
                                         <Trident/>
                                     </div>
                                     <div className="flex justify-center p-5 items-center">
