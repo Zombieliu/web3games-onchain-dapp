@@ -25,7 +25,7 @@ function classNames(...classes) {
             title: "NFT",
             contents: [
                 { name: 'Marketplaces', href: '/marketplaces', },
-                { name: 'Details', href: '/home', },
+                { name: 'Details', href: '/details', },
                 { name: 'Rankings', href: '/ranking', },
                 { name: 'Drops', href: '/home', },
 

@@ -38,7 +38,7 @@ const Featured = () =>{
                         <Link key={item.name} href="/marketplaces">
                         <a   className="md:flex md:h-72   xl:w-7/12  mb-10 md:mr-72 xl:mr-10 px-2.5">
                             <img className="w-96  md:w-72 rounded-2xl " src={item.img} alt=""/>
-                            <div className="md:mx-5 my-5 w-72 md:w-96  xl:w-72 mx-5">
+                            <div className="md:mx-5 my-3 w-72 md:w-96  xl:w-72 mx-5">
                                 <div className="text-gray-100  truncate text-2xl font-semibold mb-5">
                                     {item.name}
                                 </div>
