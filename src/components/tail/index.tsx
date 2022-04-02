@@ -103,7 +103,7 @@ const Tail=()=>{
                     <img className="w-64" src="/logo.png" alt=""/>
                     </div>
                     <div className="my-5 text-gray-500 text-sm text-center xl:-ml-2">
-                        The best block explorer of Web3Games
+                        The best Dapp of Web3Games
                     </div>
                     <div className="flex justify-center md:justify-start mt-10">
                         {participate.map(item=>(
