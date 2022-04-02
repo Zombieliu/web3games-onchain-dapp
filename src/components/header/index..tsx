@@ -15,12 +15,21 @@ function classNames(...classes) {
 
     const navigation = [
         {
+            title: "Wallet",
+            contents: [
+                { name: 'Dashboard', href: '#', },
+                { name: 'Extension', href: 'https://polkadot.js.org/extension/',},
+            ]
+        },
+        {
          title: "DeFi",
          contents: [
              { name: 'Swap', href: '/home', },
-             {  name: 'Pools ', href: '/pools',},
-             { name: 'Create', href: '/create',}
-         ]},
+             { name: 'Pools ', href: '/pools',},
+             { name: 'Create', href: '/create',},
+             { name: 'Bridge', href: '/bridge',}
+         ]
+        },
         {
             title: "NFT",
             contents: [
@@ -29,7 +38,8 @@ function classNames(...classes) {
                 { name: 'Rankings', href: '/ranking', },
                 { name: 'Drops', href: '/home', },
 
-            ]},
+            ]
+        },
         {
             title: "Dao",
             contents: [
@@ -39,13 +49,15 @@ function classNames(...classes) {
                 { name: 'Bounties', href: '/', },
                 { name: 'Technology', href: '/', },
 
-            ]},
+            ]
+        },
         {
             title: "Browser",
             contents: [
                 { name: 'Explore', href: 'https://explorer-devnet.web3games.org/', },
                 { name: 'Portal', href: 'https://portal.web3games.org/', },
-            ]},
+            ]
+        },
 
     ]
 
