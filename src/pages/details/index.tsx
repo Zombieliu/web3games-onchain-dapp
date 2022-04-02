@@ -41,8 +41,8 @@ const Detail = () =>{
                             </div>
                                 <div className="flex overflow-auto xl:overflow-hidden py-2 px-4  grid-cols-3 gap-9 xl:grid">
                                 {hot.map((item=>(
-                                    <div className="flex w-72 mr-28  rounded-xl p-2  transform scale-100 hover:scale-105 transition duration-300">
-                                        <img className="w-40 h-40 rounded-lg" src={item.img} alt=""/>
+                                    <div className="flex w-72 mr-36  rounded-xl p-2  transform scale-100 hover:scale-105 transition duration-300">
+                                        <img className="md:w-40 md: h-40 rounded-lg" src={item.img} alt=""/>
                                         <div className="ml-4   ">
                                             <div className="flex mb-4 w-32 ">
                                                 <div className="text-gray-100 text-xl font-semibold  truncate">
@@ -71,7 +71,7 @@ const Detail = () =>{
                             </div>
 
                                 <div>
-                                    
+
                                 </div>
                             </div>
 
