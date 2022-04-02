@@ -17,7 +17,9 @@ function classNames(...classes) {
         {
             title: "Wallet",
             contents: [
-                { name: 'Dashboard', href: '#', },
+                { name: 'Assets', href: '#', },
+                { name: 'Transfer', href: 'https://polkadot.js.org/extension/',},
+                { name: 'Transaction', href: 'https://polkadot.js.org/extension/',},
                 { name: 'Extension', href: 'https://polkadot.js.org/extension/',},
             ]
         },
@@ -27,7 +29,9 @@ function classNames(...classes) {
              { name: 'Swap', href: '/home', },
              { name: 'Pools ', href: '/pools',},
              { name: 'Create', href: '/create',},
-             { name: 'Bridge', href: '/bridge',}
+             { name: 'Bridge', href: '/bridge',},
+             { name: 'Staking', href: '/staking',},
+             { name: 'Mint', href: '/mint',}
          ]
         },
         {
@@ -36,7 +40,9 @@ function classNames(...classes) {
                 { name: 'Marketplaces', href: '/marketplaces', },
                 { name: 'Details', href: '/details', },
                 { name: 'Rankings', href: '/ranking', },
-                { name: 'Drops', href: '/home', },
+                { name: 'Auction', href: '/auction', },
+                { name: 'Drops', href: '/drops', },
+                { name: 'Mint', href: '/mint', },
 
             ]
         },
@@ -56,6 +62,7 @@ function classNames(...classes) {
             contents: [
                 { name: 'Explore', href: 'https://explorer-devnet.web3games.org/', },
                 { name: 'Portal', href: 'https://portal.web3games.org/', },
+                { name: 'Docs', href: 'https://docs.web3games.org/', },
             ]
         },
 

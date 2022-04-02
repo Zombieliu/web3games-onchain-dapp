@@ -7,7 +7,7 @@ const ends =[
         content:[
             {
                 h1:"Home",
-                href:"/",
+                href:"/home",
             },
             {
                 h1:"Team",
@@ -25,15 +25,15 @@ const ends =[
         content:[
             {
                 h1:"Docs",
-                href:"",
+                href:"https://docs.web3games.org/",
             },
             {
-                h1:"Mirror",
-                href:"",
+                h1:"Medium",
+                href:"https://medium.com/web3games",
             },
             {
                 h1:"GitHub",
-                href:"",
+                href:"https://github.com/web3gamesofficial",
             }
         ]
 
@@ -43,15 +43,15 @@ const ends =[
         content:[
             {
                 h1:"Discord",
-                href:"",
+                href:"https://discord.com/invite/web3games",
             },
             {
                 h1:"Twitter",
-                href:"",
+                href:"https://twitter.com/web3games",
             },
             {
                 h1:"Telegram",
-                href:"",
+                href:"https://t.me/web3gamesofficial",
             }
         ]
 
@@ -59,19 +59,19 @@ const ends =[
 ]
 const participate=[
     {
-        href:"",
+        href:"https://t.me/web3gamesofficial",
         icon:"fa fa-telegram"
     },
     {
-        href:"",
+        href:"https://twitter.com/web3games",
         icon:"fa fa-twitter",
     },
     {
-        href:"",
+        href:"https://discord.com/invite/web3games",
         icon:"fa fa-reddit",
     },
     {
-        href:"",
+        href:"https://medium.com/web3games",
         icon:"fa fa-medium",
     }
 
