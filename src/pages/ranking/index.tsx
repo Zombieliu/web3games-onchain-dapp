@@ -127,7 +127,6 @@ const Ranking = () =>{
                                                 className="px-6   py-3 text-left  text-sm md:text-base  font-semibold text-gray-200 "
                                             >
                                                     {item.name}
-
                                             </th>
                                             )))}
                                         </tr>
@@ -156,11 +155,11 @@ const Ranking = () =>{
                                                     </div>
 
                                                 </td>
-                                                    <td className={classNames(rankStyle[item.daystate],"px-6 py-4 whitespace-nowrap text-base text-gray-500")}>
+                                                    <td className="px-6 py-4 whitespace-nowrap text-base text-gray-500">
                                                         {item.daydata}
                                                     </td>
 
-                                                    <td className={classNames(rankStyle[item.weekstate],"px-6 py-4 whitespace-nowrap text-base text-gray-500")}>
+                                                    <td className="px-6 py-4 whitespace-nowrap text-base text-gray-500">
                                                         {item.weekdata}
                                                     </td>
 

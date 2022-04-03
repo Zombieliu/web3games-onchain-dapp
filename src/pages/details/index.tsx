@@ -146,7 +146,7 @@ const Detail = () =>{
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-12 my-10">
                                     {collections.map((item=>(
-                                        <Link key={item.name} href="/#">
+                                        <Link key={item.name} href="/marketplaces/asset">
                                     <div  className="transform scale-100 hover:shadow hover:scale-105 transition duration-300 cursor-pointer" >
                                         <div>
                                             <img  className=" rounded-xl" src={item.img} alt=""/>

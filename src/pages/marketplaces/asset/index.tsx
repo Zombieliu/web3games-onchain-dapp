@@ -4,6 +4,7 @@ import React, {Fragment, useState } from 'react'
 import Link from "next/link";
 import { Disclosure, Transition } from "@headlessui/react";
 import { ChevronUpIcon } from "@heroicons/react/solid";
+import Sort from "../../../components/sort";
 
 
 function classNames(...classes) {
@@ -81,113 +82,513 @@ const AssetTop = () =>{
         </>
     )
 }
-const AssetLeft =() =>{
+const AssetLeftAbout =() =>{
+    const info =
+        {
+            img:"https://mintverse.mypinata.cloud/ipfs/QmSrBBZ118HpXqyTdFdzWsMHKP7KuwrTsKC1sgU1W9zUTx",
+            h1:" A community-driven collectibles project featuring art by Burnt Toast. Doodles come in a joyful range of colors, traits and sizes with a collection size of 10,000. Each Doodle allows its owner to vote for experiences and activations paid for by the Doodles",
+        }
+
     return(
         <>
-            <div className="mt-20">
                 <div className="mt-10  bg-gray-800 rounded-xl">
                     <div className="text-white px-6 p-4 font-semibold text-lg border-b border-gray-500">
                         About Collection
                     </div>
                     <div className="p-2 mt-5">
-                        <img className="w-16 rounded-full mx-auto" src="https://mintverse.mypinata.cloud/ipfs/QmSrBBZ118HpXqyTdFdzWsMHKP7KuwrTsKC1sgU1W9zUTx" alt=""/>
+                        <img className="w-16 rounded-full mx-auto" src={info.img} alt=""/>
                         <div className="px-4 text-center text-sm text-gray-400 mt-4">
-                            A community-driven collectibles project featuring art by Burnt Toast. Doodles come in a joyful range of colors, traits and sizes with a collection size of 10,000. Each Doodle allows its owner to vote for experiences and activations paid for by the Doodles
+                            {info.h1}
                         </div>
                     </div>
                 </div>
-                    <div className="w-full mt-10  mx-auto  rounded-xl">
-                        <Disclosure>
-                            {({ open }) => (
-                                <>
-                                    <Disclosure.Button className="flex justify-between w-full bg-gray-800 px-4 py-3 text-sm font-medium text-left text-white rounded-lg ">
-                                        <span>What is your refund policy?</span>
-                                        <ChevronUpIcon
-                                            className={`${
-                                                open ? '' : 'transform rotate-180'
-                                            } w-5 h-5 text-gray-300`}
-                                        />
-                                    </Disclosure.Button>
-                                    <Transition
-                                        as={Fragment}
-                                        enter="transition ease-out duration-300"
-                                        enterFrom="transform opacity-0 scale-95"
-                                        enterTo="transform opacity-100 scale-100"
-                                        leave="transition ease-in duration-300"
-                                        leaveFrom="transform opacity-100 scale-100"
-                                        leaveTo="transform opacity-0 scale-95"
-                                    >
-                                    <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-gray-300 rounded-b-xl bg-gray-800">
-                                        If you`re unhappy with your purchase for any reason, email us
-                                        within 90 days and we`ll refund you in full, no questions asked.
-                                    </Disclosure.Panel>
-                                    </Transition>
-                                </>
-                            )}
-                        </Disclosure>
-                    </div>
-                <div className="mt-10  bg-gray-800 rounded-xl">
-                    <div className="text-white px-6 p-4 font-semibold text-lg border-b border-gray-500">
-                       Detail
-                    </div>
-                    <div className="p-2 ">
-                        <div className="px-4 text-center text-sm text-gray-400 ">
-                            <div className="flex py-3 justify-between">
-                                <div className="font-semibold">
-                                    Contract Address
-                                </div>
-                                <Link href="/#">
-                                    <a>
-                                        <div className="text-red-400 font-semibold">
-                                            0x8a90...b8992e
+
+
+        </>
+    )
+}
+const AssetLeftProperties = ()=>{
+    const info = [
+        {
+        part:'Earring',
+        style:"M1 Gold Hoop",
+        own:"3.4443%",
+    },
+        {
+            part:'Mouth',
+            style:"M1 Jovial",
+            own:"2.1668%",
+        },
+        {
+            part:'Hat',
+            style:"M1 Fisherman`s Hat",
+            own:"2.6566%",
+        },
+    ]
+    return(
+        <>
+            <div className="w-full mt-10  mx-auto  rounded-xl">
+                <Disclosure>
+                    {({ open }) => (
+                        <>
+                            <Disclosure.Button className="flex justify-between w-full bg-gray-800 px-4 py-3 text-sm font-medium text-left text-white rounded-lg ">
+                                <span className="text-xl">Properties</span>
+                                <ChevronUpIcon
+                                    className={`${
+                                        open ? '' : 'transform rotate-180'
+                                    } w-5 h-5 text-gray-300`}
+                                />
+                            </Disclosure.Button>
+                            <Transition
+                                as={Fragment}
+                                enter="transition ease-out duration-300"
+                                enterFrom="transform opacity-0 scale-95"
+                                enterTo="transform opacity-100 scale-100"
+                                leave="transition ease-in duration-300"
+                                leaveFrom="transform opacity-100 scale-100"
+                                leaveTo="transform opacity-0 scale-95"
+                            >
+                                <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-gray-300 rounded-b-xl bg-gray-800">
+                                    <div className="grid grid-cols-2 gap-4 ">
+                                        {info.map((item=>(
+                                        <div key={item.part} className="text-center p-2 bg-indigo-700 rounded-xl ">
+                                            <div className="text-red-300 text-sm">
+                                                {item.part}
+                                            </div>
+                                            <div className="text-white  font-semibold">
+                                                {item.style}
+                                            </div>
+                                            <div className="flex text-gray-400 justify-center">
+                                               <div>{item.own} </div> <div className="ml-1">have this trait</div>
+                                            </div>
                                         </div>
-                                    </a>
-                                </Link>
-
-                            </div>
-                            <div className="flex py-3 justify-between">
-                                <div className="font-semibold">
-                                   Token ID
-                                </div>
-                                <div className="font-semibold">
-                                   18
-                                </div>
-                            </div>
-                            <div className="flex py-3 justify-between">
-                                <div className="font-semibold">
-                                    BlockChain
-                                </div>
-                                <div className="font-semibold">
-                                    ETH
-                                </div>
-                            </div>
-                            <div className="flex py-3 justify-between">
-                                <div className="font-semibold">
-                                    Metadata
-                                </div>
-                                <Link href="/#">
-                                    <a>
-                                <div className="text-red-400 font-semibold">
-                                    http://...YB4aS/18
-                                </div>
-                                    </a>
-                                </Link>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
+                                        )))}
+                                    </div>
+                                </Disclosure.Panel>
+                            </Transition>
+                        </>
+                    )}
+                </Disclosure>
             </div>
         </>
     )
 }
-const AssetRight =() =>{
+const AssetLeftDetail = () =>{
+    const info = {
+        address:"  0x8a90...b8992e",
+        token:"18",
+        blockchain:"W3G",
+        meta:" http://...YB4aS/18",
+    }
+
     return(
         <>
+            <div className="mt-10  bg-gray-800 rounded-xl">
+                <div className="text-white px-6 p-4 font-semibold text-lg border-b border-gray-500">
+                    Detail
+                </div>
+                <div className="p-2 ">
+                    <div className="px-4 text-center text-sm text-gray-400 ">
+                        <div className="flex py-3 justify-between">
+                            <div className="font-semibold">
+                                Contract Address
+                            </div>
+                            <Link href="/#">
+                                <a>
+                                    <div className="text-red-400 font-semibold">
+                                        {info.address}
+                                    </div>
+                                </a>
+                            </Link>
+
+                        </div>
+                        <div className="flex py-3 justify-between">
+                            <div className="font-semibold">
+                                Token ID
+                            </div>
+                            <div className="font-semibold">
+                                {info.token}
+                            </div>
+                        </div>
+                        <div className="flex py-3 justify-between">
+                            <div className="font-semibold">
+                                BlockChain
+                            </div>
+                            <div className="font-semibold">
+                                {info.blockchain}
+                            </div>
+                        </div>
+                        <div className="flex py-3 justify-between">
+                            <div className="font-semibold">
+                                Metadata
+                            </div>
+                            <Link href="/#">
+                                <a>
+                                    <div className="text-red-400 font-semibold">
+                                        {info.meta}
+                                    </div>
+                                </a>
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </>
     )
 }
+const AssetRightList =() =>{
+    const listTitle = [
+
+        {
+            name:"Price"
+        },
+        {
+            name:"USD Price"
+        },
+        {
+            name:"Expiration"
+        },
+        {
+            name:"From"
+        },
+        {
+            name:""
+        },
+
+    ]
+    const listInfo = [
+      {
+            id:"1",
+            price:"17 W3G",
+            usd:"$59,422.65",
+            expiration:"in 8 days",
+            from:"0x5a...b102",
+        }
+    ]
+
+    return(
+        <>
+            <div className="w-full mt-10  mx-auto  rounded-xl">
+                <Disclosure>
+                    {({ open }) => (
+                        <>
+                            <Disclosure.Button className="flex justify-between w-full bg-gray-800 px-4 py-3 text-sm font-medium text-left text-white rounded-lg ">
+                             <div className="flex text-xl">
+                                 <i className="fa fa-tag mt-1 mr-2" aria-hidden="true"></i>
+                                 <span>Listings</span></div>
+                                <ChevronUpIcon
+                                    className={`${
+                                        open ? '' : 'transform rotate-180'
+                                    } w-5 h-5 mt-1 text-gray-300`}
+                                />
+                            </Disclosure.Button>
+                            <Transition
+                                as={Fragment}
+                                enter="transition ease-out duration-300"
+                                enterFrom="transform opacity-0 scale-95"
+                                enterTo="transform opacity-100 scale-100"
+                                leave="transition ease-in duration-300"
+                                leaveFrom="transform opacity-100 scale-100"
+                                leaveTo="transform opacity-0 scale-95"
+                            >
+                                <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-gray-300 rounded-b-xl bg-gray-800">
+                                    <div className=' mx-auto  rounded-lg '>
+                                        <div className='overflow-auto'>
+                                            <table className="min-w-full divide-y divide-gray-600 mb-4">
+                                                <thead className="overflow-auto">
+                                                <tr>
+                                                    {listTitle.map((item=>(
+                                                        <th key={item.name}
+                                                            scope="col"
+                                                            className={listInfo.length?"px-6  py-2 text-left  text-sm  md:font-semibold text-gray-300":"px-2 py-2 text-left  text-sm  md:font-semibold text-gray-300"}
+                                                        >
+                                                            {item.name}
+                                                        </th>
+                                                    )))}
+                                                </tr>
+                                                </thead>
+                                                <tbody className={listInfo.length?"divide-y divide-gray-200":"hidden"}>
+                                                {listInfo.map(item=>(
+                                                    <tr key={item.id} className="hover:bg-gray-600 bg-opacity-80 bg-gray-700 cursor-pointer transition duration-300 " >
+                                                        <td className="px-6 py-4  whitespace-nowrap text-sm text-white">
+                                                            {item.price}
+                                                        </td>
+                                                        <td className="px-6 py-4   whitespace-nowrap text-sm text-white">
+                                                            {item.usd}
+                                                        </td>
+                                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                                                            {item.expiration}
+                                                        </td>
+                                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-white hover:text-red-400 transition duration-300">
+                                                            <Link href="/#">
+                                                            {item.from}
+                                                            </Link>
+                                                        </td>
+                                                        <td className="px-6  py-4  whitespace-nowrap text-base text-white">
+                                                            <button className="flex bg-red-600 px-8 py-1 rounded-full hover:bg-red-500 transition duration-300">
+                                                                Buy
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                                </tbody>
+                                            </table>
+                                            <div className={listInfo.length?"hidden":"flex justify-center "}>
+                                                <div className=" pt-4 text-3xl text-center text-gray-400">
+                                                    <i className="fa fa-archive " aria-hidden="true"></i>
+                                                    <div className="text-xl">
+                                                        No Data
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </Disclosure.Panel>
+                            </Transition>
+                        </>
+                    )}
+                </Disclosure>
+            </div>
+        </>
+    )
+}
+const AssetRightOffers = () =>{
+    const offersTitle = [
+        {
+            name:"Price"
+        },
+
+        {
+            name:"USD Price"
+        },
+        {
+            name:"Expiration"
+        },
+        {
+            name:"From"
+        },
+
+    ]
+    const offersInfo = [
+        {
+            id:"1",
+            price:"17 W3G",
+            usd:"$86,527.25",
+            expiration:"in 0 days",
+            from:"0x5a...b102",
+        }
+    ]
+
+    return(
+        <>
+            <div className="w-full mt-10  mx-auto  rounded-xl">
+                <Disclosure>
+                    {({ open }) => (
+                        <>
+                            <Disclosure.Button className="flex justify-between w-full bg-gray-800 px-4 py-3 text-sm font-medium text-left text-white rounded-lg ">
+                                <div className="flex text-xl">
+                                    <i className="fa fa-list mt-1 mr-2 " aria-hidden="true"></i>
+                                    <span>Offers</span></div>
+                                <ChevronUpIcon
+                                    className={`${
+                                        open ? '' : 'transform rotate-180'
+                                    } w-5 h-5 mt-1 text-gray-300`}
+                                />
+                            </Disclosure.Button>
+                            <Transition
+                                as={Fragment}
+                                enter="transition ease-out duration-300"
+                                enterFrom="transform opacity-0 scale-95"
+                                enterTo="transform opacity-100 scale-100"
+                                leave="transition ease-in duration-300"
+                                leaveFrom="transform opacity-100 scale-100"
+                                leaveTo="transform opacity-0 scale-95"
+                            >
+                                <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-gray-300 rounded-b-xl bg-gray-800">
+                                    <div className=' mx-auto  rounded-lg '>
+                                        <div className='overflow-auto'>
+                                            <table className="min-w-full divide-y divide-gray-600 mb-4">
+                                                <thead className="overflow-auto">
+                                                <tr>
+                                                    {offersTitle.map((item=>(
+                                                        <th key={item.name}
+                                                            scope="col"
+                                                            className={offersInfo.length?"px-6  py-2 text-left  text-sm  md:font-semibold text-gray-300":"px-2 py-2 text-left  text-sm  md:font-semibold text-gray-300"}
+                                                        >
+                                                            {item.name}
+                                                        </th>
+                                                    )))}
+                                                </tr>
+                                                </thead>
+                                                <tbody className={offersInfo.length?"divide-y divide-gray-200":"hidden"}>
+                                                {offersInfo.map(item=>(
+                                                    <tr key={item.id} className="hover:bg-gray-600 bg-opacity-80 bg-gray-700 cursor-pointer transition duration-300 " >
+                                                        <td className="px-6 py-4  whitespace-nowrap text-sm text-white">
+                                                            {item.price}
+                                                        </td>
+                                                        <td className="px-6 py-4   whitespace-nowrap text-sm text-white">
+                                                            {item.usd}
+                                                        </td>
+                                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                                                            {item.expiration}
+                                                        </td>
+                                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-white hover:text-red-400 transition duration-300">
+                                                            <Link href="/#">
+                                                                <a className="hover:text-red-500 transition duration-300">
+                                                                    {item.from}
+                                                                </a>
+                                                            </Link>
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                                </tbody>
+                                            </table>
+                                            <div className={offersInfo.length?"hidden":"flex justify-center "}>
+                                                <div className=" pt-4 text-3xl text-center text-gray-400">
+                                                    <i className="fa fa-archive " aria-hidden="true"></i>
+                                                    <div className="text-xl">
+                                                        No Data
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </Disclosure.Panel>
+                            </Transition>
+                        </>
+                    )}
+                </Disclosure>
+            </div>
+        </>
+    )
+}
+const AssetRightHistory = () =>{
+    const historyTitle = [
+        {
+            name:"Event"
+        },
+        {
+            name:"Price"
+        },
+
+        {
+            name:"From"
+        },
+        {
+            name:"To"
+        },
+        {
+            name:"Data"
+        },
+
+    ]
+    const historyInfo = [
+        {
+            id:"1",
+            event:"Sale",
+            price:"17 W3G",
+            from:"0x48...d642",
+            to:"0x5a...b102",
+            date:"2022-02-05 06:02:00",
+        }
+    ]
+    return(
+        <>
+            <div className="w-full mt-10  mx-auto  rounded-xl">
+                <Disclosure>
+                    {({ open }) => (
+                        <>
+                            <Disclosure.Button className="flex justify-between w-full bg-gray-800 px-4 py-3 text-sm font-medium text-left text-white rounded-lg ">
+                                <div className="flex text-xl">
+                                    <i className="fa fa-file-text mt-1 mr-2 " aria-hidden="true"></i>
+                                    <span>Trading History</span></div>
+                                <ChevronUpIcon
+                                    className={`${
+                                        open ? '' : 'transform rotate-180'
+                                    } w-5 h-5 mt-1 text-gray-300`}
+                                />
+                            </Disclosure.Button>
+                            <Transition
+                                as={Fragment}
+                                enter="transition ease-out duration-300"
+                                enterFrom="transform opacity-0 scale-95"
+                                enterTo="transform opacity-100 scale-100"
+                                leave="transition ease-in duration-300"
+                                leaveFrom="transform opacity-100 scale-100"
+                                leaveTo="transform opacity-0 scale-95"
+                            >
+                                <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-gray-300 rounded-b-xl bg-gray-800">
+                                    <div className=' mx-auto  rounded-lg '>
+                                        <div className='overflow-auto'>
+                                            <table className="min-w-full divide-y divide-gray-600 mb-4">
+                                                <thead className="overflow-auto">
+                                                <tr>
+                                                    {historyTitle.map((item=>(
+                                                        <th key={item.name}
+                                                            scope="col"
+                                                            className={historyInfo.length?"px-6  py-2 text-left  text-sm  md:font-semibold text-gray-300":"px-2 py-2 text-left  text-sm  md:font-semibold text-gray-300"}
+                                                        >
+                                                            {item.name}
+                                                        </th>
+                                                    )))}
+                                                </tr>
+                                                </thead>
+                                                <tbody className={historyInfo.length?"divide-y divide-gray-200":"hidden"}>
+                                                {historyInfo.map(item=>(
+                                                    <tr key={item.id} className="hover:bg-gray-600 bg-opacity-80 bg-gray-700 cursor-pointer transition duration-300 " >
+                                                        <td className="px-6 py-4  whitespace-nowrap text-sm text-white">
+                                                            {item.event}
+                                                        </td>
+                                                        <td className="px-6 py-4   whitespace-nowrap text-sm text-white">
+                                                            <div className="flex">
+                                                                <img className="w-6 rounded-full border border-gray-600" src="/img.png" alt=""/>
+                                                                <div className="ml-1 mt-0.5">
+                                                                    {item.price}
+                                                                </div>
+                                                            </div>
+
+                                                        </td>
+                                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-white">
+                                                            <Link href="/#">
+                                                                <a className="hover:text-red-500 transition duration-300">
+                                                                    {item.from}
+                                                                </a>
+                                                            </Link>
+                                                        </td>
+                                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-white hover:text-red-400 transition duration-300">
+                                                            <Link href="/#">
+                                                                <a className="hover:text-red-500 transition duration-300">
+                                                                    {item.to}
+                                                                </a>
+                                                            </Link>
+                                                        </td>
+                                                        <td className="px-6  py-4  whitespace-nowrap text-base text-red-500">
+                                                            {item.date}
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                                </tbody>
+                                            </table>
+                                            <div className={historyInfo.length?"hidden":"flex justify-center "}>
+                                                <div className=" pt-4 text-3xl text-center text-gray-400">
+                                                    <i className="fa fa-archive " aria-hidden="true"></i>
+                                                    <div className="text-xl">
+                                                        No Data
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </Disclosure.Panel>
+                            </Transition>
+                        </>
+                    )}
+                </Disclosure>
+            </div>
+        </>
+    )
+}
+
 const Asset = () =>{
 
     return (
@@ -199,7 +600,23 @@ const Asset = () =>{
                     <div className="bg-black bg-opacity-95 ">
                         <div className="max-w-7xl relative px-5 py-16  sm:px-6 sm:py-24 lg:py-32 mx-auto ">
                             <AssetTop/>
-                            <AssetLeft/>
+                            <div className="mt-20 lg:flex justify-between">
+                                <div className="lg:w-3/6">
+                                <AssetLeftAbout/>
+                                    <AssetLeftProperties/>
+                                    <AssetLeftDetail/>
+                                </div>
+                                <div className="lg:pl-10 w-full">
+                                    <div className="mb-10">
+                                        <AssetRightList/>
+                                    </div>
+                                    <div className="mb-10">
+                                        <AssetRightOffers/>
+                                    </div>
+                                    <AssetRightHistory/>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
