@@ -11,7 +11,7 @@ const Sort=()=>{
     return(
         <div>
             <div className="rounded-md   flex justify-end my-5" aria-label="Pagination">
-                <Link href="#">
+                <Link href="/home">
                     <a
 
                         className="relative inline-flex items-center px-2 py-2 mr-2 rounded-md bg-gray-500 border border-gray-300  text-sm font-medium text-white "
@@ -19,7 +19,7 @@ const Sort=()=>{
                         <span className="">First</span>
                     </a>
                 </Link>
-                <Link href="#">
+                <Link href="/home">
                 <a
 
                     className="relative inline-flex items-center px-2 py-2 rounded-l-md  bg-gray-500 border border-gray-400 text-sm font-medium text-white "
@@ -32,13 +32,13 @@ const Sort=()=>{
                         Page 1 of 11
                     </div>
 
-                <Link href="#">
+                <Link href="/home">
                 <a className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-400 bg-gray-500 text-sm font-medium text-white">
                     <span className="sr-only">Next</span>
                     <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
                 </a>
             </Link>
-                <Link href="#">
+                <Link href="/home">
                     <a
 
                         className="relative inline-flex items-center px-2 py-2 ml-2 rounded-md border border-gray-300 bg-gray-500 text-sm font-medium text-white "

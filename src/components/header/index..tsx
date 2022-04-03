@@ -17,7 +17,7 @@ function classNames(...classes) {
         {
             title: "Wallet",
             contents: [
-                { name: 'Assets', href: '#', },
+                { name: 'Assets', href: '/home', },
                 { name: 'Transfer', href: 'https://polkadot.js.org/extension/',},
                 { name: 'Transaction', href: 'https://polkadot.js.org/extension/',},
                 { name: 'Extension', href: 'https://polkadot.js.org/extension/',},
@@ -49,11 +49,11 @@ function classNames(...classes) {
         {
             title: "Dao",
             contents: [
-                { name: 'Democracy', href: '/', },
-                { name: 'Council', href: '/', },
-                { name: 'Treasury', href: '/', },
-                { name: 'Bounties', href: '/', },
-                { name: 'Technology', href: '/', },
+                { name: 'Democracy', href: '/home', },
+                { name: 'Council', href: '/home', },
+                { name: 'Treasury', href: '/home', },
+                { name: 'Bounties', href: '/home', },
+                { name: 'Technology', href: '/home', },
 
             ]
         },
