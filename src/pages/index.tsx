@@ -6,8 +6,8 @@ const IndexPage: NextPage = () => {
   return (
     <div>
       <Head>
-        <title>david</title>
-        <link rel="icon" href="/favicon.ico" />
+        <title>Web3Games On Online  | Dapp</title>
+        <link rel="icon" href="/web3gsmall.png" />
       </Head>
           <Home></Home>
     </div>
