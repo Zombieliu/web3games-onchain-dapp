@@ -18,7 +18,7 @@ const Home = () =>{
                 <div className="absolute inset-x-0 bottom-0    " />
                 <div className=" mx-auto  ">
                     <div className="bg-black bg-opacity-95 ">
-                        <div className="max-w-7xl relative px-5 py-16  sm:px-6 sm:py-24 lg:py-32 mx-auto ">
+                        <div className="max-w-7xl relative px-5 py-16  sm:px-6  mx-auto ">
                             <Swap/>
                            </div>
                     </div>

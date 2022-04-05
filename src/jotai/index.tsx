@@ -14,6 +14,8 @@ const tokenTail ={
 const SwapTokenTop = atom(tokenTop)
 const SwapTokenTail = atom(tokenTail)
 
+const AssetsOpenPopup = atom(false)
 
 
-export {Select_TokenTop,Select_TokenTail,SwapTokenTop,SwapTokenTail}
+
+export {Select_TokenTop,Select_TokenTail,SwapTokenTop,SwapTokenTail,AssetsOpenPopup}

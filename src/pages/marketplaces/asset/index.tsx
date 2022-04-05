@@ -149,7 +149,7 @@ const AssetLeftProperties = ()=>{
                                 leaveTo="transform opacity-0 scale-95"
                             >
                                 <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-gray-300 rounded-b-xl bg-gray-800">
-                                    <div className="grid grid-cols-2 gap-4 ">
+                                    <div className="grid grid-cols-2 gap-3 ">
                                         {info.map((item=>(
                                         <div key={item.part} className="text-center p-2 bg-indigo-700 rounded-xl ">
                                             <div className="text-red-300 text-sm">
@@ -158,8 +158,8 @@ const AssetLeftProperties = ()=>{
                                             <div className="text-white  font-semibold">
                                                 {item.style}
                                             </div>
-                                            <div className="flex text-gray-400 justify-center">
-                                               <div>{item.own} </div> <div className="ml-1">have this trait</div>
+                                            <div className="flex text-gray-400 text-xs justify-center">
+                                               <div>{item.own} </div> <div className="ml-0.5 ">have this trait</div>
                                             </div>
                                         </div>
                                         )))}

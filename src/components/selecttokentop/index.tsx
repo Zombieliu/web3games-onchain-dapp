@@ -66,10 +66,11 @@ const SelectTokenTop = () =>{
         })
         setSelectToken(false)
     }
+
     return(
         <>
             <Transition.Root show={selectToken} as={Fragment}>
-                <Dialog as="div" className="fixed z-30 inset-0 overflow-y-auto " onClose={setSelectToken}>
+                <Dialog as="div" className="fixed z-30 inset-0 overflow-y-auto " onClose={()=>{return false}}>
                     <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center shadow-2xl  sm:block sm:p-0">
                         <Transition.Child
                             as={Fragment}
@@ -105,7 +106,7 @@ const SelectTokenTop = () =>{
                                                  className="fa fa-times " aria-hidden="true"></button>
                                     </div>
                                     <input type="text"
-                                           className=" bg-gray-700 bg-opacity-30 text-xs md:text-sm text-white  rounded-lg p-2 py-4 w-full border-gray-700 border   focus:border-blue-400 transition duration-300  outline-none"
+                                           className=" bg-gray-700 bg-opacity-30 text-xs md:text-sm text-white  rounded-lg p-2 py-4 w-full border-gray-700 border z-40  focus:border-blue-400 transition duration-300  outline-none"
                                            placeholder="Search name or paste address"
                                            id="address"
                                     />

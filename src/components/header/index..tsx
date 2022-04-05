@@ -17,9 +17,9 @@ function classNames(...classes) {
         {
             title: "Wallet",
             contents: [
-                { name: 'Assets', href: '/home', },
-                { name: 'Transfer', href: 'https://polkadot.js.org/extension/',},
-                { name: 'Transaction', href: 'https://polkadot.js.org/extension/',},
+                { name: 'Assets', href: '/assets', },
+                { name: 'Transfer', href: '/transfer',},
+                { name: 'Transaction', href: '/transaction',},
                 { name: 'Extension', href: 'https://polkadot.js.org/extension/',},
             ]
         },
