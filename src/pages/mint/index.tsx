@@ -79,6 +79,12 @@ const Mint = () =>{
                                         </div>
                                     </RadioGroup>
                                 </div>
+                                <div className="text-white mt-10">
+                                    Populate the Fields:
+                                </div>
+                                <div className="mt-3 ">
+
+                                </div>
                             </div>
 
                         </div>

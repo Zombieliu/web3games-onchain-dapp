@@ -27,12 +27,17 @@ const Transfer = () =>{
                                     Transfer on Web3Games
                                 </div>
                                 <div className="mt-5 p-5 border-t border-gray-500">
+                                    <div className="flex justify-between">
                                     <div className="text-white font-semibold">
                                         Asset
                                     </div>
+                                    <div className="text-indigo-500 flex">
+                                        Balance:
+                                        <div> 0</div>
+                                    </div></div>
                                     <div className="flex mt-5">
                                         <div className="flex  -mr-3">
-                                            <button onClick={ChooseToken} className="flex -mr-24 mt-2 z-20">
+                                            <button onClick={ChooseToken} className="flex -mr-24 mt-2.5 z-20">
                                                 <div>
                                                     <img className="w-6 rounded-full mr-1" src={swapTokenTop.img} alt=""/>
                                                 </div>
@@ -59,6 +64,11 @@ const Transfer = () =>{
                                                id=""
                                         />
                                         </div>
+                                    </div>
+                                    <div className="text-center mt-5 -ml-3">
+                                        <button className="px-24 py-1.5 rounded-full bg-indigo-300">
+                                            Transfer
+                                        </button>
                                     </div>
                                 </div>
                             </div>
