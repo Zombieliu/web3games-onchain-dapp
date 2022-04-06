@@ -109,7 +109,9 @@ const AssetsWallet = () =>{
     const walletInfo = [
         {
             id:"1",
-            asset:"$3,524.58",
+            assets:"$3,524.58",
+            balance:"999999",
+            locked:"20",
             value:"0.00",
         },
     ]
@@ -138,7 +140,7 @@ const AssetsWallet = () =>{
                                 <tbody className={walletInfo.length?"divide-y  divide-gray-800":"hidden"}>
                                 {walletInfo.map(item=>(
                                     <tr key={item.id} onClick={openassets} className="hover:bg-gray-800 bg-opacity-80  cursor-pointer transition duration-300 " >
-                                        <td className="px-6 py-4 w-40  whitespace-nowrap text-sm text-white">
+                                        <td className="px-6 py-4 w-48  whitespace-nowrap text-sm text-white">
                                             <div className="flex ">
                                                 <img className="w-10 rounded-full border border-gray-600" src="/img.png" alt=""/>
                                                 <div className="ml-2  ">
@@ -146,15 +148,17 @@ const AssetsWallet = () =>{
                                                         W3G
                                                     </div>
                                                     <div className="text-gray-400 ">
-                                                    {item.asset}
+                                                    {item.assets}
                                                     </div>
                                                 </div>
 
                                             </div>
                                         </td>
-                                        <td className="px-1  py-1  whitespace-nowrap text-base text-white ">
+                                        <td className="px-6  py-1  whitespace-nowrap text-base text-white ">
+                                            {item.balance}
                                         </td>
                                         <td className="px-6  py-1  whitespace-nowrap text-base text-white ">
+                                            {item.locked}
                                         </td>
                                         <td className="px-6  py-1  whitespace-nowrap text-base text-white ">
                                             <div>
@@ -203,7 +207,7 @@ const AssetsBentoBox = () =>{
             id:"1",
             asset:"$3,524.58",
             balance:"6532231.20",
-            apy:"",
+            locked:"20",
             value:"0.00",
         },
     ]
@@ -232,7 +236,7 @@ const AssetsBentoBox = () =>{
                                 <tbody className={BentoBoxInfo.length?"divide-y  divide-gray-800":"hidden"}>
                                 {BentoBoxInfo.map(item=>(
                                     <tr key={item.id} className="hover:bg-gray-800 bg-opacity-80  cursor-pointer transition duration-300 " >
-                                        <td className="px-6 py-4  w-72 whitespace-nowrap text-sm text-white">
+                                        <td className="px-6 py-4  w-48 whitespace-nowrap text-sm text-white">
                                             <div className="flex ">
                                                 <img className="w-10 rounded-full border border-gray-600" src="https://cryptoempire.games/logo-cryptoempire.png" alt=""/>
                                                 <div className="ml-2  ">
@@ -247,6 +251,9 @@ const AssetsBentoBox = () =>{
                                         </td>
                                         <td className="px-6  py-1  whitespace-nowrap text-base text-white ">
                                                 {item.balance}
+                                        </td>
+                                        <td className="px-6  py-1  whitespace-nowrap text-base text-white ">
+                                            {item.locked}
                                         </td>
                                         <td className="px-6  py-1  whitespace-nowrap text-base text-white ">
                                             <div>

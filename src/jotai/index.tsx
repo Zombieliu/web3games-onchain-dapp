@@ -16,7 +16,24 @@ const SwapTokenTail = atom(tokenTail)
 
 const AssetsOpenPopup = atom(false)
 
+const HiddenClaim = atom(true)
+
+
+
+//
+const WalletButtonShowState = atom(false)
+
 const WalletListShowState = atom(false)
 
+const AccountConfigPageState = atom(false)
 
-export {Select_TokenTop,Select_TokenTail,SwapTokenTop,SwapTokenTail,AssetsOpenPopup,WalletListShowState}
+const WalletAddress = atomWithStorage("WalletAddress","")
+
+const AccountChooseValue = atomWithStorage('AccountChoose',0)
+
+const AfterEvmAddressValue = atomWithStorage('AfterEvmAddress','')
+
+const EVMAddressValue = atomWithStorage('EvmAddress','')
+
+export {Select_TokenTop,Select_TokenTail,SwapTokenTop,SwapTokenTail,AssetsOpenPopup,WalletListShowState,AccountChooseValue,
+    AfterEvmAddressValue,EVMAddressValue,WalletButtonShowState,WalletAddress,AccountConfigPageState,HiddenClaim}

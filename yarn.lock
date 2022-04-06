@@ -677,6 +677,16 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
+"@polka/send-type@^0.5.0":
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/@polka/send-type/-/send-type-0.5.2.tgz#65ed19522248e894eb9cfabe7ef0f166c10166a9"
+  integrity sha512-jGXalKihnhGQmMQ+xxfxrRfI2cWs38TIZuwgYpnbQDD4r9TkOiU3ocjAS+6CqqMNQNAu9Ul2iHU5YFRDODak2w==
+
+"@polka/url@^0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@polka/url/-/url-0.5.0.tgz#b21510597fd601e5d7c95008b76bf0d254ebfd31"
+  integrity sha512-oZLYFEAzUKyi3SKnXvj32ZCEGH6RDnao7COuCVhDydMS9NrCSVXhM79VaKyP5+Zc33m0QXEd2DN3UkU7OsHcfw==
+
 "@polkadot/extension-dapp@^0.42.10":
   version "0.42.10"
   resolved "https://registry.yarnpkg.com/@polkadot/extension-dapp/-/extension-dapp-0.42.10.tgz#cd98c52c5a2e214c5bcf89799254625e10d32686"
@@ -4195,6 +4205,14 @@ pkg-up@^2.0.0:
   integrity sha1-yBmscoBZpGHKscOImivjxJoATX8=
   dependencies:
     find-up "^2.1.0"
+
+polkadot@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/polkadot/-/polkadot-1.0.0.tgz#f426c249371bd0183a013552f7349f519f738a83"
+  integrity sha512-As0GwV487cEPNF8OJ7POozS5R7R6jTSUzKH0BQcGD3M7fUIECDiJK+PqVVOTLxp3ORwwzuzVj3r5FhEd4hg0ng==
+  dependencies:
+    "@polka/send-type" "^0.5.0"
+    "@polka/url" "^0.5.0"
 
 postcss-js@^3.0.3:
   version "3.0.3"

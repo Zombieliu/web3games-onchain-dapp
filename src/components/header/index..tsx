@@ -1,11 +1,14 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import {Dialog, Listbox, Menu, Popover, Tab, Transition} from '@headlessui/react'
 import { CheckIcon, MenuIcon, SelectorIcon, XIcon } from '@heroicons/react/solid'
 import Link from "next/link";
 import SelectTokenTail from "../selecttokentail";
 import SelectTokenTop from "../selecttokentop";
-import { WalletListShowState } from '../../jotai';
+import {AccountChooseValue, AfterEvmAddressValue, WalletButtonShowState, WalletListShowState,AccountConfigPageState } from '../../jotai';
 import { useAtom } from 'jotai';
+import { useRouter } from 'next/router';
+import Login from '../login';
+import Account from "../account";
 
 
 
@@ -111,16 +114,33 @@ function classNames(...classes) {
 }
 
 const Header = () =>{
-    const [OpenWalletListState, SetOpenWalletListState] = useAtom(WalletListShowState)
-    // { name: 'Company', href: '#',current:false },
+    const router = useRouter()
+    const [WalletButtonShow,SetWalletButtonShow]=useAtom(WalletButtonShowState)
+    const [,SetOpenWalletListState] = useAtom(WalletListShowState)
+    const [,SetAccountConfig] = useAtom(AccountConfigPageState)
+    const [AfterEVMAddress,] = useAtom(AfterEvmAddressValue)
+    const [AccountChoose,] = useAtom(AccountChooseValue)
+    useEffect(()=>{
+        if (AccountChoose != 0){
+            SetWalletButtonShow(true)
+        }
+    },[router.isReady])
 
-    const login = () =>{
-        SetOpenWalletListState(!OpenWalletListState)
+
+    const WalletLogin = () =>{
+        SetOpenWalletListState(true)
     }
+
+    const accountConfig = () =>{
+        SetAccountConfig(true)
+    }
+
 
     return (
         <div className=" bg-black">
             <header>
+                <Login/>
+                <Account/>
                 <Popover className="relative bg-white  ">
                     <div className="flex  fixed z-20 inset-x-0 bg-black    transition duration-700 mb-10 pl-5  justify-between items-center  p-3 sm:px-6 lg:justify-end md:space-x-10 lg:px-10  xl:px-32">
 
@@ -149,53 +169,26 @@ const Header = () =>{
                         </div>
 
 
-                        <div className="hidden lg:flex w-full mt-1  md:flex-1 ">
-                            <div >
-                                <button onClick={login}  className="bg-blue-600 transition duration-700  w-36 px-4 py-2 text-white rounded-lg  flex justify-center">
+                        <div className="hidden lg:flex w-full  md:flex-1 ">
+                            <div className={WalletButtonShow ? "hidden": ""}>
+                                <button  onClick={WalletLogin} className="bg-blue-600 transition duration-700  w-36 px-4 py-2 text-white rounded-lg  flex justify-center">
                                     Connect Wallet
                                 </button>
                             </div>
-                            {/*<div className="text-base text-gray-600 w-96 mr-8">*/}
-                            {/*    Connect with one of available wallet providers or create a new wallet.</div>*/}
-                            {/*<button  className="bg-black flex justify-between text-white p-4 rounded-lg w-full my-8">*/}
-                            {/*    <div className="text-lg font-semibold">*/}
-                            {/*        MetaMask*/}
-                            {/*    </div>*/}
-                            {/*    <div>*/}
-                            {/*        <img className="w-8 h-8" src="https://portal.web3games.org/icon-wallet-metamask.svg" alt=""/>*/}
-                            {/*    </div>*/}
-                            {/*</button>*/}
-
-                            {/*<button className="bg-black flex justify-between text-white p-4 rounded-lg w-full my-8">*/}
-                            {/*    <div className="text-lg font-semibold">*/}
-                            {/*        WalletConnect*/}
-                            {/*    </div>*/}
-                            {/*    <div>*/}
-                            {/*        <img className="w-8 h-8" src="https://portal.web3games.org/icon-wallet-walletconnect.svg" alt=""/>*/}
-                            {/*    </div>*/}
-                            {/*</button>*/}
-                            {/*<button  className="bg-black flex justify-between text-white p-4 rounded-lg w-full my-8">*/}
-                            {/*    <div className="text-lg font-semibold">*/}
-                            {/*        Polkadotjs*/}
-                            {/*    </div>*/}
-                            {/*    <div>*/}
-                            {/*        <img className="w-8 h-8 rounded-lg" src="https://cdn.discordapp.com/attachments/876498266550853642/908665467273613392/unknown.png" alt=""/>*/}
-                            {/*    </div>*/}
-                            {/*</button>*/}
-                            {/*<div className={OpenWalletListState ? "": "hidden"}>*/}
-                            {/*    <div className="flex bg-gray-800 rounded-full p-1 justify-center">*/}
-                            {/*        <div className="flex items-center mr-4 p-2">*/}
-                            {/*            <img className="w-6 h-6 rounded-lg mx-1"*/}
-                            {/*                 src='https://portal.web3games.org/_next/image?url=%2Fnetworks%2Fethereum-network.jpg&w=48&q=75' alt='' />*/}
-                            {/*            <div className=" text-white w-16">*/}
-                            {/*                Ethereum*/}
-                            {/*            </div>*/}
-                            {/*        </div>*/}
-                            {/*        /!*<button  onClick={accountConfig} className=" bg-gray-600 rounded-full truncate  w-40 px-4 py-2 text-white rounded-lg  flex  ">*!/*/}
-                            {/*        /!*    {AfterEVMAddress}*!/*/}
-                            {/*        /!*</button>*!/*/}
-                            {/*    </div>*/}
-                            {/*</div>*/}
+                            <div className={WalletButtonShow ? "": "hidden"}>
+                                <div className="flex bg-gray-800 rounded-full p-1 justify-center">
+                                    <div className="flex items-center mr-4 p-2">
+                                        <img className="w-6 h-6 rounded-lg mx-1"
+                                             src='https://portal.web3games.org/_next/image?url=%2Fnetworks%2Fethereum-network.jpg&w=48&q=75' alt='' />
+                                        <div className=" text-white w-16">
+                                            Ethereum
+                                        </div>
+                                    </div>
+                                    <button  onClick={accountConfig} className=" bg-gray-600 rounded-full truncate  w-40 px-4 py-2 text-white rounded-lg  flex  ">
+                                        {AfterEVMAddress}
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div className="fixed z-20 inset-x-0">
@@ -257,3 +250,5 @@ const Header = () =>{
     )
 }
 export default Header
+
+
