@@ -117,7 +117,7 @@ const AssetsWallet = () =>{
     ]
     return(
         <>
-            <div className="mt-20 ">
+            <div className="my-20 ">
                 <div>
                     <div className="text-white text-xl">
                         Wallet

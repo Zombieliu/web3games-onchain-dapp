@@ -82,8 +82,71 @@ const Mint = () =>{
                                 <div className="text-white mt-10">
                                     Populate the Fields:
                                 </div>
-                                <div className="mt-3 ">
+                                <div className="mt-3 md:flex">
+                                    <div className="md:mr-4">
+                                        <div className="text-gray-400 text-sm">
+                                            1. Select Your Files
+                                        </div>
+                                        <div>
+                                            <form action="" encType="multipart/form-data">
 
+                                            <div className="md:w-72 h-64 mt-2 rounded-xl text-center text-gray-200 border-gray-500 border border-dashed ">
+                                                <div className="text-xs mt-24">
+                                                    Supports JPG, PNG, GIF (Maximum 40MB)
+                                                </div>
+                                            <div className="flex justify-center   mt-5">
+                                                <button className="absolute bg-gray-500 rounded-lg px-8 py-1">
+                                                Select Your Files
+                                            </button>
+                                            </div>
+                                            <input type="file" id="file" className="opacity-0"  accept="image/*"/>
+                                            </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div className="md:w-1/2 mt-5 md:mt-0">
+                                        <div>
+                                            <div className="text-gray-400 text-sm">
+                                                2. NFT Name
+                                            </div>
+                                            <div>
+                                                <input type="text"
+                                                       className=" bg-gray-700 bg-opacity-30 text-xs mt-2  placeholder-gray-600 md:text-sm text-white  rounded-xl  p-4  w-full  hover:border-black focus:border-black transition duration-300  outline-none"
+                                                       placeholder="Please enter the name"
+                                                       id=""
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="mt-3">
+                                            <div className="text-gray-400 text-sm">
+                                                3. Vault Name
+                                            </div>
+                                            <div>
+                                                <input type="text"
+                                                       className=" bg-gray-700 bg-opacity-30 text-xs mt-2  placeholder-white md:text-sm text-white  rounded-xl  p-4  w-full  hover:border-black focus:border-black transition duration-300  outline-none"
+                                                       placeholder="W3G"
+                                                       readOnly={true}
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="mt-3">
+                                            <div className="text-gray-400 text-sm">
+                                                4. Quantity (Optional)
+                                            </div>
+                                            <div>
+                                                <input type="text"
+                                                       className=" bg-gray-700 bg-opacity-30 text-xs mt-2  placeholder-gray-600 md:text-sm text-white  rounded-xl  p-4  w-full  hover:border-black focus:border-black transition duration-300  outline-none"
+                                                       placeholder="Please enter the quantity"
+
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="flex justify-center mt-10 ">
+                                    <button className="px-16 py-3 bg-indigo-500 text-gray-200 rounded-xl ">
+                                        Confirm the Creation
+                                    </button>
                                 </div>
                             </div>
 
@@ -97,3 +160,7 @@ const Mint = () =>{
 }
 
 export default Mint
+function getObjectURL(arg0: any) {
+    throw new Error("Function not implemented.");
+}
+

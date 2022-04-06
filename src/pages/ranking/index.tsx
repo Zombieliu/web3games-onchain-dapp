@@ -155,11 +155,11 @@ const Ranking = () =>{
                                                     </div>
 
                                                 </td>
-                                                    <td className="px-6 py-4 whitespace-nowrap text-base text-gray-500">
+                                                    <td className={classNames(rankStyle[item.daystate],"px-6 py-4 whitespace-nowrap text-base text-gray-500")}>
                                                         {item.daydata}
                                                     </td>
 
-                                                    <td className="px-6 py-4 whitespace-nowrap text-base text-gray-500">
+                                                    <td className={classNames(rankStyle[item.weekstate],"px-6 py-4 whitespace-nowrap text-base text-gray-500")}>
                                                         {item.weekdata}
                                                     </td>
 
