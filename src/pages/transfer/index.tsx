@@ -124,7 +124,7 @@ const Transfer = () =>{
                                         />
                                         </div>
                                     </div>
-                                    <div className="text-center mt-5 -ml-3">
+                                    <div className="text-center mt-5 ">
                                         <button onClick={token_transfer} className="px-24 py-1.5 rounded-full bg-indigo-300">
                                             Transfer
                                         </button>
