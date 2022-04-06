@@ -14,6 +14,7 @@ const token_transfer = async () =>{
     const transfer_number  = (document.getElementById('transfer') as HTMLInputElement).value
     const transfer_price_bn = new BN(transfer_number).mul(new BN('1000000000000000000'));
     const transfer_price_hex = nToHex(transfer_price_bn);
+    const transfer_address  = (document.getElementById('Receiver') as HTMLInputElement).value
     console.log(transfer_price_hex)
         let accounts = [];
         async function getAccount() {
@@ -28,7 +29,7 @@ const token_transfer = async () =>{
             params: [
                 {
                     from: accounts[0],
-                    to: '0xee38Efa7f942B20D33e1f8e3F56c284E54127fCE',
+                    to: transfer_address,
                     value: transfer_price_hex,
                     gasPrice: '0x09184e72a000',
                     gas: '0x5208',
@@ -92,8 +93,8 @@ const Transfer = () =>{
                                         <div className="mt-5 -ml-3 mr-3">
                                         <input type="text"
                                                className=" bg-gray-700 bg-opacity-30 text-xs  md:text-sm text-white  rounded-lg  p-3  w-full  hover:border-black focus:border-black transition duration-300  outline-none"
-                                               placeholder="Support ethereum,arweave account"
-                                               id=""
+                                               placeholder="Support ethereum,substrate address"
+                                               id="Receiver"
                                         />
                                         </div>
                                     </div>
