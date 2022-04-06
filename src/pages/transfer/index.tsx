@@ -1,12 +1,19 @@
 import Header from "../../components/header/index.";
 import Tail from "../../components/tail";
-import React, {Fragment, useState } from 'react'
+import React, {Fragment, useEffect, useState } from 'react'
 import {useAtom} from "jotai";
-import {Select_TokenTop, SwapTokenTail, SwapTokenTop} from "../../jotai";
+import {EVMAddressValue, Select_TokenTop, SwapTokenTail, SwapTokenTop} from "../../jotai";
 import { BN, nToHex } from '@polkadot/util';
+import { useRouter } from "next/router";
+import { check_balance } from "../../utils/chain/balance";
+import { evm_address_to_sub_address } from "../../utils/chain/address";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
+}
+
+function insertStr(source, start, newStr){
+    return source.slice(0, start) + newStr + source.slice(start);
 }
 
 
@@ -42,11 +49,29 @@ const token_transfer = async () =>{
 }
 
 const Transfer = () =>{
+    const router = useRouter()
+    const [EVMAddress,] = useAtom(EVMAddressValue)
     const [swapTokenTop,setSwapTokenTop] = useAtom(SwapTokenTop)
     const [,setSelectTokenTop] = useAtom(Select_TokenTop)
+    const [balance,setBalance] = useState('0')
     const ChooseToken = () =>{
         setSelectTokenTop(true)
     }
+
+    useEffect(()=>{
+        if (router.isReady){
+            const query_balance = async ()=>{
+                console.log(EVMAddress)
+                const substrate = evm_address_to_sub_address(EVMAddress)
+                const balance = await check_balance(substrate)
+                const unit = new BN(balance).div(new BN('10000000000000000')).toString();
+                const new_data = unit.substring(0,3)
+                const result = insertStr(new_data,1,'.')
+                setBalance(result)
+            }
+            query_balance()
+        }
+    },[router.isReady])
     return (
         <div>
             <Header/>
@@ -66,7 +91,7 @@ const Transfer = () =>{
                                     </div>
                                     <div className="text-indigo-500 flex">
                                         Balance:
-                                        <div> 0</div>
+                                        <div>{balance}</div>
                                     </div></div>
                                     <div className="flex mt-5">
                                         <div className="flex  -mr-3">
