@@ -50,7 +50,6 @@ const token_transfer = async () =>{
 
 const Transfer = () =>{
     const router = useRouter()
-    const [EVMAddress,] = useAtom(EVMAddressValue)
     const [swapTokenTop,setSwapTokenTop] = useAtom(SwapTokenTop)
     const [,setSelectTokenTop] = useAtom(Select_TokenTop)
     const [balance,setBalance] = useState('0')
@@ -61,8 +60,10 @@ const Transfer = () =>{
     useEffect(()=>{
         if (router.isReady){
             const query_balance = async ()=>{
-                console.log(EVMAddress)
-                const substrate = evm_address_to_sub_address(EVMAddress)
+                // @ts-ignore
+                const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+                const account = accounts[0];
+                const substrate = evm_address_to_sub_address(account)
                 const balance = await check_balance(substrate)
                 const unit = new BN(balance).div(new BN('10000000000000000')).toString();
                 const new_data = unit.substring(0,3)
