@@ -3,9 +3,41 @@ import Tail from "../../components/tail";
 import React, {Fragment, useState } from 'react'
 import {useAtom} from "jotai";
 import {Select_TokenTop, SwapTokenTail, SwapTokenTop} from "../../jotai";
+import { BN, nToHex } from '@polkadot/util';
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
+}
+
+
+const token_transfer = async () =>{
+    const transfer_number  = (document.getElementById('transfer') as HTMLInputElement).value
+    const transfer_price_bn = new BN(transfer_number).mul(new BN('1000000000000000000'));
+    const transfer_price_hex = nToHex(transfer_price_bn);
+    console.log(transfer_price_hex)
+        let accounts = [];
+        async function getAccount() {
+            // @ts-ignore
+            accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+            console.log(accounts)
+        }
+        await getAccount()
+        // @ts-ignore
+        ethereum.request({
+            method: 'eth_sendTransaction',
+            params: [
+                {
+                    from: accounts[0],
+                    to: '0xee38Efa7f942B20D33e1f8e3F56c284E54127fCE',
+                    value: transfer_price_hex,
+                    gasPrice: '0x09184e72a000',
+                    gas: '0x5208',
+                    chainId:0x69,
+                },
+            ],
+        })
+            .then((txHash) => console.log(txHash))
+            .catch((error) => console.error);
 }
 
 const Transfer = () =>{
@@ -50,7 +82,7 @@ const Transfer = () =>{
                                         <input type="text"
                                                className=" bg-gray-700 bg-opacity-30 text-xs text-right md:text-sm text-white  rounded-lg  p-3  w-full  hover:border-black focus:border-black transition duration-300  outline-none"
                                                placeholder="Input transfer amount"
-                                               id=""
+                                               id="transfer"
                                         />
                                     </div>
                                     <div className="mt-5 ">
@@ -66,7 +98,7 @@ const Transfer = () =>{
                                         </div>
                                     </div>
                                     <div className="text-center mt-5 -ml-3">
-                                        <button className="px-24 py-1.5 rounded-full bg-indigo-300">
+                                        <button onClick={token_transfer} className="px-24 py-1.5 rounded-full bg-indigo-300">
                                             Transfer
                                         </button>
                                     </div>
