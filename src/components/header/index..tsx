@@ -4,6 +4,9 @@ import { CheckIcon, MenuIcon, SelectorIcon, XIcon } from '@heroicons/react/solid
 import Link from "next/link";
 import SelectTokenTail from "../selecttokentail";
 import SelectTokenTop from "../selecttokentop";
+import { WalletListShowState } from '../../jotai';
+import { useAtom } from 'jotai';
+
 
 
 
@@ -12,7 +15,6 @@ function classNames(...classes) {
 }
 
  const  Trident = () => {
-
     const navigation = [
         {
             title: "Wallet",
@@ -109,7 +111,13 @@ function classNames(...classes) {
 }
 
 const Header = () =>{
+    const [OpenWalletListState, SetOpenWalletListState] = useAtom(WalletListShowState)
     // { name: 'Company', href: '#',current:false },
+
+    const login = () =>{
+        SetOpenWalletListState(!OpenWalletListState)
+    }
+
     return (
         <div className=" bg-black">
             <header>
@@ -143,11 +151,38 @@ const Header = () =>{
 
                         <div className="hidden lg:flex w-full mt-1  md:flex-1 ">
                             <div >
-                                <button  className="bg-blue-600 transition duration-700  w-36 px-4 py-2 text-white rounded-lg  flex justify-center">
+                                <button onClick={login}  className="bg-blue-600 transition duration-700  w-36 px-4 py-2 text-white rounded-lg  flex justify-center">
                                     Connect Wallet
                                 </button>
                             </div>
-                            {/*<div className={WalletButtonShow ? "": "hidden"}>*/}
+                            {/*<div className="text-base text-gray-600 w-96 mr-8">*/}
+                            {/*    Connect with one of available wallet providers or create a new wallet.</div>*/}
+                            {/*<button  className="bg-black flex justify-between text-white p-4 rounded-lg w-full my-8">*/}
+                            {/*    <div className="text-lg font-semibold">*/}
+                            {/*        MetaMask*/}
+                            {/*    </div>*/}
+                            {/*    <div>*/}
+                            {/*        <img className="w-8 h-8" src="https://portal.web3games.org/icon-wallet-metamask.svg" alt=""/>*/}
+                            {/*    </div>*/}
+                            {/*</button>*/}
+
+                            {/*<button className="bg-black flex justify-between text-white p-4 rounded-lg w-full my-8">*/}
+                            {/*    <div className="text-lg font-semibold">*/}
+                            {/*        WalletConnect*/}
+                            {/*    </div>*/}
+                            {/*    <div>*/}
+                            {/*        <img className="w-8 h-8" src="https://portal.web3games.org/icon-wallet-walletconnect.svg" alt=""/>*/}
+                            {/*    </div>*/}
+                            {/*</button>*/}
+                            {/*<button  className="bg-black flex justify-between text-white p-4 rounded-lg w-full my-8">*/}
+                            {/*    <div className="text-lg font-semibold">*/}
+                            {/*        Polkadotjs*/}
+                            {/*    </div>*/}
+                            {/*    <div>*/}
+                            {/*        <img className="w-8 h-8 rounded-lg" src="https://cdn.discordapp.com/attachments/876498266550853642/908665467273613392/unknown.png" alt=""/>*/}
+                            {/*    </div>*/}
+                            {/*</button>*/}
+                            {/*<div className={OpenWalletListState ? "": "hidden"}>*/}
                             {/*    <div className="flex bg-gray-800 rounded-full p-1 justify-center">*/}
                             {/*        <div className="flex items-center mr-4 p-2">*/}
                             {/*            <img className="w-6 h-6 rounded-lg mx-1"*/}
@@ -156,9 +191,9 @@ const Header = () =>{
                             {/*                Ethereum*/}
                             {/*            </div>*/}
                             {/*        </div>*/}
-                            {/*        <button  onClick={accountConfig} className=" bg-gray-600 rounded-full truncate  w-40 px-4 py-2 text-white rounded-lg  flex  ">*/}
-                            {/*            {AfterEVMAddress}*/}
-                            {/*        </button>*/}
+                            {/*        /!*<button  onClick={accountConfig} className=" bg-gray-600 rounded-full truncate  w-40 px-4 py-2 text-white rounded-lg  flex  ">*!/*/}
+                            {/*        /!*    {AfterEVMAddress}*!/*/}
+                            {/*        /!*</button>*!/*/}
                             {/*    </div>*/}
                             {/*</div>*/}
                         </div>

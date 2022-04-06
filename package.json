@@ -16,6 +16,7 @@
   "dependencies": {
     "@headlessui/react": "^1.4.1",
     "@heroicons/react": "^1.0.4",
+    "@polkadot/extension-dapp": "^0.42.10",
     "jotai": "^1.6.1",
     "next": "latest",
     "next-i18next": "^10.2.0",

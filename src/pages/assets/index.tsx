@@ -92,14 +92,14 @@ const AssetsWallet = () =>{
     }
     const walletTitle = [
         {
-            name:"Price"
+            name:"Assets"
         },
 
         {
-            name:""
+            name:"Balance"
         },
         {
-            name:""
+            name:"Locked"
         },
         {
             name:"Value"
@@ -138,12 +138,12 @@ const AssetsWallet = () =>{
                                 <tbody className={walletInfo.length?"divide-y  divide-gray-800":"hidden"}>
                                 {walletInfo.map(item=>(
                                     <tr key={item.id} onClick={openassets} className="hover:bg-gray-800 bg-opacity-80  cursor-pointer transition duration-300 " >
-                                        <td className="px-6 py-4 w-96  whitespace-nowrap text-sm text-white">
+                                        <td className="px-6 py-4 w-40  whitespace-nowrap text-sm text-white">
                                             <div className="flex ">
                                                 <img className="w-10 rounded-full border border-gray-600" src="/img.png" alt=""/>
                                                 <div className="ml-2  ">
                                                     <div>
-                                                        ETH
+                                                        W3G
                                                     </div>
                                                     <div className="text-gray-400 ">
                                                     {item.asset}
@@ -152,7 +152,7 @@ const AssetsWallet = () =>{
 
                                             </div>
                                         </td>
-                                        <td className="px-6  py-1  whitespace-nowrap text-base text-white ">
+                                        <td className="px-1  py-1  whitespace-nowrap text-base text-white ">
                                         </td>
                                         <td className="px-6  py-1  whitespace-nowrap text-base text-white ">
                                         </td>
@@ -160,10 +160,6 @@ const AssetsWallet = () =>{
                                             <div>
                                                ${item.value}
                                             </div>
-                                            <div className="text-gray-400 text-right">
-                                                0
-                                            </div>
-
                                         </td>
                                     </tr>
                                 ))}
@@ -189,14 +185,14 @@ const AssetsWallet = () =>{
 const AssetsBentoBox = () =>{
     const BentoBoxTitle = [
         {
-            name:"Asset"
+            name:"Assets"
         },
 
         {
-            name:"Strategy"
+            name:"Balance"
         },
         {
-            name:"APY"
+            name:"Locked"
         },
         {
             name:"Value"
@@ -206,7 +202,7 @@ const AssetsBentoBox = () =>{
         {
             id:"1",
             asset:"$3,524.58",
-            strategy:"0.00",
+            balance:"6532231.20",
             apy:"",
             value:"0.00",
         },
@@ -216,7 +212,7 @@ const AssetsBentoBox = () =>{
             <div className="mt-20">
                 <div>
                     <div className="text-white text-xl">
-                        Bento Box
+                        Wasm Contract
                     </div>
                     <div className='mt-6 mx-auto   '>
                         <div className='overflow-auto  '>
@@ -238,30 +234,23 @@ const AssetsBentoBox = () =>{
                                     <tr key={item.id} className="hover:bg-gray-800 bg-opacity-80  cursor-pointer transition duration-300 " >
                                         <td className="px-6 py-4  w-72 whitespace-nowrap text-sm text-white">
                                             <div className="flex ">
-                                                <img className="w-10 rounded-full border border-gray-600" src="/img.png" alt=""/>
+                                                <img className="w-10 rounded-full border border-gray-600" src="https://cryptoempire.games/logo-cryptoempire.png" alt=""/>
                                                 <div className="ml-2  ">
                                                     <div>
-                                                        ETH
+                                                        EMP
                                                     </div>
                                                     <div className="text-gray-400 ">
                                                         {item.asset}
                                                     </div>
                                                 </div>
-
                                             </div>
                                         </td>
                                         <td className="px-6  py-1  whitespace-nowrap text-base text-white ">
-                                                {item.strategy}
-                                        </td>
-                                        <td className="px-6  py-1  whitespace-nowrap text-base text-white ">
-                                            {item.apy}
+                                                {item.balance}
                                         </td>
                                         <td className="px-6  py-1  whitespace-nowrap text-base text-white ">
                                             <div>
                                                 ${item.value}
-                                            </div>
-                                            <div className="text-gray-400 text-right">
-                                                0
                                             </div>
                                         </td>
                                     </tr>
