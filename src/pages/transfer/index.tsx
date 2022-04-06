@@ -1,19 +1,78 @@
 import Header from "../../components/header/index.";
 import Tail from "../../components/tail";
-import React, {Fragment, useState } from 'react'
+import React, {Fragment, useEffect, useState } from 'react'
 import {useAtom} from "jotai";
-import {Select_TokenTop, SwapTokenTail, SwapTokenTop} from "../../jotai";
+import {EVMAddressValue, Select_TokenTop, SwapTokenTail, SwapTokenTop} from "../../jotai";
+import { BN, nToHex } from '@polkadot/util';
+import { useRouter } from "next/router";
+import { check_balance } from "../../utils/chain/balance";
+import { evm_address_to_sub_address } from "../../utils/chain/address";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
+function insertStr(source, start, newStr){
+    return source.slice(0, start) + newStr + source.slice(start);
+}
+
+
+const token_transfer = async () =>{
+    const transfer_number  = (document.getElementById('transfer') as HTMLInputElement).value
+    const transfer_price_bn = new BN(transfer_number).mul(new BN('1000000000000000000'));
+    const transfer_price_hex = nToHex(transfer_price_bn);
+    const transfer_address  = (document.getElementById('Receiver') as HTMLInputElement).value
+    console.log(transfer_price_hex)
+        let accounts = [];
+        async function getAccount() {
+            // @ts-ignore
+            accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+            console.log(accounts)
+        }
+        await getAccount()
+        // @ts-ignore
+        ethereum.request({
+            method: 'eth_sendTransaction',
+            params: [
+                {
+                    from: accounts[0],
+                    to: transfer_address,
+                    value: transfer_price_hex,
+                    gasPrice: '0x09184e72a000',
+                    gas: '0x5208',
+                    chainId:0x69,
+                },
+            ],
+        })
+            .then((txHash) => console.log(txHash))
+            .catch((error) => console.error);
+}
+
 const Transfer = () =>{
+    const router = useRouter()
     const [swapTokenTop,setSwapTokenTop] = useAtom(SwapTokenTop)
     const [,setSelectTokenTop] = useAtom(Select_TokenTop)
+    const [balance,setBalance] = useState('0')
     const ChooseToken = () =>{
         setSelectTokenTop(true)
     }
+
+    useEffect(()=>{
+        if (router.isReady){
+            const query_balance = async ()=>{
+                // @ts-ignore
+                const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+                const account = accounts[0];
+                const substrate = evm_address_to_sub_address(account)
+                const balance = await check_balance(substrate)
+                const unit = new BN(balance).div(new BN('10000000000000000')).toString();
+                const new_data = unit.substring(0,3)
+                const result = insertStr(new_data,1,'.')
+                setBalance(result)
+            }
+            query_balance()
+        }
+    },[router.isReady])
     return (
         <div>
             <Header/>
@@ -33,7 +92,7 @@ const Transfer = () =>{
                                     </div>
                                     <div className="text-indigo-500 flex">
                                         Balance:
-                                        <div> 0</div>
+                                        <div>{balance}</div>
                                     </div></div>
                                     <div className="flex mt-5">
                                         <div className="flex  -mr-3">
@@ -50,7 +109,7 @@ const Transfer = () =>{
                                         <input type="text"
                                                className=" bg-gray-700 bg-opacity-30 text-xs text-right md:text-sm text-white  rounded-lg  p-3  w-full  hover:border-black focus:border-black transition duration-300  outline-none"
                                                placeholder="Input transfer amount"
-                                               id=""
+                                               id="transfer"
                                         />
                                     </div>
                                     <div className="mt-5 ">
@@ -60,13 +119,13 @@ const Transfer = () =>{
                                         <div className="mt-5 -ml-3 mr-3">
                                         <input type="text"
                                                className=" bg-gray-700 bg-opacity-30 text-xs  md:text-sm text-white  rounded-lg  p-3  w-full  hover:border-black focus:border-black transition duration-300  outline-none"
-                                               placeholder="Support ethereum,arweave account"
-                                               id=""
+                                               placeholder="Support ethereum,substrate address"
+                                               id="Receiver"
                                         />
                                         </div>
                                     </div>
                                     <div className="text-center mt-5 -ml-3">
-                                        <button className="px-24 py-1.5 rounded-full bg-indigo-300">
+                                        <button onClick={token_transfer} className="px-24 py-1.5 rounded-full bg-indigo-300">
                                             Transfer
                                         </button>
                                     </div>
