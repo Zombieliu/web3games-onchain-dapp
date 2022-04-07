@@ -40,9 +40,9 @@ const Swap = () =>{
                                         key={category}
                                         className={({ selected }) =>
                                             classNames(
-                                                'w-24 py-2 text-sm leading-5 font-medium text-gray-700 rounded-lg',
+                                                'w-24 py-2 text-sm leading-5 font-medium text-gray-600 ',
                                                 selected
-                                                    ? 'bg-gray-400 text-white shadow'
+                                                    ? ' text-yellow-50 border-b shadow'
                                                     : ' hover:bg-white/[0.12] hover:text-white'
                                             )
                                         }
@@ -225,12 +225,8 @@ const Swap = () =>{
                                                 </div>
                                             </div>
                                         </div>
-
                                     </div>
-
-
                                 </div>
-
                                 <div className="mt-2 bg-gray-900 p-3 rounded-2xl">
                                     <div className="flex justify-between">
                                         <div className="flex bg-gray-600 bg-opacity-90 p-1 rounded-full">
