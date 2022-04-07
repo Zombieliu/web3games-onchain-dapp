@@ -67,9 +67,9 @@ const Auction = () =>{
                             </div>
                             <div className="mt-20 ">
                                 {auction.map((item=>(
-                                <Link key={item.img} href="/#">
+                                <Link key={item.img} href="/auction-batch">
                                     <a>
-                                <div className="relative mb-10 lg:mx-28">
+                                <div className="relative mb-10 mx-4 lg:mx-28">
                                     <div className="absolute inset-0">
                                         <img
                                             className="h-full  w-full  object-cover rounded-xl"
@@ -80,11 +80,11 @@ const Auction = () =>{
                                     <div className="pt-36 relative  ">
                                         <div className="bg-gray-100 opacity-90 px-6 lg:px-10 rounded-b-xl py-4 flex justify-between">
                                            <div>
-                                               <div className="flex">
+                                               <div className="flex md:inline-block">
                                                <div className="text-sm md:text-base">
                                                 Distribution
                                             </div>
-                                            <div className="ml-1 md:ml-0 -mt-0.5 md:-mt-0 lg:text-3xl text-indigo-600 font-semibold">
+                                            <div className="ml-1 md:ml-0 -mt-0.5  lg:text-3xl text-indigo-600 font-semibold">
                                                 {item.distribution}
                                             </div>
                                                </div>

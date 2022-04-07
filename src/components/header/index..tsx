@@ -75,7 +75,7 @@ function classNames(...classes) {
 
 
     return (
-        <div className=" grid grid-cols-3  md:grid-cols-7 xl:grid-cols-12 ">
+        <div className=" grid grid-cols-3  md:grid-cols-7  ">
             {navigation.map(item=>(
          <Menu as="div" key={item.title} className="relative inline-block text-left font-semibold mr-5">
             <div>

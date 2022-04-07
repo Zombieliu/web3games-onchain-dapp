@@ -3,6 +3,7 @@ import Tail from "../../components/tail";
 import React, {Fragment, useState } from 'react'
 import {Listbox, RadioGroup, Tab, Transition} from '@headlessui/react'
 import {CheckCircleIcon, CheckIcon, SelectorIcon} from "@heroicons/react/solid";
+import {useAtom} from "jotai";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -10,12 +11,24 @@ function classNames(...classes) {
 
 const deliveryMethods = [
     { id: 1, title: 'Single', turnaround: 'Create an Unique NFT (ERC-721)', show:()=>{}},
-    { id: 2, title: 'Multiple', turnaround: 'Create an Unique NFT (ERC-721)', show:()=>{}},
+    { id: 2, title: 'Multiple', turnaround: 'Create an Unique NFT (ERC-155)', show:()=>{}},
 ]
 
 const Mint = () =>{
-    const [selectedDeliveryMethod, setSelectedDeliveryMethod] = useState(deliveryMethods[0])
 
+    const [selectedDeliveryMethod, setSelectedDeliveryMethod] = useState(deliveryMethods[0])
+    const [ chooseImg,setChooseImg] = useState(true)
+    const [imgUrl,setImgUrl] = useState("")
+    const inputImg = () =>{
+        let fileInput =  (document.getElementById('file') as HTMLInputElement).files[0]
+        const data = window.URL.createObjectURL(fileInput);
+        console.log(data)
+        setImgUrl(data)
+        setChooseImg(false)
+        // if(imgUrl){
+        //     setChooseImg(false)
+        // }
+    }
 
     return (
         <div>
@@ -87,19 +100,23 @@ const Mint = () =>{
                                         <div className="text-gray-400 text-sm">
                                             1. Select Your Files
                                         </div>
+
                                         <div>
                                             <form action="" encType="multipart/form-data">
-
                                             <div className="md:w-72 h-64 mt-2 rounded-xl text-center text-gray-200 border-gray-500 border border-dashed ">
+                                                <img className={chooseImg?"hidden":"md:w-72 h-64 rounded-xl"}
+                                                     src='C:\fakepath\黄色黑底.png' alt=""/>
+                                                <div className={chooseImg?"":"hidden"}>
                                                 <div className="text-xs mt-24">
                                                     Supports JPG, PNG, GIF (Maximum 40MB)
                                                 </div>
-                                            <div className="flex justify-center   mt-5">
-                                                <button className="absolute bg-gray-500 rounded-lg px-8 py-1">
-                                                Select Your Files
-                                            </button>
+                                                <div className="flex justify-center   mt-5">
+                                                    <button className="absolute bg-gray-500 rounded-lg px-8 py-1">
+                                                    Select Your Files
+                                                    </button>
+                                                </div>
+                                                <input onChange={inputImg} type="file" id="file" className="opacity-0"  accept="image/*"/>
                                             </div>
-                                            <input type="file" id="file" className="opacity-0"  accept="image/*"/>
                                             </div>
                                             </form>
                                         </div>
@@ -160,7 +177,5 @@ const Mint = () =>{
 }
 
 export default Mint
-function getObjectURL(arg0: any) {
-    throw new Error("Function not implemented.");
-}
+
 

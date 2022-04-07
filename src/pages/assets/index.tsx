@@ -140,7 +140,7 @@ const AssetsWallet = () =>{
                                 <tbody className={walletInfo.length?"divide-y  divide-gray-800":"hidden"}>
                                 {walletInfo.map(item=>(
                                     <tr key={item.id} onClick={openassets} className="hover:bg-gray-800 bg-opacity-80  cursor-pointer transition duration-300 " >
-                                        <td className="px-6 py-4 w-48  whitespace-nowrap text-sm text-white">
+                                        <td className="px-6 py-4 w-56  whitespace-nowrap text-sm text-white">
                                             <div className="flex ">
                                                 <img className="w-10 rounded-full border border-gray-600" src="/img.png" alt=""/>
                                                 <div className="ml-2  ">
@@ -236,9 +236,9 @@ const AssetsBentoBox = () =>{
                                 <tbody className={BentoBoxInfo.length?"divide-y  divide-gray-800":"hidden"}>
                                 {BentoBoxInfo.map(item=>(
                                     <tr key={item.id} className="hover:bg-gray-800 bg-opacity-80  cursor-pointer transition duration-300 " >
-                                        <td className="px-6 py-4  w-48 whitespace-nowrap text-sm text-white">
+                                        <td className="px-6 py-4  w-56 whitespace-nowrap text-sm text-white">
                                             <div className="flex ">
-                                                <img className="w-10 rounded-full border border-gray-600" src="https://cryptoempire.games/logo-cryptoempire.png" alt=""/>
+                                                <img className="w-10  rounded-full border border-gray-600" src="https://cryptoempire.games/logo-cryptoempire.png" alt=""/>
                                                 <div className="ml-2  ">
                                                     <div>
                                                         EMP
