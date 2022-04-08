@@ -4,7 +4,7 @@ import React, {Fragment, useState } from 'react'
 import Link from "next/link";
 import {Dialog, Transition} from "@headlessui/react";
 import {useAtom} from "jotai";
-import { AssetsOpenPopup } from "../../jotai";
+import { AssetsOpenPopup, EVMAddressValue } from "../../jotai";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -12,6 +12,7 @@ function classNames(...classes) {
 
 const AssetsTop = () =>{
     const [copyStyle,SetCopyStyle] = useState(false)
+    const [EVMAddress,] = useAtom(EVMAddressValue)
     const Copy = (span) => {
 
         const spanText = document.getElementById(span).innerText;
@@ -33,9 +34,10 @@ const AssetsTop = () =>{
                 <div className="flex">
                     <img className="w-16 rounded-full border border-gray-600" src="/img.png" alt=""/>
                     <div className="ml-4 flex-col justify-between">
-                        <Link href="/">
+                        {/**/}
+                        <Link href={`https://explorer-devnet.web3games.org/address/${EVMAddress}`}>
                         <a className="text-gray-300 text-2xl flex hover:text-indigo-400 transition duration-150">
-                            0x5FOO...A28d
+                            {EVMAddress}
                             <div className="ml-1 text-xl">
                             <i className="fa fa-link transform rotate-90" aria-hidden="true"></i></div>
                         </a>
@@ -43,7 +45,7 @@ const AssetsTop = () =>{
                         <div>
                         <button onClick={() => {Copy('address') }} className="text-gray-400 font-light flex transition duration-300">
                             <div id="address">
-                            ox5FOO...A28d
+                                {EVMAddress}
                             </div>
                             <i className={copyStyle?"":"fa fa-clone mt-1 ml-2"} aria-hidden="true"></i>
                             <i className={copyStyle?"fa fa-check  mt-1 ml-2 text-green-400":"hidden"} aria-hidden="true"></i>

@@ -10,8 +10,8 @@ function classNames(...classes) {
 }
 
 const deliveryMethods = [
-    { id: 1, title: 'Single', turnaround: 'Create an Unique NFT (ERC-721)', show:()=>{}},
-    { id: 2, title: 'Multiple', turnaround: 'Create an Unique NFT (ERC-155)', show:()=>{}},
+    { id: 1, title: 'Single', turnaround: 'Create an Unique NFT (Non-Fungible-Token)', show:()=>{}},
+    { id: 2, title: 'Multiple', turnaround: 'Create an Unique NFT (Multi Token)', show:()=>{}},
 ]
 
 const Mint = () =>{
