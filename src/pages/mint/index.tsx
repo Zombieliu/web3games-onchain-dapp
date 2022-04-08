@@ -10,7 +10,7 @@ function classNames(...classes) {
 }
 
 const deliveryMethods = [
-    { id: 1, title: 'Single', turnaround: 'Create an Unique NFT (Non-Fungible-Token)', show:()=>{}},
+    { id: 1, title: 'Single', turnaround: 'Create an Unique NFT (Non-Fungible-)', show:()=>{}},
     { id: 2, title: 'Multiple', turnaround: 'Create an Unique NFT (Multi Token)', show:()=>{}},
 ]
 
@@ -21,10 +21,18 @@ const Mint = () =>{
     const [imgUrl,setImgUrl] = useState("")
     const inputImg = () =>{
         let fileInput =  (document.getElementById('file') as HTMLInputElement).files[0]
-        const data = window.URL.createObjectURL(fileInput);
-        console.log(data)
-        setImgUrl(data)
-        setChooseImg(false)
+        const reader = new FileReader()
+        reader.readAsDataURL(fileInput)
+        reader.onload = function (e) {
+            console.log(e.target.result);
+            setImgUrl(  `${e.target.result}`)
+            setChooseImg(false)
+            // pic.src = this.result;
+        }
+            // const data = window.URL.createObjectURL(fileInput);
+        // console.log(data)
+        // setImgUrl(data)
+        // setChooseImg(false)
         // if(imgUrl){
         //     setChooseImg(false)
         // }
@@ -105,7 +113,7 @@ const Mint = () =>{
                                             <form action="" encType="multipart/form-data">
                                             <div className="md:w-72 h-64 mt-2 rounded-xl text-center text-gray-200 border-gray-500 border border-dashed ">
                                                 <img className={chooseImg?"hidden":"md:w-72 h-64 rounded-xl"}
-                                                     src='C:\fakepath\黄色黑底.png' alt=""/>
+                                                     src={imgUrl} alt=""/>
                                                 <div className={chooseImg?"":"hidden"}>
                                                 <div className="text-xs mt-24">
                                                     Supports JPG, PNG, GIF (Maximum 40MB)
