@@ -48,20 +48,21 @@ const Login=()=>{
 
   async function loginsubstrate() {
     // await LoginSubstrate()
-    // // @ts-ignore
-    // const isWeb3Injected = (await import("@polkadot/extension-dapp")).isWeb3Injected;
-    // // @ts-ignore
-    // const web3Enable = (await import("@polkadot/extension-dapp")).web3Enable;
-    // const allInjected = await web3Enable('my cool dapp');
-    // // @ts-ignore
-    // const web3Accounts = (await import("@polkadot/extension-dapp")).web3Accounts;
-    // allAccounts = await web3Accounts();
+    const isWeb3Injected = (await import("@polkadot/extension-dapp")).isWeb3Injected;
+    const web3Enable = (await import("@polkadot/extension-dapp")).web3Enable;
+    const allInjected = await web3Enable('my cool dapp');
+    const web3Accounts = (await import("@polkadot/extension-dapp")).web3Accounts;
+    const allAccounts = await web3Accounts();
+    SetAccountChooseValue(2);
+    SetOpenWalletListState(false);
+    location.reload();
     // if (isWeb3Injected) {
     //   setWallet(true)
     //   setOpentrue(true)
     //   setOpentrue(allAccounts)
     //   console.log(allAccounts)
-    }
+    // }
+  }
   return(
       <Transition.Root show={OpenWalletListState} as={Fragment}>
         <Dialog as="div" className="fixed z-20 inset-0 overflow-y-auto " onClose={SetOpenWalletListState}>

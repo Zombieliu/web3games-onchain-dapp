@@ -1,10 +1,12 @@
 import Header from "../../components/header/index.";
 import Tail from "../../components/tail";
-import React, {Fragment, useState } from 'react'
+import React, {Fragment, useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 import Link from "next/link";
 import {Dialog, Transition} from "@headlessui/react";
 import {useAtom} from "jotai";
-import { AssetsOpenPopup, EVMAddressValue } from "../../jotai";
+import { AssetsOpenPopup, EVMAddressValue,AccountChooseValue } from "../../jotai";
+
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -88,7 +90,9 @@ const AssetsTop = () =>{
     )
 }
 const AssetsWallet = () =>{
-    const [selectopen,setSelectopen] =useAtom(AssetsOpenPopup)
+    const [selectopen,setSelectopen] = useAtom(AssetsOpenPopup)
+
+
     const openassets = () =>{
         setSelectopen(true)
     }
@@ -189,6 +193,19 @@ const AssetsWallet = () =>{
     )
 }
 const AssetsBentoBox = () =>{
+    const router = useRouter()
+    const [AccountChooseValueType,] = useAtom(AccountChooseValue)
+    const [addressType,SetaddressType] = useState('')
+
+    useEffect(()=>{
+        if (router.isReady){
+            if (AccountChooseValueType == 2){
+                SetaddressType('WASM')
+            }else{
+                SetaddressType('EVM')
+            }
+        }
+    },[router.isReady])
     const BentoBoxTitle = [
         {
             name:"Assets"
@@ -218,7 +235,7 @@ const AssetsBentoBox = () =>{
             <div className="mt-20">
                 <div>
                     <div className="text-white text-xl">
-                        EVM Contract
+                        {addressType} Contract
                     </div>
                     <div className='mt-6 mx-auto   '>
                         <div className='overflow-auto  '>
