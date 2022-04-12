@@ -122,7 +122,7 @@ const AssetsWallet = () =>{
             <div className="my-20 ">
                 <div>
                     <div className="text-white text-xl">
-                        Wallet
+                        Chain Wallet
                     </div>
                     <div className='w-full mt-6 mx-auto   '>
                         <div className='overflow-auto  '>
@@ -218,7 +218,7 @@ const AssetsBentoBox = () =>{
             <div className="mt-20">
                 <div>
                     <div className="text-white text-xl">
-                        Wasm Contract
+                        EVM Contract
                     </div>
                     <div className='mt-6 mx-auto   '>
                         <div className='overflow-auto  '>

@@ -24,6 +24,7 @@ const Mint = () =>{
         const reader = new FileReader()
         reader.readAsDataURL(fileInput)
         reader.onload = function (e) {
+            console.log(e);
             console.log(e.target.result);
             setImgUrl(  `${e.target.result}`)
             setChooseImg(false)
