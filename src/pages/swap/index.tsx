@@ -146,7 +146,7 @@ const Swap = () =>{
                                 </div>
                                 <div className="text-center mt-5 ">
                                     <button  className="px-24 py-1.5 rounded-full bg-indigo-300">
-                                        Transfer
+                                        Connect Wallet
                                     </button>
                                 </div>
 
@@ -264,7 +264,7 @@ const Swap = () =>{
                                 </div>
                                 <div className="text-center mt-5  text-black">
                                     <button  className="px-24 py-1.5 rounded-full bg-indigo-300">
-                                        Transfer
+                                        Connect Wallet
                                     </button>
                                 </div>
                             </Tab.Panel>
