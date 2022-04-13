@@ -1,7 +1,14 @@
 import {Tab} from "@headlessui/react";
 import React, {useState} from "react";
 import {useAtom} from "jotai";
-import { Select_TokenTail, Select_TokenTop, SwapTokenTail, SwapTokenTop} from "../../jotai";
+import {
+    Select_TokenTail,
+    Select_TokenTop,
+    SetSubstrateShowState,
+    SwapTokenTail,
+    SwapTokenTop,
+    WalletButtonShowState, WalletListShowState
+} from "../../jotai";
 import SelectTokenTail from "../../components/selecttokentail";
 import SelectTokenTop from "../../components/selecttokentop";
 
@@ -13,7 +20,9 @@ const Swap = () =>{
     const [,setSelectTokenTop] = useAtom(Select_TokenTop)
     const [swapTokenTop,setSwapTokenTop] = useAtom(SwapTokenTop)
     const [swapTokenTail,setSwapTokenTail] = useAtom(SwapTokenTail)
-
+    const [WalletButtonShow,]=useAtom(WalletButtonShowState)
+    const [substrateShow,] =useAtom(SetSubstrateShowState)
+    const [,SetOpenWalletListState] = useAtom(WalletListShowState)
     let [categories] = useState({
         Recent: [],
         Popular: [],
@@ -144,10 +153,17 @@ const Swap = () =>{
                                         <div className="text-sm mt-2 flex ml-1 text-gray-400">Balance: 0</div>
                                     </div>
                                 </div>
-                                <div className="text-center mt-5 ">
-                                    <button  className="px-24 py-1.5 rounded-full bg-indigo-300">
-                                        Transfer
-                                    </button>
+                                <div className="text-center mt-5  text-black" >
+                                    <div className={WalletButtonShow || substrateShow ? "hidden": "mt-1"}>
+                                        <button  onClick={()=>{SetOpenWalletListState(true)}} className="px-24 py-1.5 rounded-lg bg-blue-500">
+                                            Connect Wallet
+                                        </button>
+                                    </div>
+                                    <div className={WalletButtonShow || substrateShow ? "mt-1": "hidden"}>
+                                        <button  className="px-24 py-1.5 rounded-full bg-indigo-300">
+                                            Transfer
+                                        </button>
+                                    </div>
                                 </div>
 
                             </Tab.Panel>
@@ -262,10 +278,17 @@ const Swap = () =>{
                                         <div className="text-sm mt-2 flex ml-1 text-gray-400">Balance: 0</div>
                                     </div>
                                 </div>
-                                <div className="text-center mt-5  text-black">
+                                <div className="text-center mt-5  text-black" >
+                                <div className={WalletButtonShow || substrateShow ? "hidden": "mt-1"}>
+                                    <button  onClick={()=>{SetOpenWalletListState(true)}} className="px-24 py-1.5 rounded-lg bg-blue-500">
+                                        Connect Wallet
+                                    </button>
+                                </div>
+                                <div className={WalletButtonShow || substrateShow ? "mt-1": "hidden"}>
                                     <button  className="px-24 py-1.5 rounded-full bg-indigo-300">
                                         Transfer
                                     </button>
+                                </div>
                                 </div>
                             </Tab.Panel>
                         </Tab.Panels>

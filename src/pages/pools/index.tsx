@@ -5,6 +5,8 @@ import Tail from "../../components/tail";
 import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
 import {Listbox, Transition } from "@headlessui/react";
 import Sort from "../../components/sort";
+import {useAtom} from "jotai";
+import {SetSubstrateShowState, WalletButtonShowState, WalletListShowState} from "../../jotai";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -79,6 +81,9 @@ const Pools = () =>{
         }
     ]
     const [selected, setSelected] = useState(types[0])
+    const [WalletButtonShow,]=useAtom(WalletButtonShowState)
+    const [substrateShow,] =useAtom(SetSubstrateShowState)
+    const [,SetOpenWalletListState] = useAtom(WalletListShowState)
     return(
         <div>
             <Header/>
@@ -92,11 +97,19 @@ const Pools = () =>{
                                     <div className="text-3xl text-gray-200 tracking-[-0.02em] font-bold text-high-emphesis"> Provide liquidity & earn.</div>
                                     <div className="text-sm leading-5 font-medium currentColor text-gray-300">Earn LP fees by depositing tokens to the platform.</div>
                                 </div>
-                                <div>
-                                    <button className="mt-5 lg:mt-0 bg-blue-500 px-3 py-2 rounded-full text-white">
-                                        Create Pool
-                                    </button>
-                                </div>
+                                    <div className="text-center" >
+                                        <div className={WalletButtonShow || substrateShow ? "hidden": "mt-1"}>
+                                            <button  onClick={()=>{SetOpenWalletListState(true)}} className="px-12 py-1.5 text-gray-200 rounded-lg bg-blue-500">
+                                                Connect Wallet
+                                            </button>
+                                        </div>
+                                        <div className={WalletButtonShow || substrateShow ? "mt-1": "hidden"}>
+                                            <button  className=" lg:mt-0 bg-blue-500 px-3 py-2 rounded-full text-white">
+                                                Create Pool
+                                            </button>
+                                        </div>
+                                    </div>
+
                             </div>
                         </div>
                     </div>

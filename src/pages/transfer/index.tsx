@@ -2,7 +2,14 @@ import Header from "../../components/header/index.";
 import Tail from "../../components/tail";
 import React, {Fragment, useEffect, useState } from 'react'
 import {useAtom} from "jotai";
-import {EVMAddressValue, Select_TokenTop, SwapTokenTail, SwapTokenTop} from "../../jotai";
+import {
+    EVMAddressValue,
+    Select_TokenTop,
+    SetSubstrateShowState,
+    SwapTokenTail,
+    SwapTokenTop,
+    WalletButtonShowState, WalletListShowState
+} from "../../jotai";
 import { BN, nToHex } from '@polkadot/util';
 import { useRouter } from "next/router";
 import { check_balance } from "../../utils/chain/balance";
@@ -53,6 +60,9 @@ const Transfer = () =>{
     const [swapTokenTop,setSwapTokenTop] = useAtom(SwapTokenTop)
     const [,setSelectTokenTop] = useAtom(Select_TokenTop)
     const [balance,setBalance] = useState('0')
+    const [WalletButtonShow,]=useAtom(WalletButtonShowState)
+    const [substrateShow,] =useAtom(SetSubstrateShowState)
+    const [,SetOpenWalletListState] = useAtom(WalletListShowState)
     const ChooseToken = () =>{
         setSelectTokenTop(true)
     }
@@ -70,7 +80,7 @@ const Transfer = () =>{
                 const result = insertStr(new_data,1,'.')
                 setBalance(result)
             }
-            query_balance()
+            
         }
     },[router.isReady])
     return (
@@ -124,10 +134,17 @@ const Transfer = () =>{
                                         />
                                         </div>
                                     </div>
-                                    <div className="text-center mt-5 ">
-                                        <button onClick={token_transfer} className="px-24 py-1.5 rounded-full bg-indigo-300">
-                                            Transfer
-                                        </button>
+                                    <div className="text-center mt-5 " >
+                                        <div className={WalletButtonShow || substrateShow ? "hidden": "mt-1"}>
+                                            <button  onClick={()=>{SetOpenWalletListState(true)}} className="px-24 py-1.5 rounded-lg bg-blue-500">
+                                                Connect Wallet
+                                            </button>
+                                        </div>
+                                        <div className={WalletButtonShow || substrateShow ? "mt-1": "hidden"}>
+                                            <button onClick={token_transfer} className="px-24 py-1.5 rounded-full bg-indigo-300">
+                                                Transfer
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

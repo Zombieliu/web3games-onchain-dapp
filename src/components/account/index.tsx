@@ -22,7 +22,7 @@ const FunctionList = () =>{
   const [,SetAccountChooseValue] = useAtom(AccountChooseValue)
   const [substrateShow,SetSubstrateShow] =useAtom(SetSubstrateShowState)
   const [,setHidden] = useAtom(HiddenClaim)
-  const [walletAddress,] =useAtom(WalletAddress)
+  const [walletAddress,setWalletAddress] =useAtom(WalletAddress)
   const [SubstrateAddressList,SetSubstrateAddressList] = useAtom(AfterSubstrateAddressList)
   const [intactWalletAddress,SetIntactWalletAddress] = useAtom(IntactWalletAddress)
   function closewallet(){
@@ -30,10 +30,12 @@ const FunctionList = () =>{
     SetAccountConfig(false)
     ChangeEVMAddress("")
     SetWalletButtonShow(false)
-    SetAccountChooseValue(0)
     SetSubstrateShow(false)
+    SetAccountChooseValue(0)
     SetSubstrateAddressList([])
     SetIntactWalletAddress("")
+    setWalletAddress("")
+
   }
   function ChangeWallet() {
     SetOpenWalletListState(true)

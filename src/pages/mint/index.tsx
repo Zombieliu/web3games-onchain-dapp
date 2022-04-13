@@ -4,6 +4,7 @@ import React, {Fragment, useState } from 'react'
 import {Listbox, RadioGroup, Tab, Transition} from '@headlessui/react'
 import {CheckCircleIcon, CheckIcon, SelectorIcon} from "@heroicons/react/solid";
 import {useAtom} from "jotai";
+import {SetSubstrateShowState, WalletButtonShowState, WalletListShowState} from "../../jotai";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -15,7 +16,9 @@ const deliveryMethods = [
 ]
 
 const Mint = () =>{
-
+    const [WalletButtonShow,]=useAtom(WalletButtonShowState)
+    const [substrateShow,] =useAtom(SetSubstrateShowState)
+    const [,SetOpenWalletListState] = useAtom(WalletListShowState)
     const [selectedDeliveryMethod, setSelectedDeliveryMethod] = useState(deliveryMethods[0])
     const [ chooseImg,setChooseImg] = useState(true)
     const [imgUrl,setImgUrl] = useState("")
@@ -169,10 +172,17 @@ const Mint = () =>{
                                         </div>
                                     </div>
                                 </div>
-                                <div className="flex justify-center mt-10 ">
-                                    <button className="px-16 py-3 bg-indigo-500 text-gray-200 rounded-xl ">
-                                        Confirm the Creation
-                                    </button>
+                                <div className="flex justify-center mt-10 " >
+                                    <div className={WalletButtonShow || substrateShow ? "hidden": "mt-1"}>
+                                        <button  onClick={()=>{SetOpenWalletListState(true)}} className="px-24 py-1.5 rounded-lg bg-blue-500">
+                                            Connect Wallet
+                                        </button>
+                                    </div>
+                                    <div className={WalletButtonShow || substrateShow ? "mt-1": "hidden"}>
+                                        <button  className="px-16 py-3 bg-indigo-500 text-gray-200 rounded-xl">
+                                            Confirm the Creation
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
 

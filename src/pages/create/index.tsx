@@ -4,7 +4,14 @@ import React, { useState } from 'react'
 import { RadioGroup } from '@headlessui/react'
 import { CheckCircleIcon, TrashIcon } from '@heroicons/react/solid'
 import {useAtom} from "jotai";
-import {Select_TokenTail, Select_TokenTop, SwapTokenTail, SwapTokenTop} from "../../jotai";
+import {
+    Select_TokenTail,
+    Select_TokenTop,
+    SetSubstrateShowState,
+    SwapTokenTail,
+    SwapTokenTop,
+    WalletButtonShowState, WalletListShowState
+} from "../../jotai";
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
@@ -15,7 +22,9 @@ const deliveryMethods = [
     { id: 2, title: '1%',   turnaround: 'Best for stable pairs', },
 ]
 const Create = () =>{
-
+    const [WalletButtonShow,SetWalletButtonShow]=useAtom(WalletButtonShowState)
+    const [substrateShow,SetSubstrateShow] =useAtom(SetSubstrateShowState)
+    const [,SetOpenWalletListState] = useAtom(WalletListShowState)
     const [selectedDeliveryMethod, setSelectedDeliveryMethod] = useState(deliveryMethods[0])
     const [,setSelectTokenTail] = useAtom(Select_TokenTail)
     const [,setSelectTokenTop] = useAtom(Select_TokenTop)
@@ -201,11 +210,19 @@ const Create = () =>{
                                     Creating oracle enables the pool to store its price data and provides more accurate swap rate. However, the swap gas fee will be higher.
                                 </div>
                             </div>
-                            <div className="mt-10">
-                                <button className="mt-5 lg:mt-0 bg-blue-500 px-3 py-2 rounded-full text-white">
-                                    Create Pool
-                                </button>
+                            <div className="mt-10" >
+                                <div className={WalletButtonShow || substrateShow ? "hidden": "mt-1"}>
+                                    <button  onClick={()=>{SetOpenWalletListState(true)}} className="px-12 py-1.5 rounded-lg bg-blue-500">
+                                        Connect Wallet
+                                    </button>
+                                </div>
+                                <div className={WalletButtonShow || substrateShow ? "mt-1": "hidden"}>
+                                    <button  className="mt-5 lg:mt-0 bg-blue-500 px-3 py-2 rounded-full text-white">
+                                        Create Pool
+                                    </button>
+                                </div>
                             </div>
+
                         </div>
                     </div>
             </div>

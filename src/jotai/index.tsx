@@ -29,6 +29,12 @@ const AccountConfigPageState = atom(false)
 
 const SubstrateAddress = atom(false)
 
+const netWork = [
+    { id: 1, name: 'Mainnet', online: "bg-green-400" },
+    { id: 2, name: 'Testnet', online: "bg-yellow-400" },
+]
+const NetWorkState = atomWithStorage("NetWorkState",netWork[0])
+
 const WalletAddress = atomWithStorage("WalletAddress","")
 
 const IntactWalletAddress = atomWithStorage("IntactWalletAddress","")
@@ -48,4 +54,4 @@ const SetSubstrateShowState = atomWithStorage("SubstrateShowState",false)
 
 export {Select_TokenTop,Select_TokenTail,SwapTokenTop,SwapTokenTail,AssetsOpenPopup,WalletListShowState,AccountChooseValue,
     AfterEvmAddressValue,EVMAddressValue,WalletButtonShowState,WalletAddress,AccountConfigPageState,HiddenClaim,SetSubstrateShowState,
-    AfterSubstrateAddressValue,SubstrateAddress,AfterSubstrateAddressList,IntactWalletAddress}
+    AfterSubstrateAddressValue,SubstrateAddress,AfterSubstrateAddressList,IntactWalletAddress,NetWorkState}

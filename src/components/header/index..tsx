@@ -10,7 +10,7 @@ import {
     WalletButtonShowState,
     WalletListShowState,
     AccountConfigPageState,
-    SetSubstrateShowState, AfterSubstrateAddressValue, WalletAddress
+    SetSubstrateShowState, AfterSubstrateAddressValue, WalletAddress, NetWorkState
 } from '../../jotai';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
@@ -120,11 +120,11 @@ function classNames(...classes) {
 }
 
 const SwitchNetWork = () =>{
-    const people = [
+    const netWork = [
         { id: 1, name: 'Mainnet', online: "bg-green-400" },
         { id: 2, name: 'Testnet', online: "bg-yellow-400" },
     ]
-    const [selected, setSelected] = useState(people[0])
+    const [selected, setSelected] = useAtom(NetWorkState)
 
     return (
         <Listbox value={selected} onChange={setSelected}>
@@ -154,23 +154,23 @@ const SwitchNetWork = () =>{
                             leaveTo="opacity-0"
                         >
                             <Listbox.Options className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
-                                {people.map((person) => (
+                                {netWork.map((network) => (
                                     <Listbox.Option
-                                        key={person.id}
+                                        key={network.id}
                                         className={({ active }) =>
                                             classNames(
                                                 active ? 'text-white bg-indigo-600' : 'text-gray-900',
                                                 'cursor-default select-none relative py-2 pl-3 pr-9'
                                             )
                                         }
-                                        value={person}
+                                        value={network}
                                     >
                                         {({ selected, active }) => (
                                             <>
                                                 <div className="flex items-center">
                           <span
                               className={classNames(
-                                  person.online,
+                                  network.online,
                                   'flex-shrink-0 inline-block h-2 w-2 rounded-full'
                               )}
                               aria-hidden="true"
@@ -178,8 +178,8 @@ const SwitchNetWork = () =>{
                                                     <span
                                                         className={classNames(selected ? 'font-semibold' : 'font-normal', 'ml-3 block truncate')}
                                                     >
-                            {person.name}
-                                                        <span className="sr-only"> is {person.online ? 'online' : 'offline'}</span>
+                            {network.name}
+                                                        <span className="sr-only"> is {network.online ? 'online' : 'offline'}</span>
                           </span>
                                                 </div>
 
@@ -212,8 +212,6 @@ const Header = () =>{
     const [substrateShow,SetSubstrateShow] =useAtom(SetSubstrateShowState)
     const [,SetOpenWalletListState] = useAtom(WalletListShowState)
     const [,SetAccountConfig] = useAtom(AccountConfigPageState)
-    const [AfterEVMAddress,] = useAtom(AfterEvmAddressValue)
-    const [AfterSubstrateAddress,SetAfterSubstrateAddress] =useAtom(AfterSubstrateAddressValue)
     const [AccountChoose,] = useAtom(AccountChooseValue)
     const [walletAddress,] =useAtom(WalletAddress)
     useEffect(()=>{
@@ -225,10 +223,6 @@ const Header = () =>{
         }
     },[router.isReady])
 
-
-    const WalletLogin = () =>{
-        SetOpenWalletListState(true)
-    }
 
     const accountConfig = () =>{
         SetAccountConfig(true)
@@ -271,7 +265,7 @@ const Header = () =>{
 
                         <div className="hidden lg:flex w-full  md:flex-1 ">
                             <div className={WalletButtonShow || substrateShow ? "hidden": "mt-1"}>
-                                <button  onClick={WalletLogin} className="bg-blue-600 transition duration-700  w-36 px-4 py-2 text-white rounded-lg  flex justify-center">
+                                <button  onClick={()=>{SetOpenWalletListState(true)}} className="bg-blue-600 transition duration-700  w-36 px-4 py-2 text-white rounded-lg  flex justify-center">
                                     Connect Wallet
                                 </button>
                             </div>
