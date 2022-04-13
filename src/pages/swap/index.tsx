@@ -56,6 +56,7 @@ const Swap = () =>{
 
                             </div>
                         </Tab.List>
+                       {/*Recent*/}
                         <Tab.Panels className="mt-2 ">
                             <Tab.Panel
                                 className={classNames(
@@ -143,8 +144,15 @@ const Swap = () =>{
                                         <div className="text-sm mt-2 flex ml-1 text-gray-400">Balance: 0</div>
                                     </div>
                                 </div>
+                                <div className="text-center mt-5 ">
+                                    <button  className="px-24 py-1.5 rounded-full bg-indigo-300">
+                                        Transfer
+                                    </button>
+                                </div>
 
                             </Tab.Panel>
+
+                            {/*Popular*/}
                             <Tab.Panel
                                 className={classNames(
                                     'text-gray-300 rounded-xl p-1 w-80 md:w-96')}
@@ -254,10 +262,15 @@ const Swap = () =>{
                                         <div className="text-sm mt-2 flex ml-1 text-gray-400">Balance: 0</div>
                                     </div>
                                 </div>
-
+                                <div className="text-center mt-5  text-black">
+                                    <button  className="px-24 py-1.5 rounded-full bg-indigo-300">
+                                        Transfer
+                                    </button>
+                                </div>
                             </Tab.Panel>
                         </Tab.Panels>
                     </Tab.Group>
+
                 </div>
             </div>
             <div className="text-gray-600 text-sm flex justify-center text-center md:w-1/2 mx-auto">

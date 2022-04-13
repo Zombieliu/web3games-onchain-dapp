@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import Link from "next/link";
 import {Dialog, Transition} from "@headlessui/react";
 import {useAtom} from "jotai";
-import { AssetsOpenPopup, EVMAddressValue,AccountChooseValue } from "../../jotai";
+import {AssetsOpenPopup, EVMAddressValue, AccountChooseValue, WalletAddress, IntactWalletAddress} from "../../jotai";
 
 
 function classNames(...classes) {
@@ -14,9 +14,9 @@ function classNames(...classes) {
 
 const AssetsTop = () =>{
     const [copyStyle,SetCopyStyle] = useState(false)
-    const [EVMAddress,] = useAtom(EVMAddressValue)
+    const [walletAddress,] = useAtom(WalletAddress)
+    const [intactWalletAddress,] = useAtom(IntactWalletAddress)
     const Copy = (span) => {
-
         const spanText = document.getElementById(span).innerText;
         const oInput = document.createElement('input');
         oInput.value = spanText;
@@ -37,17 +37,20 @@ const AssetsTop = () =>{
                     <img className="w-16 rounded-full border border-gray-600" src="/img.png" alt=""/>
                     <div className="ml-4 flex-col justify-between">
                         {/**/}
-                        <Link href={`https://explorer-devnet.web3games.org/address/${EVMAddress}`}>
+                        <Link href={`https://explorer-devnet.web3games.org/address/${intactWalletAddress}`}>
                         <a className="text-gray-300 text-2xl flex hover:text-indigo-400 transition duration-150">
-                            {EVMAddress}
+                            {walletAddress}
                             <div className="ml-1 text-xl">
                             <i className="fa fa-link transform rotate-90" aria-hidden="true"></i></div>
                         </a>
                         </Link>
                         <div>
                         <button onClick={() => {Copy('address') }} className="text-gray-400 font-light flex transition duration-300">
-                            <div id="address">
-                                {EVMAddress}
+                            <div className="hidden" id="address">
+                                {intactWalletAddress}
+                            </div>
+                            <div  id="address">
+                                {walletAddress}
                             </div>
                             <i className={copyStyle?"":"fa fa-clone mt-1 ml-2"} aria-hidden="true"></i>
                             <i className={copyStyle?"fa fa-check  mt-1 ml-2 text-green-400":"hidden"} aria-hidden="true"></i>
@@ -108,8 +111,12 @@ const AssetsWallet = () =>{
             name:"Locked"
         },
         {
+            name:"Reserve"
+        },
+        {
             name:"Value"
         },
+
 
     ]
     const walletInfo = [
@@ -119,7 +126,45 @@ const AssetsWallet = () =>{
             balance:"999999",
             locked:"20",
             value:"0.00",
+            xx:"xx"
         },
+        {
+            id:"1",
+            assets:"$3,524.58",
+            balance:"999999",
+            locked:"20",
+            value:"0.00",
+        }, {
+            id:"1",
+            assets:"$3,524.58",
+            balance:"999999",
+            locked:"20",
+            value:"0.00",
+        }, {
+            id:"1",
+            assets:"$3,524.58",
+            balance:"999999",
+            locked:"20",
+            value:"0.00",
+        }, {
+            id:"1",
+            assets:"$3,524.58",
+            balance:"999999",
+            locked:"20",
+            value:"0.00",
+        }, {
+            id:"1",
+            assets:"$3,524.58",
+            balance:"999999",
+            locked:"20",
+            value:"0.00",
+        },
+
+
+
+
+
+
     ]
     return(
         <>
@@ -128,9 +173,9 @@ const AssetsWallet = () =>{
                     <div className="text-white text-xl">
                         Chain Wallet
                     </div>
-                    <div className='w-full mt-6 mx-auto   '>
-                        <div className='overflow-auto  '>
-                            <table className=" divide-y   border border-gray-800    divide-gray-800 mb-4">
+                    <div className='w-full mt-6    h-96 '>
+                        <div className='overflow-auto  h-full '>
+                            <table className=" divide-y min-w-full   border border-gray-800    divide-gray-800 mb-4">
                                 <thead className="overflow-auto">
                                 <tr>
                                     {walletTitle.map((item=>(
@@ -143,10 +188,10 @@ const AssetsWallet = () =>{
                                     )))}
                                 </tr>
                                 </thead>
-                                <tbody className={walletInfo.length?"divide-y  divide-gray-800":"hidden"}>
+                                <tbody className={walletInfo.length?"divide-y  divide-gray-800  ":"hidden"}>
                                 {walletInfo.map(item=>(
                                     <tr key={item.id} onClick={openassets} className="hover:bg-gray-800 bg-opacity-80  cursor-pointer transition duration-300 " >
-                                        <td className="px-6 py-4 w-56  whitespace-nowrap text-sm text-white">
+                                        <td className="px-6 py-4  whitespace-nowrap text-sm text-white">
                                             <div className="flex ">
                                                 <img className="w-10 rounded-full border border-gray-600" src="/img.png" alt=""/>
                                                 <div className="ml-2  ">
@@ -168,14 +213,20 @@ const AssetsWallet = () =>{
                                         </td>
                                         <td className="px-6  py-1  whitespace-nowrap text-base text-white ">
                                             <div>
+                                                XX
+                                            </div>
+                                        </td>
+                                        <td className="px-6  py-1  whitespace-nowrap text-base text-white ">
+                                            <div>
                                                ${item.value}
                                             </div>
                                         </td>
+
                                     </tr>
                                 ))}
                                 </tbody>
                             </table>
-                            <div className={walletInfo.length?"hidden":"flex justify-center w-full lg:w-1/2 "}>
+                            <div className={walletInfo.length?"hidden":"flex justify-center w-full  "}>
                                 <div className=" pt-4 text-3xl text-center text-gray-400">
                                     <i className="fa fa-archive " aria-hidden="true"></i>
                                     <div className="text-xl">
@@ -229,6 +280,42 @@ const AssetsBentoBox = () =>{
             locked:"20",
             value:"0.00",
         },
+        {
+            id:"1",
+            asset:"$3,524.58",
+            balance:"6532231.20",
+            locked:"20",
+            value:"0.00",
+        },
+        {
+            id:"1",
+            asset:"$3,524.58",
+            balance:"6532231.20",
+            locked:"20",
+            value:"0.00",
+        },
+        {
+            id:"1",
+            asset:"$3,524.58",
+            balance:"6532231.20",
+            locked:"20",
+            value:"0.00",
+        },
+        {
+            id:"1",
+            asset:"$3,524.58",
+            balance:"6532231.20",
+            locked:"20",
+            value:"0.00",
+        }, {
+            id:"1",
+            asset:"$3,524.58",
+            balance:"6532231.20",
+            locked:"20",
+            value:"0.00",
+        },
+
+
     ]
     return(
         <>
@@ -238,7 +325,7 @@ const AssetsBentoBox = () =>{
                         {addressType} Contract
                     </div>
                     <div className='mt-6 mx-auto   '>
-                        <div className='overflow-auto  '>
+                        <div className='overflow-auto  h-96'>
                             <table className=" divide-y   border border-gray-800    divide-gray-800 mb-4">
                                 <thead className="overflow-auto">
                                 <tr>
@@ -400,9 +487,9 @@ const Assets = () =>{
                     <div className="bg-black bg-opacity-95 ">
                         <div className="max-w-7xl relative px-5 py-16  sm:px-6  mx-auto ">
                             <AssetsTop/>
-                            <div className="lg:flex justify-between">
+                            <div className="">
                                 <AssetsWallet/>
-                                <AssetsBentoBox/>
+                                {/*<AssetsBentoBox/>*/}
                             </div>
                             <AssetsOpen/>
 

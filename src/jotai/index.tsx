@@ -27,13 +27,25 @@ const WalletListShowState = atom(false)
 
 const AccountConfigPageState = atom(false)
 
+const SubstrateAddress = atom(false)
+
 const WalletAddress = atomWithStorage("WalletAddress","")
+
+const IntactWalletAddress = atomWithStorage("IntactWalletAddress","")
 
 const AccountChooseValue = atomWithStorage('AccountChoose',0)
 
 const AfterEvmAddressValue = atomWithStorage('AfterEvmAddress','')
 
+const  AfterSubstrateAddressValue = atomWithStorage('AfterSubstrateAddress','')
+
+const  AfterSubstrateAddressList = atomWithStorage('AfterSubstrateAddressList',[])
+
 const EVMAddressValue = atomWithStorage('EvmAddress','')
 
+const SetSubstrateShowState = atomWithStorage("SubstrateShowState",false)
+
+
 export {Select_TokenTop,Select_TokenTail,SwapTokenTop,SwapTokenTail,AssetsOpenPopup,WalletListShowState,AccountChooseValue,
-    AfterEvmAddressValue,EVMAddressValue,WalletButtonShowState,WalletAddress,AccountConfigPageState,HiddenClaim}
+    AfterEvmAddressValue,EVMAddressValue,WalletButtonShowState,WalletAddress,AccountConfigPageState,HiddenClaim,SetSubstrateShowState,
+    AfterSubstrateAddressValue,SubstrateAddress,AfterSubstrateAddressList,IntactWalletAddress}

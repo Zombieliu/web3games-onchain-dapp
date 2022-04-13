@@ -4,7 +4,14 @@ import { CheckIcon, MenuIcon, SelectorIcon, XIcon } from '@heroicons/react/solid
 import Link from "next/link";
 import SelectTokenTail from "../selecttokentail";
 import SelectTokenTop from "../selecttokentop";
-import {AccountChooseValue, AfterEvmAddressValue, WalletButtonShowState, WalletListShowState,AccountConfigPageState } from '../../jotai';
+import {
+    AccountChooseValue,
+    AfterEvmAddressValue,
+    WalletButtonShowState,
+    WalletListShowState,
+    AccountConfigPageState,
+    SetSubstrateShowState, AfterSubstrateAddressValue, WalletAddress
+} from '../../jotai';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
 import Login from '../login';
@@ -25,7 +32,6 @@ function classNames(...classes) {
                 { name: 'Assets', href: '/assets', },
                 { name: 'Transfer', href: '/transfer',},
                 { name: 'Transaction', href: '/transaction',},
-                { name: 'Extension', href: 'https://polkadot.js.org/extension/',},
             ]
         },
         {
@@ -113,16 +119,111 @@ function classNames(...classes) {
     )
 }
 
+const SwitchNetWork = () =>{
+    const people = [
+        { id: 1, name: 'Mainnet', online: "bg-green-400" },
+        { id: 2, name: 'Testnet', online: "bg-yellow-400" },
+        { id: 3, name: 'Guildnet', online: "bg-blue-400" },
+
+    ]
+    const [selected, setSelected] = useState(people[0])
+
+    return (
+        <Listbox value={selected} onChange={setSelected}>
+            {({ open }) => (
+                <>
+                    <div className="mt-0.5 relative">
+                        <Listbox.Button className="relative w-full bg-gray-700 mt-0.5 ml-2 rounded-full shadow-sm pl-3 pr-8 py-2 text-left cursor-default  sm:text-sm">
+                            <div className="flex items-center">
+                <span
+                    className={classNames(
+                        selected.online,
+                        'flex-shrink-0 inline-block h-2 w-2 rounded-full'
+                    )}
+                />
+                                <span className="ml-3 block truncate text-gray-200 w-14 ">{selected.name}</span>
+                            </div>
+                            <span className="absolute inset-y-0 right-2 flex items-center text-gray-200 pr-2 pointer-events-none">
+                       <i className="fa fa-chevron-down" aria-hidden="true"></i>
+                     </span>
+                        </Listbox.Button>
+
+                        <Transition
+                            show={open}
+                            as={Fragment}
+                            leave="transition ease-in duration-100"
+                            leaveFrom="opacity-100"
+                            leaveTo="opacity-0"
+                        >
+                            <Listbox.Options className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+                                {people.map((person) => (
+                                    <Listbox.Option
+                                        key={person.id}
+                                        className={({ active }) =>
+                                            classNames(
+                                                active ? 'text-white bg-indigo-600' : 'text-gray-900',
+                                                'cursor-default select-none relative py-2 pl-3 pr-9'
+                                            )
+                                        }
+                                        value={person}
+                                    >
+                                        {({ selected, active }) => (
+                                            <>
+                                                <div className="flex items-center">
+                          <span
+                              className={classNames(
+                                  person.online,
+                                  'flex-shrink-0 inline-block h-2 w-2 rounded-full'
+                              )}
+                              aria-hidden="true"
+                          />
+                                                    <span
+                                                        className={classNames(selected ? 'font-semibold' : 'font-normal', 'ml-3 block truncate')}
+                                                    >
+                            {person.name}
+                                                        <span className="sr-only"> is {person.online ? 'online' : 'offline'}</span>
+                          </span>
+                                                </div>
+
+                                                {selected ? (
+                                                    <span
+                                                        className={classNames(
+                                                            active ? 'text-white' : 'text-indigo-600',
+                                                            'absolute inset-y-0 right-0 flex items-center pr-4'
+                                                        )}
+                                                    >
+                            <CheckIcon className="h-5 w-5" aria-hidden="true" />
+                          </span>
+                                                ) : null}
+                                            </>
+                                        )}
+                                    </Listbox.Option>
+                                ))}
+                            </Listbox.Options>
+                        </Transition>
+                    </div>
+                </>
+            )}
+        </Listbox>
+    )
+}
+
 const Header = () =>{
     const router = useRouter()
     const [WalletButtonShow,SetWalletButtonShow]=useAtom(WalletButtonShowState)
+    const [substrateShow,SetSubstrateShow] =useAtom(SetSubstrateShowState)
     const [,SetOpenWalletListState] = useAtom(WalletListShowState)
     const [,SetAccountConfig] = useAtom(AccountConfigPageState)
     const [AfterEVMAddress,] = useAtom(AfterEvmAddressValue)
+    const [AfterSubstrateAddress,SetAfterSubstrateAddress] =useAtom(AfterSubstrateAddressValue)
     const [AccountChoose,] = useAtom(AccountChooseValue)
+    const [walletAddress,] =useAtom(WalletAddress)
     useEffect(()=>{
-        if (AccountChoose != 0){
+        if (AccountChoose === 1 ){
             SetWalletButtonShow(true)
+        }
+        if(AccountChoose === 2){
+            SetSubstrateShow(true)
         }
     },[router.isReady])
 
@@ -142,7 +243,7 @@ const Header = () =>{
                 <Login/>
                 <Account/>
                 <Popover className="relative bg-white  ">
-                    <div className="flex  fixed z-20 inset-x-0 bg-black    transition duration-700 mb-10 pl-5  justify-between items-center  p-3 sm:px-6 lg:justify-end md:space-x-10 lg:px-10  xl:px-32">
+                    <div className="flex  fixed z-20 inset-x-0 bg-black    transition duration-700 mb-10 pl-5  justify-between items-center  p-3 sm:px-6 lg:justify-end md:space-x-10 lg:px-10  xl:pl-32 xl:pr-24">
 
                         <div className=" flex w-full justify-between lg:justify-start">
                             <div className="flex justify-start items-center ">
@@ -169,8 +270,9 @@ const Header = () =>{
                         </div>
 
 
+
                         <div className="hidden lg:flex w-full  md:flex-1 ">
-                            <div className={WalletButtonShow ? "hidden": ""}>
+                            <div className={WalletButtonShow || substrateShow ? "hidden": ""}>
                                 <button  onClick={WalletLogin} className="bg-blue-600 transition duration-700  w-36 px-4 py-2 text-white rounded-lg  flex justify-center">
                                     Connect Wallet
                                 </button>
@@ -185,10 +287,25 @@ const Header = () =>{
                                         </div>
                                     </div>
                                     <button  onClick={accountConfig} className=" bg-gray-600 rounded-full truncate  w-40 px-4 py-2 text-white rounded-lg  flex  ">
-                                        {AfterEVMAddress}
+                                        {walletAddress}
                                     </button>
                                 </div>
                             </div>
+                            <div className={substrateShow ? "": "hidden"}>
+                                <div className="flex bg-gray-800 rounded-full p-1 justify-center">
+                                    <div className="flex items-center mr-4 p-2">
+                                        <img className="w-6 h-6 rounded-lg mx-1"
+                                             src='/substrate.svg' alt='' />
+                                        <div className=" text-white w-16">
+                                            Substrate
+                                        </div>
+                                    </div>
+                                    <button  onClick={accountConfig} className=" bg-gray-600 rounded-full truncate  w-40 px-4 py-2 text-white rounded-lg  flex  ">
+                                        {walletAddress}
+                                    </button>
+                                </div>
+                            </div>
+                            <SwitchNetWork/>
                         </div>
                     </div>
                     <div className="fixed z-20 inset-x-0">
@@ -236,12 +353,14 @@ const Header = () =>{
                                             </div>
                                         </div>
                                     </div>
+
                                 </div>
                             </Popover.Panel>
 
                         </Transition>
                     </div>
                 </Popover>
+
             </header>
            <SelectTokenTail/>
             <SelectTokenTop/>

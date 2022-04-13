@@ -8,7 +8,7 @@ import {
   EVMAddressValue,
   WalletButtonShowState,
   WalletListShowState,
-  HiddenClaim
+  HiddenClaim, SetSubstrateShowState, WalletAddress, AfterSubstrateAddressList, IntactWalletAddress
 } from '../../jotai';
 
 function classNames(...classes) {
@@ -19,25 +19,40 @@ const FunctionList = () =>{
   const [,ChangeEVMAddress] = useAtom(EVMAddressValue)
   const [,SetWalletButtonShow]=useAtom(WalletButtonShowState)
   const [,SetOpenWalletListState] = useAtom(WalletListShowState)
+  const [,SetAccountChooseValue] = useAtom(AccountChooseValue)
+  const [substrateShow,SetSubstrateShow] =useAtom(SetSubstrateShowState)
   const [,setHidden] = useAtom(HiddenClaim)
+  const [walletAddress,] =useAtom(WalletAddress)
+  const [SubstrateAddressList,SetSubstrateAddressList] = useAtom(AfterSubstrateAddressList)
+  const [intactWalletAddress,SetIntactWalletAddress] = useAtom(IntactWalletAddress)
   function closewallet(){
     setHidden(true)
     SetAccountConfig(false)
     ChangeEVMAddress("")
     SetWalletButtonShow(false)
-
+    SetAccountChooseValue(0)
+    SetSubstrateShow(false)
+    SetSubstrateAddressList([])
+    SetIntactWalletAddress("")
   }
   function ChangeWallet() {
     SetOpenWalletListState(true)
     closewallet()
   }
 
+
+
+
   return (
       <>
         <div className="mt-5 flex-col  justify-between ">
           <div className="flex  justify-between  ">
             <div>
-              <button className="flex text-sm text-gray-800 transition duration-500 hover:text-blue-400 w-28">
+              <div className="hidden" id="address">
+                {walletAddress}
+
+              </div>
+              <button  className="flex text-sm text-gray-800 transition duration-500 hover:text-blue-400 w-28">
                 <i className="fa fa-clone mt-0.5 mr-1" aria-hidden="true"></i>
                 <div>Copy Address</div></button>
             </div>
@@ -60,9 +75,25 @@ const FunctionList = () =>{
 
 const Account=()=>{
   const [AccountConfig,SetAccountConfig] = useAtom(AccountConfigPageState)
-  const [AfterEVMAddress,] = useAtom(AfterEvmAddressValue)
-  const [AccountChoose,] = useAtom(AccountChooseValue)
+  const [walletAddress,] =useAtom(WalletAddress)
   const [token,setToken] = useState("0")
+  const [intactWalletAddress,SetIntactWalletAddress] = useAtom(IntactWalletAddress)
+
+  const CopyAddress = () => {
+    const oInput = document.createElement('input');
+    oInput.value = intactWalletAddress;
+    document.body.appendChild(oInput);
+    oInput.select();
+    document.execCommand('Copy');
+    oInput.className = 'oInput';
+    oInput.style.display = 'none';
+    document.body.removeChild(oInput);
+    console.log(intactWalletAddress)
+    // SetCopyStyle(true)
+    // setTimeout( function (){
+    //   SetCopyStyle(false)},2000)
+  }
+
 
   // console.log(Address)
 
@@ -113,8 +144,11 @@ const Account=()=>{
                   </div>
                 </div>
                 <div className="mt-5">
-                  <button className="bg-gray-600 p-3 text-white rounded-full w-72 md:w-96">
-                    {AfterEVMAddress}
+                  <button onClick={CopyAddress} className="bg-gray-600 p-3 text-white rounded-full w-72 md:w-96">
+                    {walletAddress}
+                    <div className="hidden" id="address">
+                      {intactWalletAddress}
+                    </div>
                   </button>
                 </div>
                 <FunctionList/>
