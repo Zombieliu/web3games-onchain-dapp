@@ -1,12 +1,27 @@
 import Header from "../../components/header/index.";
 import Tail from "../../components/tail";
-import React, {Fragment, useState } from 'react'
-
+import React, {Fragment, useEffect,useState } from 'react'
+import { useRouter } from "next/router";
+import {useAtom} from "jotai";
+import {AccountChooseValue,IntactWalletAddress} from "../../jotai";
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
 const Transaction = () =>{
+    const router = useRouter()
+    const [AccountChooseValueType,] = useAtom(AccountChooseValue)
+    const [intactWalletAddress,] = useAtom(IntactWalletAddress)
+    useEffect(()=>{
+        const explorer = async ()=>{
+            if (AccountChooseValueType === 1){
+                await router.push(`https://explorer-devnet.web3games.org/address/${intactWalletAddress}`)
+            }else if (AccountChooseValueType === 2){
+                await router.push(`https://explorer-devnet.web3games.org/account/${intactWalletAddress}`)
+            }
+        }
+        explorer()
+    },[])
 
     return (
         <div>

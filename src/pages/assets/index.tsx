@@ -13,7 +13,9 @@ function classNames(...classes) {
 }
 
 const AssetsTop = () =>{
+    const router = useRouter()
     const [copyStyle,SetCopyStyle] = useState(false)
+    const [AccountChooseValueType,] = useAtom(AccountChooseValue)
     const [walletAddress,] = useAtom(WalletAddress)
     const [intactWalletAddress,] = useAtom(IntactWalletAddress)
     const Copy = (span) => {
@@ -30,67 +32,133 @@ const AssetsTop = () =>{
         setTimeout( function (){
             SetCopyStyle(false)},2000)
     }
-    return(
-        <>
-            <div>
-                <div className="flex">
-                    <img className="w-16 rounded-full border border-gray-600" src="/img.png" alt=""/>
-                    <div className="ml-4 flex-col justify-between">
-                        {/**/}
-                        <Link href={`https://explorer-devnet.web3games.org/address/${intactWalletAddress}`}>
-                        <a className="text-gray-300 text-2xl flex hover:text-indigo-400 transition duration-150">
-                            {walletAddress}
-                            <div className="ml-1 text-xl">
-                            <i className="fa fa-link transform rotate-90" aria-hidden="true"></i></div>
-                        </a>
-                        </Link>
-                        <div>
-                        <button onClick={() => {Copy('address') }} className="text-gray-400 font-light flex transition duration-300">
-                            <div className="hidden" id="address">
-                                {intactWalletAddress}
-                            </div>
-                            <div  id="address">
-                                {walletAddress}
-                            </div>
-                            <i className={copyStyle?"":"fa fa-clone mt-1 ml-2"} aria-hidden="true"></i>
-                            <i className={copyStyle?"fa fa-check  mt-1 ml-2 text-green-400":"hidden"} aria-hidden="true"></i>
-                        </button>
-                        </div>
-                    </div>
-                </div>
-                <div className="lg:flex justify-between text-gray-400 mt-5">
-                    <div>
-                        <div className="text-sm"> Net Worth </div>
-                        <div className="text-2xl text-gray-100">
-                            $0.00
-                        </div>
-                    </div>
-                    <div className="mt-5 lg:mt-0 flex ">
-                        <div className="mr-10">
-                            <div className="text-sm"> Wallet </div>
-                            <div className="text-gray-200 text-xl font-light">
-                                $0.00
-                            </div>
-                        </div>
-                        <div className="mr-10">
-                            <div className="text-sm"> BentoBox </div>
-                            <div className="text-gray-200 text-xl font-light">
-                                $0.00
-                            </div>
-                        </div>
-                        <div>
-                            <div  className="text-sm"> Assets </div>
-                            <div  className="text-gray-200 text-xl font-light">
-                                1
-                            </div>
-                        </div>
+    if (AccountChooseValueType === 1){
+        return(
+          <>
+              <div>
+                  <div className="flex">
+                      <img className="w-16 rounded-full border border-gray-600" src="/img.png" alt=""/>
+                      <div className="ml-4 flex-col justify-between">
+                          {/**/}
+                          <Link href={`https://explorer-devnet.web3games.org/address/${intactWalletAddress}`}>
+                              <a className="text-gray-300 text-2xl flex hover:text-indigo-400 transition duration-150">
+                                  {walletAddress}
+                                  <div className="ml-1 text-xl">
+                                      <i className="fa fa-link transform rotate-90" aria-hidden="true"></i></div>
+                              </a>
+                          </Link>
+                          <div>
+                              <button onClick={() => {Copy('address') }} className="text-gray-400 font-light flex transition duration-300">
+                                  <div className="hidden" id="address">
+                                      {intactWalletAddress}
+                                  </div>
+                                  <div  id="address">
+                                      {walletAddress}
+                                  </div>
+                                  <i className={copyStyle?"":"fa fa-clone mt-1 ml-2"} aria-hidden="true"></i>
+                                  <i className={copyStyle?"fa fa-check  mt-1 ml-2 text-green-400":"hidden"} aria-hidden="true"></i>
+                              </button>
+                          </div>
+                      </div>
+                  </div>
+                  <div className="lg:flex justify-between text-gray-400 mt-5">
+                      <div>
+                          <div className="text-sm"> Net Worth </div>
+                          <div className="text-2xl text-gray-100">
+                              $0.00
+                          </div>
+                      </div>
+                      <div className="mt-5 lg:mt-0 flex ">
+                          <div className="mr-10">
+                              <div className="text-sm"> Wallet </div>
+                              <div className="text-gray-200 text-xl font-light">
+                                  $0.00
+                              </div>
+                          </div>
+                          <div className="mr-10">
+                              <div className="text-sm"> BentoBox </div>
+                              <div className="text-gray-200 text-xl font-light">
+                                  $0.00
+                              </div>
+                          </div>
+                          <div>
+                              <div  className="text-sm"> Assets </div>
+                              <div  className="text-gray-200 text-xl font-light">
+                                  1
+                              </div>
+                          </div>
 
-                    </div>
-                </div>
-            </div>
+                      </div>
+                  </div>
+              </div>
 
-        </>
-    )
+          </>
+        )
+    }else{
+        return(
+          <>
+              <div>
+                  <div className="flex">
+                      <img className="w-16 rounded-full border border-gray-600" src="/img.png" alt=""/>
+                      <div className="ml-4 flex-col justify-between">
+                          {/**/}
+                          <Link href={`https://explorer-devnet.web3games.org/account/${intactWalletAddress}`}>
+                              <a className="text-gray-300 text-2xl flex hover:text-indigo-400 transition duration-150">
+                                  {walletAddress}
+                                  <div className="ml-1 text-xl">
+                                      <i className="fa fa-link transform rotate-90" aria-hidden="true"></i></div>
+                              </a>
+                          </Link>
+                          <div>
+                              <button onClick={() => {Copy('address') }} className="text-gray-400 font-light flex transition duration-300">
+                                  <div className="hidden" id="address">
+                                      {intactWalletAddress}
+                                  </div>
+                                  <div  id="address">
+                                      {walletAddress}
+                                  </div>
+                                  <i className={copyStyle?"":"fa fa-clone mt-1 ml-2"} aria-hidden="true"></i>
+                                  <i className={copyStyle?"fa fa-check  mt-1 ml-2 text-green-400":"hidden"} aria-hidden="true"></i>
+                              </button>
+                          </div>
+                      </div>
+                  </div>
+                  <div className="lg:flex justify-between text-gray-400 mt-5">
+                      <div>
+                          <div className="text-sm"> Net Worth </div>
+                          <div className="text-2xl text-gray-100">
+                              $0.00
+                          </div>
+                      </div>
+                      <div className="mt-5 lg:mt-0 flex ">
+                          <div className="mr-10">
+                              <div className="text-sm"> Wallet </div>
+                              <div className="text-gray-200 text-xl font-light">
+                                  $0.00
+                              </div>
+                          </div>
+                          <div className="mr-10">
+                              <div className="text-sm"> BentoBox </div>
+                              <div className="text-gray-200 text-xl font-light">
+                                  $0.00
+                              </div>
+                          </div>
+                          <div>
+                              <div  className="text-sm"> Assets </div>
+                              <div  className="text-gray-200 text-xl font-light">
+                                  1
+                              </div>
+                          </div>
+
+                      </div>
+                  </div>
+              </div>
+
+          </>
+        )
+    }
+
+
 }
 const AssetsWallet = () =>{
     const [selectopen,setSelectopen] = useAtom(AssetsOpenPopup)
@@ -477,29 +545,54 @@ const AssetsOpen = () =>{
 
 
 const Assets = () =>{
-
-    return (
-        <div>
-            <Header/>
-            <div className="relative pt-16">
-                <div className="absolute inset-x-0 bottom-0    " />
-                <div className=" mx-auto  ">
-                    <div className="bg-black bg-opacity-95 ">
-                        <div className="max-w-7xl relative px-5 py-16  sm:px-6  mx-auto ">
-                            <AssetsTop/>
-                            <div className="">
-                                <AssetsWallet/>
-                                {/*<AssetsBentoBox/>*/}
-                            </div>
-                            <AssetsOpen/>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <Tail/>
-        </div>
-    )
+    const [intactWalletAddress,] = useAtom(IntactWalletAddress)
+    if (intactWalletAddress){
+        return (
+          <div>
+              <Header/>
+              <div className="relative pt-16">
+                  <div className="absolute inset-x-0 bottom-0    " />
+                  <div className=" mx-auto  ">
+                      <div className="bg-black bg-opacity-95 ">
+                          <div className="max-w-7xl relative px-5 py-16  sm:px-6  mx-auto ">
+                              <AssetsTop/>
+                              <div className="">
+                                  <AssetsWallet/>
+                                  {/*<AssetsBentoBox/>*/}
+                              </div>
+                              <AssetsOpen/>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <Tail/>
+          </div>
+        )
+    }else{
+        return (
+          //no address
+          <div>
+              <Header/>
+              <div className="relative pt-16">
+                  <div className="absolute inset-x-0 bottom-0    " />
+                  <div className=" mx-auto  ">
+                      <div className="bg-black bg-opacity-95 ">
+                          <div className="max-w-7xl relative px-5 py-16  sm:px-6  mx-auto ">
+                                {/*// no address page*/}
+                              <AssetsTop/>
+                              <div className="">
+                                  <AssetsWallet/>
+                                  {/*<AssetsBentoBox/>*/}
+                              </div>
+                              <AssetsOpen/>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <Tail/>
+          </div>
+        )
+    }
 }
 
 export default Assets
