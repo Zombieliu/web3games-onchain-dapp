@@ -57,17 +57,17 @@ function classNames(...classes) {
 
             ]
         },
-        {
-            title: "Dao",
-            contents: [
-                { name: 'Democracy', href: '/home', },
-                { name: 'Council', href: '/home', },
-                { name: 'Treasury', href: '/home', },
-                { name: 'Bounties', href: '/home', },
-                { name: 'Technology', href: '/home', },
-
-            ]
-        },
+        // {
+        //     title: "Dao",
+        //     contents: [
+        //         { name: 'Democracy', href: '/home', },
+        //         { name: 'Council', href: '/home', },
+        //         { name: 'Treasury', href: '/home', },
+        //         { name: 'Bounties', href: '/home', },
+        //         { name: 'Technology', href: '/home', },
+        //
+        //     ]
+        // },
         {
             title: "Browser",
             contents: [
@@ -123,8 +123,6 @@ const SwitchNetWork = () =>{
     const people = [
         { id: 1, name: 'Mainnet', online: "bg-green-400" },
         { id: 2, name: 'Testnet', online: "bg-yellow-400" },
-        { id: 3, name: 'Guildnet', online: "bg-blue-400" },
-
     ]
     const [selected, setSelected] = useState(people[0])
 
@@ -364,7 +362,6 @@ const Header = () =>{
             </header>
            <SelectTokenTail/>
             <SelectTokenTop/>
-
         </div>
     )
 }
