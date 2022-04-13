@@ -161,7 +161,7 @@ const Swap = () =>{
                                     </div>
                                     <div className={WalletButtonShow || substrateShow ? "mt-1": "hidden"}>
                                         <button  className="px-24 py-1.5 rounded-full bg-indigo-300">
-                                            Transfer
+                                            Swap
                                         </button>
                                     </div>
                                 </div>
@@ -286,7 +286,7 @@ const Swap = () =>{
                                 </div>
                                 <div className={WalletButtonShow || substrateShow ? "mt-1": "hidden"}>
                                     <button  className="px-24 py-1.5 rounded-full bg-indigo-300">
-                                        Transfer
+                                        Swap
                                     </button>
                                 </div>
                                 </div>
