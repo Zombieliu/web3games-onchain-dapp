@@ -132,7 +132,7 @@ const SwitchNetWork = () =>{
         <Listbox value={selected} onChange={setSelected}>
             {({ open }) => (
                 <>
-                    <div className="mt-0.5 relative">
+                    <div className="py-1 relative">
                         <Listbox.Button className="relative w-full bg-gray-700 mt-0.5 ml-2 rounded-full shadow-sm pl-3 pr-8 py-2 text-left cursor-default  sm:text-sm">
                             <div className="flex items-center">
                 <span
@@ -272,7 +272,7 @@ const Header = () =>{
 
 
                         <div className="hidden lg:flex w-full  md:flex-1 ">
-                            <div className={WalletButtonShow || substrateShow ? "hidden": ""}>
+                            <div className={WalletButtonShow || substrateShow ? "hidden": "mt-1"}>
                                 <button  onClick={WalletLogin} className="bg-blue-600 transition duration-700  w-36 px-4 py-2 text-white rounded-lg  flex justify-center">
                                     Connect Wallet
                                 </button>
