@@ -26,7 +26,7 @@ function insertStr(source, start, newStr){
     return source.slice(0, start) + newStr + source.slice(start);
 }
 
-const substarte_send = async (intactWalletAddress:string) =>{
+const substarte_send = async (intactWalletAddress:string,transfer_address:string,transfer_price_bn) =>{
     const web3Enable = (await import("@polkadot/extension-dapp")).web3Enable;
     await web3Enable('my cool dapp');
     const web3FromAddress = (await import("@polkadot/extension-dapp")).web3FromAddress;
@@ -35,7 +35,7 @@ const substarte_send = async (intactWalletAddress:string) =>{
     const api = await ApiPromise.create({
         provider,
     });
-    const transferExtrinsic = api.tx.balances.transfer('5GrhDF1nyvr2nwgvXtY96RoFs5xr15W7WyHg32LkQRz6X8Pk', 123456)
+    const transferExtrinsic = api.tx.balances.transfer(transfer_address, transfer_price_bn)
     transferExtrinsic.signAndSend(intactWalletAddress, { signer: injector.signer }, ({ status }) => {
         if (status.isInBlock) {
             console.log(`Completed at block hash #${status.asInBlock.toString()}`);
@@ -50,39 +50,41 @@ const substarte_send = async (intactWalletAddress:string) =>{
     //   .signAndSend(intactWalletAddress, { signer: injector.signer });
 }
 
+const evm_send = async (transfer_address:string,transfer_price_hex:string) => {
+    let accounts = [];
+    // @ts-ignore
+    async function getAccount() {
+        // @ts-ignore
+        accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+        console.log(accounts)
+    }
+    await getAccount()
+    // @ts-ignore
+    ethereum.request({
+        method: 'eth_sendTransaction',
+        params: [
+            {
+                from: accounts[0],
+                to: transfer_address,
+                value: transfer_price_hex,
+                gasPrice: '0x09184e72a000',
+                gas: '0x5208',
+                chainId:0x69,
+            },
+        ],
+    })
+      .then((txHash) => console.log(txHash))
+      .catch((error) => console.error);
+}
 const token_transfer = async (AccountChooseValueType:number,intactWalletAddress:string) =>{
+    const transfer_number  = (document.getElementById('transfer') as HTMLInputElement).value
+    const transfer_price_bn = new BN(transfer_number).mul(new BN('1000000000000000000'));
+    const transfer_price_hex = nToHex(transfer_price_bn);
+    const transfer_address  = (document.getElementById('Receiver') as HTMLInputElement).value
     if (AccountChooseValueType === 1){
-        const transfer_number  = (document.getElementById('transfer') as HTMLInputElement).value
-        const transfer_price_bn = new BN(transfer_number).mul(new BN('1000000000000000000'));
-        const transfer_price_hex = nToHex(transfer_price_bn);
-        const transfer_address  = (document.getElementById('Receiver') as HTMLInputElement).value
-        console.log(transfer_price_hex)
-        let accounts = [];
-        // @ts-ignore
-        async function getAccount() {
-            // @ts-ignore
-            accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-            console.log(accounts)
-        }
-        await getAccount()
-        // @ts-ignore
-        ethereum.request({
-            method: 'eth_sendTransaction',
-            params: [
-                {
-                    from: accounts[0],
-                    to: transfer_address,
-                    value: transfer_price_hex,
-                    gasPrice: '0x09184e72a000',
-                    gas: '0x5208',
-                    chainId:0x69,
-                },
-            ],
-        })
-          .then((txHash) => console.log(txHash))
-          .catch((error) => console.error);
+        evm_send(transfer_address,transfer_price_hex)
     }else if (AccountChooseValueType === 2){
-       await substarte_send(intactWalletAddress)
+       await substarte_send(intactWalletAddress,transfer_address,transfer_price_bn)
     }
 }
 

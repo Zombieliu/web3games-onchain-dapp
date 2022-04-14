@@ -556,7 +556,7 @@ const Assets = () =>{
                   <div className="absolute inset-x-0 bottom-0    " />
                   <div className=" mx-auto  ">
                       <div className="bg-black bg-opacity-95 ">
-                          <div className="max-w-7xl relative px-5 py-16  sm:px-6  mx-auto ">
+                          <div className="max-w-7xl relative px-5 py-8  sm:px-6  mx-auto ">
                               <AssetsTop/>
                               <div className="">
                                   <AssetsWallet/>
@@ -579,14 +579,14 @@ const Assets = () =>{
                   <div className="absolute inset-x-0 bottom-0    " />
                   <div className=" mx-auto  ">
                       <div className="bg-black bg-opacity-95 ">
-                          <div className="max-w-7xl relative px-5 py-16  sm:px-6  mx-auto ">
+                          <div className="max-w-7xl relative px-5 py-80  sm:px-6  mx-auto ">
                                 {/*// no address page*/}
                               <AssetsTop/>
                               <div className="">
-                                  <AssetsWallet/>
+                                  {/*<AssetsWallet/>*/}
                                   {/*<AssetsBentoBox/>*/}
                               </div>
-                              <AssetsOpen/>
+                              {/*<AssetsOpen/>*/}
                           </div>
                       </div>
                   </div>
