@@ -91,10 +91,9 @@ const AssetsTop = () =>{
                       </div>
                   </div>
               </div>
-
           </>
         )
-    }else{
+    }else if (AccountChooseValueType === 2){
         return(
           <>
               <div>
@@ -153,12 +152,15 @@ const AssetsTop = () =>{
                       </div>
                   </div>
               </div>
-
           </>
         )
+    }else {
+        return (
+          <div>
+              1111
+          </div>
+        )
     }
-
-
 }
 const AssetsWallet = () =>{
     const [selectopen,setSelectopen] = useAtom(AssetsOpenPopup)

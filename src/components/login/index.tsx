@@ -67,19 +67,21 @@ const Login=()=>{
 
   async function loginsubstrate() {
     // await LoginSubstrate()
-    const isWeb3Injected = (await import("@polkadot/extension-dapp")).isWeb3Injected;
-    const web3Enable = (await import("@polkadot/extension-dapp")).web3Enable;
-    const allInjected = await web3Enable('my cool dapp');
-    const web3Accounts = (await import("@polkadot/extension-dapp")).web3Accounts;
-    const allAccounts = await web3Accounts();
+    if (window){
+      const isWeb3Injected = (await import("@polkadot/extension-dapp")).isWeb3Injected;
+      const web3Enable = (await import("@polkadot/extension-dapp")).web3Enable;
+      const allInjected = await web3Enable('my cool dapp');
+      const web3Accounts = (await import("@polkadot/extension-dapp")).web3Accounts;
+      const allAccounts = await web3Accounts();
 
-    if (isWeb3Injected) {
-      SetOpenSubstrateAddress(true)
-      SetOpenWalletListState(false)
-      SetSubstrateAddressList(allAccounts)
-      console.log(allAccounts)
-    }else{
-      setInstallSubstrate(true)
+      if (isWeb3Injected) {
+        SetOpenSubstrateAddress(true)
+        SetOpenWalletListState(false)
+        SetSubstrateAddressList(allAccounts)
+        console.log(allAccounts)
+      }else{
+        setInstallSubstrate(true)
+      }
     }
   }
 

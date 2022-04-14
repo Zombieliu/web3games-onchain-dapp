@@ -3,7 +3,9 @@ import Tail from "../../components/tail";
 import React, {Fragment, useEffect, useState } from 'react'
 import {useAtom} from "jotai";
 import {
+    AccountChooseValue,
     EVMAddressValue,
+    IntactWalletAddress,
     Select_TokenTop,
     SetSubstrateShowState,
     SwapTokenTail,
@@ -14,6 +16,8 @@ import { BN, nToHex } from '@polkadot/util';
 import { useRouter } from "next/router";
 import { check_balance } from "../../utils/chain/balance";
 import { evm_address_to_sub_address } from "../../utils/chain/address";
+import { web3Enable, web3FromAddress } from "@polkadot/extension-dapp";
+import {ApiPromise,WsProvider} from "@polkadot/api";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -23,14 +27,28 @@ function insertStr(source, start, newStr){
     return source.slice(0, start) + newStr + source.slice(start);
 }
 
+const substarte_send = async (intactWalletAddress:string) =>{
+    const web3Enable = (await import("@polkadot/extension-dapp")).web3Enable;
+    await web3Enable('my cool dapp');
+    const injector = await web3FromAddress(intactWalletAddress);
+    const provider = new WsProvider('wss://devnet.web3games.org');
+    const api = await ApiPromise.create({
+        provider,
+    });
+    api.tx.balances
+      .transfer('5GrhDF1nyvr2nwgvXtY96RoFs5xr15W7WyHg32LkQRz6X8Pk', 123456)
+      .signAndSend(intactWalletAddress, { signer: injector.signer });
+}
 
-const token_transfer = async () =>{
-    const transfer_number  = (document.getElementById('transfer') as HTMLInputElement).value
-    const transfer_price_bn = new BN(transfer_number).mul(new BN('1000000000000000000'));
-    const transfer_price_hex = nToHex(transfer_price_bn);
-    const transfer_address  = (document.getElementById('Receiver') as HTMLInputElement).value
-    console.log(transfer_price_hex)
+const token_transfer = async (AccountChooseValueType:number,intactWalletAddress:string) =>{
+    if (AccountChooseValueType === 1){
+        const transfer_number  = (document.getElementById('transfer') as HTMLInputElement).value
+        const transfer_price_bn = new BN(transfer_number).mul(new BN('1000000000000000000'));
+        const transfer_price_hex = nToHex(transfer_price_bn);
+        const transfer_address  = (document.getElementById('Receiver') as HTMLInputElement).value
+        console.log(transfer_price_hex)
         let accounts = [];
+        // @ts-ignore
         async function getAccount() {
             // @ts-ignore
             accounts = await ethereum.request({ method: 'eth_requestAccounts' });
@@ -51,12 +69,17 @@ const token_transfer = async () =>{
                 },
             ],
         })
-            .then((txHash) => console.log(txHash))
-            .catch((error) => console.error);
+          .then((txHash) => console.log(txHash))
+          .catch((error) => console.error);
+    }else if (AccountChooseValueType === 2){
+       await substarte_send(intactWalletAddress)
+    }
 }
 
 const Transfer = () =>{
     const router = useRouter()
+    const [AccountChooseValueType,] = useAtom(AccountChooseValue)
+    const [intactWalletAddress,] = useAtom(IntactWalletAddress)
     const [swapTokenTop,setSwapTokenTop] = useAtom(SwapTokenTop)
     const [,setSelectTokenTop] = useAtom(Select_TokenTop)
     const [balance,setBalance] = useState('0')
@@ -80,7 +103,7 @@ const Transfer = () =>{
                 const result = insertStr(new_data,1,'.')
                 setBalance(result)
             }
-            
+
         }
     },[router.isReady])
     return (
@@ -141,7 +164,9 @@ const Transfer = () =>{
                                             </button>
                                         </div>
                                         <div className={WalletButtonShow || substrateShow ? "mt-1": "hidden"}>
-                                            <button onClick={token_transfer} className="px-24 py-1.5 rounded-full bg-indigo-300">
+                                            <button onClick={()=>{
+                                                token_transfer(AccountChooseValueType,intactWalletAddress)
+                                            }} className="px-24 py-1.5 rounded-full bg-indigo-300">
                                                 Transfer
                                             </button>
                                         </div>

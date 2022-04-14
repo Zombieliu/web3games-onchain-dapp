@@ -35,7 +35,6 @@ const FunctionList = () =>{
     SetSubstrateAddressList([])
     SetIntactWalletAddress("")
     setWalletAddress("")
-
   }
   function ChangeWallet() {
     SetOpenWalletListState(true)
