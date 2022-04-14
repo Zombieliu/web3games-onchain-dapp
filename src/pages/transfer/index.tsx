@@ -35,9 +35,19 @@ const substarte_send = async (intactWalletAddress:string) =>{
     const api = await ApiPromise.create({
         provider,
     });
-    api.tx.balances
-      .transfer('5GrhDF1nyvr2nwgvXtY96RoFs5xr15W7WyHg32LkQRz6X8Pk', 123456)
-      .signAndSend(intactWalletAddress, { signer: injector.signer });
+    const transferExtrinsic = api.tx.balances.transfer('5GrhDF1nyvr2nwgvXtY96RoFs5xr15W7WyHg32LkQRz6X8Pk', 123456)
+    transferExtrinsic.signAndSend(intactWalletAddress, { signer: injector.signer }, ({ status }) => {
+        if (status.isInBlock) {
+            console.log(`Completed at block hash #${status.asInBlock.toString()}`);
+        } else {
+            console.log(`Current status: ${status.type}`);
+        }
+    }).catch((error: any) => {
+        console.log(':( transaction failed', error);
+    });
+    // api.tx.balances
+    //   .transfer('5GrhDF1nyvr2nwgvXtY96RoFs5xr15W7WyHg32LkQRz6X8Pk', 123456)
+    //   .signAndSend(intactWalletAddress, { signer: injector.signer });
 }
 
 const token_transfer = async (AccountChooseValueType:number,intactWalletAddress:string) =>{
