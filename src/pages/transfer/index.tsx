@@ -16,7 +16,6 @@ import { BN, nToHex } from '@polkadot/util';
 import { useRouter } from "next/router";
 import { check_balance } from "../../utils/chain/balance";
 import { evm_address_to_sub_address } from "../../utils/chain/address";
-import { web3Enable, web3FromAddress } from "@polkadot/extension-dapp";
 import {ApiPromise,WsProvider} from "@polkadot/api";
 
 function classNames(...classes) {
@@ -30,6 +29,7 @@ function insertStr(source, start, newStr){
 const substarte_send = async (intactWalletAddress:string) =>{
     const web3Enable = (await import("@polkadot/extension-dapp")).web3Enable;
     await web3Enable('my cool dapp');
+    const web3FromAddress = (await import("@polkadot/extension-dapp")).web3FromAddress;
     const injector = await web3FromAddress(intactWalletAddress);
     const provider = new WsProvider('wss://devnet.web3games.org');
     const api = await ApiPromise.create({
@@ -92,20 +92,24 @@ const Transfer = () =>{
 
     useEffect(()=>{
         if (router.isReady){
-            const query_balance = async ()=>{
-                // @ts-ignore
-                const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-                const account = accounts[0];
-                const substrate = evm_address_to_sub_address(account)
-                const balance = await check_balance(substrate)
-                const unit = new BN(balance).div(new BN('10000000000000000')).toString();
-                const new_data = unit.substring(0,3)
-                const result = insertStr(new_data,1,'.')
-                setBalance(result)
+            if (AccountChooseValueType === 1){
+                const query_balance = async ()=>{
+                    // @ts-ignore
+                    const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+                    const account = accounts[0];
+                    const substrate = evm_address_to_sub_address(account)
+                    const balance = await check_balance(substrate)
+                    const unit = new BN(balance).div(new BN('10000000000000000')).toString();
+                    const new_data = unit.substring(0,3)
+                    const result = insertStr(new_data,1,'.')
+                    setBalance(result)
+                }
+            }else{
+                console.log('1');
             }
-
         }
     },[router.isReady])
+
     return (
         <div>
             <Header/>
