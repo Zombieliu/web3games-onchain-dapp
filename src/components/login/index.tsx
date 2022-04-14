@@ -7,7 +7,12 @@ import {
   EVMAddressValue,
   WalletButtonShowState,
   WalletListShowState,
-  WalletAddress, SubstrateAddress, AfterSubstrateAddressValue, AfterSubstrateAddressList, IntactWalletAddress,
+  WalletAddress,
+  SubstrateAddress,
+  AfterSubstrateAddressValue,
+  AfterSubstrateAddressList,
+  IntactWalletAddress,
+  CurrentWallet,
 } from '../../jotai/index';
 import {ExclamationIcon} from "@heroicons/react/solid";
 
@@ -25,6 +30,7 @@ const Login=()=>{
   const [intactWalletAddress,SetIntactWalletAddress] = useAtom(IntactWalletAddress)
   const [InstallSubstrate,setInstallSubstrate] = useState(false)
   const [InstallMeatMask,setInstallMeatMask] = useState(false)
+  const [ currentWallet,SetCurrentWallet] =useAtom(CurrentWallet)
   //
   // //展示地址
   // const [loginEvmAddress,setLoginEvmAddress]=useAtom(loginevmaddress)
@@ -55,6 +61,7 @@ const Login=()=>{
         SetIntactWalletAddress(accountArray[0])
         SetWalletAddress(AfterEVMAddress)
         SetOpenWalletListState(false)
+        SetCurrentWallet("MeatMask")
         location.reload();
       }
     }else {
@@ -100,6 +107,7 @@ const Login=()=>{
       SetAfterSubstrateAddress(substrateAddress)
       SetIntactWalletAddress(substrateAddress)
       SetWalletAddress(substratePartAddress)
+      SetCurrentWallet("Polkaditjs")
       SetOpenSubstrateAddress(false)
       location.reload();
       }

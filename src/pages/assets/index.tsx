@@ -5,7 +5,14 @@ import { useRouter } from 'next/router'
 import Link from "next/link";
 import {Dialog, Transition} from "@headlessui/react";
 import {useAtom} from "jotai";
-import {AssetsOpenPopup, EVMAddressValue, AccountChooseValue, WalletAddress, IntactWalletAddress} from "../../jotai";
+import {
+    AssetsOpenPopup,
+    EVMAddressValue,
+    AccountChooseValue,
+    WalletAddress,
+    IntactWalletAddress,
+    WalletListShowState
+} from "../../jotai";
 
 
 function classNames(...classes) {
@@ -14,6 +21,7 @@ function classNames(...classes) {
 
 const AssetsTop = () =>{
     const router = useRouter()
+    const [,SetOpenWalletListState] = useAtom(WalletListShowState)
     const [copyStyle,SetCopyStyle] = useState(false)
     const [AccountChooseValueType,] = useAtom(AccountChooseValue)
     const [walletAddress,] = useAtom(WalletAddress)
@@ -70,13 +78,13 @@ const AssetsTop = () =>{
                       </div>
                       <div className="mt-5 lg:mt-0 flex ">
                           <div className="mr-10">
-                              <div className="text-sm"> Wallet </div>
+                              <div className="text-sm"> Available </div>
                               <div className="text-gray-200 text-xl font-light">
                                   $0.00
                               </div>
                           </div>
                           <div className="mr-10">
-                              <div className="text-sm"> BentoBox </div>
+                              <div className="text-sm"> Temporarily Unavailable </div>
                               <div className="text-gray-200 text-xl font-light">
                                   $0.00
                               </div>
@@ -131,13 +139,13 @@ const AssetsTop = () =>{
                       </div>
                       <div className="mt-5 lg:mt-0 flex ">
                           <div className="mr-10">
-                              <div className="text-sm"> Wallet </div>
+                              <div className="text-sm"> Available </div>
                               <div className="text-gray-200 text-xl font-light">
                                   $0.00
                               </div>
                           </div>
                           <div className="mr-10">
-                              <div className="text-sm"> BentoBox </div>
+                              <div className="text-sm"> Temporarily Unavailable </div>
                               <div className="text-gray-200 text-xl font-light">
                                   $0.00
                               </div>
@@ -157,7 +165,41 @@ const AssetsTop = () =>{
     }else {
         return (
           <div>
-              1111
+              <div className="flex">
+                  <img className="w-16 rounded-full border border-gray-600" src="/img.png" alt=""/>
+                  <div className="ml-4 flex-col justify-end">
+
+                  </div>
+              </div>
+              <div className="lg:flex justify-between text-gray-400 mt-5">
+                  <div>
+                      <div className="text-sm"> Net Worth </div>
+                      <div className="text-2xl text-gray-100">
+                          $0.00
+                      </div>
+                  </div>
+                  <div className="mt-5 lg:mt-0 flex ">
+                      <div className="mr-10">
+                          <div className="text-sm"> Available </div>
+                          <div className="text-gray-200 text-xl font-light">
+                              $0.00
+                          </div>
+                      </div>
+                      <div className="mr-10">
+                          <div className="text-sm"> Temporarily Unavailable </div>
+                          <div className="text-gray-200 text-xl text-center font-light">
+                              $0.00
+                          </div>
+                      </div>
+                      <div>
+                          <div  className="text-sm"> Assets </div>
+                          <div  className="text-gray-200 text-xl font-light">
+                              0
+                          </div>
+                      </div>
+
+                  </div>
+              </div>
           </div>
         )
     }
@@ -190,45 +232,45 @@ const AssetsWallet = () =>{
 
     ]
     const walletInfo = [
-        {
-            id:"1",
-            assets:"$3,524.58",
-            balance:"999999",
-            locked:"20",
-            value:"0.00",
-            xx:"xx"
-        },
-        {
-            id:"1",
-            assets:"$3,524.58",
-            balance:"999999",
-            locked:"20",
-            value:"0.00",
-        }, {
-            id:"1",
-            assets:"$3,524.58",
-            balance:"999999",
-            locked:"20",
-            value:"0.00",
-        }, {
-            id:"1",
-            assets:"$3,524.58",
-            balance:"999999",
-            locked:"20",
-            value:"0.00",
-        }, {
-            id:"1",
-            assets:"$3,524.58",
-            balance:"999999",
-            locked:"20",
-            value:"0.00",
-        }, {
-            id:"1",
-            assets:"$3,524.58",
-            balance:"999999",
-            locked:"20",
-            value:"0.00",
-        },
+        // {
+        //     id:"1",
+        //     assets:"$3,524.58",
+        //     balance:"999999",
+        //     locked:"20",
+        //     value:"0.00",
+        //     xx:"xx"
+        // },
+        // {
+        //     id:"1",
+        //     assets:"$3,524.58",
+        //     balance:"999999",
+        //     locked:"20",
+        //     value:"0.00",
+        // }, {
+        //     id:"1",
+        //     assets:"$3,524.58",
+        //     balance:"999999",
+        //     locked:"20",
+        //     value:"0.00",
+        // }, {
+        //     id:"1",
+        //     assets:"$3,524.58",
+        //     balance:"999999",
+        //     locked:"20",
+        //     value:"0.00",
+        // }, {
+        //     id:"1",
+        //     assets:"$3,524.58",
+        //     balance:"999999",
+        //     locked:"20",
+        //     value:"0.00",
+        // }, {
+        //     id:"1",
+        //     assets:"$3,524.58",
+        //     balance:"999999",
+        //     locked:"20",
+        //     value:"0.00",
+        // },
 
 
 
@@ -548,7 +590,6 @@ const AssetsOpen = () =>{
 
 const Assets = () =>{
     const [intactWalletAddress,] = useAtom(IntactWalletAddress)
-    if (intactWalletAddress){
         return (
           <div>
               <Header/>
@@ -556,7 +597,7 @@ const Assets = () =>{
                   <div className="absolute inset-x-0 bottom-0    " />
                   <div className=" mx-auto  ">
                       <div className="bg-black bg-opacity-95 ">
-                          <div className="max-w-7xl relative px-5 py-8  sm:px-6  mx-auto ">
+                          <div className="max-w-7xl relative px-5 py-24  sm:px-6  mx-auto ">
                               <AssetsTop/>
                               <div className="">
                                   <AssetsWallet/>
@@ -570,31 +611,8 @@ const Assets = () =>{
               <Tail/>
           </div>
         )
-    }else{
-        return (
-          //no address
-          <div>
-              <Header/>
-              <div className="relative pt-16">
-                  <div className="absolute inset-x-0 bottom-0    " />
-                  <div className=" mx-auto  ">
-                      <div className="bg-black bg-opacity-95 ">
-                          <div className="max-w-7xl relative px-5 py-80  sm:px-6  mx-auto ">
-                                {/*// no address page*/}
-                              <AssetsTop/>
-                              <div className="">
-                                  {/*<AssetsWallet/>*/}
-                                  {/*<AssetsBentoBox/>*/}
-                              </div>
-                              {/*<AssetsOpen/>*/}
-                          </div>
-                      </div>
-                  </div>
-              </div>
-              <Tail/>
-          </div>
-        )
-    }
+
+
 }
 
 export default Assets

@@ -51,7 +51,9 @@ const EVMAddressValue = atomWithStorage('EvmAddress','')
 
 const SetSubstrateShowState = atomWithStorage("SubstrateShowState",false)
 
+const CurrentWallet = atomWithStorage("CurrentWallet","")
+
 
 export {Select_TokenTop,Select_TokenTail,SwapTokenTop,SwapTokenTail,AssetsOpenPopup,WalletListShowState,AccountChooseValue,
     AfterEvmAddressValue,EVMAddressValue,WalletButtonShowState,WalletAddress,AccountConfigPageState,HiddenClaim,SetSubstrateShowState,
-    AfterSubstrateAddressValue,SubstrateAddress,AfterSubstrateAddressList,IntactWalletAddress,NetWorkState}
+    AfterSubstrateAddressValue,SubstrateAddress,AfterSubstrateAddressList,IntactWalletAddress,NetWorkState,CurrentWallet}
