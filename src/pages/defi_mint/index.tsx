@@ -1,8 +1,6 @@
 import Header from "../../components/header/index.";
 import Tail from "../../components/tail";
 import React, {Fragment, useState } from 'react'
-import {Listbox, RadioGroup, Tab, Transition} from '@headlessui/react'
-import {CheckCircleIcon, CheckIcon, SelectorIcon} from "@heroicons/react/solid";
 import {useAtom} from "jotai";
 import {SetSubstrateShowState, WalletButtonShowState, WalletListShowState} from "../../jotai";
 
@@ -10,16 +8,10 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
-const deliveryMethods = [
-    { id: 1, title: 'Single', turnaround: 'Create an Unique NFT (Non-Fungible-)', show:()=>{}},
-    { id: 2, title: 'Multiple', turnaround: 'Create an Unique NFT (Multi Token)', show:()=>{}},
-]
-
-const Mint = () =>{
+const Defi_Mint = () =>{
     const [WalletButtonShow,]=useAtom(WalletButtonShowState)
     const [substrateShow,] =useAtom(SetSubstrateShowState)
     const [,SetOpenWalletListState] = useAtom(WalletListShowState)
-    const [selectedDeliveryMethod, setSelectedDeliveryMethod] = useState(deliveryMethods[0])
     const [ chooseImg,setChooseImg] = useState(true)
     const [imgUrl,setImgUrl] = useState("")
     const inputImg = () =>{
@@ -53,56 +45,6 @@ const Mint = () =>{
                             <div>
                                 <div className="text-white text-3xl font-semibold">
                                     Create an NFT
-                                </div>
-                                <div className="text-white mt-10">
-                                    Select the NFT Type:
-                                </div>
-                                <div className="mt-3 ">
-                                    <RadioGroup value={selectedDeliveryMethod} onChange={setSelectedDeliveryMethod}>
-                                        <div className="mt-4 grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4 xl:grid-cols-4">
-                                            {deliveryMethods.map((deliveryMethod) => (
-                                                <RadioGroup.Option
-                                                    key={deliveryMethod.id}
-                                                    value={deliveryMethod}
-                                                    className={({ checked, active }) =>
-                                                        classNames(
-                                                            checked ? 'border-transparent' : 'border-gray-300',
-                                                            active ? 'ring-2 ring-indigo-500' : '',
-                                                            'relative bg-black bg-opacity-80 border border-gray-700 rounded-lg shadow-sm p-4 flex cursor-pointer focus:outline-none'
-                                                        )
-                                                    }
-                                                    onClick={deliveryMethod.show}
-                                                >
-                                                    {({ checked, active }) => (
-                                                        <>
-                                                            <div className="flex-1 flex">
-                                                                <div className="flex flex-col">
-                                                                    <RadioGroup.Label as="span" className="block text-2xl font-medium text-gray-200">
-                                                                        {deliveryMethod.title}
-                                                                    </RadioGroup.Label>
-                                                                    <RadioGroup.Description
-                                                                        as="span"
-                                                                        className="mt-1 flex items-center text-sm text-gray-400"
-                                                                    >
-                                                                        {deliveryMethod.turnaround}
-                                                                    </RadioGroup.Description>
-                                                                </div>
-                                                            </div>
-                                                            {checked ? <CheckCircleIcon className="h-5 w-5 text-indigo-600" aria-hidden="true" /> : null}
-                                                            <div
-                                                                className={classNames(
-                                                                    active ? 'border' : 'border-2',
-                                                                    checked ? 'border-indigo-500' : 'border-transparent',
-                                                                    'absolute -inset-px rounded-lg pointer-events-none'
-                                                                )}
-                                                                aria-hidden="true"
-                                                            />
-                                                        </>
-                                                    )}
-                                                </RadioGroup.Option>
-                                            ))}
-                                        </div>
-                                    </RadioGroup>
                                 </div>
                                 <div className="text-white mt-10">
                                     Populate the Fields:
@@ -195,6 +137,6 @@ const Mint = () =>{
     )
 }
 
-export default Mint
+export default Defi_Mint
 
 

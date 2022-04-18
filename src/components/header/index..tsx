@@ -42,7 +42,7 @@ function classNames(...classes) {
              { name: 'Create', href: '/create',},
              { name: 'Bridge', href: '/bridge',},
              { name: 'Staking', href: '/staking',},
-             { name: 'Mint', href: '/mint',}
+             { name: 'Mint', href: '/defi_mint',}
          ]
         },
         {
@@ -53,7 +53,7 @@ function classNames(...classes) {
                 { name: 'Rankings', href: '/ranking', },
                 { name: 'Auction', href: '/auction', },
                 { name: 'Drops', href: '/drops', },
-                { name: 'Mint', href: '/mint', },
+                { name: 'Mint', href: '/defi_mint', },
 
             ]
         },

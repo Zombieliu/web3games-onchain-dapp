@@ -209,12 +209,12 @@ const Bridge = () =>{
                                             <div className="text-white text-xl">
                                                 Transfer from
                                             </div>
-                                            <div className="flex mt-5 py-2 border border-gray-400 px-4 rounded-lg ">
+                                            <div className="flex mt-5 py-2 border border-gray-500 px-4 rounded-lg ">
                                                 <Listbox value={selectedfrom} onChange={setSelectedfrom}>
                                                     {({ open }) => (
                                                         <>
-                                                            <div className="mt-1 relative">
-                                                                <Listbox.Button className="relative w-full bg-gray-600 border border-gray-300 rounded-md shadow-sm pl-3 pr-12 md:pr-48 py-2 text-left cursor-default  sm:text-sm">
+                                                            <div className="my-1 relative">
+                                                                <Listbox.Button className="relative w-full bg-gray-600  bg-opacity-70 border border-gray-500 rounded-md shadow-sm pl-3 pr-12 md:pr-48 py-2 text-left cursor-default  sm:text-sm">
                                                                   <span className="flex items-center ">
                                                                     <img src={selectedfrom.avatar} alt="" className="flex-shrink-0 h-8 w-8 rounded-lg" />
                                                                     <span className="ml-3 block text-gray-200 truncate w-20">{selectedfrom.name}</span>
@@ -295,12 +295,12 @@ const Bridge = () =>{
                                         <div className="text-white text-xl">
                                             Transfer to
                                         </div>
-                                        <div className="flex mt-5 py-2 border border-gray-400 px-4 rounded-lg ">
+                                        <div className="flex mt-5 py-2 border border-gray-500 px-4 rounded-lg ">
                                             <Listbox value={selectedto} onChange={setSelectedto}>
                                                 {({ open }) => (
                                                     <>
-                                                        <div className="mt-1 relative">
-                                                            <Listbox.Button className="relative w-full bg-gray-600 border border-gray-300 rounded-md shadow-sm pl-3 pr-12 md:pr-48 py-2 text-left cursor-default  sm:text-sm">
+                                                        <div className="my-1 relative">
+                                                            <Listbox.Button className="relative w-full bg-gray-600  bg-opacity-70 border border-gray-500 rounded-md shadow-sm pl-3 pr-12 md:pr-48 py-2 text-left cursor-default  sm:text-sm">
               <span className="flex items-center ">
                 <img src={selectedto.avatar} alt="" className="flex-shrink-0 h-8 w-8 rounded-lg" />
                 <span className="ml-3 block text-gray-200 w-20 truncate">{selectedto.name}</span>
@@ -317,7 +317,7 @@ const Bridge = () =>{
                                                                 leaveFrom="opacity-100"
                                                                 leaveTo="opacity-0"
                                                             >
-                                                                <Listbox.Options className="absolute z-10 mt-1 w-full bg-gray-600 shadow-lg max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+                                                                <Listbox.Options className="absolute z-10 mt-1 w-full bg-gray-600  shadow-lg max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
                                                                     {to.map((to) => (
                                                                         <Listbox.Option
                                                                             key={to.id}

@@ -71,7 +71,7 @@ const Swap = () =>{
                                 className={classNames(
                                     ' rounded-xl p-1 w-80 md:w-96')}
                             >
-                                <div className="bg-gray-900 p-3 rounded-2xl">
+                                <div className="bg-gray-900 bg-opacity-70 p-3 rounded-2xl">
                                     <div className="flex justify-between">
                                         <div className="flex bg-gray-600 bg-opacity-90 p-1 rounded-full">
                                             <div className="flex">
@@ -160,7 +160,7 @@ const Swap = () =>{
                                         </button>
                                     </div>
                                     <div className={WalletButtonShow || substrateShow ? "mt-1": "hidden"}>
-                                        <button  className="px-24 py-1.5 rounded-full bg-indigo-300">
+                                        <button  className="px-24 py-1.5 rounded-lg bg-indigo-400">
                                             Swap
                                         </button>
                                     </div>
@@ -173,9 +173,9 @@ const Swap = () =>{
                                 className={classNames(
                                     'text-gray-300 rounded-xl p-1 w-80 md:w-96')}
                             >
-                                <div className="bg-gray-900 p-3 rounded-2xl">
+                                <div className="bg-gray-900  bg-opacity-70 p-3 rounded-2xl">
                                     <div className="flex justify-between">
-                                        <div className="flex bg-gray-600 bg-opacity-90 p-1 rounded-full">
+                                        <div className="flex bg-gray-600 bg-opacity-70 p-1 rounded-full">
                                             <div className="flex">
                                                 <button onClick={selectTokenTop} className="flex">
                                                     <div>
@@ -285,7 +285,7 @@ const Swap = () =>{
                                     </button>
                                 </div>
                                 <div className={WalletButtonShow || substrateShow ? "mt-1": "hidden"}>
-                                    <button  className="px-24 py-1.5 rounded-full bg-indigo-300">
+                                    <button  className="px-24 py-1.5 rounded-lg bg-indigo-400">
                                         Swap
                                     </button>
                                 </div>

@@ -104,7 +104,7 @@ const Pools = () =>{
                                             </button>
                                         </div>
                                         <div className={WalletButtonShow || substrateShow ? "mt-1": "hidden"}>
-                                            <button  className=" lg:mt-0 bg-blue-500 px-3 py-2 rounded-full text-white">
+                                            <button  className=" lg:mt-0 bg-blue-500 px-3 py-2 rounded-lg bg-indigo-500 text-white">
                                                 Create Pool
                                             </button>
                                         </div>

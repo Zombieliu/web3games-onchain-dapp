@@ -128,7 +128,7 @@ const Transfer = () =>{
                 <div className=" mx-auto  ">
                     <div className="bg-black bg-opacity-95 ">
                         <div className="max-w-md relative px-5 py-16 lg:py-32 sm:px-6  mx-auto ">
-                            <div className="bg-gray-900 p-3 rounded-2xl">
+                            <div className="bg-gray-900 bg-opacity-60 p-3 rounded-2xl">
                                 <div className="p-5 text-white text-2xl font-semibold">
                                     Transfer on Web3Games
                                 </div>
@@ -180,7 +180,7 @@ const Transfer = () =>{
                                         <div className={WalletButtonShow || substrateShow ? "mt-1": "hidden"}>
                                             <button onClick={()=>{
                                                 token_transfer(AccountChooseValueType,intactWalletAddress)
-                                            }} className="px-24 py-1.5 rounded-full bg-indigo-300">
+                                            }} className="px-24 py-1.5 rounded-lg bg-indigo-400">
                                                 Transfer
                                             </button>
                                         </div>
