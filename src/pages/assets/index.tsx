@@ -271,12 +271,6 @@ const AssetsWallet = () =>{
         //     locked:"20",
         //     value:"0.00",
         // },
-
-
-
-
-
-
     ]
     return(
         <>
