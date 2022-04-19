@@ -62,7 +62,6 @@ const Swap = () =>{
                             </div>
                             <div className="text-white px-2 py-1 text-xl">
                                 <i className="fa fa-cog " aria-hidden="true"></i>
-
                             </div>
                         </Tab.List>
                        {/*Recent*/}

@@ -3,6 +3,7 @@ import Link from "next/link";
 import Tail from "../../components/tail";
 import React from "react";
 import Sort from "../../components/sort";
+import {router} from "next/client";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -88,10 +89,7 @@ const rankStyle = {
     up:"text-green-400",
 }
 const Ranking = () =>{
-    const Router =(e)=>{
-        console.log(e)
 
-    }
     return (
         <div>
             <Header/>
@@ -124,7 +122,7 @@ const Ranking = () =>{
                                             {tableTitle.map((item=>(
                                             <th key={item.name}
                                                 scope="col"
-                                                className="px-6   py-3 text-left  text-sm md:text-base  font-semibold text-gray-200 "
+                                                className="px-5   py-3 text-left  text-sm md:text-base  font-semibold text-gray-200 "
                                             >
                                                     {item.name}
                                             </th>
@@ -133,11 +131,14 @@ const Ranking = () =>{
                                         </thead>
                                         <tbody className=" divide-y divide-gray-200 ">
                                         {rankings.map(item=>(
-                                            <tr key={item.id} onClick={() => Router(item.name)}className="hover:bg-gray-800 bg-opacity-80 cursor-pointer transition duration-300 " >
+                                            <Link  key={item.id} href="/collections">
+                                            <tr className="hover:bg-gray-800 bg-opacity-80 cursor-pointer transition duration-300 " >
                                                         <td className="px-2 py-4 whitespace-nowrap text-sm text-white">
                                                     {item.id}
                                                 </td>
                                                 <td className="px-6 py-4  whitespace-nowrap text-sm text-white">
+
+
                                                     <div className="flex">
                                                         <img className="w-10 rounded-full" src={item.img} alt=""/>
                                                         <div className="w-36 text-xl mt-1 mx-2 text-white">
@@ -187,6 +188,8 @@ const Ranking = () =>{
                                                         {item.items}
                                                     </td>
                                             </tr>
+
+                                            </Link>
                                         ))}
                                         </tbody>
                                     </table>
