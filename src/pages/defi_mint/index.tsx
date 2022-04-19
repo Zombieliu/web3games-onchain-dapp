@@ -44,7 +44,7 @@ const Defi_Mint = () =>{
                         <div className="max-w-7xl relative px-5 py-16  sm:px-6  mx-auto ">
                             <div>
                                 <div className="text-white text-3xl font-semibold">
-                                    Create an NFT
+                                    Create an Token
                                 </div>
                                 <div className="text-white mt-10">
                                     Populate the Fields:
