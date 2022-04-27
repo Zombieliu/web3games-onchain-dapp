@@ -7,12 +7,13 @@ import {Listbox, Transition } from "@headlessui/react";
 import Sort from "../../components/sort";
 import {useAtom} from "jotai";
 import {SetSubstrateShowState, WalletButtonShowState, WalletListShowState} from "../../jotai";
+import { useRouter } from "next/router";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 const Pools = () =>{
-
+    const router = useRouter()
     const types = [
         { id: 1, name: 'EVM' },
         { id: 2, name: 'Substrate' },
@@ -104,7 +105,7 @@ const Pools = () =>{
                                             </button>
                                         </div>
                                         <div className={WalletButtonShow || substrateShow ? "mt-1": "hidden"}>
-                                            <button  className=" lg:mt-0 bg-blue-500 px-3 py-2 rounded-lg bg-indigo-500 text-white">
+                                            <button onClick={()=>router.push('/create')}  className=" lg:mt-0 bg-blue-500 px-3 py-2 rounded-lg bg-indigo-500 text-white">
                                                 Create Pool
                                             </button>
                                         </div>

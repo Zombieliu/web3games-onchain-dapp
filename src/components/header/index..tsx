@@ -45,18 +45,18 @@ function classNames(...classes) {
              { name: 'Mint', href: '/defi_mint',}
          ]
         },
-        {
-            title: "NFT",
-            contents: [
-                { name: 'Marketplaces', href: '/marketplaces', },
-                { name: 'Details', href: '/details', },
-                { name: 'Rankings', href: '/ranking', },
-                { name: 'Auction', href: '/auction', },
-                { name: 'Drops', href: '/drops', },
-                { name: 'Mint', href: '/defi_mint', },
-
-            ]
-        },
+        // {
+        //     title: "NFT",
+        //     contents: [
+        //         { name: 'Marketplaces', href: '/marketplaces', },
+        //         { name: 'Details', href: '/details', },
+        //         { name: 'Rankings', href: '/ranking', },
+        //         { name: 'Auction', href: '/auction', },
+        //         { name: 'Drops', href: '/drops', },
+        //         { name: 'Mint', href: '/defi_mint', },
+        //
+        //     ]
+        // },
         // {
         //     title: "Dao",
         //     contents: [

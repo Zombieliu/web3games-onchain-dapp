@@ -11,10 +11,13 @@ import {
 } from "../../jotai";
 import SelectTokenTail from "../../components/selecttokentail";
 import SelectTokenTop from "../../components/selecttokentop";
+import axios from "axios";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
+
+
 const Swap = () =>{
     const [,setSelectTokenTail] = useAtom(Select_TokenTail)
     const [,setSelectTokenTop] = useAtom(Select_TokenTop)
@@ -23,6 +26,9 @@ const Swap = () =>{
     const [WalletButtonShow,]=useAtom(WalletButtonShowState)
     const [substrateShow,] =useAtom(SetSubstrateShowState)
     const [,SetOpenWalletListState] = useAtom(WalletListShowState)
+    const [swapOutPutValue,setSwapOutPutValue] = useState(0)
+    const [swapTimes,setSwapTimes] = useState(0)
+
     let [categories] = useState({
         Recent: [],
         Popular: [],
@@ -37,6 +43,36 @@ const Swap = () =>{
     const selectTokenTail = () =>{
         setSelectTokenTail(true)
     }
+
+    const get_swap_number =(input_data)=>{
+        axios.get('http://127.0.0.1:3004/api/swap', {
+            params: {
+                token_a_amount:input_data
+            }
+        })
+          .then(function (response) {
+              console.log(response);
+              setSwapOutPutValue(response.data)
+          })
+          .catch(function (error) {
+              console.log(error);
+          });
+    }
+
+    const check = (e) => {
+        console.log(swapTimes);
+        setSwapTimes(swapTimes + 1)
+        if (swapTimes == 1){
+            const input_data = e.target.value.replace(/\D/g,'')
+            setTimeout(()=>get_swap_number(input_data),2000)
+            setSwapTimes(0)
+        }
+        // // const swapoutput = (document.getElementById("swapoutput") as HTMLInputElement)
+        // // @ts-ignore
+        // document.getElementById("swapoutput").value = data
+        // // console.log(swapoutput);
+    }
+
     return(
         <div>
             <div className="flex  justify-center  mx-auto px-2 py-12 sm:px-0">
@@ -100,7 +136,8 @@ const Swap = () =>{
                                     </div>
                                     <div className="flex justify-between mt-5">
                                         <div className="flex">
-                                            <input type="text"
+                                            <input type="number"
+                                                   onKeyUp={check}
                                                    className=" bg-gray-700 bg-opacity-30 text-xs md:text-sm text-white  rounded-lg p-2  md:w-48    hover:border-black focus:border-black transition duration-300  outline-none"
                                                    placeholder="0.0"
                                                    id=""
@@ -143,10 +180,11 @@ const Swap = () =>{
 
                                     <div className="flex justify-between mt-5">
                                         <div className="flex">
-                                            <input type="text"
+                                            <input type="number"
                                                    className=" bg-gray-700 bg-opacity-30 text-xs md:text-sm text-white  rounded-lg p-2   md:w-48    hover:border-black focus:border-black transition duration-300  outline-none"
-                                                   placeholder="0.0"
-                                                   id="IC"
+                                                   placeholder='0.0'
+                                                   id="swapoutput"
+                                                   value={`${swapOutPutValue}`}
                                             />
                                         </div>
                                         <div className="text-sm mt-2 flex ml-1 text-gray-400">Balance: 0</div>
@@ -309,3 +347,4 @@ const Swap = () =>{
     )
 }
 export default Swap
+
