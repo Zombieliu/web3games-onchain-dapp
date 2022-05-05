@@ -45,6 +45,8 @@ const substarte_send = async (intactWalletAddress:string) =>{
     }).catch((error: any) => {
         console.log(':( transaction failed', error);
     });
+
+    
     // api.tx.balances
     //   .transfer('5GrhDF1nyvr2nwgvXtY96RoFs5xr15W7WyHg32LkQRz6X8Pk', 123456)
     //   .signAndSend(intactWalletAddress, { signer: injector.signer });
