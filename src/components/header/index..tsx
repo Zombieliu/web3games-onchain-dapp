@@ -122,10 +122,13 @@ function classNames(...classes) {
 const SwitchNetWork = () =>{
     const netWork = [
         { id: 1, name: 'Mainnet', online: "bg-green-400" },
-        { id: 2, name: 'Testnet', online: "bg-yellow-400" },
+        { id: 2, name: 'Testnet', online: "bg-yellow-300" },
     ]
     const [selected, setSelected] = useAtom(NetWorkState)
 
+    useEffect(()=>{
+        console.log(selected.online)
+    },[])
     return (
         <Listbox value={selected} onChange={setSelected}>
             {({ open }) => (
@@ -133,13 +136,8 @@ const SwitchNetWork = () =>{
                     <div className="py-1 relative">
                         <Listbox.Button className="relative w-full bg-gray-700 mt-0.5 ml-2 rounded-full shadow-sm pl-3 pr-8 py-2 text-left cursor-default  sm:text-sm">
                             <div className="flex items-center">
-                <span
-                    className={classNames(
-                        selected.online,
-                        'flex-shrink-0 inline-block h-2 w-2 rounded-full'
-                    )}
-                />
-                                <span className="ml-3 block truncate text-gray-200 w-14 ">{selected.name}</span>
+                <span className={classNames(selected.online,'flex-shrink-0 inline-block h-2 w-2 rounded-full')}/>
+                 <span className="ml-3 block truncate text-gray-200 w-14 ">{selected.name}</span>
                             </div>
                             <span className="absolute inset-y-0 right-2 flex items-center text-gray-200 pr-2 pointer-events-none">
                        <i className="fa fa-chevron-down" aria-hidden="true"></i>
@@ -169,36 +167,19 @@ const SwitchNetWork = () =>{
                                         {({ selected, active }) => (
                                             <>
                                                 <div className="flex items-center">
-                          <span
-                              className={classNames(
-                                  network.online,
-                                  'flex-shrink-0 inline-block h-2 w-2 rounded-full'
-                              )}
-                              aria-hidden="true"
-                          />
-                                                    <span
-                                                        className={classNames(selected ? 'font-semibold' : 'font-normal', 'ml-3 block truncate')}
-                                                    >
-                            {network.name}
+                          <span className={classNames(network.online, 'flex-shrink-0 inline-block h-2 w-2 rounded-full')} aria-hidden="true"/>
+                                                    <span className={classNames(selected ? 'font-semibold' : 'font-normal', 'ml-3 block truncate')}>
+                                                        {network.name}
                                                         <span className="sr-only"> is {network.online ? 'online' : 'offline'}</span>
-                          </span>
+                                                    </span>
                                                 </div>
-
                                                 {selected ? (
                                                     <span
-                                                        className={classNames(
-                                                            active ? 'text-white' : 'text-indigo-600',
-                                                            'absolute inset-y-0 right-0 flex items-center pr-4'
-                                                        )}
-                                                    >
+                                                        className={classNames(active ? 'text-white' : 'text-indigo-600',
+                                                            'absolute inset-y-0 right-0 flex items-center pr-4')}>
                             <CheckIcon className="h-5 w-5" aria-hidden="true" />
-                          </span>
-                                                ) : null}
-                                            </>
-                                        )}
-                                    </Listbox.Option>
-                                ))}
-                            </Listbox.Options>
+                          </span>) : null}</>)}</Listbox.Option>
+                                ))}</Listbox.Options>
                         </Transition>
                     </div>
                 </>
