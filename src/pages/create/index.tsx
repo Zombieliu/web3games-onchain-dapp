@@ -18,8 +18,8 @@ function classNames(...classes) {
 const deliveryMethods = [
     { id: 1, title: '0.01%', turnaround: 'Best for stable pairs', },
     { id: 2, title: '0.05%', turnaround: 'Best for stable pairs', },
-    { id: 1, title: '0.3%', turnaround: 'Best for stable pairs', },
-    { id: 2, title: '1%',   turnaround: 'Best for stable pairs', },
+    { id: 3, title: '0.3%', turnaround: 'Best for stable pairs', },
+    { id: 4, title: '1%',   turnaround: 'Best for stable pairs', },
 ]
 const Create = () =>{
     const [WalletButtonShow,SetWalletButtonShow]=useAtom(WalletButtonShowState)

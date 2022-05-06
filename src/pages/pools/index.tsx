@@ -85,6 +85,18 @@ const Pools = () =>{
     const [WalletButtonShow,]=useAtom(WalletButtonShowState)
     const [substrateShow,] =useAtom(SetSubstrateShowState)
     const [,SetOpenWalletListState] = useAtom(WalletListShowState)
+    const [openAlert,setOpenAlert] = useState(false)
+    let time
+    const createPool = ()=>{
+        clearTimeout(time)
+        setOpenAlert(true)
+        time = setTimeout(()=>{
+            setOpenAlert(false)
+            },3000)
+    }
+    const toDetail = ()=>{
+        router.push("/pools/detail")
+    }
     return(
         <div>
             <Header/>
@@ -92,8 +104,38 @@ const Pools = () =>{
                 <div className="absolute inset-x-0 bottom-0    " />
                 <div className=" mx-auto  ">
                     <div className="bg-black bg-opacity-90 ">
-                        <div className="max-w-7xl relative px-5 py-16  sm:px-6   mx-auto ">
-                                <div className="lg:flex justify-between ">
+                        <Transition
+                            show={openAlert}
+                            as={Fragment}
+                            enter="ease-out duration-300"
+                            enterFrom="opacity-0"
+                            enterTo="opacity-100"
+                            leave="ease-in duration-300"
+                            leaveFrom="opacity-100"
+                            leaveTo="opacity-0"
+                        >
+                        <div className={openAlert?"flex fixed z-20  motion-safe:animate-spin inset-x-0 px-6 pt-4  justify-end ":"hidden "}>
+                            <div className="bg-green-100 rounded-lg py-5 px-4  text-base text-green-700 inline-flex " role="alert">
+                                <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="check-circle"
+                                     className="w-6 h-6 mr-2 mt-1 fill-current" role="img" xmlns="http://www.w3.org/2000/svg"
+                                     viewBox="0 0 512 512">
+                                    <path fill="currentColor"
+                                          d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z"></path>
+                                </svg>
+                                <div>
+                                    Swap Confirmed
+                                    <div className="flex text-gray-600">
+                                        View on  <div className="ml-0.5 text-blue-400 font-semibold">  Web3Games</div>
+                                    </div>
+                                </div>
+                                <button onClick={()=>{setOpenAlert(false)}} className="ml-6 text-gray-800 -mt-8">
+                                    <i className="fa fa-times" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                            </Transition>
+                            <div className="mx-auto max-w-7xl relative px-5 py-16  ">
+                                <div className="lg:flex justify-between">
                                 <div>
                                     <div className="text-3xl text-gray-200 tracking-[-0.02em] font-bold text-high-emphesis"> Provide liquidity & earn.</div>
                                     <div className="text-sm leading-5 font-medium currentColor text-gray-300">Earn LP fees by depositing tokens to the platform.</div>
@@ -105,7 +147,7 @@ const Pools = () =>{
                                             </button>
                                         </div>
                                         <div className={WalletButtonShow || substrateShow ? "mt-1": "hidden"}>
-                                            <button onClick={()=>router.push('/create')}  className=" lg:mt-0 bg-blue-500 px-3 py-2 rounded-lg bg-indigo-500 text-white">
+                                            <button onClick={createPool}  className=" lg:mt-0 bg-blue-500 px-3 py-2 rounded-lg bg-indigo-500 text-white">
                                                 Create Pool
                                             </button>
                                         </div>
@@ -269,7 +311,7 @@ const Pools = () =>{
                                             </thead>
                                             <tbody className="bg-black  divide-y divide-gray-700">
                                             {extrinsic.map(item => (
-                                                <tr key={item.tokenimg1} className="hover:bg-gray-900">
+                                                <tr key={item.tokenimg1} onClick={toDetail} className="cursor-pointer hover:bg-gray-900">
                                                     <td className="px-6 py-4  whitespace-nowrap text-sm font-medium text-gray-200 font-medium">
                                                         <div className="flex pr-10">
                                                             <img className="w-8 rounded-full" src={item.tokenimg1} alt=""/>

@@ -110,14 +110,14 @@ const Swap = () =>{
                                     <div className="flex justify-between">
                                         <div className="flex bg-gray-600 bg-opacity-90 p-1 rounded-full">
                                             <div className="flex">
-                                                <button onClick={selectTokenTop} className="flex">
+                                                <button onClick={selectTokenTop} className="flex items-center">
                                                 <div>
                                                     <img className="w-6 rounded-full mr-1" src={swapTokenTop.img} alt=""/>
                                                 </div>
                                                 <div className="text-gray-200">
                                                     {swapTokenTop.name}
                                                 </div>
-                                                <i className="fa fa-angle-down text-white ml-3 mt-1" aria-hidden="true"></i>
+                                                <i className="fa fa-angle-down text-white ml-3 " aria-hidden="true"></i>
                                                 </button>
                                             </div>
                                         </div>
@@ -154,14 +154,14 @@ const Swap = () =>{
                                 <div className="-mt-2 bg-gray-900 p-3 rounded-2xl">
                                     <div className="flex justify-between">
                                         <div className="flex bg-gray-600 bg-opacity-90 p-1 rounded-full">
-                                            <button onClick={selectTokenTail} className="flex">
+                                            <button onClick={selectTokenTail} className="flex items-center">
                                                 <div>
                                                     <img className="w-6 rounded-full mr-1" src={swapTokenTail.img} alt=""/>
                                                 </div>
                                                 <div className="text-gray-200">
                                                     {swapTokenTail.name}
                                                 </div>
-                                                <i className="fa fa-angle-down text-white ml-3 mt-1" aria-hidden="true"></i>
+                                                <i className="fa fa-angle-down text-white ml-3 " aria-hidden="true"></i>
                                             </button>
                                         </div>
                                         <div className="flex">
@@ -214,14 +214,14 @@ const Swap = () =>{
                                     <div className="flex justify-between">
                                         <div className="flex bg-gray-600 bg-opacity-70 p-1 rounded-full">
                                             <div className="flex">
-                                                <button onClick={selectTokenTop} className="flex">
+                                                <button onClick={selectTokenTop} className="flex items-center">
                                                     <div>
                                                         <img className="w-6 rounded-full mr-1" src={swapTokenTop.img} alt=""/>
                                                     </div>
                                                     <div className="text-gray-200">
                                                         {swapTokenTop.name}
                                                     </div>
-                                                    <i className="fa fa-angle-down text-white ml-3 mt-1" aria-hidden="true"></i>
+                                                    <i className="fa fa-angle-down text-white ml-3 " aria-hidden="true"></i>
                                                 </button>
                                             </div>
                                         </div>
@@ -291,14 +291,14 @@ const Swap = () =>{
                                 <div className="mt-2 bg-gray-900 p-3 rounded-2xl">
                                     <div className="flex justify-between">
                                         <div className="flex bg-gray-600 bg-opacity-90 p-1 rounded-full">
-                                            <button onClick={selectTokenTail} className="flex">
+                                            <button onClick={selectTokenTail} className="flex items-center">
                                                 <div>
                                                     <img className="w-6 rounded-full mr-1" src={swapTokenTail.img} alt=""/>
                                                 </div>
                                                 <div className="text-gray-200">
                                                     {swapTokenTail.name}
                                                 </div>
-                                                <i className="fa fa-angle-down text-white ml-3 mt-1" aria-hidden="true"></i>
+                                                <i className="fa fa-angle-down text-white ml-3 " aria-hidden="true"></i>
                                             </button>
                                         </div>
 

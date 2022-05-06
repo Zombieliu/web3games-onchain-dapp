@@ -4,6 +4,14 @@ import React, {Fragment, useState } from 'react'
 import {Listbox, Tab, Transition} from "@headlessui/react";
 import Link from "next/link";
 import {CheckIcon, SelectorIcon} from "@heroicons/react/solid";
+import {useAtom} from "jotai";
+import {
+    Select_TokenTop,
+    SetSubstrateShowState,
+    SwapTokenTop,
+    WalletButtonShowState,
+    WalletListShowState
+} from "../../jotai";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -174,12 +182,21 @@ const to = [
 
 ]
 const Bridge = () =>{
+    const [WalletButtonShow,SetWalletButtonShow]=useAtom(WalletButtonShowState)
+    const [substrateShow,SetSubstrateShow] =useAtom(SetSubstrateShowState)
+    const [,SetOpenWalletListState] = useAtom(WalletListShowState)
     const [selectedfrom, setSelectedfrom] = useState(from[0])
     const [selectedto, setSelectedto] = useState(from[1])
+    const [,setSelectTokenTop] = useAtom(Select_TokenTop)
+    const [swapTokenTop,setSwapTokenTop] = useAtom(SwapTokenTop)
+    const selectTokenTop = () =>{
+        setSelectTokenTop(true)
+    }
     const exchange =() =>{
         setSelectedfrom(selectedto)
         setSelectedto(selectedfrom)
     }
+
     return (
         <div>
             <Header/>
@@ -191,35 +208,21 @@ const Bridge = () =>{
                             <div className="text-white text-center text-3xl font-semibold">
                                 Connect your wallets to get started.
                             </div>
-                            <div className="flex  justify-center  mx-auto px-2 py-12 sm:px-0">
-                                <div className="bg-black bg-opacity-90 p-5 rounded-2xl">
-                                    <div className="flex border-b border-gray-500 pl-6 ">
-                                       <Link href="/bridge">
-                                           <a className="text-white font-semibold py-4 mr-8 border-b hover:text-white">
-                                               Bridge
-                                           </a>
-                                       </Link>
-                                        <Link href="/send">
-                                            <a className="text-gray-400 py-4 pb-2  hover:text-white  ">
-                                                Send
-                                            </a>
-                                        </Link>
-                                    </div>
+                            <div className="flex  justify-center  mx-auto px-2 pt-12 sm:px-0">
+                                <div className="bg-black bg-opacity-90 p-5 rounded-2xl w-full md:w-1/2">
                                         <div className="p-2 md:p-5">
                                             <div className="text-white text-xl">
-                                                Transfer from
-                                            </div>
-                                            <div className="flex mt-5 py-2 border border-gray-500 px-4 rounded-lg ">
+                                                 From
                                                 <Listbox value={selectedfrom} onChange={setSelectedfrom}>
                                                     {({ open }) => (
                                                         <>
                                                             <div className="my-1 relative">
-                                                                <Listbox.Button className="relative w-full bg-gray-600  bg-opacity-70 border border-gray-500 rounded-md shadow-sm pl-3 pr-12 md:pr-48 py-2 text-left cursor-default  sm:text-sm">
+                                                                <Listbox.Button className="relative w-44 bg-gray-600  bg-opacity-70 border border-gray-500 rounded-md shadow-sm pl-3   py-2 text-left cursor-default  sm:text-sm">
                                                                   <span className="flex items-center ">
                                                                     <img src={selectedfrom.avatar} alt="" className="flex-shrink-0 h-8 w-8 rounded-lg" />
-                                                                    <span className="ml-3 block text-gray-200 truncate w-20">{selectedfrom.name}</span>
+                                                                    <span className="ml-3 block text-gray-200 truncate ">{selectedfrom.name}</span>
                                                                   </span>
-                                                                                                                        <span className="ml-3 absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                                                                    <span className=" absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                                                                     <SelectorIcon className="h-5 w-5 text-gray-200" aria-hidden="true" />
                                                                   </span>
                                                                 </Listbox.Button>
@@ -231,7 +234,7 @@ const Bridge = () =>{
                                                                     leaveFrom="opacity-100"
                                                                     leaveTo="opacity-0"
                                                                 >
-                                                                    <Listbox.Options className="absolute z-10 mt-1 w-full bg-gray-600 shadow-lg max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+                                                                    <Listbox.Options className="absolute z-10 mt-1 w-44 bg-gray-600 shadow-lg max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
                                                                         {from.map((from) => (
                                                                             <Listbox.Option
                                                                                 key={from.id}
@@ -241,19 +244,15 @@ const Bridge = () =>{
                                                                                         'cursor-default select-none relative py-2 pl-3 pr-9'
                                                                                     )
                                                                                 }
-                                                                                value={from}
-                                                                            >
+                                                                                value={from}>
                                                                                 {({ selected, active }) => (
                                                                                     <>
                                                                                         <div className="flex items-center">
                                                                                             <img src={from.avatar} alt="" className="flex-shrink-0 h-6 w-6 rounded-full" />
                                                                                             <span
                                                                                                 className={classNames(selected ? 'font-semibold' : 'font-normal', 'ml-3 block truncate')}
-                                                                                            >
-                            {from.name}
-                          </span>
+                                                                                            >{from.name}</span>
                                                                                         </div>
-
                                                                                         {selected ? (
                                                                                             <span
                                                                                                 className={classNames(
@@ -274,36 +273,57 @@ const Bridge = () =>{
                                                         </>
                                                     )}
                                                 </Listbox>
-
-                                                <div className="border-r w-5 h-10 mt-2 border-gray-400"></div>
-                                                <div className="pl-4 ">
-                                                    <button className="bg-blue-500 py-2 mt-2 rounded-xl text-white px-6  flex items-center">
-                                                        Connect
-                                                    </button>
-                                                </div>
-
                                             </div>
-
+                                                <div className="flex mt-5 w-full">
+                                                    <input type="text"
+                                                           className="text-xs md:text-sm border border-gray-500 placeholder-gray-50 bg-gray-600 rounded-lg p-2 py-3 w-full text-white    outline-none"
+                                                           placeholder="0"
+                                                           id="amount"
+                                                    />
+                                                    <div   className="-ml-36 text-sm flex items-center text-white font-semibold">
+                                                        <button className="mr-2">
+                                                        MAX</button>
+                                                        <div className="flex items-center bg-gray-600 bg-opacity-90 p-1 rounded-full">
+                                                            <div className="flex items-center">
+                                                                <button onClick={selectTokenTop} className="flex items-center">
+                                                                    <div>
+                                                                        <img className="w-6 rounded-full mr-1" src={swapTokenTop.img} alt=""/>
+                                                                    </div>
+                                                                    <div className="text-gray-200">
+                                                                        {swapTokenTop.name}
+                                                                    </div>
+                                                                    <i className="fa fa-angle-down text-white ml-3 " aria-hidden="true"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            <div className="flex justify-end text-gray-400 text-sm font-semibold mt-2">
+                                                <div>
+                                                    Available Balance:
+                                                    <div className="flex justify-end">
+                                                        0  {swapTokenTop.name}
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                    <div className="flex justify-end mr-5 -mb-4">
-                                        <button onClick={exchange}>
+                                    <div className="flex justify-center    -my-8">
+                                        <button onClick={exchange} className="items-center flex justify-center p-3 border rounded-full">
                                         <i className="fa fa-exchange text-gray-400 transform rotate-90" aria-hidden="true"></i>
                                         </button>
                                     </div>
 
                                     <div className="p-2 md:p-5">
                                         <div className="text-white text-xl">
-                                            Transfer to
-                                        </div>
-                                        <div className="flex mt-5 py-2 border border-gray-500 px-4 rounded-lg ">
+                                          To
                                             <Listbox value={selectedto} onChange={setSelectedto}>
                                                 {({ open }) => (
                                                     <>
                                                         <div className="my-1 relative">
-                                                            <Listbox.Button className="relative w-full bg-gray-600  bg-opacity-70 border border-gray-500 rounded-md shadow-sm pl-3 pr-12 md:pr-48 py-2 text-left cursor-default  sm:text-sm">
+                                                            <Listbox.Button className="relative w-44 bg-gray-600  bg-opacity-70 border border-gray-500 rounded-md shadow-sm pl-3  py-2 text-left cursor-default  sm:text-sm">
               <span className="flex items-center ">
                 <img src={selectedto.avatar} alt="" className="flex-shrink-0 h-8 w-8 rounded-lg" />
-                <span className="ml-3 block text-gray-200 w-20 truncate">{selectedto.name}</span>
+                <span className="ml-3 block text-gray-200  truncate">{selectedto.name}</span>
               </span>
                                                                 <span className="ml-3 absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                 <SelectorIcon className="h-5 w-5 text-gray-200" aria-hidden="true" />
@@ -317,7 +337,7 @@ const Bridge = () =>{
                                                                 leaveFrom="opacity-100"
                                                                 leaveTo="opacity-0"
                                                             >
-                                                                <Listbox.Options className="absolute z-10 mt-1 w-full bg-gray-600  shadow-lg max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+                                                                <Listbox.Options className="absolute z-10 mt-1 w-44 bg-gray-600  shadow-lg max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
                                                                     {to.map((to) => (
                                                                         <Listbox.Option
                                                                             key={to.id}
@@ -336,8 +356,7 @@ const Bridge = () =>{
                                                                                         <span
                                                                                             className={classNames(selected ? 'font-semibold' : 'font-normal', 'ml-3 block truncate')}
                                                                                         >
-                            {to.name}
-                          </span>
+                                                                                            {to.name}</span>
                                                                                     </div>
 
                                                                                     {selected ? (
@@ -360,35 +379,95 @@ const Bridge = () =>{
                                                     </>
                                                 )}
                                             </Listbox>
+                                        </div>
+                                        <div className="my-3">
 
-                                            <div className="border-r w-5 h-10 mt-2 border-gray-400"></div>
-                                            <div className="pl-4 ">
-                                                <button className="bg-blue-500 py-2 mt-2 rounded-xl text-white px-6  flex items-center">
-                                                    Connect
-                                                </button>
+                                        <input type="text"
+                                               className="text-xs  md:text-xl border border-gray-500 placeholder-gray-50 bg-gray-600 rounded-lg p-2 py-5 w-full text-white outline-none"
+                                               id="amount"
+                                               readOnly={true}
+                                        />
+                                            <div   className="-mt-14 md:-mt-16 ml-3 text-xs flex items-center text-gray-300 font-semibold">
+                                                <button className="mr-2">
+                                                    Estimated</button>
                                             </div>
-
-                                        </div>
-
-                                    </div>
-
-                                    <div className="relative flex items-start ml-5">
-                                        <div className="flex items-center h-5">
-                                            <input
-                                                aria-describedby="offers-description"
-                                                type="checkbox"
-                                                className=" h-4 w-4 text-indigo-600 border-gray-300 rounded"
-                                            />
-                                        </div>
-                                        <div className="ml-3 text-sm text-gray-500">
-                                            I`m transfering to an address other than my own
                                         </div>
                                     </div>
-                                    <div className="mt-5 pl-5">
-                                        <button className="px-8 flex flex-row items-center py-2  justify-center rounded-lg text-base focus:outline-none bg-indigo-500 text-white transition duration-300 transform hover:translate-x-2 ">
-                                           Begin new transfer <i className="fa fa-arrow-right ml-2 " aria-hidden="true"></i>
-                                        </button>
+
+                                    <div className="mt-10" >
+                                        <div className={WalletButtonShow || substrateShow ? "hidden": "mt-8  flex justify-center"}>
+                                            <button  onClick={()=>{SetOpenWalletListState(true)}} className="px-12 py-1.5 rounded-lg bg-blue-500">
+                                                Connect Wallet
+                                            </button>
+                                        </div>
+                                        <div className={WalletButtonShow || substrateShow ? "mt-8  flex justify-center": "hidden"}>
+                                            <button className="px-8 flex flex-row items-center py-2  justify-center rounded-lg text-base focus:outline-none bg-indigo-500 text-white transition duration-300 transform hover:translate-x-2 ">
+                                                Approve <i className="fa fa-arrow-right ml-2 " aria-hidden="true"></i>
+                                            </button>
+                                        </div>
                                     </div>
+
+                                </div>
+
+                            </div>
+                            <div className="text-white flex  justify-center w-full md:w-1/2 mx-auto px-4 mt-5 text-xs md:text-sm  sm:px-4">
+                                <div className="w-full">
+                               <div className="flex justify-between w-full items-center">
+                                   <div className="">
+                                       Bridge rate
+                                   </div>
+                                   <div className="hidden  md:flex items-center justify-end ml-10 md:ml-20">
+                                       1 W3G on <img className="w-6 rounded-full mx-1" src={selectedfrom.avatar} alt=""/>
+                                       = 1 W3G on <img className="w-6 mx-1" src={selectedto.avatar} alt=""/>
+                                   </div>
+                                   <div className="md:hidden ">
+                                       1
+                                   </div>
+                               </div>
+                                <div className="flex justify-between items-center">
+                                    <div>
+                                        Fee
+                                    </div>
+                                    <div className="flex items-center justify-end">
+                                        0.000006
+                                       </div>
+                                </div>
+                                    <div className="flex justify-between items-center">
+                                        <div>
+                                            Estimated time of arrival
+                                        </div>
+                                        <div className="flex items-center justify-end ">
+                                           5~20 mins
+                                        </div>
+                                    </div>
+                                    <div className="flex justify-between items-center">
+                                        <div>
+                                            Min. amount greater than
+                                        </div>
+                                        <div className="flex items-center justify-end  ">
+                                          0.01 W3G
+                                        </div>
+                                    </div>
+                                    <div className="flex justify-between items-center">
+                                        <div>
+                                            Max. amount less than
+                                        </div>
+                                        <div className="flex items-center justify-end ">
+                                           25,000 W3G
+                                        </div>
+                                    </div><div className="flex justify-between items-center">
+                                    <div>
+                                        Destination token address
+                                    </div>
+                                    <div className="flex items-center justify-end  ">
+                                        <img className="w-6 mr-1" src="/img.png" alt=""/>
+                                        <Link href="/">
+                                            <a className="underline">
+                                                0xfcDe4A87
+                                            </a>
+                                        </Link>
+                                    </div>
+                                </div>
 
                                 </div>
                             </div>

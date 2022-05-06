@@ -164,6 +164,7 @@ const SwitchNetWork = () =>{
                                             )
                                         }
                                         value={network}
+
                                     >
                                         {({ selected, active }) => (
                                             <>
