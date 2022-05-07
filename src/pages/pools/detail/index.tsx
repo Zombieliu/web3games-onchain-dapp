@@ -4,18 +4,21 @@ import React, {Fragment, useState } from 'react'
 import Link from "next/link";
 import {Dialog, RadioGroup, Transition} from "@headlessui/react";
 import {useAtom} from "jotai";
-import {SetSubstrateShowState, WalletButtonShowState, WalletListShowState} from "../../../jotai";
+import {IntactWalletAddress, SetSubstrateShowState, WalletButtonShowState, WalletListShowState} from "../../../jotai";
 import {CheckCircleIcon} from "@heroicons/react/solid";
+import { add_liquidity } from "../../../chain/web3games";
 
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
+
 const deliveryMethods = [
     { id: 1, title: '0.1%'},
     { id: 2, title: '0.5%'},
     { id: 3, title: '1%'},
 ]
+
 const Detail = () =>{
     const [WalletButtonShow,]=useAtom(WalletButtonShowState)
     const [substrateShow,] =useAtom(SetSubstrateShowState)
@@ -23,6 +26,10 @@ const Detail = () =>{
     const [openAdd,setOpenAdd] = useState(false)
     const [openRemove,setOpenRemove] = useState(false)
     const [selectedDeliveryMethod, setSelectedDeliveryMethod] = useState(deliveryMethods[0])
+    const [intactWalletAddress,] = useAtom(IntactWalletAddress)
+    const addLiquidity = async ()=>{
+        await add_liquidity(intactWalletAddress)
+    }
     return (
         <div>
             <Header/>
@@ -134,10 +141,11 @@ const Detail = () =>{
                                 <div className=" xl:w-9/12 mt-5  xl:mt-0">
                                     <div className="flex justify-end">
 
-                                            <button onClick={()=>{setOpenAdd(true)}} className="lg:mt-0 bg-blue-500 px-8 py-2 rounded-lg bg-indigo-500 text-white">
+                                            <button onClick={()=>{
+                                                setOpenAdd(true)}
+                                            } className="lg:mt-0 bg-blue-500 px-8 py-2 rounded-lg bg-indigo-500 text-white">
                                                Add Liquidity
                                             </button>
-
                                             <button onClick={()=>{setOpenRemove(true)}} className="ml-5 lg:mt-0  px-8 py-2 rounded-lg border border-indigo-500 text-white">
                                                 Remove Liquidity
                                             </button>
@@ -247,7 +255,7 @@ const Detail = () =>{
                                             </button>
                                         </div>
                                         <div className={WalletButtonShow || substrateShow ? "mt-1": "hidden"}>
-                                            <button   className=" lg:mt-0 bg-blue-500 w-full px-3 py-2 rounded-lg bg-indigo-500 text-white">
+                                            <button  onClick={addLiquidity} className=" lg:mt-0 bg-blue-500 w-full px-3 py-2 rounded-lg bg-indigo-500 text-white">
                                                 Add Liquidity
                                             </button>
                                         </div>

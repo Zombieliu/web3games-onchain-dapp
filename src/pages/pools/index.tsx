@@ -7,6 +7,7 @@ import {Dialog, Listbox, RadioGroup, Transition} from "@headlessui/react";
 import Sort from "../../components/sort";
 import {useAtom} from "jotai";
 import {
+    IntactWalletAddress,
     Select_TokenTail,
     Select_TokenTop,
     SetSubstrateShowState, SwapTokenTail, SwapTokenTop,
@@ -15,6 +16,7 @@ import {
 } from "../../jotai";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { create_pool } from "../../chain/web3games";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -104,14 +106,16 @@ const Pools = () =>{
     const [,setSelectTokenTop] = useAtom(Select_TokenTop)
     const [swapTokenTop,] = useAtom(SwapTokenTop)
     const [swapTokenTail,] = useAtom(SwapTokenTail)
+    const [intactWalletAddress,] = useAtom(IntactWalletAddress)
     let time
-    const createPool = ()=>{
+    const createPool = async ()=>{
+        await create_pool(intactWalletAddress)
         setOpenCreate(false)
         clearTimeout(time)
         setOpenAlert(true)
         time = setTimeout(()=>{
             setOpenAlert(false)
-            },3000)
+        },3000)
     }
     const toDetail = ()=>{
         router.push("/pools/detail")

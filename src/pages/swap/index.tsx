@@ -2,6 +2,7 @@ import {Tab} from "@headlessui/react";
 import React, {useState} from "react";
 import {useAtom} from "jotai";
 import {
+    IntactWalletAddress,
     Select_TokenTail,
     Select_TokenTop,
     SetSubstrateShowState,
@@ -12,6 +13,7 @@ import {
 import SelectTokenTail from "../../components/selecttokentail";
 import SelectTokenTop from "../../components/selecttokentop";
 import axios from "axios";
+import { swap } from "../../chain/web3games";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -28,6 +30,7 @@ const Recent = ()=>{
     const [,SetOpenWalletListState] = useAtom(WalletListShowState)
     const [swapOutPutValue,setSwapOutPutValue] = useState(0)
     const [swapTimes,setSwapTimes] = useState(0)
+    const [intactWalletAddress,] = useAtom(IntactWalletAddress)
     const exchange = () =>{
         setSwapTokenTop(swapTokenTail)
         setSwapTokenTail(swapTokenTop)
@@ -61,6 +64,11 @@ const Recent = ()=>{
             setTimeout(() => get_swap_number(input_data), 2000)
             setSwapTimes(0)
         }
+    }
+
+    const swapnow = async ()=>{
+        console.log(1);
+        await swap(intactWalletAddress)
     }
         return (
             <>
@@ -158,7 +166,7 @@ const Recent = ()=>{
                         </button>
                     </div>
                     <div className={WalletButtonShow || substrateShow ? "mt-1" : "hidden"}>
-                        <button className="px-24 py-1.5 rounded-lg bg-indigo-400">
+                        <button onClick={swapnow} className="px-24 py-1.5 rounded-lg bg-indigo-400">
                             Swap
                         </button>
                     </div>
@@ -176,6 +184,7 @@ const Popular = ()=>{
     const [,setSelectTokenTop] = useAtom(Select_TokenTop)
     const [swapTokenTop,setSwapTokenTop] = useAtom(SwapTokenTop)
     const [swapTokenTail,setSwapTokenTail] = useAtom(SwapTokenTail)
+
     const selectTokenTop = () =>{
         setSelectTokenTop(true)
     }
@@ -295,7 +304,9 @@ const Popular = ()=>{
                     </button>
                 </div>
                 <div className={WalletButtonShow || substrateShow ? "mt-1": "hidden"}>
-                    <button  className="px-24 py-1.5 rounded-lg bg-indigo-400">
+                    <button onClick={()=>{
+                        console.log(1);
+                    }} className="px-24 py-1.5 rounded-lg bg-indigo-400">
                         Swap
                     </button>
                 </div>
