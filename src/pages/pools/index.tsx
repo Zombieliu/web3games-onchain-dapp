@@ -14,6 +14,7 @@ import {
     WalletListShowState
 } from "../../jotai";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -144,7 +145,12 @@ const Pools = () =>{
                                 <div>
                                     Swap Confirmed
                                     <div className="flex text-gray-600">
-                                        View on  <div className="ml-0.5 text-blue-400 font-semibold">  Web3Games</div>
+                                        View on
+                                        <div className="ml-0.5 text-blue-400 font-semibold">
+                                            <Link href='https://explorer-devnet.web3games.org/'>
+                                                Web3Games Explorer
+                                            </Link>
+                                        </div>
                                     </div>
                                 </div>
                                 <button onClick={()=>{setOpenAlert(false)}} className="ml-6 text-gray-800 -mt-8">
