@@ -44,7 +44,7 @@ const Detail = () =>{
                                                 </div>
                                                 <Link href="/">
                                                     <a className="text-xs text-gray-300">
-                                                    usn.fakes.testnet
+                                                        TokenID:0
                                                     </a>
                                                 </Link>
                                             </div>
@@ -56,15 +56,15 @@ const Detail = () =>{
                                     <div className="flex mt-4 justify-between px-3 items-center">
                                         <div className="flex items-center">
                                             <div>
-                                                <img className="w-10" src="/img.png" alt=""/>
+                                                <img className="w-10" src="https://www.worldcryptoindex.com/wp-content/uploads/2018/01/usdt-logo-300.png" alt=""/>
                                             </div>
                                             <div className="ml-2 text-white font-semibold">
                                                 <div>
-                                                    W3G
+                                                    USDT
                                                 </div>
                                                 <Link href="/">
                                                     <a className="text-xs text-gray-300">
-                                                        usn.fakes.testnet
+                                                        TokenID:1
                                                     </a>
                                                 </Link>
                                             </div>
@@ -75,11 +75,11 @@ const Detail = () =>{
                                     </div>
                                     <div className="flex justify-between my-5 px-3">
                                         <div className="border border-gray-100 text-white px-1 text-sm">
-                                            1USN≈ 1.00 USDT
+                                            1W3G≈ 0.25 USDT
                                         </div>
 
                                         <div className="border border-gray-100 text-white px-1 text-sm">
-                                            1USN≈ 1.00 USDT
+                                            1USDT≈ 4.00 W3G
                                         </div>
                                     </div>
                                     <div className="border-b border-gray-500"></div>
