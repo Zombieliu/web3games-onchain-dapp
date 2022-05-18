@@ -39,7 +39,7 @@ function classNames(...classes) {
          contents: [
              { name: 'Swap', href: '/home', },
              { name: 'Pools ', href: '/pools',},
-             { name: 'Create', href: '/create',},
+             // { name: 'Create', href: '/create',},
              { name: 'Bridge', href: '/bridge',},
              { name: 'Staking', href: '/staking',},
              { name: 'Mint', href: '/defi_mint',}

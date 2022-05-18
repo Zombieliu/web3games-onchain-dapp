@@ -466,67 +466,67 @@ const Pools = () =>{
                                         </div>
                                     </div>
                                 </div>
-                                <div className="mt-5 flex justify-between items-center" >
-                                    <div className=" text-gray-100 font-medium">
-                                        Total fee
-                                    </div>
-                                    <div className="text-white">
-                                        <RadioGroup value={selectedDeliveryMethod} onChange={setSelectedDeliveryMethod}>
-                                            <div className=" grid grid-cols-3 gap-4">
-                                                {deliveryMethods.map((deliveryMethod) => (
-                                                    <RadioGroup.Option
-                                                        key={deliveryMethod.id}
-                                                        value={deliveryMethod}
-                                                        className={({ checked, active }) =>
-                                                            classNames(
-                                                                checked ? 'border-transparent' : 'border-gray-300',
-                                                                active ? 'ring-2 ring-indigo-500' : '',
-                                                                'relative bg-black bg-opacity-80 border border-gray-700 rounded-lg shadow-sm items-center mx-auto px-2 flex cursor-pointer focus:outline-none'
-                                                            )
-                                                        }
-                                                    >
-                                                        {({ checked, active }) => (
-                                                            <>
-                                                                <div className=" flex items-center">
-                                                                    <div className="flex justify-center">
-                                                                        <RadioGroup.Label as="span" className=" text-center   font-medium text-gray-200">
-                                                                            {deliveryMethod.title}
-                                                                        </RadioGroup.Label>
-                                                                    </div>
-                                                                </div>
-                                                                <div
-                                                                    className={classNames(
-                                                                        active ? 'border' : 'border-2',
-                                                                        checked ? 'border-indigo-500' : 'border-transparent',
-                                                                        'absolute -inset-px rounded-lg pointer-events-none'
-                                                                    )}
-                                                                    aria-hidden="true"
-                                                                />
-                                                            </>
-                                                        )}
-                                                    </RadioGroup.Option>
-                                                ))}
-                                            </div>
-                                        </RadioGroup>
-                                    </div>
-                                </div>
-                                <div className="text-white flex items-center justify-end mt-2">
-                                    <input type="text"
-                                           className=" bg-black placeholder-white text-right bg-opacity-10 text-white text-xs md:text-sm  w-20 rounded-lg px-2 py-0.5   border border-indigo-500   outline-none"
-                                           id="fee"
-                                           placeholder="0.20"
-                                    />
-                                    <div className="ml-1">
-                                        %
-                                    </div>
-                                </div>
+                                {/*<div className="mt-5 flex justify-between items-center" >*/}
+                                {/*    <div className=" text-gray-100 font-medium">*/}
+                                {/*        Total fee*/}
+                                {/*    </div>*/}
+                                {/*    <div className="text-white">*/}
+                                {/*        <RadioGroup value={selectedDeliveryMethod} onChange={setSelectedDeliveryMethod}>*/}
+                                {/*            <div className=" grid grid-cols-3 gap-4">*/}
+                                {/*                {deliveryMethods.map((deliveryMethod) => (*/}
+                                {/*                    <RadioGroup.Option*/}
+                                {/*                        key={deliveryMethod.id}*/}
+                                {/*                        value={deliveryMethod}*/}
+                                {/*                        className={({ checked, active }) =>*/}
+                                {/*                            classNames(*/}
+                                {/*                                checked ? 'border-transparent' : 'border-gray-300',*/}
+                                {/*                                active ? 'ring-2 ring-indigo-500' : '',*/}
+                                {/*                                'relative bg-black bg-opacity-80 border border-gray-700 rounded-lg shadow-sm items-center mx-auto px-2 flex cursor-pointer focus:outline-none'*/}
+                                {/*                            )*/}
+                                {/*                        }*/}
+                                {/*                    >*/}
+                                {/*                        {({ checked, active }) => (*/}
+                                {/*                            <>*/}
+                                {/*                                <div className=" flex items-center">*/}
+                                {/*                                    <div className="flex justify-center">*/}
+                                {/*                                        <RadioGroup.Label as="span" className=" text-center   font-medium text-gray-200">*/}
+                                {/*                                            {deliveryMethod.title}*/}
+                                {/*                                        </RadioGroup.Label>*/}
+                                {/*                                    </div>*/}
+                                {/*                                </div>*/}
+                                {/*                                <div*/}
+                                {/*                                    className={classNames(*/}
+                                {/*                                        active ? 'border' : 'border-2',*/}
+                                {/*                                        checked ? 'border-indigo-500' : 'border-transparent',*/}
+                                {/*                                        'absolute -inset-px rounded-lg pointer-events-none'*/}
+                                {/*                                    )}*/}
+                                {/*                                    aria-hidden="true"*/}
+                                {/*                                />*/}
+                                {/*                            </>*/}
+                                {/*                        )}*/}
+                                {/*                    </RadioGroup.Option>*/}
+                                {/*                ))}*/}
+                                {/*            </div>*/}
+                                {/*        </RadioGroup>*/}
+                                {/*    </div>*/}
+                                {/*</div>*/}
+                                {/*<div className="text-white flex items-center justify-end mt-2">*/}
+                                {/*    <input type="text"*/}
+                                {/*           className=" bg-black placeholder-white text-right bg-opacity-10 text-white text-xs md:text-sm  w-20 rounded-lg px-2 py-0.5   border border-indigo-500   outline-none"*/}
+                                {/*           id="fee"*/}
+                                {/*           placeholder="0.20"*/}
+                                {/*    />*/}
+                                {/*    <div className="ml-1">*/}
+                                {/*        %*/}
+                                {/*    </div>*/}
+                                {/*</div>*/}
                                 <div className="bg-black mt-10 bg-opacity-50 rounded-lg p-3 text-base">
                                     <div className="flex justify-between">
                                         <div className="text-gray-400 ">
                                             LP fee
                                         </div>
                                         <div className="text-white font-semibold ">
-                                            0.24%
+                                            0.3%
                                         </div>
                                     </div>
                                     <div className="flex justify-between py-2">
@@ -534,7 +534,7 @@ const Pools = () =>{
                                             Protocol fee
                                         </div>
                                         <div className="text-white font-semibold ">
-                                            0.048 %
+                                            0.0 %
                                         </div>
                                     </div>
                                     <div className="flex justify-between">
@@ -542,7 +542,7 @@ const Pools = () =>{
                                             Referral fee
                                         </div>
                                         <div className="text-white font-semibold ">
-                                            0.012 %
+                                            0.0 %
                                         </div>
                                     </div>
                                 </div>

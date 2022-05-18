@@ -61,15 +61,15 @@ const Staking = () =>{
                                                 Earned
                                             </div>
                                             <div className="text-white flex font-semibold">
-                                               0 ACA
+                                               0 W3G
                                             </div>
                                         </div>
                                         <div className="">
                                             <div className="text-gray-200 text-sm mb-1">
-                                                Staked ACA
+                                                Staked W3G
                                             </div>
                                             <div className="text-white flex font-semibold">
-                                              0 ACA
+                                              0 W3G
                                             </div>
                                         </div>
                                     </div>
