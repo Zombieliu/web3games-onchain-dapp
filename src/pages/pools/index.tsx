@@ -35,21 +35,12 @@ const tokenstitle=[
         title:"Assets"
     },
     {
-        title:"Pool Type"
-    },
-    {
-        title:"Fee Tier",
-
-    },
-    {
         title:"TVL"
     },
     {
         title:"Volume "
     },
-    {
-        title:"APY "
-    },
+
 ]
 const extrinsic=[
     {
@@ -204,49 +195,49 @@ const Pools = () =>{
                                         <div className="text-gray-600 w-36 font-light text-sm ml-2 -mt-0.5"> Show oracle pairs only</div>
                                     </div>
                                 </div>
-                                <div>
-                                    <div className="mt-5">Fee Tiers </div>
-                                    <div className="flex mt-2">
-                                        <input
-                                            id="candidates"
-                                            aria-describedby="candidates-description"
-                                            name="candidates"
-                                            type="checkbox"
-                                            className=" h-4 w-4 text-indigo-600 border-gray-300 rounded"
-                                        />
-                                        <div className="text-gray-600 font-light text-sm ml-2 -mt-0.5">1%</div>
-                                    </div>
-                                    <div className="flex mt-2">
-                                        <input
-                                            id="candidates"
-                                            aria-describedby="candidates-description"
-                                            name="candidates"
-                                            type="checkbox"
-                                            className=" h-4 w-4 text-indigo-600 border-gray-300 rounded"
-                                        />
-                                        <div className="text-gray-600 font-light text-sm ml-2 -mt-0.5">0.3%</div>
-                                    </div>
-                                    <div className="flex mt-2">
-                                        <input
-                                            id="candidates"
-                                            aria-describedby="candidates-description"
-                                            name="candidates"
-                                            type="checkbox"
-                                            className=" h-4 w-4 text-indigo-600 border-gray-300 rounded"
-                                        />
-                                        <div className="text-gray-600 font-light text-sm ml-2 -mt-0.5">0.05%</div>
-                                    </div>
-                                    <div className="flex mt-2">
-                                        <input
-                                            id="candidates"
-                                            aria-describedby="candidates-description"
-                                            name="candidates"
-                                            type="checkbox"
-                                            className=" h-4 w-4 text-indigo-600 border-gray-300 rounded"
-                                        />
-                                        <div className="text-gray-600 font-light text-sm ml-2 -mt-0.5">0.01%</div>
-                                    </div>
-                                </div>
+                                {/*<div>*/}
+                                {/*    <div className="mt-5">Fee Tiers </div>*/}
+                                {/*    <div className="flex mt-2">*/}
+                                {/*        <input*/}
+                                {/*            id="candidates"*/}
+                                {/*            aria-describedby="candidates-description"*/}
+                                {/*            name="candidates"*/}
+                                {/*            type="checkbox"*/}
+                                {/*            className=" h-4 w-4 text-indigo-600 border-gray-300 rounded"*/}
+                                {/*        />*/}
+                                {/*        <div className="text-gray-600 font-light text-sm ml-2 -mt-0.5">1%</div>*/}
+                                {/*    </div>*/}
+                                {/*    <div className="flex mt-2">*/}
+                                {/*        <input*/}
+                                {/*            id="candidates"*/}
+                                {/*            aria-describedby="candidates-description"*/}
+                                {/*            name="candidates"*/}
+                                {/*            type="checkbox"*/}
+                                {/*            className=" h-4 w-4 text-indigo-600 border-gray-300 rounded"*/}
+                                {/*        />*/}
+                                {/*        <div className="text-gray-600 font-light text-sm ml-2 -mt-0.5">0.3%</div>*/}
+                                {/*    </div>*/}
+                                {/*    <div className="flex mt-2">*/}
+                                {/*        <input*/}
+                                {/*            id="candidates"*/}
+                                {/*            aria-describedby="candidates-description"*/}
+                                {/*            name="candidates"*/}
+                                {/*            type="checkbox"*/}
+                                {/*            className=" h-4 w-4 text-indigo-600 border-gray-300 rounded"*/}
+                                {/*        />*/}
+                                {/*        <div className="text-gray-600 font-light text-sm ml-2 -mt-0.5">0.05%</div>*/}
+                                {/*    </div>*/}
+                                {/*    <div className="flex mt-2">*/}
+                                {/*        <input*/}
+                                {/*            id="candidates"*/}
+                                {/*            aria-describedby="candidates-description"*/}
+                                {/*            name="candidates"*/}
+                                {/*            type="checkbox"*/}
+                                {/*            className=" h-4 w-4 text-indigo-600 border-gray-300 rounded"*/}
+                                {/*        />*/}
+                                {/*        <div className="text-gray-600 font-light text-sm ml-2 -mt-0.5">0.01%</div>*/}
+                                {/*    </div>*/}
+                                {/*</div>*/}
                             </div>
 
                             <div className="lg:ml-10 lg:w-10/12 overflow-auto">
@@ -342,29 +333,19 @@ const Pools = () =>{
                                             {extrinsic.map(item => (
                                                 <tr key={item.tokenimg1} onClick={toDetail} className="cursor-pointer hover:bg-gray-900">
                                                     <td className="px-6 py-4  whitespace-nowrap text-sm font-medium text-gray-200 font-medium">
-                                                        <div className="flex pr-10">
+                                                        <div className="flex items-center">
                                                             <img className="w-8 rounded-full" src={item.tokenimg1} alt=""/>
                                                             <img className="w-8 rounded-full -ml-4" src={item.tokenimng2} alt=""/>
-                                                            <div className="ml-2 mt-1">
+                                                            <div className="ml-2 ">
                                                                 {item.token}
                                                             </div>
                                                         </div>
                                                     </td>
-                                                    <td className="px-6 py-4  whitespace-nowrap text-sm  font-medium text-gray-200 font-medium">
-                                                        <div className="bg-indigo-400 rounded-xl px-1 py-0.5 text-center bg-opacity-90">
-                                                            {item.type}</div>
-                                                    </td>
-                                                    <td className="px-6 py-6 pr-10 whitespace-nowrap text-sm text-gray-200">
+                                                    <td className="px-6 py-4  whitespace-nowrap text-sm text-gray-200">
                                                         {item.fee}
                                                     </td>
-                                                    <td className="px-6 py-4 pr-10 whitespace-nowrap text-base text-gray-200">
+                                                    <td className="px-6 py-4  whitespace-nowrap text-sm text-gray-200">
                                                         {item.tvl}
-                                                    </td>
-                                                    <td className="px-6 py-4 pr-10 whitespace-nowrap text-base text-gray-200">
-                                                        {item.volume}
-                                                    </td>
-                                                    <td className="px-6 py-4  pr-10 whitespace-nowrap text-sm text-gray-200">
-                                                        {item.apy}
                                                     </td>
                                                 </tr>
                                             ))}
@@ -527,22 +508,6 @@ const Pools = () =>{
                                         </div>
                                         <div className="text-white font-semibold ">
                                             0.3%
-                                        </div>
-                                    </div>
-                                    <div className="flex justify-between py-2">
-                                        <div className="text-gray-400 ">
-                                            Protocol fee
-                                        </div>
-                                        <div className="text-white font-semibold ">
-                                            0.0 %
-                                        </div>
-                                    </div>
-                                    <div className="flex justify-between">
-                                        <div className="text-gray-400 ">
-                                            Referral fee
-                                        </div>
-                                        <div className="text-white font-semibold ">
-                                            0.0 %
                                         </div>
                                     </div>
                                 </div>

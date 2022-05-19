@@ -1,13 +1,12 @@
 import Header from "../../../components/header/index.";
 import Tail from "../../../components/tail";
-import React, {Fragment, useState } from 'react'
+import React, {Fragment, useState ,useEffect} from 'react'
 import Link from "next/link";
 import {Dialog, RadioGroup, Transition} from "@headlessui/react";
 import {useAtom} from "jotai";
 import {IntactWalletAddress, SetSubstrateShowState, WalletButtonShowState, WalletListShowState} from "../../../jotai";
 import {CheckCircleIcon} from "@heroicons/react/solid";
 import { add_liquidity } from "../../../chain/web3games";
-
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -27,9 +26,17 @@ const Detail = () =>{
     const [openRemove,setOpenRemove] = useState(false)
     const [selectedDeliveryMethod, setSelectedDeliveryMethod] = useState(deliveryMethods[0])
     const [intactWalletAddress,] = useAtom(IntactWalletAddress)
+    const [data,setData] = useState("5GrhDF1nyvr2nwgvXtY96RoFs5xr15W7WyHg32LkQRz6X8Pk")
     const addLiquidity = async ()=>{
         await add_liquidity(intactWalletAddress)
     }
+   useEffect(()=>{
+       const first = data.slice(0, 6)
+       const last = data.slice(-5, -1)
+       setData(first+"..."+last)
+   },[])
+
+
     return (
         <div>
             <Header/>
@@ -51,7 +58,7 @@ const Detail = () =>{
                                                 </div>
                                                 <Link href="/">
                                                     <a className="text-xs text-gray-300">
-                                                        TokenID:0
+                                                        Address:{data}
                                                     </a>
                                                 </Link>
                                             </div>
@@ -71,7 +78,7 @@ const Detail = () =>{
                                                 </div>
                                                 <Link href="/">
                                                     <a className="text-xs text-gray-300">
-                                                        TokenID:1
+                                                        Address:1
                                                     </a>
                                                 </Link>
                                             </div>
@@ -96,7 +103,7 @@ const Detail = () =>{
                                                 Fee
                                             </div>
                                             <div className="border-green-500 border text-white text-sm px-1 rounded-md">
-                                                0.05%
+                                                0.3%
                                             </div>
                                         </div>
 
@@ -111,7 +118,7 @@ const Detail = () =>{
 
                                         <div className="flex justify-between mt-4">
                                             <div className="text-gray-400">
-                                                24h volume
+                                                24h Volume
                                             </div>
                                             <div className="text-white text-sm px-1">
                                                0.85
@@ -120,7 +127,7 @@ const Detail = () =>{
 
                                         <div className="flex justify-between mt-4">
                                             <div className="text-gray-400">
-                                                Total shares
+                                                Total LP Token
                                             </div>
                                             <div className="text-white text-sm px-1">
                                                20.00
@@ -129,7 +136,7 @@ const Detail = () =>{
 
                                         <div className="flex justify-between mt-4">
                                             <div className="text-gray-400">
-                                               Shares
+                                              LP Token
                                             </div>
                                             <div className="text-white text-sm px-1">
                                                0(0%)
@@ -242,7 +249,7 @@ const Detail = () =>{
                                     </div>
                                     <div className="mt-5 flex justify-between " >
                                         <div className="text-gray-500">
-                                            Shares
+                                            LP Token
                                         </div>
                                         <div className="text-white">
                                             -
@@ -306,7 +313,7 @@ const Detail = () =>{
                                         <div className="flex items-center justify-between mt-4 ">
                                             <div className="items-center w-full">
                                                 <div className="flex justify-end text-gray-400 text-sm mb-2">
-                                                    Shares:0
+                                                    LP Token Balance:0
                                                 </div>
                                                 <div className="flex  w-full">
                                                     <input type="text"

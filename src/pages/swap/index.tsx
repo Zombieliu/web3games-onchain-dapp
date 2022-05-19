@@ -317,7 +317,7 @@ const Popular = ()=>{
 const Swap = () =>{
     let [categories] = useState({
         Recent: [],
-        Popular: [],
+        // Popular: [],
     })
         // // const swapoutput = (document.getElementById("swapoutput") as HTMLInputElement)
         // // @ts-ignore
@@ -358,7 +358,7 @@ const Swap = () =>{
                             {/*Popular*/}
                             <Tab.Panel className={classNames('text-gray-300 rounded-xl p-1 w-80 md:w-96')}>
 
-                                <Popular/>
+                                {/*<Popular/>*/}
 
                             </Tab.Panel>
                         </Tab.Panels>
