@@ -27,7 +27,7 @@ const WalletListShowState = atom(false)
 
 const AccountConfigPageState = atom(false)
 
-const SubstrateAddress = atom(false)
+
 
 const netWork = [
     { id: 1, name: 'Mainnet', online: "bg-green-400" },
@@ -44,6 +44,8 @@ const AccountChooseValue = atomWithStorage('AccountChoose',0)
 const AfterEvmAddressValue = atomWithStorage('AfterEvmAddress','')
 
 const  AfterSubstrateAddressValue = atomWithStorage('AfterSubstrateAddress','')
+
+const SubstrateAddress = atomWithStorage("SubstrateAddress",false)
 
 const  AfterSubstrateAddressList = atomWithStorage('AfterSubstrateAddressList',[])
 

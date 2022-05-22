@@ -10,9 +10,12 @@ const create_pool = async (intactWalletAddress)=>{
     provider,
   });
   const transferExtrinsic = api.tx.exchange.createPool(1,2)
-  transferExtrinsic.signAndSend(intactWalletAddress, { signer: injector.signer }, ({ status }) => {
+  transferExtrinsic.signAndSend(intactWalletAddress, { signer: injector.signer }, ({ events= [],status }) => {
       if (status.isInBlock) {
           console.log(`Completed at block hash #${status.asInBlock.toString()}`);
+          events.forEach(({ event: { data, method, section }, phase }) => {
+          console.log('\t', phase.toString(), `: ${section}.${method}`, data.toString());
+        });
       } else {
           console.log(`Current status: ${status.type}`);
       }

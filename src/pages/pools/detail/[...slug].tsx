@@ -7,6 +7,8 @@ import {useAtom} from "jotai";
 import {IntactWalletAddress, SetSubstrateShowState, WalletButtonShowState, WalletListShowState} from "../../../jotai";
 import {CheckCircleIcon} from "@heroicons/react/solid";
 import { add_liquidity } from "../../../chain/web3games";
+import axios from "axios";
+import { useRouter } from "next/router";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -19,6 +21,7 @@ const deliveryMethods = [
 ]
 
 const Detail = () =>{
+    const router = useRouter()
     const [WalletButtonShow,]=useAtom(WalletButtonShowState)
     const [substrateShow,] =useAtom(SetSubstrateShowState)
     const [,SetOpenWalletListState] = useAtom(WalletListShowState)
@@ -26,17 +29,65 @@ const Detail = () =>{
     const [openRemove,setOpenRemove] = useState(false)
     const [selectedDeliveryMethod, setSelectedDeliveryMethod] = useState(deliveryMethods[0])
     const [intactWalletAddress,] = useAtom(IntactWalletAddress)
-    const [data,setData] = useState("5GrhDF1nyvr2nwgvXtY96RoFs5xr15W7WyHg32LkQRz6X8Pk")
+    const poolDetails={
+        pool_id:"",
+        assets_a:"",
+        assets_b:"",
+        assets_a_id:"",
+        assets_b_id:"0",
+        assets_a_image_url:"",
+        assets_b_image_url:"",
+        assets_a_address:"",
+        assets_b_address:"",
+        tvl:"",
+        volume:"",
+        volume_days:"",
+        total_lp:"",
+        your_lp:"",
+    }
+    const [PoolDetails,setPoolDetails] = useState(poolDetails)
+
+    useEffect(()=>{
+        if (router.isReady){
+           const fetchUserBounty = async () => {
+                const data= await axios.get("http://127.0.0.1:7001/api/swap/get_swap_pools_details",{
+                    params:{
+                        pool_id:router.query.slug[0]
+                    }}
+                )
+               const firsta = data.data.assets_a_address.slice(0,6);
+               const lasta =  data.data.assets_a_address.slice(-5,-1)
+               const a_address= firsta+"..."+lasta
+               const firstb = data.data.assets_b_address.slice(0,6);
+               const lastb =  data.data.assets_b_address.slice(-5,-1)
+               const b_address= firstb+"..."+lastb
+               const poolDetails={
+                   pool_id : data.data.pool_id,
+                   assets_a:data.data.assets_a,
+                   assets_b:data.data.assets_b,
+                   assets_a_id:data.data.assets_a_id,
+                   assets_b_id:data.data.assets_b_id,
+                   assets_a_image_url:data.data.assets_a_image_url,
+                   assets_b_image_url:data.data.assets_b_image_url,
+                   assets_a_address:a_address,
+                   assets_b_address:b_address,
+                   tvl:data.data.tvl,
+                   volume:data.data.volume,
+                   volume_days:data.data.volume_days,
+                   total_lp:data.data.total_lp,
+                   your_lp:data.data.your_lp,
+               }
+               setPoolDetails(poolDetails);
+               console.log(data.data);
+            }
+            fetchUserBounty()
+        }
+
+    },[router.isReady])
+
     const addLiquidity = async ()=>{
         await add_liquidity(intactWalletAddress)
     }
-   useEffect(()=>{
-       const first = data.slice(0, 6)
-       const last = data.slice(-5, -1)
-       setData(first+"..."+last)
-   },[])
-
-
     return (
         <div>
             <Header/>
@@ -50,15 +101,15 @@ const Detail = () =>{
                                     <div className="flex justify-between px-3 items-center">
                                         <div className="flex items-center">
                                             <div>
-                                                <img className="w-10" src="/img.png" alt=""/>
+                                                <img className="w-10 rounded-full" src={PoolDetails.assets_a_image_url} alt=""/>
                                             </div>
                                             <div className="ml-2 text-white font-semibold">
                                                 <div>
-                                                W3G
+                                                    {PoolDetails.assets_a}
                                                 </div>
                                                 <Link href="/">
                                                     <a className="text-xs text-gray-300">
-                                                        Address:{data}
+                                                        Address:{PoolDetails.assets_a_address}
                                                     </a>
                                                 </Link>
                                             </div>
@@ -70,15 +121,15 @@ const Detail = () =>{
                                     <div className="flex mt-4 justify-between px-3 items-center">
                                         <div className="flex items-center">
                                             <div>
-                                                <img className="w-10" src="https://www.worldcryptoindex.com/wp-content/uploads/2018/01/usdt-logo-300.png" alt=""/>
+                                                <img className="w-10 rounded-full" src={PoolDetails.assets_b_image_url} alt=""/>
                                             </div>
                                             <div className="ml-2 text-white font-semibold">
                                                 <div>
-                                                    USDT
+                                                    {PoolDetails.assets_b}
                                                 </div>
                                                 <Link href="/">
                                                     <a className="text-xs text-gray-300">
-                                                        Address:1
+                                                        Address:{PoolDetails.assets_b_address}
                                                     </a>
                                                 </Link>
                                             </div>
@@ -89,11 +140,11 @@ const Detail = () =>{
                                     </div>
                                     <div className="flex justify-between my-5 px-3">
                                         <div className="border border-gray-100 text-white px-1 text-sm">
-                                            1W3G≈ 0.25 USDT
+                                            1 {PoolDetails.assets_a} ≈ 0.2 {PoolDetails.assets_b}
                                         </div>
 
                                         <div className="border border-gray-100 text-white px-1 text-sm">
-                                            1USDT≈ 4.00 W3G
+                                            1 {PoolDetails.assets_b} ≈ 4.00 {PoolDetails.assets_a}
                                         </div>
                                     </div>
                                     <div className="border-b border-gray-500"></div>
@@ -112,7 +163,7 @@ const Detail = () =>{
                                                 TVL
                                             </div>
                                             <div className="text-white text-sm px-1">
-                                               $20.02M
+                                               $ {PoolDetails.tvl}M
                                             </div>
                                         </div>
 
@@ -121,7 +172,7 @@ const Detail = () =>{
                                                 24h Volume
                                             </div>
                                             <div className="text-white text-sm px-1">
-                                               0.85
+                                                {PoolDetails.volume_days}
                                             </div>
                                         </div>
 
@@ -130,7 +181,7 @@ const Detail = () =>{
                                                 Total LP Token
                                             </div>
                                             <div className="text-white text-sm px-1">
-                                               20.00
+                                                {PoolDetails.total_lp}
                                             </div>
                                         </div>
 
@@ -139,7 +190,7 @@ const Detail = () =>{
                                               LP Token
                                             </div>
                                             <div className="text-white text-sm px-1">
-                                               0(0%)
+                                                {PoolDetails.your_lp}({PoolDetails.your_lp}%)
                                             </div>
                                         </div>
                                     </div>

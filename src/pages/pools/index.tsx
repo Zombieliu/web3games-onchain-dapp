@@ -2,7 +2,7 @@ import React, {Fragment, useEffect, useState} from "react";
 import Header from "../../components/header/index.";
 import Swap from "../swap";
 import Tail from "../../components/tail";
-import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
+import { CheckIcon, ChevronLeftIcon, ChevronRightIcon, SelectorIcon } from "@heroicons/react/solid";
 import {Dialog, Listbox, RadioGroup, Transition} from "@headlessui/react";
 import Sort from "../../components/sort";
 import {useAtom} from "jotai";
@@ -17,6 +17,7 @@ import {
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { create_pool } from "../../chain/web3games";
+import axios from "axios";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -42,48 +43,7 @@ const tokenstitle=[
     },
 
 ]
-const extrinsic=[
-    {
-        tokenimg1:"https://www.worldcryptoindex.com/wp-content/uploads/2018/01/usdt-logo-300.png",
-        tokenimng2:"/web3gsmall.png",
-        token:"USDT-W3G",
-        type:"Classic",
-        fee:"0.3%",
-        tvl:"$3,324,625",
-        volume:"$13,903,096",
-        apy:"51.84%",
-    },
-    {
-        tokenimg1:"https://seeklogo.com/images/U/usd-coin-usdc-logo-CB4C5B1C51-seeklogo.com.png",
-        tokenimng2:"web3gsmall.png",
-        token:"USDC-W3G",
-        type:"Classic",
-        fee:"0.3%",
-        tvl:"$3,324,625",
-        volume:"$13,903,096",
-        apy:"51.84%",
-    },
-    {
-        tokenimg1:"https://cryptologos.cc/logos/multi-collateral-dai-dai-logo.png",
-        tokenimng2:"/web3gsmall.png",
-        token:"DAI-W3G",
-        type:"Classic",
-        fee:"0.3%",
-        tvl:"$3,324,625",
-        volume:"$13,903,096",
-        apy:"51.84%",
-    },
-    {
-        tokenimg1:"https://cryptoempire.games/logo-cryptoempire.png",
-        tokenimng2:"web3gsmall.png",
-        token:"EMP-W3G",
-        type:"Classic",
-        fee:"0.3%",
-        tvl:"$3,324,625",
-        volume:"$13,903,096",
-        apy:"51.84%",
-    }
-]
+
 const Pools = () =>{
     const router = useRouter()
     const [selectedDeliveryMethod, setSelectedDeliveryMethod] = useState(deliveryMethods[0])
@@ -98,18 +58,105 @@ const Pools = () =>{
     const [swapTokenTop,] = useAtom(SwapTokenTop)
     const [swapTokenTail,] = useAtom(SwapTokenTail)
     const [intactWalletAddress,] = useAtom(IntactWalletAddress)
+    const [Etrinsic,setExtrinsic] = useState([])
+    const [pages,setPages] = useState(1)
+    const [pagesLast,setPagesLast] = useState(0)
+
+    useEffect(()=>{
+        if (router.isReady) {
+            const fetchUserBounty = async () => {
+                const Pages = await axios.get("http://127.0.0.1:7001/api/swap/get_swap_pools_all", {})
+                setPagesLast(Math.ceil(Pages.data.length / 5))
+                const data = await axios.get("http://127.0.0.1:7001/api/swap/get_swap_pools", {
+                    params: {
+                        pages
+                    }
+                })
+                setExtrinsic(data.data)
+            }
+            fetchUserBounty()
+        }},[router.isReady])
+
     let time
     const createPool = async ()=>{
-        await create_pool(intactWalletAddress)
-        setOpenCreate(false)
         clearTimeout(time)
-        setOpenAlert(true)
-        time = setTimeout(()=>{
-            setOpenAlert(false)
-        },3000)
+        // await create_pool(intactWalletAddress)
+        console.log(swapTokenTail.img,);
+        await axios.post("http://127.0.0.1:7001/api/swap/create_new_pool",{
+            pool_id:"0",
+            assets_a:swapTokenTop.name,
+            assets_b:swapTokenTail.name,
+            assets_a_image_url:swapTokenTop.img,
+            assets_b_image_url:swapTokenTail.img,
+            assets_a_id:"1",
+            assets_b_id:"2",
+            assets_a_address:"assets_a_address",
+            assets_b_address:"assets_b_address",
+            tvl:"1231231",
+            volume:"231231",
+            volume_days:"0",
+            total_lp :"0",
+            your_lp :"0",
+        }).then(function (response) {
+            setOpenCreate(false)
+            setOpenAlert(true)
+            time = setTimeout(()=>{
+                setOpenAlert(false)
+                location.reload()
+            },2000)
+
+        })
+          .catch(function (error) {
+           alert("Please try again")
+          });
+
     }
-    const toDetail = ()=>{
-        router.push("/pools/detail")
+    const toDetail = (e)=>{
+        router.push(`/pools/detail/${e}`)
+    }
+    const firstPage = async (pages) =>{
+        const data= await axios.get("http://127.0.0.1:7001/api/swap/get_swap_pools", {
+            params:{
+                pages
+            }
+        })
+        setPages(1)
+        setExtrinsic(data.data)
+    }
+
+    const lastsPage = async (pages) =>{
+
+        const data= await axios.get("http://127.0.0.1:7001/api/swap/get_swap_pools", {
+            params:{
+                pages
+            }
+        })
+        setPages(pagesLast)
+        setExtrinsic(data.data)
+
+        console.log(data)
+    }
+    const leftPage = async (pages) =>{
+        if( pages >= 1 ){
+            const data= await axios.get("http://127.0.0.1:7001/api/swap/get_swap_pools", {
+                params:{
+                    pages
+                }
+            })
+            setPages(pages)
+            setExtrinsic(data.data)
+        }
+    }
+    const rightPage = async (pages) =>{
+        if( pages <= pagesLast){
+            const data= await axios.get("http://127.0.0.1:7001/api/swap/get_swap_pools", {
+                params:{
+                    pages
+                }
+            })
+            setPages(pages)
+            setExtrinsic(data.data)
+        }
     }
 
     return(
@@ -315,7 +362,7 @@ const Pools = () =>{
                                 </div>
                                 <div className="text-gray-400 mt-10">
                                     Top Liquidity Pools
-                                    <div className="mt-2 overflow-auto mb-32">
+                                    <div className="mt-2 overflow-auto mb-12">
                                         <table className=" w-full divide-y divide-gray-700 overflow-auto">
                                             <thead className="bg-black ">
                                             <tr>
@@ -330,29 +377,62 @@ const Pools = () =>{
                                             </tr>
                                             </thead>
                                             <tbody className="bg-black  divide-y divide-gray-700">
-                                            {extrinsic.map(item => (
-                                                <tr key={item.tokenimg1} onClick={toDetail} className="cursor-pointer hover:bg-gray-900">
-                                                    <td className="px-6 py-4  whitespace-nowrap text-sm font-medium text-gray-200 font-medium">
+                                            {Etrinsic.map(item => (
+                                                <tr key={item.assets} onClick={()=>{toDetail(item.pool_id)}}className="cursor-pointer hover:bg-gray-900">
+                                                    <td className="px-6 py-4 pr-24 md:pr-0  whitespace-nowrap text-sm font-medium text-gray-200 font-medium">
                                                         <div className="flex items-center">
-                                                            <img className="w-8 rounded-full" src={item.tokenimg1} alt=""/>
-                                                            <img className="w-8 rounded-full -ml-4" src={item.tokenimng2} alt=""/>
+                                                            <img className="w-8 rounded-full" src={item.assets_a_image_url} alt=""/>
+                                                            <img className="w-8 rounded-full -ml-4" src={item.assets_b_image_url} alt=""/>
                                                             <div className="ml-2 ">
-                                                                {item.token}
+                                                                {item.assets_a}-{item.assets_b}
                                                             </div>
                                                         </div>
                                                     </td>
                                                     <td className="px-6 py-4  whitespace-nowrap text-sm text-gray-200">
-                                                        {item.fee}
+                                                        ${item.tvl}
                                                     </td>
                                                     <td className="px-6 py-4  whitespace-nowrap text-sm text-gray-200">
-                                                        {item.tvl}
+                                                        ${item.volume}
                                                     </td>
                                                 </tr>
                                             ))}
                                             </tbody>
                                         </table>
                                     </div>
-                                    <Sort/>
+                                    <div>
+                                        <div className="rounded-md   flex justify-end my-5" aria-label="Pagination">
+                                            <button onClick={()=>firstPage(1)}>
+                                                <div className="relative inline-flex items-center px-2 py-2 mr-2 rounded-md bg-gray-500 border border-gray-300  text-sm font-medium text-white "
+                                                >
+                                                    <span className="">First</span>
+                                                </div>
+                                            </button>
+                                            <button onClick={()=>leftPage(pages-1)}>
+                                                <div className="relative inline-flex items-center px-2 py-2 rounded-l-md  bg-gray-500 border border-gray-400 text-sm font-medium text-white ">
+                                                    <span className="sr-only">Previous</span>
+                                                    <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
+                                                </div>
+                                            </button>
+                                            <div className="bg-gray-500  text-white relative inline-flex items-center px-4 py-2 border border-gray-400 text-sm font-medium">
+                                                Page {pages} of {pagesLast}
+                                            </div>
+
+                                            <button onClick={()=>rightPage(pages+1)}>
+                                                <a className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-400 bg-gray-500 text-sm font-medium text-white">
+                                                    <span className="sr-only">Next</span>
+                                                    <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
+                                                </a>
+                                            </button>
+                                            <button onClick={ ()=>{
+                                                lastsPage(pagesLast)
+                                            }}>
+                                                <div className="relative inline-flex items-center px-2 py-2 ml-2 rounded-md border border-gray-300 bg-gray-500 text-sm font-medium text-white ">
+                                                    <span className="">Last</span>
+                                                </div>
+                                            </button>
+
+                                        </div>
+                                    </div>
                                 </div>
 
                             </div>
