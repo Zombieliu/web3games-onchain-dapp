@@ -77,7 +77,7 @@ const SelectTokenTail = () =>{
                             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                         >
-                            <div className="inline-block align-bottom bg-gray-900 w-11/12 md:w-9/12 xl:w-1/2  rounded-lg px-4 py-5 text-left overflow-hidden shadow-xl transform transition-all sm:y-8 sm:align-middle  sm:px-6 lg:px-12 ">
+                            <div className="inline-block align-bottom bg-gray-900 w-11/12 md:w-9/12 xl:w-1/3  rounded-lg px-4 py-5 text-left overflow-hidden shadow-xl transform transition-all sm:y-8 sm:align-middle  sm:px-6 lg:px-12 ">
                                 <div>
                                     <div className='flex justify-between text-xl font-light text-white 	mb-5'>
                                         <div className=" font-light  text-xl ">
@@ -89,7 +89,7 @@ const SelectTokenTail = () =>{
                                     <input type="text"
                                            className=" bg-gray-700 bg-opacity-30 text-xs md:text-sm text-white  rounded-lg p-2 py-4 w-full border-gray-700 border   focus:border-blue-400 transition duration-300  outline-none"
                                            placeholder="Search Fungible Token ID"
-                                           id="address"                         
+                                           id="address"
                                     />
                                     <div className="my-5 text-gray-500 text-sm">
                                         Common bases

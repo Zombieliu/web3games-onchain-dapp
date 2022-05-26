@@ -1,5 +1,5 @@
 import {useAtom} from "jotai";
-import {base_token_list_and_balance, Select_TokenTop, SwapTokenTail, SwapTokenTop} from "../../jotai";
+import {base_token_list_and_balance, Select_TokenTop, SwapTokenTail, SwapTokenTop, Token_Lists} from "../../jotai";
 import {Dialog, Transition} from "@headlessui/react";
 import React, {Fragment} from "react";
 import { BUSD, DAI, USDC, USDT } from "../../assets";
@@ -35,6 +35,11 @@ const SelectTokenTop = () =>{
     const [,setSwapTokenTop] = useAtom(SwapTokenTop)
     const [,setSwapTokenTail] = useAtom(SwapTokenTail)
     const [tokenList,] = useAtom(base_token_list_and_balance)
+    const [,setTokenList] = useAtom(Token_Lists)
+    const openTokenLists = ()=>{
+        setSelectToken(false)
+        setTokenList(true)
+    }
     const select = (e) =>{
       const name= e[0]
       const img = e[1]
@@ -74,7 +79,7 @@ const SelectTokenTop = () =>{
                             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                         >
-                            <div className="inline-block align-bottom bg-gray-900 w-11/12 md:w-9/12 xl:w-1/2  rounded-lg px-4 py-5 text-left overflow-hidden shadow-xl transform transition-all sm:y-8 sm:align-middle  sm:px-6 lg:px-12 ">
+                            <div className="inline-block align-bottom bg-gray-900 w-11/12 md:w-9/12 xl:w-1/3  rounded-lg px-4 py-5 text-left overflow-hidden shadow-xl transform transition-all sm:y-8 sm:align-middle  sm:px-6 lg:px-12 ">
                                 <div>
                                     <div className='flex justify-between text-xl font-light text-white 	mb-5'>
                                         <div className=" font-light  text-xl ">
@@ -125,6 +130,12 @@ const SelectTokenTop = () =>{
                                             </div>
                                         </div>
                                         ))}
+                                    </div>
+
+                                    <div className="mt-2 flex justify-center text-blue-500 font-semibold hover:text-blue-400">
+                                        <button onClick={openTokenLists}>
+                                        Manage Token Lists
+                                        </button>
                                     </div>
 
                                 </div>

@@ -4,6 +4,7 @@ import { BUSD, DAI, USDC, USDT } from '../assets'
 
 const  Select_TokenTail = atom(false)
 const  Select_TokenTop =  atom(false)
+const  Token_Lists =   atom(false)
 const tokenTop={
     img:"/img.png",
     name:"W3G",
@@ -91,6 +92,6 @@ const base_token_list_and_balance = atom([
 ])
 
 
-export {Select_TokenTop,Select_TokenTail,SwapTokenTop,SwapTokenTail,AssetsOpenPopup,WalletListShowState,AccountChooseValue,
+export {Select_TokenTop,Select_TokenTail,Token_Lists,SwapTokenTop,SwapTokenTail,AssetsOpenPopup,WalletListShowState,AccountChooseValue,
     AfterEvmAddressValue,EVMAddressValue,WalletButtonShowState,WalletAddress,AccountConfigPageState,HiddenClaim,SetSubstrateShowState,
     AfterSubstrateAddressValue,SubstrateAddress,AfterSubstrateAddressList,IntactWalletAddress,NetWorkState,CurrentWallet,base_token_list_and_balance}

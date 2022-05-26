@@ -10,12 +10,13 @@ import {
     WalletButtonShowState,
     WalletListShowState,
     AccountConfigPageState,
-    SetSubstrateShowState, AfterSubstrateAddressValue, WalletAddress, NetWorkState
+    SetSubstrateShowState, AfterSubstrateAddressValue, WalletAddress, NetWorkState, Token_Lists
 } from '../../jotai';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
 import Login from '../login';
 import Account from "../account";
+import TokenList from "../token_lists";
 
 
 
@@ -342,6 +343,7 @@ const Header = () =>{
             </header>
            <SelectTokenTail/>
             <SelectTokenTop/>
+            <TokenList/>
         </div>
     )
 }
