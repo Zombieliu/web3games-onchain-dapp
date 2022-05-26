@@ -10,7 +10,6 @@ function classNames(...classes) {
 }
 
 const Home = () =>{
-
     return (
         <div>
             <Header/>

@@ -1,7 +1,11 @@
 import {atom, useAtom} from "jotai";
-import {Select_TokenTail, Select_TokenTop, SwapTokenTail,} from "../../jotai";
+import {base_token_list_and_balance, Select_TokenTail, Select_TokenTop, SwapTokenTail,} from "../../jotai";
 import {Dialog, Transition} from "@headlessui/react";
-import React, {Fragment} from "react";
+import React, {Fragment, useEffect,useState} from "react";
+import { BUSD, DAI, USDC, USDT } from "../../assets";
+import { useRouter } from "next/router";
+import axios from "axios";
+import { log } from "console";
 
 
 const bases = [
@@ -10,53 +14,30 @@ const bases = [
         img:"/img.png",
     },
     {
+        name:"USDT",
+        img:USDT,
+    },
+    {
+        name:"BUSD",
+        img:BUSD,
+    },
+    {
         name:"USDC",
-        img:"https://res.cloudinary.com/sushi-cdn/image/fetch/w_48,f_auto,q_auto,fl_sanitize/https://raw.githubusercontent.com/sushiswap/logos/main/network/ethereum/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48.jpg",
+        img:USDC
     },
     {
-        name:"USDT",
-        img:"https://res.cloudinary.com/sushi-cdn/image/fetch/w_48,f_auto,q_auto,fl_sanitize/https://raw.githubusercontent.com/sushiswap/logos/main/network/ethereum/0xdAC17F958D2ee523a2206206994597C13D831ec7.jpg",
-    },
-
-]
-const tokenList = [
-    {
-        img:"/img.png",
-        title:"W3G",
-        name:"W3G",
-        data:"0.00",
-    },
-    {
-        img:"https://res.cloudinary.com/sushi-cdn/image/fetch/w_64,f_auto,q_auto,fl_sanitize/https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9/logo.png",
-        title:"AAVE",
-        name:"AAVE",
-        data:"0.00",
-    },
-    {
-        img:"https://res.cloudinary.com/sushi-cdn/image/fetch/w_48,f_auto,q_auto,fl_sanitize/https://raw.githubusercontent.com/sushiswap/logos/main/network/ethereum/0xdAC17F958D2ee523a2206206994597C13D831ec7.jpg",
-        title:"USDT",
-        name:"USDT",
-        data:"0.00",
-    },
-    {
-        img:"https://res.cloudinary.com/sushi-cdn/image/fetch/w_64,f_auto,q_auto,fl_sanitize/https://raw.githubusercontent.com/sushiswap/icons/master/token/dai.jpg",
-        title:"Dai Stablecoin",
         name:"DAI",
-        data:"0.00",
+        img:DAI
     },
-    {
-        img:"https://res.cloudinary.com/sushi-cdn/image/fetch/w_64,f_auto,q_auto,fl_sanitize/https://raw.githubusercontent.com/sushiswap/assets/master/blockchains/ethereum/assets/0x0f51bb10119727a7e5eA3538074fb341F56B09Ad/logo.png",
-        title:"DAO Maker",
-        name:"DAO",
-        data:"0.00",
-    },
-
 ]
 
 
 const SelectTokenTail = () =>{
     const [selectTokenTail,setSelectTokenTail] = useAtom(Select_TokenTail)
     const [,setSwapTokenTail] = useAtom(SwapTokenTail)
+    const [tokenList,] = useAtom(base_token_list_and_balance)
+
+
     const select = (e) =>{
       const name= e[0]
       const img = e[1]
@@ -107,8 +88,8 @@ const SelectTokenTail = () =>{
                                     </div>
                                     <input type="text"
                                            className=" bg-gray-700 bg-opacity-30 text-xs md:text-sm text-white  rounded-lg p-2 py-4 w-full border-gray-700 border   focus:border-blue-400 transition duration-300  outline-none"
-                                           placeholder="Search name or paste address"
-                                           id="address"
+                                           placeholder="Search Fungible Token ID"
+                                           id="address"                         
                                     />
                                     <div className="my-5 text-gray-500 text-sm">
                                         Common bases

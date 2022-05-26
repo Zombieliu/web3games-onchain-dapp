@@ -196,12 +196,16 @@ const Header = () =>{
     const [,SetAccountConfig] = useAtom(AccountConfigPageState)
     const [AccountChoose,] = useAtom(AccountChooseValue)
     const [walletAddress,] =useAtom(WalletAddress)
+
     useEffect(()=>{
-        if (AccountChoose === 1 ){
-            SetWalletButtonShow(true)
-        }
-        if(AccountChoose === 2){
-            SetSubstrateShow(true)
+        if (router.isReady){
+            if (AccountChoose === 1 ){
+                SetWalletButtonShow(true)
+            }
+            if(AccountChoose === 2){
+                console.log(1);
+                SetSubstrateShow(true)
+            }
         }
     },[router.isReady])
 

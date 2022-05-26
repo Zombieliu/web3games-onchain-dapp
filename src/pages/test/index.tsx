@@ -31,7 +31,7 @@ const Test = () =>{
 
 
     return (
-        <div>
+        <div className='relative pt-16'>
             <button onClick={()=>substrate(intactWalletAddress)}>11111</button>
         </div>
     )

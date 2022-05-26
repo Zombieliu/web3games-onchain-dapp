@@ -7,6 +7,8 @@ import {Dialog, Listbox, RadioGroup, Transition} from "@headlessui/react";
 import Sort from "../../components/sort";
 import {useAtom} from "jotai";
 import {
+    AccountChooseValue,
+    base_token_list_and_balance,
     IntactWalletAddress,
     Select_TokenTail,
     Select_TokenTop,
@@ -18,6 +20,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { create_pool } from "../../chain/web3games";
 import axios from "axios";
+import { BUSD, DAI, USDC, USDT } from "../../assets";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -48,8 +51,8 @@ const Pools = () =>{
     const router = useRouter()
     const [selectedDeliveryMethod, setSelectedDeliveryMethod] = useState(deliveryMethods[0])
     const [selected, setSelected] = useState(types[0])
-    const [WalletButtonShow,]=useAtom(WalletButtonShowState)
-    const [substrateShow,] =useAtom(SetSubstrateShowState)
+    const [WalletButtonShow,SetWalletButtonShow]=useAtom(WalletButtonShowState)
+    const [substrateShow,SetSubstrateShow] =useAtom(SetSubstrateShowState)
     const [,SetOpenWalletListState] = useAtom(WalletListShowState)
     const [openCreate,setOpenCreate] = useState(false)
     const [openAlert,setOpenAlert] = useState(false)
@@ -61,6 +64,8 @@ const Pools = () =>{
     const [Etrinsic,setExtrinsic] = useState([])
     const [pages,setPages] = useState(1)
     const [pagesLast,setPagesLast] = useState(0)
+    const [AccountChoose,] = useAtom(AccountChooseValue)
+    const [,settokenList] = useAtom(base_token_list_and_balance)
 
     useEffect(()=>{
         if (router.isReady) {
@@ -74,41 +79,131 @@ const Pools = () =>{
                 })
                 setExtrinsic(data.data)
             }
+            const query_w3g_token_balance = async () =>{
+                const w3g_token_result = await axios.get('http://127.0.0.1:7001/api/token/fungible_token_balance', {
+                    params: {
+                        token_id:'0',
+                        // address:'5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY'
+                        address:intactWalletAddress
+                    }
+                })
+                return w3g_token_result.data
+            }
+            const query_usdt_token_balance = async () =>{
+                const usdt_token_result = await axios.get('http://127.0.0.1:7001/api/token/fungible_token_balance', {
+                    params: {
+                        token_id:'1',
+                        // address:'5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY'
+                        address:intactWalletAddress
+                    }
+                })
+                return usdt_token_result.data
+            }
+            const query_usdc_token_balance = async () =>{
+                const usdc_token_result = await axios.get('http://127.0.0.1:7001/api/token/fungible_token_balance', {
+                    params: {
+                        token_id:'2',
+                        address:intactWalletAddress
+                        // address:'intactWalletAddress'
+                    }
+                })
+                return usdc_token_result.data
+            }
+            const query_busd_token_balance = async () =>{
+                const busd_token_result = await axios.get('http://127.0.0.1:7001/api/token/fungible_token_balance', {
+                    params: {
+                        token_id:'3',
+                        address:intactWalletAddress
+                        // address:'intactWalletAddress'
+                    }
+                })
+                return busd_token_result.data
+            }
+            const query_dai_token_balance = async () =>{
+                const dai_token_result = await axios.get('http://127.0.0.1:7001/api/token/fungible_token_balance', {
+                    params: {
+                        token_id:'4',
+                        address:intactWalletAddress
+                        // address:'intactWalletAddress'
+                    }
+                })
+                return dai_token_result.data
+            }
+            axios.all([query_w3g_token_balance(),query_usdt_token_balance(),query_busd_token_balance(),query_usdc_token_balance(),query_dai_token_balance()]).then(
+              axios.spread((w3g,usdt,busd,usdc,dai)=>{
+                  settokenList([
+                      {
+                          img:"/img.png",
+                          title:"W3G",
+                          name:"W3G",
+                          data:w3g,
+                      },
+                      {
+                          img:USDT,
+                          title:"USDT",
+                          name:"USDT",
+                          data:usdt,
+                      },
+                      {
+                          img:BUSD,
+                          title:"BUSD",
+                          name:"BUSD",
+                          data:busd,
+                      },
+                      {
+                          img:USDC,
+                          title:"USDC",
+                          name:"USDC",
+                          data:usdc,
+                      },
+                      {
+                          img:DAI,
+                          title:"Dai Stablecoin",
+                          name:"DAI",
+                          data:dai,
+                      },
+                  ])
+              })
+            )
             fetchUserBounty()
-        }},[router.isReady])
+        }
+    },[router.isReady])
 
     let time
     const createPool = async ()=>{
-        clearTimeout(time)
+        console.log("1");
+        console.log(swapTokenTop.name,swapTokenTop.name);
+        
+        // clearTimeout(time)
         // await create_pool(intactWalletAddress)
-        console.log(swapTokenTail.img,);
-        await axios.post("http://127.0.0.1:7001/api/swap/create_new_pool",{
-            pool_id:"0",
-            assets_a:swapTokenTop.name,
-            assets_b:swapTokenTail.name,
-            assets_a_image_url:swapTokenTop.img,
-            assets_b_image_url:swapTokenTail.img,
-            assets_a_id:"1",
-            assets_b_id:"2",
-            assets_a_address:"assets_a_address",
-            assets_b_address:"assets_b_address",
-            tvl:"1231231",
-            volume:"231231",
-            volume_days:"0",
-            total_lp :"0",
-            your_lp :"0",
-        }).then(function (response) {
-            setOpenCreate(false)
-            setOpenAlert(true)
-            time = setTimeout(()=>{
-                setOpenAlert(false)
-                location.reload()
-            },2000)
+        // console.log(swapTokenTail.img,);
+        // await axios.post("http://127.0.0.1:7001/api/swap/create_new_pool",{
+        //     pool_id:"0",
+        //     assets_a:swapTokenTop.name,
+        //     assets_b:swapTokenTail.name,
+        //     assets_a_image_url:swapTokenTop.img,
+        //     assets_b_image_url:swapTokenTail.img,
+        //     assets_a_id:"1",
+        //     assets_b_id:"2",
+        //     assets_a_address:"assets_a_address",
+        //     assets_b_address:"assets_b_address",
+        //     tvl:"1231231",
+        //     volume:"231231",
+        //     volume_days:"0",
+        //     total_lp :"0",
+        //     your_lp :"0",
+        // }).then(function (response) {
+        //     setOpenCreate(false)
+        //     setOpenAlert(true)
+        //     time = setTimeout(()=>{
+        //         setOpenAlert(false)
+        //         location.reload()
+        //     },2000)
 
-        })
-          .catch(function (error) {
-           alert("Please try again")
-          });
+        // })
+        //   .catch(function (error) {
+        //    alert("Please try again")
+        //   });
 
     }
     const toDetail = (e)=>{
@@ -125,7 +220,6 @@ const Pools = () =>{
     }
 
     const lastsPage = async (pages) =>{
-
         const data= await axios.get("http://127.0.0.1:7001/api/swap/get_swap_pools", {
             params:{
                 pages
@@ -133,8 +227,6 @@ const Pools = () =>{
         })
         setPages(pagesLast)
         setExtrinsic(data.data)
-
-        console.log(data)
     }
     const leftPage = async (pages) =>{
         if( pages >= 1 ){
@@ -614,3 +706,5 @@ const Pools = () =>{
     )
 }
 export default Pools
+
+

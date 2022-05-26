@@ -51,7 +51,6 @@ const FunctionList = () =>{
             <div>
               <div className="hidden" id="address">
                 {walletAddress}
-
               </div>
               <button  className="flex text-sm text-gray-800 transition duration-500 hover:text-blue-400 w-28">
                 <i className="fa fa-clone mt-0.5 mr-1" aria-hidden="true"></i>

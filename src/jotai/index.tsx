@@ -1,5 +1,6 @@
 import { useAtom ,atom} from 'jotai'
 import { atomWithStorage } from 'jotai/utils'
+import { BUSD, DAI, USDC, USDT } from '../assets'
 
 const  Select_TokenTail = atom(false)
 const  Select_TokenTop =  atom(false)
@@ -35,6 +36,7 @@ const netWork = [
 ]
 const NetWorkState = atomWithStorage("NetWorkState",netWork[0])
 
+
 const WalletAddress = atomWithStorage("WalletAddress","")
 
 const IntactWalletAddress = atomWithStorage("IntactWalletAddress","")
@@ -55,7 +57,40 @@ const SetSubstrateShowState = atomWithStorage("SubstrateShowState",false)
 
 const CurrentWallet = atomWithStorage("CurrentWallet","")
 
+const base_token_list_and_balance = atom([
+    {
+        img:"/img.png",
+        title:"W3G",
+        name:"W3G",
+        data:"0.00",
+    },
+    {
+        img:USDT,
+        title:"USDT",
+        name:"USDT",
+        data:"0.00",
+    },
+    {
+        img:BUSD,
+        title:"BUSD",
+        name:"BUSD",
+        data:"0.00",
+    },
+    {
+        img:USDC,
+        title:"USDC",
+        name:"USDC",
+        data:"0.00",
+    },
+    {
+        img:DAI,
+        title:"Dai Stablecoin",
+        name:"DAI",
+        data:"0.00",
+    },
+])
+
 
 export {Select_TokenTop,Select_TokenTail,SwapTokenTop,SwapTokenTail,AssetsOpenPopup,WalletListShowState,AccountChooseValue,
     AfterEvmAddressValue,EVMAddressValue,WalletButtonShowState,WalletAddress,AccountConfigPageState,HiddenClaim,SetSubstrateShowState,
-    AfterSubstrateAddressValue,SubstrateAddress,AfterSubstrateAddressList,IntactWalletAddress,NetWorkState,CurrentWallet}
+    AfterSubstrateAddressValue,SubstrateAddress,AfterSubstrateAddressList,IntactWalletAddress,NetWorkState,CurrentWallet,base_token_list_and_balance}
