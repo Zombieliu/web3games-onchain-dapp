@@ -224,7 +224,7 @@ const Header = () =>{
                 <Popover className="relative bg-white  ">
                     <div className="flex  fixed z-20 inset-x-0 bg-black    transition duration-700 mb-10 pl-5  justify-between items-center  p-3 sm:px-6 lg:justify-end md:space-x-10 lg:px-10  xl:pl-32 xl:pr-24">
 
-                        <div className=" flex w-full justify-between lg:justify-start">
+                        <div className=" flex w-full justify-between items-center lg:justify-start">
                             <div className="flex justify-start items-center ">
                                 <Link  href="/home">
                                     <a>

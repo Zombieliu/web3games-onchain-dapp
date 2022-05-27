@@ -498,7 +498,7 @@ const AssetsOpen = () =>{
         <>
             <Transition.Root show={selectopen} as={Fragment}>
                 <Dialog as="div" className="fixed z-30 inset-0 overflow-y-auto " onClose={setSelectopen}>
-                    <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center shadow-2xl  sm:block sm:p-0">
+                    <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center shadow-2xl  sm:block sm:p-0">
                         <Transition.Child
                             as={Fragment}
                             enter="ease-out duration-300"

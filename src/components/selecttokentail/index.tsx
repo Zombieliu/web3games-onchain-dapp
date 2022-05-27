@@ -1,5 +1,5 @@
 import {atom, useAtom} from "jotai";
-import {base_token_list_and_balance, Select_TokenTail, Select_TokenTop, SwapTokenTail,} from "../../jotai";
+import {base_token_list_and_balance, Select_TokenTail, Select_TokenTop, SwapTokenTail, Token_Lists,} from "../../jotai";
 import {Dialog, Transition} from "@headlessui/react";
 import React, {Fragment, useEffect,useState} from "react";
 import { BUSD, DAI, USDC, USDT } from "../../assets";
@@ -36,7 +36,11 @@ const SelectTokenTail = () =>{
     const [selectTokenTail,setSelectTokenTail] = useAtom(Select_TokenTail)
     const [,setSwapTokenTail] = useAtom(SwapTokenTail)
     const [tokenList,] = useAtom(base_token_list_and_balance)
-
+    const [,setTokenList] = useAtom(Token_Lists)
+    const openTokenLists = ()=>{
+        setSelectTokenTail(false)
+        setTokenList(true)
+    }
 
     const select = (e) =>{
       const name= e[0]
@@ -52,7 +56,7 @@ const SelectTokenTail = () =>{
         <>
             <Transition.Root show={selectTokenTail} as={Fragment}>
                 <Dialog as="div" className="fixed z-30 inset-0 overflow-y-auto " onClose={()=>{return false}}>
-                    <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center shadow-2xl  sm:block sm:p-0">
+                    <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center shadow-2xl  sm:block sm:p-0">
                         <Transition.Child
                             as={Fragment}
                             enter="ease-out duration-300"
@@ -128,6 +132,11 @@ const SelectTokenTail = () =>{
                                             </div>
                                         </div>
                                         ))}
+                                    </div>
+                                    <div className="mt-2 flex justify-center text-blue-500 font-semibold hover:text-blue-400">
+                                        <button onClick={openTokenLists}>
+                                            Manage Token Lists
+                                        </button>
                                     </div>
 
                                 </div>
