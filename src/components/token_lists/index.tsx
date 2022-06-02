@@ -1,8 +1,12 @@
 import {useAtom} from "jotai";
-import {Select_TokenTail, Select_TokenTop, SwapTokenTail, SwapTokenTop, Token_Lists} from "../../jotai";
+import {custom_token_list, Select_TokenTail, Select_TokenTop, SwapTokenTail, SwapTokenTop, Token_Lists, token_list_and_balance} from "../../jotai";
 import {Dialog, Switch, Tab, Transition} from "@headlessui/react";
 import React, {Fragment, useEffect, useState} from "react";
 import {useRouter} from "next/router";
+import {hexToString} from '@polkadot/util'
+
+import axios from "axios";
+import { address_slice } from "../../utils/chain/address";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -15,17 +19,17 @@ const List = () =>{
         if (router.isReady){
             const tokenData = [
                 {
-                    img:"https://res.cloudinary.com/sushi-cdn/image/fetch/w_48,f_auto,q_auto,fl_sanitize/https://cloudflare-ipfs.com/ipfs/QmWzL3TSmkMhbqGBEwyeFyWVvLmEo3F44HBMFnmTUiTfp1/",
-                    token:"Aave Token List",
+                    img:"https://s2.coinmarketcap.com/static/img/coins/64x64/8420.png",
+                    token:"Daomaker Token List",
                     version:"v1.3.0",
-                    tokenNumber:"42",
+                    tokenNumber:"96",
                     enabled:false
                 },
                 {
                     img:"/img.png",
                     token:"W3G Token List",
                     version:"v1.0.0",
-                    tokenNumber:"96",
+                    tokenNumber:"42",
                     enabled:false
                 },
             ]
@@ -40,12 +44,11 @@ const List = () =>{
     }
     return(
         <>
-            <input type="text"
+            <input type="number"
                    className=" bg-gray-700 bg-opacity-30 text-xs md:text-sm text-white  rounded-lg p-2 py-4 w-full border-gray-700 border z-40  focus:border-blue-400 transition duration-300  outline-none"
                    placeholder="http:// or ipfs:// or ENS name"
                    id="token"
             />
-
             <div className="overflow-y-auto border border-gray-700 h-96 mt-7 p-3 rounded-xl">
                 {tokenList.map(((item,index)=>(
                 <div key={item.token} className="flex mb-5 justify-between items-center">
@@ -120,33 +123,99 @@ const List = () =>{
 }
 
 const Tokens = () =>{
-    const [valuable,setValuable] = useState(true)
+    const baseTokenInfo = {
+        tokenId:'0',
+        img:"/base.png",
+        token:"DACV",
+        h1:"mushrooming BTCB Token",
+        original:'5xcascascasc',
+        address:"5CsaS...d304",
+    }
+    const [valuable,setValuable] = useState(false)
     const [importToken,setImportToken] = useState(false)
     const [,setCloseTokenList] = useAtom(Token_Lists)
+    const [tokenInfo,setTokenInfo] = useState(baseTokenInfo)
+    const [tokenList,setTokenList] = useAtom(token_list_and_balance)
+    const [customTokenList,setCustomTokenList] = useAtom(custom_token_list)
+
     const  back= () =>{
         setImportToken(false)
         setCloseTokenList(true)
     }
-    const tokenInfo = {
-        img:"/img.png",
-        token:"mBTCB",
-        h1:"mushrooming BTCB Token",
-        address:"0xa283...d304",
 
+    // const CustomToken = [
+    //     {
+    //         img:"/img.png",
+    //         token:"W3G",
+    //     },
+    // ]
+
+    const get_token = async (e) =>{
+        const result = await axios.get(`http://127.0.0.1:7001/api/token/fungible_token?token_id=${e.target.value}`).then(
+
+        )
+        if (result.data == ''){
+            setValuable(false)
+        }else{
+            const name = hexToString(result.data.name)
+            const owner = result.data.owner
+            const symbol = hexToString(result.data.symbol)
+            setTokenInfo(
+              {
+                  tokenId:e.target.value,
+                  img:"/base.png",
+                  token:symbol,
+                  h1:name,
+                  original:owner,
+                  address:address_slice(owner),
+              }
+            )
+            setValuable(true)
+        }
     }
-    const CustomToken = [
-        {
-            img:"/img.png",
-            token:"W3G",
-        },
-    ]
+
+    const add_token_in_list = async ()=>{
+        let before_lost = tokenList
+        let list = tokenList
+        const input = {
+              tokenId:tokenInfo.tokenId,
+              img:tokenInfo.img,
+              title:tokenInfo.h1,
+              name:tokenInfo.token,
+              data:"0.00",
+        }
+        list.push(input)
+        let fix = before_lost.concat(list)
+        let new_result = []
+        for ( let item1 of fix){
+            let flag = true
+            for(let item2 of new_result){
+                if (item1.tokenId == item2.tokenId){
+                    flag = false
+                }
+            }
+            if (flag){
+                new_result.push(item1)
+            }
+        }
+        setTokenList(new_result)
+        const before_custom_token = customTokenList.concat()
+        const custom_token  = {
+            img:tokenInfo.img,
+            token:tokenInfo.token,
+        }
+        before_custom_token.push(custom_token)
+        setCustomTokenList(before_custom_token)
+        location.reload()
+    }
     return(
         <>
 
-            <input type="text"
+            <input type="number"
                    className=" bg-gray-700 bg-opacity-30 text-xs md:text-sm text-white  rounded-lg px-3 p-2 py-4 w-full border-gray-700 border z-40  focus:border-blue-400 transition duration-300  outline-none"
-                   placeholder="0x..."
-                   id="token"
+                   placeholder="Foungible tokenId"
+                   onChange={get_token}
+                   id="token_id"
             />
             <button onClick={()=>{setImportToken(true)}} className={valuable?"flex mt-5 w-full border border-gray-700 bg-gray-700 bg-opacity-30 p-2 px-3 rounded-xl":"hidden"}>
                 <div className="flex  items-center  ">
@@ -168,7 +237,7 @@ const Tokens = () =>{
             <div className="my-5 rounded-xl px-3  bg-gray-700 bg-opacity-30 border-gray-700 border p-2 py-4">
                 <div className="flex justify-between items-center">
                <div className="flex">
-                   {CustomToken.length}
+                   {customTokenList.length}
                    <div className="ml-1">
                        Custom Tokens
                    </div></div>
@@ -177,8 +246,8 @@ const Tokens = () =>{
                         Clear all</button>
                     </div>
                 </div>
-                <div className={CustomToken.length?"h-60 overflow-y-auto mt-2":"hidden"}>
-                {CustomToken.map((item=>(
+                <div className={customTokenList.length?"h-60 overflow-y-auto mt-2":"hidden"}>
+                {customTokenList.map((item=>(
                     <div key={item.token} className="flex items-center justify-between mt-2">
                         <div className="flex items-center">
                             <img className="w-10" src={item.img} alt=""/>
@@ -263,7 +332,6 @@ const Tokens = () =>{
                                             <div className="text-white ml-4 ">
                                                 <div className="flex items-center">
                                                      {tokenInfo.address}
-
                                                     <div className="ml-2 text-xs py-1 px-2 bg-yellow-400 bg-opacity-70 rounded-full">
                                                         Unknown Source
                                                     </div>
@@ -274,7 +342,7 @@ const Tokens = () =>{
                                             </div>
                                         </div>
                                     </div>
-                                    <button  className="px-24 py-2 w-full mt-6 rounded-lg bg-indigo-400">
+                                    <button onClick={add_token_in_list}  className="px-24 py-2 w-full mt-6 rounded-lg bg-indigo-400">
                                         Import
                                     </button>
 

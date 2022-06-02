@@ -6,17 +6,17 @@ import SelectTokenTail from "../selecttokentail";
 import SelectTokenTop from "../selecttokentop";
 import {
     AccountChooseValue,
-    AfterEvmAddressValue,
     WalletButtonShowState,
     WalletListShowState,
     AccountConfigPageState,
-    SetSubstrateShowState, AfterSubstrateAddressValue, WalletAddress, NetWorkState, Token_Lists
+    WalletAddress, NetWorkState, Token_Lists, IntactWalletAddress
 } from '../../jotai';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
 import Login from '../login';
 import Account from "../account";
 import TokenList from "../token_lists";
+import { address_slice } from '../../utils/chain/address';
 
 
 
@@ -25,14 +25,14 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
- const  Trident = () => {
+const  Trident = () => {
     const navigation = [
         {
             title: "Wallet",
             contents: [
                 { name: 'Assets', href: '/assets', },
                 { name: 'Transfer', href: '/transfer',},
-                { name: 'Transaction', href: '/transaction',},
+                // { name: 'Transaction', href: '/transaction',},
             ]
         },
         {
@@ -42,8 +42,8 @@ function classNames(...classes) {
              { name: 'Pools ', href: '/pools',},
              // { name: 'Create', href: '/create',},
              { name: 'Bridge', href: '/bridge',},
-             { name: 'Staking', href: '/staking',},
-             { name: 'Mint', href: '/defi_mint',}
+             // { name: 'Staking', href: '/staking',},
+             // { name: 'Mint', href: '/defi_mint',}
          ]
         },
         // {
@@ -127,9 +127,6 @@ const SwitchNetWork = () =>{
     ]
     const [selected, setSelected] = useAtom(NetWorkState)
 
-    useEffect(()=>{
-        console.log(selected.online)
-    },[])
     return (
         <Listbox value={selected} onChange={setSelected}>
             {({ open }) => (
@@ -190,31 +187,41 @@ const SwitchNetWork = () =>{
 }
 
 const Header = () =>{
+    //get page route info
     const router = useRouter()
+    // button switch
     const [WalletButtonShow,SetWalletButtonShow]=useAtom(WalletButtonShowState)
-    const [substrateShow,SetSubstrateShow] =useAtom(SetSubstrateShowState)
+    // wallet EVM / Substrate List Switch
     const [,SetOpenWalletListState] = useAtom(WalletListShowState)
+    // Substrate address rechoose list
     const [,SetAccountConfig] = useAtom(AccountConfigPageState)
+    // which type of address evm = 1 substrate = 2
     const [AccountChoose,] = useAtom(AccountChooseValue)
-    const [walletAddress,] =useAtom(WalletAddress)
+    // address
+    const [walletAddress,setWalletAddress] =useAtom(WalletAddress)
+    const [intactWalletAddress,] = useAtom(IntactWalletAddress)
 
     useEffect(()=>{
         if (router.isReady){
-            if (AccountChoose === 1 ){
+            if (AccountChoose === 0){
+                SetWalletButtonShow(false)
+            }else{
                 SetWalletButtonShow(true)
-            }
-            if(AccountChoose === 2){
-                console.log(1);
-                SetSubstrateShow(true)
+                setWalletAddress(address_slice(intactWalletAddress))
             }
         }
     },[router.isReady])
 
 
+    // open rechoose account list
     const accountConfig = () =>{
         SetAccountConfig(true)
     }
 
+
+    const open_wallet_list = () => {
+        SetOpenWalletListState(true)
+    }
 
     return (
         <div className=" bg-black">
@@ -223,8 +230,8 @@ const Header = () =>{
                 <Account/>
                 <Popover className="relative bg-white  ">
                     <div className="flex  fixed z-20 inset-x-0 bg-black    transition duration-700 mb-10 pl-5  justify-between items-center  p-3 sm:px-6 lg:justify-end md:space-x-10 lg:px-10  xl:pl-32 xl:pr-24">
-
                         <div className=" flex w-full justify-between items-center lg:justify-start">
+                            {/*Logo */}
                             <div className="flex justify-start items-center ">
                                 <Link  href="/home">
                                     <a>
@@ -234,13 +241,16 @@ const Header = () =>{
                                             src="/logo.png"
                                             alt=""
                                         />
-                                    </a></Link>
+                                    </a>
+                                </Link>
                             </div>
+                            {/* Top bar function */}
                             <Tab.Group as="nav" className="hidden  lg:flex  space-x-10 mt-1 pl-10">
                                 <Trident/>
                             </Tab.Group>
                         </div>
 
+                        {/* mobile function list design */}
                         <div className="-mr-2  my-0.5 lg:hidden">
                             <Popover.Button className="bg-white  rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
                                 <span className="sr-only">Open menu</span>
@@ -248,15 +258,14 @@ const Header = () =>{
                             </Popover.Button>
                         </div>
 
-
-
+                        {/* Wallet Button */}
                         <div className="hidden lg:flex w-full  md:flex-1 ">
-                            <div className={WalletButtonShow || substrateShow ? "hidden": "mt-1"}>
-                                <button  onClick={()=>{SetOpenWalletListState(true)}} className="bg-blue-600 transition duration-700  w-36 px-4 py-2 text-white rounded-lg  flex justify-center">
+                            <div className={WalletButtonShow ? "hidden": "mt-1"}>
+                                <button  onClick={open_wallet_list} className="bg-blue-600 transition duration-700  w-36 px-4 py-2 text-white rounded-lg  flex justify-center">
                                     Connect Wallet
                                 </button>
                             </div>
-                            <div className={WalletButtonShow ? "": "hidden"}>
+                            <div className={WalletButtonShow && AccountChoose == 1 ? "": "hidden"}>
                                 <div className="flex bg-gray-800 rounded-full p-1 justify-center">
                                     <div className="flex items-center mr-4 p-2">
                                         <img className="w-6 h-6 rounded-lg mx-1"
@@ -270,7 +279,7 @@ const Header = () =>{
                                     </button>
                                 </div>
                             </div>
-                            <div className={substrateShow ? "": "hidden"}>
+                            <div className={WalletButtonShow && AccountChoose == 2 ? "": "hidden"}>
                                 <div className="flex bg-gray-800 rounded-full p-1 justify-center">
                                     <div className="flex items-center mr-4 p-2">
                                         <img className="w-6 h-6 rounded-lg mx-1"
@@ -287,6 +296,7 @@ const Header = () =>{
                             <SwitchNetWork/>
                         </div>
                     </div>
+                    {/*mobile function list*/}
                     <div className="fixed z-20 inset-x-0">
                         <Transition
                             as={Fragment}
@@ -318,7 +328,6 @@ const Header = () =>{
                                                 </Popover.Button>
                                             </div>
                                         </div>
-
                                     </div>
                                     <div className="py-6 px-8">
                                         <Trident/>
@@ -335,15 +344,13 @@ const Header = () =>{
 
                                 </div>
                             </Popover.Panel>
-
                         </Transition>
                     </div>
                 </Popover>
-
             </header>
-           <SelectTokenTail/>
-            <SelectTokenTop/>
-            <TokenList/>
+            {/*<SelectTokenTail/>*/}
+            {/*<SelectTokenTop/>*/}
+            {/*<TokenList/>*/}
         </div>
     )
 }

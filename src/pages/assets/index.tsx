@@ -7,7 +7,6 @@ import {Dialog, Transition} from "@headlessui/react";
 import {useAtom} from "jotai";
 import {
     AssetsOpenPopup,
-    EVMAddressValue,
     AccountChooseValue,
     WalletAddress,
     IntactWalletAddress,

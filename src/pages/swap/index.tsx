@@ -5,7 +5,6 @@ import {
     IntactWalletAddress,
     Select_TokenTail,
     Select_TokenTop,
-    SetSubstrateShowState,
     SwapTokenTail,
     SwapTokenTop,
     WalletButtonShowState, WalletListShowState
@@ -26,7 +25,6 @@ const Recent = ()=>{
     const [swapTokenTop,setSwapTokenTop] = useAtom(SwapTokenTop)
     const [swapTokenTail,setSwapTokenTail] = useAtom(SwapTokenTail)
     const [WalletButtonShow,]=useAtom(WalletButtonShowState)
-    const [substrateShow,] =useAtom(SetSubstrateShowState)
     const [,SetOpenWalletListState] = useAtom(WalletListShowState)
     const [swapOutPutValue,setSwapOutPutValue] = useState(0)
     const [swapTimes,setSwapTimes] = useState(0)
@@ -158,14 +156,14 @@ const Recent = ()=>{
                     </div>
                 </div>
                 <div className="text-center mt-5  text-black">
-                    <div className={WalletButtonShow || substrateShow ? "hidden" : "mt-1"}>
+                    <div className={WalletButtonShow ? "hidden" : "mt-1"}>
                         <button onClick={() => {
                             SetOpenWalletListState(true)
                         }} className="px-24 py-1.5 rounded-lg bg-blue-500">
                             Connect Wallet
                         </button>
                     </div>
-                    <div className={WalletButtonShow || substrateShow ? "mt-1" : "hidden"}>
+                    <div className={WalletButtonShow ? "mt-1" : "hidden"}>
                         <button onClick={swapnow} className="px-24 py-1.5 rounded-lg bg-indigo-400">
                             Swap
                         </button>
@@ -178,7 +176,6 @@ const Recent = ()=>{
 }
 const Popular = ()=>{
     const [WalletButtonShow,]=useAtom(WalletButtonShowState)
-    const [substrateShow,] =useAtom(SetSubstrateShowState)
     const [,SetOpenWalletListState] = useAtom(WalletListShowState)
     const [,setSelectTokenTail] = useAtom(Select_TokenTail)
     const [,setSelectTokenTop] = useAtom(Select_TokenTop)
@@ -298,14 +295,13 @@ const Popular = ()=>{
                 </div>
             </div>
             <div className="text-center mt-5  text-black" >
-                <div className={WalletButtonShow || substrateShow ? "hidden": "mt-1"}>
+                <div className={WalletButtonShow ? "hidden": "mt-1"}>
                     <button  onClick={()=>{SetOpenWalletListState(true)}} className="px-24 py-1.5 rounded-lg bg-blue-500">
                         Connect Wallet
                     </button>
                 </div>
-                <div className={WalletButtonShow || substrateShow ? "mt-1": "hidden"}>
+                <div className={WalletButtonShow ? "mt-1": "hidden"}>
                     <button onClick={()=>{
-                        console.log(1);
                     }} className="px-24 py-1.5 rounded-lg bg-indigo-400">
                         Swap
                     </button>

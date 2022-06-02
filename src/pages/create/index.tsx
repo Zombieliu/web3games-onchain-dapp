@@ -7,7 +7,6 @@ import {useAtom} from "jotai";
 import {
     Select_TokenTail,
     Select_TokenTop,
-    SetSubstrateShowState,
     SwapTokenTail,
     SwapTokenTop,
     WalletButtonShowState, WalletListShowState
@@ -23,7 +22,6 @@ const deliveryMethods = [
 ]
 const Create = () =>{
     const [WalletButtonShow,SetWalletButtonShow]=useAtom(WalletButtonShowState)
-    const [substrateShow,SetSubstrateShow] =useAtom(SetSubstrateShowState)
     const [,SetOpenWalletListState] = useAtom(WalletListShowState)
     const [selectedDeliveryMethod, setSelectedDeliveryMethod] = useState(deliveryMethods[0])
     const [,setSelectTokenTail] = useAtom(Select_TokenTail)
@@ -211,12 +209,12 @@ const Create = () =>{
                                 </div>
                             </div>
                             <div className="mt-10" >
-                                <div className={WalletButtonShow || substrateShow ? "hidden": "mt-1"}>
+                                <div className={WalletButtonShow ? "hidden": "mt-1"}>
                                     <button  onClick={()=>{SetOpenWalletListState(true)}} className="px-12 py-1.5 rounded-lg bg-blue-500">
                                         Connect Wallet
                                     </button>
                                 </div>
-                                <div className={WalletButtonShow || substrateShow ? "mt-1": "hidden"}>
+                                <div className={WalletButtonShow ? "mt-1": "hidden"}>
                                     <button  className="mt-5 lg:mt-0 bg-blue-500 px-3 py-2 rounded-lg bg-indigo-500 text-white">
                                         Create Pool
                                     </button>

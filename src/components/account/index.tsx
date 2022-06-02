@@ -4,45 +4,42 @@ import { useAtom } from 'jotai';
 import {
   AccountChooseValue,
   AccountConfigPageState,
-  AfterEvmAddressValue,
-  EVMAddressValue,
   WalletButtonShowState,
   WalletListShowState,
-  HiddenClaim, SetSubstrateShowState, WalletAddress, AfterSubstrateAddressList, IntactWalletAddress
+  HiddenClaim, WalletAddress, AfterSubstrateAddressList, IntactWalletAddress
 } from '../../jotai';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 const FunctionList = () =>{
+  // substrate rechoose account
   const [,SetAccountConfig] = useAtom(AccountConfigPageState)
-  const [,ChangeEVMAddress] = useAtom(EVMAddressValue)
+  // account info show
   const [,SetWalletButtonShow]=useAtom(WalletButtonShowState)
+  // rechoose account list
   const [,SetOpenWalletListState] = useAtom(WalletListShowState)
+  // wall type 1 evm 2 substrate
   const [,SetAccountChooseValue] = useAtom(AccountChooseValue)
-  const [substrateShow,SetSubstrateShow] =useAtom(SetSubstrateShowState)
   const [,setHidden] = useAtom(HiddenClaim)
+  // address show
   const [walletAddress,setWalletAddress] =useAtom(WalletAddress)
+  // substrate address list
   const [SubstrateAddressList,SetSubstrateAddressList] = useAtom(AfterSubstrateAddressList)
+  // local address
   const [intactWalletAddress,SetIntactWalletAddress] = useAtom(IntactWalletAddress)
+
   function closewallet(){
     setHidden(true)
     SetAccountConfig(false)
-    ChangeEVMAddress("")
     SetWalletButtonShow(false)
-    SetSubstrateShow(false)
     SetAccountChooseValue(0)
-    SetSubstrateAddressList([])
     SetIntactWalletAddress("")
-    setWalletAddress("")
   }
   function ChangeWallet() {
     SetOpenWalletListState(true)
     closewallet()
   }
-
-
-
 
   return (
       <>
@@ -52,22 +49,15 @@ const FunctionList = () =>{
               <div className="hidden" id="address">
                 {walletAddress}
               </div>
-              <button  className="flex text-sm text-gray-800 transition duration-500 hover:text-blue-400 w-28">
-                <i className="fa fa-clone mt-0.5 mr-1" aria-hidden="true"></i>
-                <div>Copy Address</div></button>
+              <button  onClick={closewallet} className="flex text-sm text-gray-800 transition duration-500 hover:text-blue-400 ">
+                <i className="fa fa-times mt-0.5 mr-1" aria-hidden="true"></i>
+                <div>Close Wallet</div></button>
             </div>
             <button onClick={ChangeWallet} className="flex text-sm text-gray-800 transition duration-500 hover:text-blue-400 w-28">
               <i className="fa fa-list-ul mt-0.5 mr-1 " aria-hidden="true"></i>
               <div>Change Wallet</div>
             </button>
           </div>
-          <div className="mt-2 flex justify-between">
-            <button  onClick={closewallet} className="flex text-sm text-gray-800 transition duration-500 hover:text-blue-400 ">
-              <i className="fa fa-times mt-0.5 mr-1" aria-hidden="true"></i>
-              <div>Close Wallet</div></button>
-
-          </div>
-
         </div>
       </>
   )
@@ -94,8 +84,6 @@ const Account=()=>{
     //   SetCopyStyle(false)},2000)
   }
 
-
-  // console.log(Address)
 
   return(
     <Transition.Root show={AccountConfig} as={Fragment}>
@@ -137,11 +125,8 @@ const Account=()=>{
                 </div>
                 <div className="flex justify-between">
                 <div className="text-gray-400 mt-2">
-                  Your waller address
+                  Your wallet address
                 </div>
-                  <div className="mt-2">
-                    {token} Token
-                  </div>
                 </div>
                 <div className="mt-5">
                   <button onClick={CopyAddress} className="bg-gray-600 p-3 text-white rounded-full w-72 md:w-96">

@@ -3,7 +3,7 @@ import Tail from "../../components/tail";
 import React, {Fragment, useState } from 'react'
 import Swap from "../swap";
 import {useAtom} from "jotai";
-import {SetSubstrateShowState, WalletButtonShowState, WalletListShowState} from "../../jotai";
+import {WalletButtonShowState, WalletListShowState} from "../../jotai";
 import Link from "next/link";
 import {ChevronDownIcon, ChevronUpIcon, ExclamationIcon} from "@heroicons/react/solid";
 import {Dialog, Disclosure, Transition} from "@headlessui/react";
@@ -14,7 +14,6 @@ function classNames(...classes) {
 
 const Staking = () =>{
     const [WalletButtonShow,]=useAtom(WalletButtonShowState)
-    const [substrateShow,] =useAtom(SetSubstrateShowState)
     const [,SetOpenWalletListState] = useAtom(WalletListShowState)
     const [stakeShow,setStakeShow] = useState(false)
     return (
@@ -84,12 +83,12 @@ const Staking = () =>{
 
                                     </div>
                                     <div className="text-center mt-5 " >
-                                        <div className={WalletButtonShow || substrateShow ? "hidden": "mt-1"}>
+                                        <div className={WalletButtonShow ? "hidden": "mt-1"}>
                                             <button  onClick={()=>{SetOpenWalletListState(true)}} className="px-24 py-1.5 rounded-lg bg-blue-500">
                                                 Connect Wallet
                                             </button>
                                         </div>
-                                        <div className={WalletButtonShow || substrateShow ? "mt-1": "hidden"}>
+                                        <div className={WalletButtonShow ? "mt-1": "hidden"}>
                                             <button onClick={()=>{setStakeShow(true)}}  className="px-12 py-1.5 rounded-lg bg-indigo-500">
                                                 Stake / Unstake
                                             </button>
@@ -129,12 +128,12 @@ const Staking = () =>{
                                                         </div>
 
                                                         <div className="text-center mt-5 " >
-                                                            <div className={WalletButtonShow || substrateShow ? "hidden": "mt-1"}>
+                                                            <div className={WalletButtonShow ? "hidden": "mt-1"}>
                                                                 <button  onClick={()=>{SetOpenWalletListState(true)}} className="px-24 py-1.5 rounded-lg bg-blue-500">
                                                                     Connect Wallet
                                                                 </button>
                                                             </div>
-                                                            <div className={WalletButtonShow || substrateShow ? "mt-1": "hidden"}>
+                                                            <div className={WalletButtonShow ? "mt-1": "hidden"}>
                                                                 <button  className="px-12 py-1.5 rounded-lg bg-indigo-500">
                                                                   Claim
                                                                 </button>

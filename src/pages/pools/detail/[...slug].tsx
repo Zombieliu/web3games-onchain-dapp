@@ -4,11 +4,12 @@ import React, {Fragment, useState ,useEffect} from 'react'
 import Link from "next/link";
 import {Dialog, RadioGroup, Transition} from "@headlessui/react";
 import {useAtom} from "jotai";
-import {IntactWalletAddress, SetSubstrateShowState, WalletButtonShowState, WalletListShowState} from "../../../jotai";
+import {IntactWalletAddress, token_pool_pair, WalletButtonShowState, WalletListShowState} from "../../../jotai";
 import {CheckCircleIcon} from "@heroicons/react/solid";
-import { add_liquidity } from "../../../chain/web3games";
+import { add_liquidity, chain_api, substrate_wallet_injector } from "../../../chain/web3games";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { address_slice } from "../../../utils/chain/address";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -23,12 +24,13 @@ const deliveryMethods = [
 const Detail = () =>{
     const router = useRouter()
     const [WalletButtonShow,]=useAtom(WalletButtonShowState)
-    const [substrateShow,] =useAtom(SetSubstrateShowState)
     const [,SetOpenWalletListState] = useAtom(WalletListShowState)
     const [openAdd,setOpenAdd] = useState(false)
     const [openRemove,setOpenRemove] = useState(false)
     const [selectedDeliveryMethod, setSelectedDeliveryMethod] = useState(deliveryMethods[0])
     const [intactWalletAddress,] = useAtom(IntactWalletAddress)
+    // token pool pair info
+    const [tokenPoolPair,setTokenPoolPair] = useAtom(token_pool_pair)
     const poolDetails={
         pool_id:"",
         assets_a:"",
@@ -46,47 +48,60 @@ const Detail = () =>{
         your_lp:"",
     }
     const [PoolDetails,setPoolDetails] = useState(poolDetails)
-
+    const [tokenABalance,setTokenABalance] = useState('')
+    const [tokenBBalance,setTokenBBalance] = useState('')
+    const [tokenAAccountBalance,setTokenAccountABalance] = useState('')
+    const [tokenBAccountBalance,setTokenAccountBBalance] = useState('')
     useEffect(()=>{
         if (router.isReady){
-           const fetchUserBounty = async () => {
-                const data= await axios.get("http://127.0.0.1:7001/api/swap/get_swap_pools_details",{
-                    params:{
-                        pool_id:router.query.slug[0]
-                    }}
-                )
-               const firsta = data.data.assets_a_address.slice(0,6);
-               const lasta =  data.data.assets_a_address.slice(-5,-1)
-               const a_address= firsta+"..."+lasta
-               const firstb = data.data.assets_b_address.slice(0,6);
-               const lastb =  data.data.assets_b_address.slice(-5,-1)
-               const b_address= firstb+"..."+lastb
-               const poolDetails={
-                   pool_id : data.data.pool_id,
-                   assets_a:data.data.assets_a,
-                   assets_b:data.data.assets_b,
-                   assets_a_id:data.data.assets_a_id,
-                   assets_b_id:data.data.assets_b_id,
-                   assets_a_image_url:data.data.assets_a_image_url,
-                   assets_b_image_url:data.data.assets_b_image_url,
-                   assets_a_address:a_address,
-                   assets_b_address:b_address,
-                   tvl:data.data.tvl,
-                   volume:data.data.volume,
-                   volume_days:data.data.volume_days,
-                   total_lp:data.data.total_lp,
-                   your_lp:data.data.your_lp,
-               }
-               setPoolDetails(poolDetails);
-               console.log(data.data);
+            const token_detail = async ()=>{
+                const pool_id = router.query.slug[0]
+                const result = tokenPoolPair.filter(token => token.pool_id = pool_id)
+                console.log(result[0]);
+                const poolDetails={
+                    pool_id : pool_id,
+                    assets_a: result[0].assets_a,
+                    assets_b:result[0].assets_b,
+                    assets_a_id:result[0].assets_a_id,
+                    assets_b_id:result[0].assets_b_id,
+                    assets_a_image_url:result[0].assets_a_image_url,
+                    assets_b_image_url:result[0].assets_b_image_url,
+                    assets_a_address:address_slice(result[0].assets_a_address.owner),
+                    assets_b_address:address_slice(result[0].assets_b_address.owner),
+                    tvl:result[0].tvl,
+                    volume:result[0].volume,
+                    volume_days:result[0].volume_days,
+                    total_lp:result[0].total_lp,
+                    your_lp:result[0].your_lp,
+                }
+                setPoolDetails(poolDetails)
+                const api = await chain_api(intactWalletAddress)
+                const balance = await api.query.exchange.reserves(pool_id);
+                setTokenABalance(balance.toJSON()[0])
+                setTokenBBalance(balance.toJSON()[1])
+                const account_token_a_balance = await api.query.tokenFungible.balances(result[0].assets_a_id,intactWalletAddress);
+                const account_token_b_balance = await api.query.tokenFungible.balances(result[0].assets_b_id,intactWalletAddress);
+                setTokenAccountABalance(account_token_a_balance.toString())
+                setTokenAccountBBalance(account_token_b_balance.toString())
             }
-            fetchUserBounty()
-        }
+            token_detail()
 
+        }
     },[router.isReady])
 
     const addLiquidity = async ()=>{
-        await add_liquidity(intactWalletAddress)
+        const api = await chain_api(intactWalletAddress)
+        const injector = await substrate_wallet_injector(intactWalletAddress)
+        const transferExtrinsic = api.tx.exchange.addLiquidity(poolDetails.pool_id,poolDetails.assets_a_id,poolDetails.assets_b_id,0,0,intactWalletAddress)
+        transferExtrinsic.signAndSend(intactWalletAddress, { signer: injector.signer }, ({ status }) => {
+            if (status.isInBlock) {
+                console.log(`Completed at block hash #${status.asInBlock.toString()}`);
+            } else {
+                console.log(`Current status: ${status.type}`);
+            }
+        }).catch((error: any) => {
+            console.log(':( transaction failed', error);
+        });
     }
     return (
         <div>
@@ -109,13 +124,13 @@ const Detail = () =>{
                                                 </div>
                                                 <Link href="/">
                                                     <a className="text-xs text-gray-300">
-                                                        Address:{PoolDetails.assets_a_address}
+                                                        Owner:{PoolDetails.assets_a_address}
                                                     </a>
                                                 </Link>
                                             </div>
                                         </div>
                                         <div className="text-white">
-                                            9.99M
+                                            {tokenABalance}
                                         </div>
                                     </div>
                                     <div className="flex mt-4 justify-between px-3 items-center">
@@ -129,13 +144,13 @@ const Detail = () =>{
                                                 </div>
                                                 <Link href="/">
                                                     <a className="text-xs text-gray-300">
-                                                        Address:{PoolDetails.assets_b_address}
+                                                        Owner:{PoolDetails.assets_b_address}
                                                     </a>
                                                 </Link>
                                             </div>
                                         </div>
                                         <div className="text-white">
-                                            10.01M
+                                            {tokenBBalance}
                                         </div>
                                     </div>
                                     <div className="flex justify-between my-5 px-3">
@@ -257,44 +272,46 @@ const Detail = () =>{
                                     <div className="mt-5 ">
                                         <div className="flex items-center justify-between mt-4 ">
                                             <div className="text-sm  mt-5 flex items-center text-white font-semibold">
-                                                <img className="w-10 mr-2" src="/img.png" alt=""/>
-                                                W3G
+                                                <img className="w-10 mr-2" src={PoolDetails.assets_a_image_url} alt=""/>
+                                                {PoolDetails.assets_a}
                                             </div>
                                             <div className="items-center">
                                                 <div className="flex justify-end text-gray-400 text-sm mb-2">
-                                                    Balance:0
+                                                    Balance:{tokenAAccountBalance}
                                                 </div>
                                             <div className="flex mx-4">
-                                                <input type="text"
+                                                <input type="number"
                                                        className="text-xs md:text-sm placeholder-gray-50 bg-gray-600 rounded-lg p-2 py-3 xl:w-80 text-white    outline-none"
                                                        placeholder="0"
                                                        id="amount"
                                                 />
-                                                <div  className="-ml-12 text-sm flex items-center ">
+                                                <button  className="-ml-12 text-sm flex items-center ">
                                                     MAX
-                                                </div></div>
+                                                </button>
+                                            </div>
                                         </div>
                                         </div>
                                     </div>
                                     <div className="mt-5 ">
                                         <div className="flex items-center justify-between mt-4 ">
                                             <div className="text-sm  mt-5 flex items-center text-white font-semibold">
-                                                <img className="w-10 mr-2" src="https://s2.coinmarketcap.com/static/img/coins/200x200/825.png" alt=""/>
-                                                USDT
+                                                <img className="w-10 mr-2" src={PoolDetails.assets_b_image_url} alt=""/>
+                                                {PoolDetails.assets_b}
                                             </div>
                                             <div className="items-center">
                                                 <div className="flex justify-end text-gray-400 text-sm mb-2">
-                                                    Balance:0
+                                                    Balance:{tokenBAccountBalance}
                                                 </div>
                                                 <div className="flex mx-4">
-                                                    <input type="text"
+                                                    <input type="number"
                                                            className="text-xs md:text-sm placeholder-gray-50 bg-gray-600 rounded-lg p-2 py-3 xl:w-80 text-white    outline-none"
                                                            placeholder="0"
                                                            id="amount"
                                                     />
-                                                    <div  className="-ml-12 text-sm flex items-center ">
+                                                    <button  className="-ml-12 text-sm flex items-center ">
                                                         MAX
-                                                    </div></div>
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -307,12 +324,12 @@ const Detail = () =>{
                                         </div>
                                     </div>
                                     <div className="text-center mt-5" >
-                                        <div className={WalletButtonShow || substrateShow ? "hidden": "mt-1"}>
+                                        <div className={WalletButtonShow ? "hidden": "mt-1"}>
                                             <button  onClick={()=>{SetOpenWalletListState(true)}} className="w-full py-1.5 text-gray-200 rounded-lg bg-blue-500">
                                                 Connect Wallet
                                             </button>
                                         </div>
-                                        <div className={WalletButtonShow || substrateShow ? "mt-1": "hidden"}>
+                                        <div className={WalletButtonShow  ? "mt-1": "hidden"}>
                                             <button  onClick={addLiquidity} className=" lg:mt-0 bg-blue-500 w-full px-3 py-2 rounded-lg bg-indigo-500 text-white">
                                                 Add Liquidity
                                             </button>
@@ -424,12 +441,12 @@ const Detail = () =>{
                                     </div>
 
                                     <div className="text-center mt-5" >
-                                        <div className={WalletButtonShow || substrateShow ? "hidden": "mt-1"}>
+                                        <div className={WalletButtonShow ? "hidden": "mt-1"}>
                                             <button  onClick={()=>{SetOpenWalletListState(true)}} className="w-full py-1.5 text-gray-200 rounded-lg bg-blue-500">
                                                 Connect Wallet
                                             </button>
                                         </div>
-                                        <div className={WalletButtonShow || substrateShow ? "mt-1": "hidden"}>
+                                        <div className={WalletButtonShow ? "mt-1": "hidden"}>
                                             <button   className=" lg:mt-0 bg-blue-500 w-full px-3 py-2 rounded-lg bg-indigo-500 text-white">
                                                 Remove Liquidity
                                             </button>

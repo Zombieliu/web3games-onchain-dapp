@@ -8,19 +8,24 @@ import Sort from "../../components/sort";
 import {useAtom} from "jotai";
 import {
     AccountChooseValue,
-    base_token_list_and_balance,
+    token_list_and_balance,
     IntactWalletAddress,
     Select_TokenTail,
     Select_TokenTop,
-    SetSubstrateShowState, SwapTokenTail, SwapTokenTop,
+    SwapTokenTail, SwapTokenTop,
     WalletButtonShowState,
-    WalletListShowState
+    WalletListShowState,
+    token_pool_pair
 } from "../../jotai";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { create_pool } from "../../chain/web3games";
+import { chain_api, substrate_wallet_injector } from "../../chain/web3games";
 import axios from "axios";
 import { BUSD, DAI, USDC, USDT } from "../../assets";
+import TokenList from "../../components/token_lists";
+import SelectTokenTop from "../../components/selecttokentop";
+import SelectTokenTail from "../../components/selecttokentail";
+import { evm_address_to_sub_address } from "../../utils/chain/address";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -48,11 +53,31 @@ const tokenstitle=[
 ]
 
 const Pools = () =>{
+
+    // const token_pair = {
+    //     assets_a: '',
+    //     assets_a_address: "",
+    //     assets_a_id: "",
+    //     assets_a_image_url: "",
+    //     assets_b: "",
+    //     assets_b_address: "",
+    //     assets_b_id: "",
+    //     assets_b_image_url: "",
+    //     id: ,
+    //     pool_id: "0",
+    //     total_lp: "0",
+    //     tvl: "1231231",
+    //     volume: "231231",
+    //     volume_days: "0",
+    //     your_lp: "0"
+    //
+    // }
+
     const router = useRouter()
     const [selectedDeliveryMethod, setSelectedDeliveryMethod] = useState(deliveryMethods[0])
     const [selected, setSelected] = useState(types[0])
-    const [WalletButtonShow,SetWalletButtonShow]=useAtom(WalletButtonShowState)
-    const [substrateShow,SetSubstrateShow] =useAtom(SetSubstrateShowState)
+    // account info show
+    const [WalletButtonShow,SetWalletButtonShow] = useAtom(WalletButtonShowState)
     const [,SetOpenWalletListState] = useAtom(WalletListShowState)
     const [openCreate,setOpenCreate] = useState(false)
     const [openAlert,setOpenAlert] = useState(false)
@@ -60,122 +85,133 @@ const Pools = () =>{
     const [,setSelectTokenTop] = useAtom(Select_TokenTop)
     const [swapTokenTop,] = useAtom(SwapTokenTop)
     const [swapTokenTail,] = useAtom(SwapTokenTail)
+    // local address
     const [intactWalletAddress,] = useAtom(IntactWalletAddress)
-    const [Etrinsic,setExtrinsic] = useState([])
+    // token pool pair info
+    const [tokenPoolPair,setTokenPoolPair] = useAtom(token_pool_pair)
+    const [localTokenPoolPair,setLocalTokenPoolPair] = useState([])
+    // all pages number
     const [pages,setPages] = useState(1)
+    // last pages number
     const [pagesLast,setPagesLast] = useState(0)
+    // wallet type
     const [AccountChoose,] = useAtom(AccountChooseValue)
-    const [,settokenList] = useAtom(base_token_list_and_balance)
+    // token list
+    const [tokenlist,settokenList] = useAtom(token_list_and_balance)
+    // success
+    const [createPoolSuccess, SetCreatePoolSuccess] = useState(false)
 
     useEffect(()=>{
         if (router.isReady) {
-            const fetchUserBounty = async () => {
-                const Pages = await axios.get("http://127.0.0.1:7001/api/swap/get_swap_pools_all", {})
-                setPagesLast(Math.ceil(Pages.data.length / 5))
-                const data = await axios.get("http://127.0.0.1:7001/api/swap/get_swap_pools", {
-                    params: {
-                        pages
-                    }
-                })
-                setExtrinsic(data.data)
+            let intactWalletAddress_local = intactWalletAddress
+
+            // evm to substrate
+            if (AccountChoose == 1){
+                intactWalletAddress_local = evm_address_to_sub_address(intactWalletAddress_local)
             }
-            const query_w3g_token_balance = async () =>{
-                const w3g_token_result = await axios.get('http://127.0.0.1:7001/api/token/fungible_token_balance', {
-                    params: {
-                        token_id:'0',
-                        // address:'5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY'
-                        address:intactWalletAddress
-                    }
-                })
-                return w3g_token_result.data
+            // set pages last number
+            const pagesLast = Math.ceil(tokenPoolPair.length/5)
+            // set last pages number
+            setPagesLast(pagesLast)
+
+            //frist page
+            firstPage()
+
+            //check token balance
+            const query_token_balance = async () =>{
+                const times = tokenlist.length
+                let token_list = tokenlist.concat()
+                let token_balance = []
+                for (let i =0;i<times;i++){
+                    const result = await axios.get('http://127.0.0.1:7001/api/token/fungible_token_balance', {
+                        params: {
+                            token_id:tokenlist[i].tokenId,
+                            address:intactWalletAddress_local
+                        }
+                    })
+                    token_list[i].data = result.data
+                }
+                settokenList(token_list)
             }
-            const query_usdt_token_balance = async () =>{
-                const usdt_token_result = await axios.get('http://127.0.0.1:7001/api/token/fungible_token_balance', {
-                    params: {
-                        token_id:'1',
-                        // address:'5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY'
-                        address:intactWalletAddress
-                    }
-                })
-                return usdt_token_result.data
-            }
-            const query_usdc_token_balance = async () =>{
-                const usdc_token_result = await axios.get('http://127.0.0.1:7001/api/token/fungible_token_balance', {
-                    params: {
-                        token_id:'2',
-                        address:intactWalletAddress
-                        // address:'intactWalletAddress'
-                    }
-                })
-                return usdc_token_result.data
-            }
-            const query_busd_token_balance = async () =>{
-                const busd_token_result = await axios.get('http://127.0.0.1:7001/api/token/fungible_token_balance', {
-                    params: {
-                        token_id:'3',
-                        address:intactWalletAddress
-                        // address:'intactWalletAddress'
-                    }
-                })
-                return busd_token_result.data
-            }
-            const query_dai_token_balance = async () =>{
-                const dai_token_result = await axios.get('http://127.0.0.1:7001/api/token/fungible_token_balance', {
-                    params: {
-                        token_id:'4',
-                        address:intactWalletAddress
-                        // address:'intactWalletAddress'
-                    }
-                })
-                return dai_token_result.data
-            }
-            axios.all([query_w3g_token_balance(),query_usdt_token_balance(),query_busd_token_balance(),query_usdc_token_balance(),query_dai_token_balance()]).then(
-              axios.spread((w3g,usdt,busd,usdc,dai)=>{
-                  settokenList([
-                      {
-                          img:"/img.png",
-                          title:"W3G",
-                          name:"W3G",
-                          data:w3g,
-                      },
-                      {
-                          img:USDT,
-                          title:"USDT",
-                          name:"USDT",
-                          data:usdt,
-                      },
-                      {
-                          img:BUSD,
-                          title:"BUSD",
-                          name:"BUSD",
-                          data:busd,
-                      },
-                      {
-                          img:USDC,
-                          title:"USDC",
-                          name:"USDC",
-                          data:usdc,
-                      },
-                      {
-                          img:DAI,
-                          title:"Dai Stablecoin",
-                          name:"DAI",
-                          data:dai,
-                      },
-                  ])
-              })
-            )
-            fetchUserBounty()
+            query_token_balance()
         }
     },[router.isReady])
 
     let time
     const createPool = async ()=>{
-        console.log("1");
-        console.log(swapTokenTop.name,swapTokenTop.name);
-        
+        // let a = '[0,1,2,"5CcgM2vkikJv6utQaS6jWDhV6DgnoyacKE81qzXZ52FSxkY8"]'
+        // a.substring(0,a.indexOf(','))
+        // console.log(a.substring(1,a.indexOf(',')))
+        if (swapTokenTop.tokenId === swapTokenTail.tokenId){
+            alert("error")
+        }else{
+            const creat_pool_event_name = 'exchange.PoolCreated'
+            const api = await chain_api(intactWalletAddress)
+            const injector = await substrate_wallet_injector(intactWalletAddress)
+            const token_a = Number(swapTokenTop.tokenId)
+            const token_b = Number(swapTokenTail.tokenId)
+            const transferExtrinsic = api.tx.exchange.createPool(token_a,token_b)
+            const assets_balance = async ()=>{
+                const assets_a_address = await axios.get(`http://127.0.0.1:7001/api/token/fungible_token?token_id=${swapTokenTop.tokenId}`)
+                const assets_b_address = await axios.get(`http://127.0.0.1:7001/api/token/fungible_token?token_id=${swapTokenTail.tokenId}`)
+                return [assets_a_address.data,assets_b_address.data]
+            }
+            const assets_balance_result = await assets_balance()
+            const result = await transferExtrinsic.signAndSend(intactWalletAddress, { signer: injector.signer }, ({ events= [],status }) => {
+                if (status.isInBlock){
+                    console.log(`${status.asInBlock.toString()}`);
+                    events.forEach(({ event: { data, method, section }, phase }) => {
+                        // console.log('\t', phase.toString(), `: ${section}.${method}`, data.toString());
+                        if (creat_pool_event_name == `${section}.${method}`){
+                            console.log(data.toString());
+                            console.log(data.toString().indexOf(','));
+                            const before_pool_id = data.toString()
+                            const index = before_pool_id.indexOf(',')
+                            const pool_id = before_pool_id.substring(1,index)
+                            let before_token_pool_pair = tokenPoolPair
+                            let new_token_pool_pair = tokenPoolPair
+                            const input = {
+                                assets_a: swapTokenTop.name,
+                                assets_a_address: assets_balance_result[0],
+                                assets_a_id: swapTokenTop.tokenId,
+                                assets_a_image_url: swapTokenTop.img,
+                                assets_b: swapTokenTail.name,
+                                assets_b_address: assets_balance_result[1],
+                                assets_b_id: swapTokenTail.tokenId,
+                                assets_b_image_url: swapTokenTail.img,
+                                pool_id,
+                                total_lp: "0",
+                                tvl: "1231231",
+                                volume: "231231",
+                                volume_days: "0",
+                                your_lp: "0"
+                            }
+                            new_token_pool_pair.push(input)
+                            let fix = before_token_pool_pair.concat(new_token_pool_pair)
+                            let new_result = []
+                            for ( let item1 of fix){
+                                let flag = true
+                                for(let item2 of new_result){
+                                    if (item1.pool_id == item2.pool_id){
+                                        flag = false
+                                    }
+                                }
+                                if (flag){
+                                    new_result.push(item1)
+                                }
+                            }
+                            setTokenPoolPair(new_result)
+                            // success
+                            setOpenCreate(false)
+                            SetCreatePoolSuccess(true)
+                        }
+                    });
+                }
+            }).catch((error: any) => {
+                alert(error)
+            });
+        }
         // clearTimeout(time)
-        // await create_pool(intactWalletAddress)
         // console.log(swapTokenTail.img,);
         // await axios.post("http://127.0.0.1:7001/api/swap/create_new_pool",{
         //     pool_id:"0",
@@ -204,53 +240,52 @@ const Pools = () =>{
         //   .catch(function (error) {
         //    alert("Please try again")
         //   });
-
     }
+
+    const get_token_pool_pair_info = (pages)=>{
+        let token_pair_info = []
+        const start_index = pages * 5 - 5
+        let index = pages * 5
+        if (index > tokenPoolPair.length){
+            index = tokenPoolPair.length
+        }
+        for (let i=start_index;i<index;i++){
+            token_pair_info.push(tokenPoolPair[i])
+        }
+        return token_pair_info
+    }
+
     const toDetail = (e)=>{
         router.push(`/pools/detail/${e}`)
     }
-    const firstPage = async (pages) =>{
-        const data= await axios.get("http://127.0.0.1:7001/api/swap/get_swap_pools", {
-            params:{
-                pages
-            }
-        })
+
+    const firstPage = async () =>{
+        const token_pool_pair_info = get_token_pool_pair_info(1)
+        setLocalTokenPoolPair(token_pool_pair_info)
         setPages(1)
-        setExtrinsic(data.data)
     }
 
-    const lastsPage = async (pages) =>{
-        const data= await axios.get("http://127.0.0.1:7001/api/swap/get_swap_pools", {
-            params:{
-                pages
-            }
-        })
+    const lastsPage = async () =>{
+        const token_pool_pair_info = get_token_pool_pair_info(pagesLast)
+        setLocalTokenPoolPair(token_pool_pair_info)
         setPages(pagesLast)
-        setExtrinsic(data.data)
     }
+
     const leftPage = async (pages) =>{
         if( pages >= 1 ){
-            const data= await axios.get("http://127.0.0.1:7001/api/swap/get_swap_pools", {
-                params:{
-                    pages
-                }
-            })
+            const token_pool_pair_info = get_token_pool_pair_info(pages)
+            setLocalTokenPoolPair(token_pool_pair_info)
             setPages(pages)
-            setExtrinsic(data.data)
         }
     }
     const rightPage = async (pages) =>{
         if( pages <= pagesLast){
-            const data= await axios.get("http://127.0.0.1:7001/api/swap/get_swap_pools", {
-                params:{
-                    pages
-                }
-            })
+            const token_pool_pair_info = get_token_pool_pair_info(pages)
+            setLocalTokenPoolPair(token_pool_pair_info)
             setPages(pages)
-            setExtrinsic(data.data)
         }
     }
-
+    // @ts-ignore
     return(
         <div>
             <Header/>
@@ -300,12 +335,12 @@ const Pools = () =>{
                                     <div className="text-sm leading-5 font-medium currentColor text-gray-300">Earn LP fees by depositing tokens to the platform.</div>
                                 </div>
                                     <div className="mt-10 md:mt-0  text-center" >
-                                        <div className={WalletButtonShow || substrateShow ? "hidden": "mt-1"}>
+                                        <div className={WalletButtonShow ? "hidden": "mt-1"}>
                                             <button  onClick={()=>{SetOpenWalletListState(true)}} className="px-12 py-1.5 text-gray-200 rounded-lg bg-blue-500">
                                                 Connect Wallet
                                             </button>
                                         </div>
-                                        <div className={WalletButtonShow || substrateShow ? "mt-1": "hidden"}>
+                                        <div className={WalletButtonShow ? "mt-1": "hidden"}>
                                             <button onClick={()=>{setOpenCreate(true)}}  className=" lg:mt-0 bg-blue-500 px-3 py-2 rounded-lg bg-indigo-500 text-white">
                                                 Create Pool
                                             </button>
@@ -469,8 +504,8 @@ const Pools = () =>{
                                             </tr>
                                             </thead>
                                             <tbody className="bg-black  divide-y divide-gray-700">
-                                            {Etrinsic.map(item => (
-                                                <tr key={item.assets} onClick={()=>{toDetail(item.pool_id)}}className="cursor-pointer hover:bg-gray-900">
+                                            {localTokenPoolPair.map(item => (
+                                                <tr key={item.pool_id}  onClick={()=>{toDetail(item.pool_id)}} className="cursor-pointer hover:bg-gray-900">
                                                     <td className="px-6 py-4 pr-24 md:pr-0  whitespace-nowrap text-sm font-medium text-gray-200 font-medium">
                                                         <div className="flex items-center">
                                                             <img className="w-8 rounded-full" src={item.assets_a_image_url} alt=""/>
@@ -493,13 +528,13 @@ const Pools = () =>{
                                     </div>
                                     <div>
                                         <div className="rounded-md   flex justify-end my-5" aria-label="Pagination">
-                                            <button onClick={()=>firstPage(1)}>
+                                            <button onClick={()=>firstPage()}>
                                                 <div className="relative inline-flex items-center px-2 py-2 mr-2 rounded-md bg-gray-500 border border-gray-300  text-sm font-medium text-white "
                                                 >
                                                     <span className="">First</span>
                                                 </div>
                                             </button>
-                                            <button onClick={()=>leftPage(pages-1)}>
+                                            <button onClick={()=>leftPage(pages - 1)}>
                                                 <div className="relative inline-flex items-center px-2 py-2 rounded-l-md  bg-gray-500 border border-gray-400 text-sm font-medium text-white ">
                                                     <span className="sr-only">Previous</span>
                                                     <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
@@ -509,14 +544,14 @@ const Pools = () =>{
                                                 Page {pages} of {pagesLast}
                                             </div>
 
-                                            <button onClick={()=>rightPage(pages+1)}>
+                                            <button onClick={()=>rightPage(pages + 1)}>
                                                 <a className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-400 bg-gray-500 text-sm font-medium text-white">
                                                     <span className="sr-only">Next</span>
                                                     <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
                                                 </a>
                                             </button>
                                             <button onClick={ ()=>{
-                                                lastsPage(pagesLast)
+                                                lastsPage()
                                             }}>
                                                 <div className="relative inline-flex items-center px-2 py-2 ml-2 rounded-md border border-gray-300 bg-gray-500 text-sm font-medium text-white ">
                                                     <span className="">Last</span>
@@ -685,12 +720,12 @@ const Pools = () =>{
                                 </div>
 
                                 <div className="text-center mt-5" >
-                                    <div className={WalletButtonShow || substrateShow ? "hidden": "mt-1"}>
+                                    <div className={WalletButtonShow  ? "hidden": "mt-1"}>
                                         <button  onClick={()=>{SetOpenWalletListState(true)}} className="w-full py-1.5 text-gray-200 rounded-lg bg-blue-500">
                                             Connect Wallet
                                         </button>
                                     </div>
-                                    <div className={WalletButtonShow || substrateShow ? "mt-1": "hidden"}>
+                                    <div className={WalletButtonShow  ? "mt-1": "hidden"}>
                                         <button  onClick={createPool} className=" lg:mt-0 bg-blue-500 w-full px-3 py-2 rounded-lg bg-indigo-500 text-white">
                                            Create
                                         </button>
@@ -701,6 +736,63 @@ const Pools = () =>{
                     </div>
                 </Dialog>
             </Transition.Root>
+            <Transition.Root show={createPoolSuccess} as={Fragment}>
+                <Dialog as="div" className="relative z-10" onClose={SetCreatePoolSuccess}>
+                    <Transition.Child
+                      as={Fragment}
+                      enter="ease-out duration-300"
+                      enterFrom="opacity-0"
+                      enterTo="opacity-100"
+                      leave="ease-in duration-200"
+                      leaveFrom="opacity-100"
+                      leaveTo="opacity-0"
+                    >
+                        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+                    </Transition.Child>
+
+                    <div className="fixed z-10 inset-0 overflow-y-auto">
+                        <div className="flex items-center sm:items-center justify-center min-h-full p-4 text-center sm:p-0">
+                            <Transition.Child
+                              as={Fragment}
+                              enter="ease-out duration-300"
+                              enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                              enterTo="opacity-100 translate-y-0 sm:scale-100"
+                              leave="ease-in duration-200"
+                              leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                              leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                            >
+                                <div className="relative bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all w-72 sm:my-8 sm:max-w-sm sm:w-full sm:p-6">
+                                    <div>
+                                        <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100">
+                                            <CheckIcon className="h-6 w-6 text-green-600" aria-hidden="true" />
+                                        </div>
+                                        <div className="mt-3 text-center sm:mt-5">
+                                            <Dialog.Title as="h3" className="text-lg  leading-6 font-medium text-gray-900">
+                                                Create Pool Success
+                                            </Dialog.Title>
+                                        </div>
+                                    </div>
+                                    <div className="mt-5 sm:mt-6">
+                                        <button
+                                          type="button"
+                                          className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm"
+                                          onClick={() => {
+                                              SetCreatePoolSuccess(false)
+                                              location.reload()
+                                          }}
+                                        >
+                                            Go back Pool
+                                        </button>
+                                    </div>
+                                </div>
+                            </Transition.Child>
+                        </div>
+                    </div>
+                </Dialog>
+            </Transition.Root>
+            <SelectTokenTail/>
+            <SelectTokenTop/>
+            <TokenList/>
             <Tail/>
         </div>
     )

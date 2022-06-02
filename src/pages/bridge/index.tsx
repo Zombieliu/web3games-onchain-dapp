@@ -7,7 +7,6 @@ import {CheckIcon, SelectorIcon} from "@heroicons/react/solid";
 import {useAtom} from "jotai";
 import {
     Select_TokenTop,
-    SetSubstrateShowState,
     SwapTokenTop,
     WalletButtonShowState,
     WalletListShowState
@@ -183,7 +182,6 @@ const to = [
 ]
 const Bridge = () =>{
     const [WalletButtonShow,SetWalletButtonShow]=useAtom(WalletButtonShowState)
-    const [substrateShow,SetSubstrateShow] =useAtom(SetSubstrateShowState)
     const [,SetOpenWalletListState] = useAtom(WalletListShowState)
     const [selectedfrom, setSelectedfrom] = useState(from[0])
     const [selectedto, setSelectedto] = useState(from[1])
@@ -395,12 +393,12 @@ const Bridge = () =>{
                                     </div>
 
                                     <div className="mt-10" >
-                                        <div className={WalletButtonShow || substrateShow ? "hidden": "mt-8  flex justify-center"}>
+                                        <div className={WalletButtonShow ? "hidden": "mt-8  flex justify-center"}>
                                             <button  onClick={()=>{SetOpenWalletListState(true)}} className="px-12 py-1.5 rounded-lg bg-blue-500">
                                                 Connect Wallet
                                             </button>
                                         </div>
-                                        <div className={WalletButtonShow || substrateShow ? "mt-8  flex justify-center": "hidden"}>
+                                        <div className={WalletButtonShow ? "mt-8  flex justify-center": "hidden"}>
                                             <button className="px-8 flex flex-row items-center py-2  justify-center rounded-lg text-base focus:outline-none bg-indigo-500 text-white transition duration-300 transform hover:translate-x-2 ">
                                                 Approve <i className="fa fa-arrow-right ml-2 " aria-hidden="true"></i>
                                             </button>

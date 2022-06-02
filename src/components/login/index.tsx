@@ -3,73 +3,63 @@ import { Dialog, Transition } from '@headlessui/react';
 import { useAtom } from 'jotai';
 import {
   AccountChooseValue,
-  AfterEvmAddressValue,
-  EVMAddressValue,
   WalletButtonShowState,
   WalletListShowState,
   WalletAddress,
-  SubstrateAddress,
-  AfterSubstrateAddressValue,
   AfterSubstrateAddressList,
   IntactWalletAddress,
-  CurrentWallet,
 } from '../../jotai/index';
 import {ExclamationIcon} from "@heroicons/react/solid";
+import { address_slice } from '../../utils/chain/address';
 
 
 const Login=()=>{
+  // open wallet choose list
   const [OpenWalletListState, SetOpenWalletListState] = useAtom(WalletListShowState)
+  // open account info
   const [,SetWalletButtonShow] = useAtom(WalletButtonShowState)
-  const [,ChangeEVMAddress] = useAtom(EVMAddressValue)
-  const [,SetAfterEVMAddress] = useAtom(AfterEvmAddressValue)
+  // null = 0 evm = 1 substrate = 2
   const [,SetAccountChooseValue] = useAtom(AccountChooseValue)
-  const [walletAddress,SetWalletAddress] =useAtom(WalletAddress)
-  const [openSubstrateAddress,SetOpenSubstrateAddress] =useAtom(SubstrateAddress)
-  const [AfterSubstrateAddress,SetAfterSubstrateAddress] =useAtom(AfterSubstrateAddressValue)
+  // address
+  const [walletAddress,setWalletAddress] =useAtom(WalletAddress)
+  // open substrate list choose
+  const [openSubstrateAddress,SetOpenSubstrateAddress] = useState(false)
+  // substrate address list
   const [SubstrateAddressList,SetSubstrateAddressList] = useAtom(AfterSubstrateAddressList)
-  const [intactWalletAddress,SetIntactWalletAddress] = useAtom(IntactWalletAddress)
+  // local address
+  const [,SetIntactWalletAddress] = useAtom(IntactWalletAddress)
+  // sub wallet install check
   const [InstallSubstrate,setInstallSubstrate] = useState(false)
+  // metamask wallet instal check
   const [InstallMeatMask,setInstallMeatMask] = useState(false)
-  const [ currentWallet,SetCurrentWallet] =useAtom(CurrentWallet)
-  //
-  // //展示地址
-  // const [loginEvmAddress,setLoginEvmAddress]=useAtom(loginevmaddress)
-  // //是否登陆钱包
-  // const [Wallet,setWallet]=useAtom(wallet)
-  async function  sdasd () {
-
-    // @ts-ignore
-    if ( window.ethereum == 'undefined') {
-      console.log('MetaMask is installed!');
-    }
-  }
-
+  // login metamask
   async function  loginMeatMask () {
     // @ts-ignore
-   const install =  await  window.ethereum
+   const install = await window.ethereum
     if(install){
       // @ts-ignore
       const accountArray = await ethereum.request({method: 'eth_requestAccounts'});
-      SetWalletButtonShow(true)
       if (accountArray) {
-        ChangeEVMAddress(accountArray[0])
-        const first = accountArray[0].slice(0, 6)
-        const last = accountArray[0].slice(-5, -1)
-        const AfterEVMAddress = first + "...." + last
+        // set choose type evm
         SetAccountChooseValue(1)
-        SetAfterEVMAddress(accountArray[0])
-        SetIntactWalletAddress(accountArray[0])
-        SetWalletAddress(AfterEVMAddress)
+        // set local address
+        const account = accountArray[0]
+        SetIntactWalletAddress(account)
+        // set show address
+        setWalletAddress(address_slice(account))
+        // close wallet choose list
         SetOpenWalletListState(false)
-        SetCurrentWallet("MeatMask")
-        location.reload();
+        //open wallet Button
+        SetWalletButtonShow(true)
+        // refresh page
+        // location.reload();
       }
     }else {
+      // set account value
+      SetAccountChooseValue(0)
+      // metamask install page
       setInstallMeatMask(true)
     }
-
-
-
   }
 
   async function loginsubstrate() {
@@ -80,13 +70,14 @@ const Login=()=>{
       const allInjected = await web3Enable('my cool dapp');
       const web3Accounts = (await import("@polkadot/extension-dapp")).web3Accounts;
       const allAccounts = await web3Accounts();
-
       if (isWeb3Injected) {
-        SetOpenSubstrateAddress(true)
-        SetOpenWalletListState(false)
+        // input all substrate address
         SetSubstrateAddressList(allAccounts)
-        console.log(allAccounts)
+        // close wallet choose list
+        SetOpenWalletListState(false)
+        SetOpenSubstrateAddress(true)
       }else{
+        // substrate wallet install page
         setInstallSubstrate(true)
       }
     }
@@ -101,24 +92,32 @@ const Login=()=>{
   const loginaccount=()=>{
     if (substrateAddress){
       SetAccountChooseValue(2);
-      const first = substrateAddress.slice(0,6)
-      const last = substrateAddress.slice(-5,-1)
-      const substratePartAddress = first + "...." + last
-      SetAfterSubstrateAddress(substrateAddress)
       SetIntactWalletAddress(substrateAddress)
-      SetWalletAddress(substratePartAddress)
-      SetCurrentWallet("Polkaditjs")
       SetOpenSubstrateAddress(false)
-      location.reload();
+      SetWalletButtonShow(true)
+      setWalletAddress(address_slice(substrateAddress))
       }
-
-
   }
 
+  const close_wallet_list = () =>{
+    SetOpenWalletListState(false)
+  }
+
+  const metamask_install = () => {
+    setInstallMeatMask(false)
+  }
+
+  const substrate_wallet_install = () => {
+    setInstallSubstrate(false)
+  }
+
+  const rechoose_substrate_address = () => {
+    SetOpenSubstrateAddress(false)
+  }
   return(
       <>
         <Transition.Root show={OpenWalletListState} as={Fragment}>
-          <Dialog as="div" className="fixed z-20 inset-0 overflow-y-auto " onClose={SetOpenWalletListState}>
+          <Dialog as="div" className="fixed z-20 inset-0 overflow-y-auto " onClose={close_wallet_list}>
             <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
               <Transition.Child
                   as={Fragment}
@@ -151,7 +150,7 @@ const Login=()=>{
                       <div className=" font-bold mb-2 text-2xl">
                         Connect your wallet
                       </div>
-                      <button  onClick={() => SetOpenWalletListState(false)}
+                      <button  onClick={close_wallet_list}
                                className="fa fa-times " aria-hidden="true"></button>
                     </div>
                     <div className="text-base text-gray-600 lg:w-96 mr-8">
@@ -192,8 +191,9 @@ const Login=()=>{
             </div>
           </Dialog>
         </Transition.Root>
+        {/* open substrate address list */}
         <Transition.Root show={openSubstrateAddress} as={Fragment}>
-          <Dialog as="div" className="fixed z-20 inset-0 overflow-y-auto " onClose={()=>{SetOpenSubstrateAddress(false)}}>
+          <Dialog as="div" className="fixed z-20 inset-0 overflow-y-auto " onClose={rechoose_substrate_address}>
             <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
               <Transition.Child
                   as={Fragment}
@@ -222,7 +222,7 @@ const Login=()=>{
                 <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:y-8 sm:align-middle  sm:p-6 ">
                   <div>
                     <div className='flex justify-end text-xl'>
-                      <button  onClick={() => SetOpenSubstrateAddress(false)}
+                      <button  onClick={rechoose_substrate_address}
                                className="fa fa-times " aria-hidden="true"></button>
                     </div>
                     <div className="text-center font-bold mb-5 w-80 md:w-96">
@@ -268,7 +268,7 @@ const Login=()=>{
           </Dialog>
         </Transition.Root>
         <Transition.Root show={InstallSubstrate} as={Fragment}>
-          <Dialog as="div" className="fixed z-20 inset-0 overflow-y-auto " onClose={()=>{setInstallSubstrate(false)}}>
+          <Dialog as="div" className="fixed z-20 inset-0 overflow-y-auto " onClose={substrate_wallet_install}>
             <div className="flex items-center justify-center min-h-screen pt-4 px-4  text-center sm:block sm:p-0">
               <Transition.Child
                   as={Fragment}
@@ -297,7 +297,7 @@ const Login=()=>{
                 <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:y-8 sm:align-middle   sm:p-6 ">
                   <div>
                     <div className='flex justify-end text-xl'>
-                      <button  onClick={() => setInstallSubstrate(false)}
+                      <button  onClick={substrate_wallet_install}
                                className="fa fa-times " aria-hidden="true"></button>
                     </div>
 
@@ -312,7 +312,7 @@ const Login=()=>{
                         <a  className="text-blue-400 ml-0.5" href="https://polkadot.js.org/extension/">here</a>.</div>
                       <Dialog.Title as="h3" className="mt-3 text-center text-lg leading-6 font-medium text-gray-900">
 
-                        <button onClick={()=>loginsubstrate()}>
+                        <button onClick={loginsubstrate}>
                           <div className="flex justify-center">
                             <img className="w-10 h-10" src="/substrate.svg" alt=""/>
                             <h1 className="ml-2 mt-2">Try Again</h1>
@@ -330,7 +330,7 @@ const Login=()=>{
           </Dialog>
         </Transition.Root>
         <Transition.Root show={InstallMeatMask} as={Fragment}>
-          <Dialog as="div" className="fixed z-20 inset-0 overflow-y-auto " onClose={()=>{setInstallMeatMask(false)}}>
+          <Dialog as="div" className="fixed z-20 inset-0 overflow-y-auto " onClose={metamask_install}>
             <div className="flex items-center justify-center min-h-screen pt-4 px-4  text-center sm:block sm:p-0">
               <Transition.Child
                   as={Fragment}
@@ -359,7 +359,7 @@ const Login=()=>{
                 <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:y-8 sm:align-middle   sm:p-6 ">
                   <div>
                     <div className='flex justify-end text-xl'>
-                      <button  onClick={() => setInstallMeatMask(false)}
+                      <button  onClick={metamask_install}
                                className="fa fa-times " aria-hidden="true"></button>
                     </div>
 
@@ -374,12 +374,13 @@ const Login=()=>{
                         <a  className="text-blue-400 ml-0.5" href="https://metamask.io/download/">here</a>.</div>
                       <Dialog.Title as="h3" className="mt-3 text-center text-lg leading-6 font-medium text-gray-900">
 
-                        <button onClick={()=>loginMeatMask()}>
+                        <button onClick={loginMeatMask}>
                           <div className="flex justify-center ">
                             <img className="w-10 h-10" src="https://portal.web3games.org/icon-wallet-metamask.svg" alt=""/>
                             <h1 className="ml-2 mt-2">Try Again</h1>
                             <div className="text-center mt-1.5 text-xl"><i className="ml-10  fa fa-arrow-right" aria-hidden="true"></i></div>
-                          </div></button>
+                          </div>
+                        </button>
                       </Dialog.Title>
                       <div className="mt-2">
 

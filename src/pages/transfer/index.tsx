@@ -4,10 +4,8 @@ import React, {Fragment, useEffect, useState } from 'react'
 import {useAtom} from "jotai";
 import {
     AccountChooseValue,
-    EVMAddressValue,
     IntactWalletAddress,
     Select_TokenTop,
-    SetSubstrateShowState,
     SwapTokenTail,
     SwapTokenTop,
     WalletButtonShowState, WalletListShowState
@@ -46,7 +44,7 @@ const substarte_send = async (intactWalletAddress:string) =>{
         console.log(':( transaction failed', error);
     });
 
-    
+
     // api.tx.balances
     //   .transfer('5GrhDF1nyvr2nwgvXtY96RoFs5xr15W7WyHg32LkQRz6X8Pk', 123456)
     //   .signAndSend(intactWalletAddress, { signer: injector.signer });
@@ -96,7 +94,6 @@ const Transfer = () =>{
     const [,setSelectTokenTop] = useAtom(Select_TokenTop)
     const [balance,setBalance] = useState('0')
     const [WalletButtonShow,]=useAtom(WalletButtonShowState)
-    const [substrateShow,] =useAtom(SetSubstrateShowState)
     const [,SetOpenWalletListState] = useAtom(WalletListShowState)
     const ChooseToken = () =>{
         setSelectTokenTop(true)
@@ -174,12 +171,12 @@ const Transfer = () =>{
                                         </div>
                                     </div>
                                     <div className="text-center mt-5 " >
-                                        <div className={WalletButtonShow || substrateShow ? "hidden": "mt-1"}>
+                                        <div className={WalletButtonShow  ? "hidden": "mt-1"}>
                                             <button  onClick={()=>{SetOpenWalletListState(true)}} className="px-24 py-1.5 rounded-lg bg-blue-500">
                                                 Connect Wallet
                                             </button>
                                         </div>
-                                        <div className={WalletButtonShow || substrateShow ? "mt-1": "hidden"}>
+                                        <div className={WalletButtonShow  ? "mt-1": "hidden"}>
                                             <button onClick={()=>{
                                                 token_transfer(AccountChooseValueType,intactWalletAddress)
                                             }} className="px-24 py-1.5 rounded-lg bg-indigo-400">

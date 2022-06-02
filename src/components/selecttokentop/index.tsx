@@ -1,55 +1,25 @@
 import {useAtom} from "jotai";
-import {base_token_list_and_balance, Select_TokenTop, SwapTokenTail, SwapTokenTop, Token_Lists} from "../../jotai";
+import {token_list_and_balance, Select_TokenTop, SwapTokenTail, SwapTokenTop, Token_Lists} from "../../jotai";
 import {Dialog, Transition} from "@headlessui/react";
 import React, {Fragment} from "react";
 import { BUSD, DAI, USDC, USDT } from "../../assets";
-
-const bases = [
-    {
-        name:"W3G",
-        img:"/img.png",
-    },
-    {
-        name:"USDT",
-        img:USDT,
-    },
-    {
-        name:"BUSD",
-        img:BUSD,
-    },
-    {
-        name:"USDC",
-        img:USDC
-    },
-    {
-        name:"DAI",
-        img:DAI
-    },
-]
-
 
 
 
 const SelectTokenTop = () =>{
     const [selectToken,setSelectToken] = useAtom(Select_TokenTop)
-    const [,setSwapTokenTop] = useAtom(SwapTokenTop)
-    const [,setSwapTokenTail] = useAtom(SwapTokenTail)
-    const [tokenList,] = useAtom(base_token_list_and_balance)
+    const [swapTokenTop,setSwapTokenTop] = useAtom(SwapTokenTop)
+    const [swapTokenTail,setSwapTokenTail] = useAtom(SwapTokenTail)
+    const [tokenList,] = useAtom(token_list_and_balance)
     const [,setTokenList] = useAtom(Token_Lists)
     const openTokenLists = ()=>{
         setSelectToken(false)
         setTokenList(true)
     }
-    const select = (e) =>{
-      const name= e[0]
-      const img = e[1]
-        setSwapTokenTop({
-            img,
-            name,
-        })
+    const select = (item) =>{
+        setSwapTokenTop(item)
         setSelectToken(false)
     }
-
     return(
         <>
             <Transition.Root show={selectToken} as={Fragment}>
@@ -98,9 +68,9 @@ const SelectTokenTop = () =>{
                                     </div>
                                     <div className="my-5">
                                         <div className="flex flex-wrap">
-                                            {bases.map((item=>(
+                                            {tokenList.map((item=>(
                                             <div  key={item.name} className="mr-3 mb-2  px-2 p-1 bg-gray-800 rounded-full ">
-                                                <button onClick={() => select([item.name,item.img])} className="flex">
+                                                <button onClick={() => select(item)} className="flex">
                                                     <div id={item.name} className="flex">
                                                         <img  className="w-6 h-6 mr-1 rounded-full" src={item.img} alt=""/>
                                                         <div  className="text-gray-300">{item.name}</div>
@@ -113,7 +83,7 @@ const SelectTokenTop = () =>{
                                     </div>
                                     <div className="overflow-y-auto border border-gray-700 h-96 p-3 rounded-xl">
                                         {tokenList.map(item=>(
-                                        <div key={item.name} onClick={() => select([item.name,item.img])} className="cursor-pointer flex justify-between">
+                                        <div key={item.name} onClick={() => select(item)} className="cursor-pointer flex justify-between">
                                             <div className="flex my-2">
                                                 <img className="w-9 rounded-full" src={item.img} alt=""/>
                                                 <div className="ml-1.5">
