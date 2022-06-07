@@ -119,17 +119,13 @@ const Pools = () =>{
 
             //check token balance
             const query_token_balance = async () =>{
+                const api = await chain_api(intactWalletAddress)
                 const times = tokenlist.length
                 let token_list = tokenlist.concat()
                 let token_balance = []
                 for (let i =0;i<times;i++){
-                    const result = await axios.get('http://127.0.0.1:7001/api/token/fungible_token_balance', {
-                        params: {
-                            token_id:tokenlist[i].tokenId,
-                            address:intactWalletAddress_local
-                        }
-                    })
-                    token_list[i].data = result.data
+                    const account_token_balance_result = await api.query.tokenFungible.balances(tokenlist[i].tokenId,intactWalletAddress_local);
+                    token_list[i].data = account_token_balance_result.toString()
                 }
                 settokenList(token_list)
             }
@@ -139,9 +135,6 @@ const Pools = () =>{
 
     let time
     const createPool = async ()=>{
-        // let a = '[0,1,2,"5CcgM2vkikJv6utQaS6jWDhV6DgnoyacKE81qzXZ52FSxkY8"]'
-        // a.substring(0,a.indexOf(','))
-        // console.log(a.substring(1,a.indexOf(',')))
         if (swapTokenTop.tokenId === swapTokenTail.tokenId){
             alert("error")
         }else{
@@ -152,9 +145,9 @@ const Pools = () =>{
             const token_b = Number(swapTokenTail.tokenId)
             const transferExtrinsic = api.tx.exchange.createPool(token_a,token_b)
             const assets_balance = async ()=>{
-                const assets_a_address = await axios.get(`http://127.0.0.1:7001/api/token/fungible_token?token_id=${swapTokenTop.tokenId}`)
-                const assets_b_address = await axios.get(`http://127.0.0.1:7001/api/token/fungible_token?token_id=${swapTokenTail.tokenId}`)
-                return [assets_a_address.data,assets_b_address.data]
+                const assets_a_address = await api.query.tokenFungible.tokens(swapTokenTop.tokenId);
+                const assets_b_address = await api.query.tokenFungible.tokens(swapTokenTail.tokenId);
+                return [assets_a_address.toString(),assets_b_address.toString()]
             }
             const assets_balance_result = await assets_balance()
             const result = await transferExtrinsic.signAndSend(intactWalletAddress, { signer: injector.signer }, ({ events= [],status }) => {

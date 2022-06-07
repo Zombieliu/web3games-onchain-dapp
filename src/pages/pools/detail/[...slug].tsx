@@ -5,11 +5,12 @@ import Link from "next/link";
 import {Dialog, RadioGroup, Transition} from "@headlessui/react";
 import {useAtom} from "jotai";
 import {IntactWalletAddress, token_pool_pair, WalletButtonShowState, WalletListShowState} from "../../../jotai";
-import {CheckCircleIcon} from "@heroicons/react/solid";
+import {CheckCircleIcon, CheckIcon, ExclamationIcon} from "@heroicons/react/solid";
 import { add_liquidity, chain_api, substrate_wallet_injector } from "../../../chain/web3games";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { address_slice } from "../../../utils/chain/address";
+import { checkNumber } from  "../../../utils/math"
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -31,6 +32,9 @@ const Detail = () =>{
     const [intactWalletAddress,] = useAtom(IntactWalletAddress)
     // token pool pair info
     const [tokenPoolPair,setTokenPoolPair] = useAtom(token_pool_pair)
+
+    const [show,setShow] = useState(false)
+
     const poolDetails={
         pool_id:"",
         assets_a:"",
@@ -57,7 +61,6 @@ const Detail = () =>{
             const token_detail = async ()=>{
                 const pool_id = router.query.slug[0]
                 const result = tokenPoolPair.filter(token => token.pool_id = pool_id)
-                console.log(result[0]);
                 const poolDetails={
                     pool_id : pool_id,
                     assets_a: result[0].assets_a,
@@ -66,8 +69,8 @@ const Detail = () =>{
                     assets_b_id:result[0].assets_b_id,
                     assets_a_image_url:result[0].assets_a_image_url,
                     assets_b_image_url:result[0].assets_b_image_url,
-                    assets_a_address:address_slice(result[0].assets_a_address.owner),
-                    assets_b_address:address_slice(result[0].assets_b_address.owner),
+                    assets_a_address:address_slice(JSON.parse(result[0].assets_a_address).owner),
+                    assets_b_address:address_slice(JSON.parse(result[0].assets_b_address).owner),
                     tvl:result[0].tvl,
                     volume:result[0].volume,
                     volume_days:result[0].volume_days,
@@ -85,23 +88,43 @@ const Detail = () =>{
                 setTokenAccountBBalance(account_token_b_balance.toString())
             }
             token_detail()
-
         }
     },[router.isReady])
 
     const addLiquidity = async ()=>{
+        const token_a = Number((document.getElementById('amount_a') as HTMLInputElement).value)
+        const token_b = Number((document.getElementById('amount_b') as HTMLInputElement).value)
+        console.log(token_a,token_b);
         const api = await chain_api(intactWalletAddress)
         const injector = await substrate_wallet_injector(intactWalletAddress)
-        const transferExtrinsic = api.tx.exchange.addLiquidity(poolDetails.pool_id,poolDetails.assets_a_id,poolDetails.assets_b_id,0,0,intactWalletAddress)
-        transferExtrinsic.signAndSend(intactWalletAddress, { signer: injector.signer }, ({ status }) => {
+        console.log(poolDetails.pool_id,poolDetails.assets_a_id,poolDetails.assets_b_id,token_a,token_b,intactWalletAddress);
+        const transferExtrinsic = api.tx.exchange.addLiquidity(poolDetails.pool_id,token_a,token_b,0,0,intactWalletAddress)
+        transferExtrinsic.signAndSend(intactWalletAddress, { signer: injector.signer }, ({ events = [],status }) => {
             if (status.isInBlock) {
-                console.log(`Completed at block hash #${status.asInBlock.toString()}`);
+                const liquidity_add_event_name = 'exchange.LiquidityAdded'
+                // console.log(`Completed at block hash #${status.asInBlock.toString()}`);
+                events.forEach(({ event: { data, method, section }, phase }) => {
+                    if (liquidity_add_event_name == `${section}.${method}`){
+                        setOpenAdd(false)
+                        setShow(true)
+                    }else{
+                        // error
+                    }
+                });
             } else {
-                console.log(`Current status: ${status.type}`);
+                console.log(`Current status: ${status.type}`)
             }
         }).catch((error: any) => {
             console.log(':( transaction failed', error);
         });
+    }
+
+    const max_balance_a = () => {
+        (document.getElementById('amount_a') as HTMLInputElement).value = tokenAAccountBalance
+    }
+
+    const max_balance_b = (e) => {
+        (document.getElementById('amount_b') as HTMLInputElement).value = tokenBAccountBalance
     }
     return (
         <div>
@@ -280,12 +303,14 @@ const Detail = () =>{
                                                     Balance:{tokenAAccountBalance}
                                                 </div>
                                             <div className="flex mx-4">
-                                                <input type="number"
+                                                <input type="text"
                                                        className="text-xs md:text-sm placeholder-gray-50 bg-gray-600 rounded-lg p-2 py-3 xl:w-80 text-white    outline-none"
                                                        placeholder="0"
-                                                       id="amount"
+                                                       maxLength={14}
+                                                       onInput={checkNumber}
+                                                       id="amount_a"
                                                 />
-                                                <button  className="-ml-12 text-sm flex items-center ">
+                                                <button onClick={max_balance_a} className="-ml-12 text-sm flex items-center ">
                                                     MAX
                                                 </button>
                                             </div>
@@ -303,12 +328,14 @@ const Detail = () =>{
                                                     Balance:{tokenBAccountBalance}
                                                 </div>
                                                 <div className="flex mx-4">
-                                                    <input type="number"
+                                                    <input type="text"
                                                            className="text-xs md:text-sm placeholder-gray-50 bg-gray-600 rounded-lg p-2 py-3 xl:w-80 text-white    outline-none"
                                                            placeholder="0"
-                                                           id="amount"
+                                                           maxLength={14}
+                                                           onInput={checkNumber}
+                                                           id="amount_b"
                                                     />
-                                                    <button  className="-ml-12 text-sm flex items-center ">
+                                                    <button onClick={max_balance_b} className="-ml-12 text-sm flex items-center ">
                                                         MAX
                                                     </button>
                                                 </div>
@@ -389,9 +416,10 @@ const Detail = () =>{
                                                            placeholder="0"
                                                            id="amount"
                                                     />
-                                                    <div  className="-ml-12 text-sm flex items-center ">
+                                                    <button  className="-ml-12 text-sm flex items-center ">
                                                         MAX
-                                                    </div></div>
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -458,6 +486,59 @@ const Detail = () =>{
                     </Dialog>
                 </Transition.Root>
             </div>
+            <Transition.Root show={show} as={Fragment}>
+                <Dialog as="div" className="relative z-10" onClose={setShow}>
+                    <Transition.Child
+                      as={Fragment}
+                      enter="ease-out duration-300"
+                      enterFrom="opacity-0"
+                      enterTo="opacity-100"
+                      leave="ease-in duration-200"
+                      leaveFrom="opacity-100"
+                      leaveTo="opacity-0"
+                    >
+                        <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+                    </Transition.Child>
+
+                    <div className="fixed z-10 inset-0 overflow-y-auto">
+                        <div className="flex items-center sm:items-center justify-center min-h-full p-4 text-center sm:p-0">
+                            <Transition.Child
+                              as={Fragment}
+                              enter="ease-out duration-300"
+                              enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                              enterTo="opacity-100 translate-y-0 sm:scale-100"
+                              leave="ease-in duration-200"
+                              leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                              leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                            >
+                                <div className="relative bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all w-72 sm:my-8 sm:max-w-sm sm:w-full sm:p-6">
+                                    <div>
+                                        <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100">
+                                            <CheckIcon className="h-6 w-6 text-green-600" aria-hidden="true" />
+                                        </div>
+                                        <div className="mt-3 text-center sm:mt-5">
+                                            <Dialog.Title as="h3" className="text-lg  leading-6 font-medium text-gray-900">
+                                                Add liquidity Success
+                                            </Dialog.Title>
+                                        </div>
+                                    </div>
+                                    <div className="mt-5 sm:mt-6">
+                                        <button
+                                          type="button"
+                                          className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm"
+                                          onClick={() => {
+                                              setShow(false)
+                                          }}
+                                        >
+                                            Go back
+                                        </button>
+                                    </div>
+                                </div>
+                            </Transition.Child>
+                        </div>
+                    </div>
+                </Dialog>
+            </Transition.Root>
             <Tail/>
         </div>
     )

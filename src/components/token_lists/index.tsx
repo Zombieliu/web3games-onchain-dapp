@@ -1,12 +1,13 @@
 import {useAtom} from "jotai";
-import {custom_token_list, Select_TokenTail, Select_TokenTop, SwapTokenTail, SwapTokenTop, Token_Lists, token_list_and_balance} from "../../jotai";
+import {custom_token_list,
+    IntactWalletAddress, Select_TokenTail, Select_TokenTop, SwapTokenTail, SwapTokenTop, Token_Lists, token_list_and_balance} from "../../jotai";
 import {Dialog, Switch, Tab, Transition} from "@headlessui/react";
 import React, {Fragment, useEffect, useState} from "react";
 import {useRouter} from "next/router";
 import {hexToString} from '@polkadot/util'
-
 import axios from "axios";
 import { address_slice } from "../../utils/chain/address";
+import { chain_api } from "../../chain/web3games";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -137,6 +138,7 @@ const Tokens = () =>{
     const [tokenInfo,setTokenInfo] = useState(baseTokenInfo)
     const [tokenList,setTokenList] = useAtom(token_list_and_balance)
     const [customTokenList,setCustomTokenList] = useAtom(custom_token_list)
+    const [intactWalletAddress,] = useAtom(IntactWalletAddress)
 
     const  back= () =>{
         setImportToken(false)
@@ -150,16 +152,18 @@ const Tokens = () =>{
     //     },
     // ]
 
-    const get_token = async (e) =>{
-        const result = await axios.get(`http://127.0.0.1:7001/api/token/fungible_token?token_id=${e.target.value}`).then(
 
-        )
-        if (result.data == ''){
+
+    const get_token = async (e) =>{
+        const api = await chain_api(intactWalletAddress)
+        const token_result = await api.query.tokenFungible.tokens(e.target.value)
+        const data:any = token_result.toJSON();
+        if (data == null){
             setValuable(false)
         }else{
-            const name = hexToString(result.data.name)
-            const owner = result.data.owner
-            const symbol = hexToString(result.data.symbol)
+            const name = hexToString(data.name)
+            const owner = data.owner
+            const symbol = hexToString(data.symbol)
             setTokenInfo(
               {
                   tokenId:e.target.value,

@@ -7,9 +7,9 @@ const evm_address_to_sub_address = (address:string) => {
     return address;
 }
 
-const address_slice = (Address:string) =>{
-    const first = Address.slice(0,6)
-    const last = Address.slice(-5,-1)
+const address_slice = (address:string) =>{
+    const first = address.slice(0,6)
+    const last = address.slice(-5,-1)
     const PartAddress = first + "...." + last
     return PartAddress
 }
