@@ -174,8 +174,8 @@ const Pools = () =>{
                                 assets_b_image_url: swapTokenTail.img,
                                 pool_id,
                                 total_lp: "0",
-                                tvl: "1231231",
-                                volume: "231231",
+                                tvl: "0",
+                                volume: "0",
                                 volume_days: "0",
                                 your_lp: "0"
                             }
