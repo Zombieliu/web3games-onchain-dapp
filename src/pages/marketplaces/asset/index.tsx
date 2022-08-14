@@ -91,7 +91,7 @@ const AssetLeftAbout =() =>{
 
     return(
         <>
-                <div className="mt-10  bg-gray-800 rounded-xl">
+                <div className="mt-10  bg-neutral-800 rounded-xl">
                     <div className="text-white px-6 p-4 font-semibold text-lg border-b border-gray-500">
                         About Collection
                     </div>
@@ -131,7 +131,7 @@ const AssetLeftProperties = ()=>{
                 <Disclosure>
                     {({ open }) => (
                         <>
-                            <Disclosure.Button className="flex justify-between w-full bg-gray-800 px-4 py-3 text-sm font-medium text-left text-white rounded-lg ">
+                            <Disclosure.Button className="flex justify-between w-full bg-neutral-800 px-4 py-3 text-sm font-medium text-left text-white rounded-lg ">
                                 <span className="text-xl">Properties</span>
                                 <ChevronUpIcon
                                     className={`${
@@ -148,7 +148,7 @@ const AssetLeftProperties = ()=>{
                                 leaveFrom="transform opacity-100 scale-100"
                                 leaveTo="transform opacity-0 scale-95"
                             >
-                                <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-gray-300 rounded-b-xl bg-gray-800">
+                                <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-gray-300 rounded-b-xl bg-neutral-800">
                                     <div className="grid grid-cols-2 gap-3 ">
                                         {info.map((item=>(
                                         <div key={item.part} className="text-center p-2 bg-indigo-700 rounded-xl ">
@@ -183,7 +183,7 @@ const AssetLeftDetail = () =>{
 
     return(
         <>
-            <div className="mt-10  bg-gray-800 rounded-xl">
+            <div className="mt-10 bg-neutral-800 rounded-xl">
                 <div className="text-white px-6 p-4 font-semibold text-lg border-b border-gray-500">
                     Detail
                 </div>
@@ -272,7 +272,7 @@ const AssetRightList =() =>{
                 <Disclosure>
                     {({ open }) => (
                         <>
-                            <Disclosure.Button className="flex justify-between w-full bg-gray-800 px-4 py-3 text-sm font-medium text-left text-white rounded-lg ">
+                            <Disclosure.Button className="flex justify-between w-full bg-neutral-800 px-4 py-3 text-sm font-medium text-left text-white rounded-lg ">
                              <div className="flex text-xl">
                                  <i className="fa fa-tag mt-1 mr-2" aria-hidden="true"></i>
                                  <span>Listings</span></div>
@@ -291,10 +291,10 @@ const AssetRightList =() =>{
                                 leaveFrom="transform opacity-100 scale-100"
                                 leaveTo="transform opacity-0 scale-95"
                             >
-                                <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-gray-300 rounded-b-xl bg-gray-800">
+                                <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-gray-300 rounded-b-xl bg-neutral-800">
                                     <div className=' mx-auto  rounded-lg '>
                                         <div className='overflow-auto'>
-                                            <table className="min-w-full divide-y divide-gray-600 mb-4">
+                                            <table className="min-w-full divide-y divide-neutral-700 mb-4">
                                                 <thead className="overflow-auto">
                                                 <tr>
                                                     {listTitle.map((item=>(
@@ -309,7 +309,7 @@ const AssetRightList =() =>{
                                                 </thead>
                                                 <tbody className={listInfo.length?"divide-y divide-gray-200":"hidden"}>
                                                 {listInfo.map(item=>(
-                                                    <tr key={item.id} className="hover:bg-gray-600 bg-opacity-80 bg-gray-700 cursor-pointer transition duration-300 " >
+                                                    <tr key={item.id} className="hover:bg-neutral-600 bg-opacity-80 bg-neutral-700 cursor-pointer transition duration-300 " >
                                                         <td className="px-6 py-4  whitespace-nowrap text-sm text-white">
                                                             {item.price}
                                                         </td>
@@ -385,7 +385,7 @@ const AssetRightOffers = () =>{
                 <Disclosure>
                     {({ open }) => (
                         <>
-                            <Disclosure.Button className="flex justify-between w-full bg-gray-800 px-4 py-3 text-sm font-medium text-left text-white rounded-lg ">
+                            <Disclosure.Button className="flex justify-between w-full bg-neutral-800 px-4 py-3 text-sm font-medium text-left text-white rounded-lg ">
                                 <div className="flex text-xl">
                                     <i className="fa fa-list mt-1 mr-2 " aria-hidden="true"></i>
                                     <span>Offers</span></div>
@@ -404,10 +404,10 @@ const AssetRightOffers = () =>{
                                 leaveFrom="transform opacity-100 scale-100"
                                 leaveTo="transform opacity-0 scale-95"
                             >
-                                <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-gray-300 rounded-b-xl bg-gray-800">
+                                <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-gray-300 rounded-b-xl bg-neutral-800">
                                     <div className=' mx-auto  rounded-lg '>
                                         <div className='overflow-auto'>
-                                            <table className="min-w-full divide-y divide-gray-600 mb-4">
+                                            <table className="min-w-full divide-y divide-neutral-800 mb-4">
                                                 <thead className="overflow-auto">
                                                 <tr>
                                                     {offersTitle.map((item=>(
@@ -422,7 +422,7 @@ const AssetRightOffers = () =>{
                                                 </thead>
                                                 <tbody className={offersInfo.length?"divide-y divide-gray-200":"hidden"}>
                                                 {offersInfo.map(item=>(
-                                                    <tr key={item.id} className="hover:bg-gray-600 bg-opacity-80 bg-gray-700 cursor-pointer transition duration-300 " >
+                                                    <tr key={item.id} className="hover:bg-neutral-600 bg-opacity-80 bg-neutral-700 cursor-pointer transition duration-300 " >
                                                         <td className="px-6 py-4  whitespace-nowrap text-sm text-white">
                                                             {item.price}
                                                         </td>
@@ -498,7 +498,7 @@ const AssetRightHistory = () =>{
                 <Disclosure>
                     {({ open }) => (
                         <>
-                            <Disclosure.Button className="flex justify-between w-full bg-gray-800 px-4 py-3 text-sm font-medium text-left text-white rounded-lg ">
+                            <Disclosure.Button className="flex justify-between w-full bg-neutral-800 px-4 py-3 text-sm font-medium text-left text-white rounded-lg ">
                                 <div className="flex text-xl">
                                     <i className="fa fa-file-text mt-1 mr-2 " aria-hidden="true"></i>
                                     <span>Trading History</span></div>
@@ -517,10 +517,10 @@ const AssetRightHistory = () =>{
                                 leaveFrom="transform opacity-100 scale-100"
                                 leaveTo="transform opacity-0 scale-95"
                             >
-                                <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-gray-300 rounded-b-xl bg-gray-800">
+                                <Disclosure.Panel className="px-4 pt-4 pb-2 text-sm text-gray-300 rounded-b-xl bg-neutral-800">
                                     <div className=' mx-auto  rounded-lg '>
                                         <div className='overflow-auto'>
-                                            <table className="min-w-full divide-y divide-gray-600 mb-4">
+                                            <table className="min-w-full divide-y divide-neutral-800 mb-4">
                                                 <thead className="overflow-auto">
                                                 <tr>
                                                     {historyTitle.map((item=>(
@@ -535,7 +535,7 @@ const AssetRightHistory = () =>{
                                                 </thead>
                                                 <tbody className={historyInfo.length?"divide-y divide-gray-200":"hidden"}>
                                                 {historyInfo.map(item=>(
-                                                    <tr key={item.id} className="hover:bg-gray-600 bg-opacity-80 bg-gray-700 cursor-pointer transition duration-300 " >
+                                                    <tr key={item.id} className="hover:bg-neutral-600 bg-opacity-80 bg-neutral-700 cursor-pointer transition duration-300 " >
                                                         <td className="px-6 py-4  whitespace-nowrap text-sm text-white">
                                                             {item.event}
                                                         </td>
@@ -597,7 +597,7 @@ const Asset = () =>{
             <div className="relative pt-16">
                 <div className="absolute inset-x-0 bottom-0    " />
                 <div className=" mx-auto  ">
-                    <div className="bg-black bg-opacity-95 ">
+                    <div className="bg-neutral-900 bg-opacity-95 ">
                         <div className="max-w-7xl relative px-5 py-16  sm:px-6 sm:py-24 lg:py-32 mx-auto ">
                             <AssetTop/>
                             <div className="mt-20 lg:flex justify-between">

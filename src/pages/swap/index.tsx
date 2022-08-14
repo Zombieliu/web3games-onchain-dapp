@@ -70,9 +70,9 @@ const Recent = ()=>{
     }
         return (
             <>
-                <div className="bg-gray-900 bg-opacity-70 p-3 rounded-2xl">
+                <div className="bg-neutral-800  p-3 rounded-2xl">
                     <div className="flex justify-between">
-                        <div className="flex bg-gray-600 bg-opacity-90 p-1 rounded-full">
+                        <div className="flex bg-neutral-700 p-1 rounded-full">
                             <div className="flex">
                                 <button onClick={selectTokenTop} className="flex items-center">
                                     <div>
@@ -89,7 +89,7 @@ const Recent = ()=>{
                             <div className="text-gray-300 mt-2 text-xs mr-2">
                                 Pay from
                             </div>
-                            <div className="px-1.5 pt-1.5 text-center text-gray-200 text-sm bg-gray-700 rounded-full ">
+                            <div className="px-1.5 pt-1.5 text-center text-gray-200 text-sm bg-neutral-700 rounded-full ">
                                 Wallet
                             </div>
                             <div>
@@ -102,7 +102,7 @@ const Recent = ()=>{
                         <div className="flex">
                             <input type="number"
                                    onKeyUp={check}
-                                   className=" bg-gray-700 bg-opacity-30 text-xs md:text-sm text-white  rounded-lg p-2  md:w-48    hover:border-black focus:border-black transition duration-300  outline-none"
+                                   className=" bg-neutral-700  text-xs md:text-sm text-white  rounded-lg p-2  md:w-48    hover:border-black focus:border-black transition duration-300  outline-none"
                                    placeholder="0.0"
                                    id=""
                             />
@@ -112,13 +112,13 @@ const Recent = ()=>{
                 </div>
                 <div className="flex justify-center -mt-2 ">
                     <button onClick={exchange}>
-                        <i className="fa fa-arrow-down text-gray-100 p-1.5  bg-gray-600 rounded-2xl"
+                        <i className="fa fa-arrow-down text-gray-100 p-1.5  bg-neutral-700 rounded-2xl"
                            aria-hidden="true"></i>
                     </button>
                 </div>
-                <div className="-mt-2 bg-gray-900 p-3 rounded-2xl">
+                <div className="-mt-2 bg-neutral-800 p-3 rounded-2xl">
                     <div className="flex justify-between">
-                        <div className="flex bg-gray-600 bg-opacity-90 p-1 rounded-full">
+                        <div className="flex bg-neutral-700 p-1 rounded-full">
                             <button onClick={selectTokenTail} className="flex items-center">
                                 <div>
                                     <img className="w-6 rounded-full mr-1" src={swapTokenTail.img} alt=""/>
@@ -133,7 +133,7 @@ const Recent = ()=>{
                             <div className="text-gray-300 mt-2 text-xs mr-2">
                                 Pay from
                             </div>
-                            <div className="px-1.5 pt-1.5 text-center text-gray-200 text-sm bg-gray-700 rounded-full ">
+                            <div className="px-1.5 pt-1.5 text-center text-gray-200 text-sm bg-neutral-700 rounded-full ">
                                 Wallet
                             </div>
                             <div>
@@ -146,7 +146,7 @@ const Recent = ()=>{
                     <div className="flex justify-between mt-5">
                         <div className="flex">
                             <input type="number"
-                                   className=" bg-gray-700 bg-opacity-30 text-xs md:text-sm text-white  rounded-lg p-2   md:w-48    hover:border-black focus:border-black transition duration-300  outline-none"
+                                   className=" bg-neutral-700 text-xs md:text-sm text-white  rounded-lg p-2   md:w-48    hover:border-black focus:border-black transition duration-300  outline-none"
                                    placeholder='0.0'
                                    id="swapoutput"
                                    value={`${swapOutPutValue}`}
@@ -164,7 +164,7 @@ const Recent = ()=>{
                         </button>
                     </div>
                     <div className={WalletButtonShow ? "mt-1" : "hidden"}>
-                        <button onClick={swapnow} className="px-24 py-1.5 rounded-lg bg-indigo-400">
+                        <button onClick={swapnow} className="px-24 py-1.5 rounded-lg text-white font-semibold bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 ">
                             Swap
                         </button>
                     </div>
@@ -322,9 +322,9 @@ const Swap = () =>{
     return(
         <div>
             <div className="flex  justify-center  mx-auto px-2 py-12 sm:px-0">
-                <div className="bg-black bg-opacity-90 p-5 rounded-2xl">
+                <div className="bg-black  p-5 rounded-2xl">
                     <Tab.Group>
-                        <Tab.List className=" p-1 space-x-1 bg-blue-900/20 rounded-xl mx-auto  flex justify-between ">
+                        <Tab.List className=" p-1 space-x-1 bg-neutral-800 rounded-xl mx-auto  flex justify-between ">
                             <div>
                                 {Object.keys(categories).map((category) => (
                                     <Tab
@@ -333,7 +333,7 @@ const Swap = () =>{
                                             classNames(
                                                 'w-24 py-2 text-sm leading-5 font-medium text-gray-600 ',
                                                 selected
-                                                    ? ' text-yellow-50 border-b shadow'
+                                                    ? ' text-yellow-50 border-b border-gray-400 shadow'
                                                     : ' hover:bg-white/[0.12] hover:text-white')}>
                                         {category}
                                     </Tab>
@@ -346,7 +346,7 @@ const Swap = () =>{
                        {/*Recent*/}
                         <Tab.Panels className="mt-2 ">
                             <Tab.Panel
-                                className={classNames(' rounded-xl p-1 w-80 md:w-96')}>
+                                className={classNames(' rounded-xl p-1 w-80 md:w-96 ')}>
 
                                <Recent/>
 

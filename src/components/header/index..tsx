@@ -132,7 +132,7 @@ const SwitchNetWork = () =>{
             {({ open }) => (
                 <>
                     <div className="py-1 relative">
-                        <Listbox.Button className="relative w-full bg-gray-700 mt-0.5 ml-2 rounded-full shadow-sm pl-3 pr-8 py-2 text-left cursor-default  sm:text-sm">
+                        <Listbox.Button className="relative w-full bg-neutral-800 mt-0.5 ml-2 rounded-full shadow-sm pl-3 pr-8 py-2 text-left cursor-default  sm:text-sm">
                             <div className="flex items-center">
                 <span className={classNames(selected.online,'flex-shrink-0 inline-block h-2 w-2 rounded-full')}/>
                  <span className="ml-3 block truncate text-gray-200 w-14 ">{selected.name}</span>
@@ -266,7 +266,7 @@ const Header = () =>{
                                 </button>
                             </div>
                             <div className={WalletButtonShow && AccountChoose == 1 ? "": "hidden"}>
-                                <div className="flex bg-gray-800 rounded-full p-1 justify-center">
+                                <div className="flex bg-neutral-800 rounded-full p-1 justify-center">
                                     <div className="flex items-center mr-4 p-2">
                                         <img className="w-6 h-6 rounded-lg mx-1"
                                              src='https://portal.web3games.org/_next/image?url=%2Fnetworks%2Fethereum-network.jpg&w=48&q=75' alt='' />
@@ -274,13 +274,13 @@ const Header = () =>{
                                             Ethereum
                                         </div>
                                     </div>
-                                    <button  onClick={accountConfig} className=" bg-gray-600 rounded-full truncate  w-40 px-4 py-2 text-white rounded-lg  flex  ">
+                                    <button  onClick={accountConfig} className=" bg-neutral-700 rounded-full truncate  w-40 px-4 py-2 text-white rounded-lg  flex  ">
                                         {walletAddress}
                                     </button>
                                 </div>
                             </div>
                             <div className={WalletButtonShow && AccountChoose == 2 ? "": "hidden"}>
-                                <div className="flex bg-gray-800 rounded-full p-1 justify-center">
+                                <div className="flex bg-neutral-800 rounded-full p-1 justify-center">
                                     <div className="flex items-center mr-4 p-2">
                                         <img className="w-6 h-6 rounded-lg mx-1"
                                              src='/substrate.svg' alt='' />
@@ -288,7 +288,7 @@ const Header = () =>{
                                             Substrate
                                         </div>
                                     </div>
-                                    <button  onClick={accountConfig} className=" bg-gray-600 rounded-full truncate  w-40 px-4 py-2 text-white rounded-lg  flex  ">
+                                    <button  onClick={accountConfig} className=" bg-neutral-700 rounded-full truncate  w-40 px-4 py-2 text-white rounded-lg  flex  ">
                                         {walletAddress}
                                     </button>
                                 </div>
