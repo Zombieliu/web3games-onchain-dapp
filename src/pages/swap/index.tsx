@@ -13,6 +13,7 @@ import SelectTokenTail from "../../components/selecttokentail";
 import SelectTokenTop from "../../components/selecttokentop";
 import axios from "axios";
 import { swap } from "../../chain/web3games";
+import TokenList from "../../components/token_lists";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -373,6 +374,7 @@ const Swap = () =>{
             </div>
             <SelectTokenTop/>
             <SelectTokenTail/>
+            <TokenList/>
 
         </div>
     )

@@ -27,22 +27,23 @@ function classNames(...classes) {
 
 const  Trident = () => {
     const navigation = [
-        {
-            title: "Wallet",
-            contents: [
-                { name: 'Assets', href: '/assets', },
-                { name: 'Transfer', href: '/transfer',},
-                // { name: 'Transaction', href: '/transaction',},
-                { name: 'Faucet', href: '/faucet',},
-            ]
-        },
+        // {
+        //     title: "Wallet",
+        //     contents: [
+        //         { name: 'Assets', href: '/assets', },
+        //         { name: 'Transfer', href: '/transfer',},
+        //         // { name: 'Transaction', href: '/transaction',},
+        //
+        //     ]
+        // },
         {
          title: "DeFi",
          contents: [
              { name: 'Swap', href: '/home', },
              { name: 'Pools ', href: '/pools',},
              // { name: 'Create', href: '/create',},
-             { name: 'Bridge', href: '/bridge',},
+             // { name: 'Bridge', href: '/bridge',},
+             { name: 'Farms', href: '/farms',},
              // { name: 'Staking', href: '/staking',},
              // { name: 'Mint', href: '/defi_mint',}
          ]
@@ -81,52 +82,119 @@ const  Trident = () => {
 
     ]
 
+    const TestNavigation = [
+        { name: 'Faucet', href: '/faucet',},
+    ]
+    const [selected, setSelected] = useAtom(NetWorkState)
 
-    return (
-        <div className=" grid grid-cols-3  md:grid-cols-7  ">
-            {navigation.map(item=>(
-         <Menu as="div" key={item.title} className="relative inline-block text-left font-semibold mr-5">
+    if(selected){
+        return (
             <div>
-                <Menu.Button className=" py-2.5 text-sm leading-5  rounded-lg text-base font-medium text-gray-100
+                <div className={selected.id == 1? "grid grid-cols-3  md:grid-cols-7 ":"hidden"}>
+                    {navigation.map(item=>(
+                        <Menu as="div" key={item.title} className="relative inline-block text-left font-semibold mr-5">
+                            <div>
+                                <Menu.Button className=" py-2.5 text-sm leading-5  rounded-lg text-base font-medium text-gray-100
                                   focus: ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-90 flex justify-center">
-                    {item.title}      <div><i className="fa fa-angle-down ml-2" aria-hidden="true"></i></div>
-                </Menu.Button>
+                                    {item.title}      <div><i className="fa fa-angle-down ml-2" aria-hidden="true"></i></div>
+                                </Menu.Button>
+                            </div>
+
+                            <Transition
+                                as={Fragment}
+                                enter="transition ease-out duration-100"
+                                enterFrom="transform opacity-0 scale-95"
+                                enterTo="transform opacity-100 scale-100"
+                                leave="transition ease-in duration-75"
+                                leaveFrom="transform opacity-100 scale-100"
+                                leaveTo="transform opacity-0 scale-95"
+                            >
+                                <Menu.Items className="origin-top-right absolute  mt-1 -mr-10 z-20   border-2 border-gray-800 rounded-md shadow-lg bg-black  focus:outline-none">
+                                    <div className="py-1  text-gray-400">
+                                        {item.contents.map((contents)=>(
+                                            <Menu.Item key={contents.name}>
+                                                <Link href={contents.href}>
+                                                    <a className=" hover:bg-gray-800 hover:text-white  block px-4 py-2 text-sm" >
+                                                        {contents.name}</a>
+                                                </Link>
+                                            </Menu.Item>
+                                        ))}
+                                    </div>
+                                </Menu.Items>
+                            </Transition>
+                        </Menu>
+                    ))}
+                </div>
+                <div className={selected.id == 2? "grid grid-cols-3  md:grid-cols-7 ":"hidden"}>
+                    {navigation.map(item=>(
+                        <Menu as="div" key={item.title} className="relative inline-block text-left font-semibold mr-5">
+                            <div>
+                                <Menu.Button className=" py-2.5 text-sm leading-5  rounded-lg text-base font-medium text-gray-100
+                                  focus: ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-90 flex justify-center">
+                                    {item.title}      <div><i className="fa fa-angle-down ml-2" aria-hidden="true"></i></div>
+                                </Menu.Button>
+                            </div>
+
+                            <Transition
+                                as={Fragment}
+                                enter="transition ease-out duration-100"
+                                enterFrom="transform opacity-0 scale-95"
+                                enterTo="transform opacity-100 scale-100"
+                                leave="transition ease-in duration-75"
+                                leaveFrom="transform opacity-100 scale-100"
+                                leaveTo="transform opacity-0 scale-95"
+                            >
+                                <Menu.Items className="origin-top-right absolute  mt-1 -mr-10 z-20   border-2 border-gray-800 rounded-md shadow-lg bg-black  focus:outline-none">
+                                    <div className="py-1  text-gray-400">
+                                        {item.contents.map((contents)=>(
+                                            <Menu.Item key={contents.name}>
+                                                <Link href={contents.href}>
+                                                    <a className=" hover:bg-gray-800 hover:text-white  block px-4 py-2 text-sm" >
+                                                        {contents.name}</a>
+                                                </Link>
+                                            </Menu.Item>
+                                        ))}
+                                    </div>
+                                </Menu.Items>
+                            </Transition>
+                        </Menu>
+                    ))}
+                    {TestNavigation.map(item=>(
+                        <Link key={item.name} href={item.href}>
+                            <a  className="relative inline-block text-left font-semibold mr-5">
+                                <div className=" py-2.5 text-sm leading-5  rounded-lg text-base font-medium text-gray-100
+                                  focus: ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-90 flex justify-center">
+                                    {item.name}
+                                </div>
+                            </a>
+                        </Link>
+                    ))}
+                </div>
+
+
             </div>
 
-            <Transition
-                as={Fragment}
-                enter="transition ease-out duration-100"
-                enterFrom="transform opacity-0 scale-95"
-                enterTo="transform opacity-100 scale-100"
-                leave="transition ease-in duration-75"
-                leaveFrom="transform opacity-100 scale-100"
-                leaveTo="transform opacity-0 scale-95"
-            >
-                <Menu.Items className="origin-top-right absolute  mt-1 -mr-10 z-20   border-2 border-gray-800 rounded-md shadow-lg bg-black  focus:outline-none">
-                    <div className="py-1  text-gray-400">
-                        {item.contents.map((contents)=>(
-                        <Menu.Item key={contents.name}>
-                            <Link href={contents.href}>
-                                <a className=" hover:bg-gray-800 hover:text-white  block px-4 py-2 text-sm" >
-                                    {contents.name}</a>
-                            </Link>
-                        </Menu.Item>
-                            ))}
-                    </div>
-                </Menu.Items>
-            </Transition>
-        </Menu>
-            ))}
-        </div>
-    )
+        )
+    }
+
 }
 
 const SwitchNetWork = () =>{
     const netWork = [
         { id: 1, name: 'Mainnet', online: "bg-green-400" },
-        { id: 2, name: 'Testnet', online: "bg-yellow-300" },
+        { id: 2, name: 'Testnet', online: "bg-yellow-400" },
     ]
     const [selected, setSelected] = useAtom(NetWorkState)
+
+    useEffect(()=>{
+        console.log(selected.name)
+
+        const adad = document.getElementById("sss")
+
+        console.log(adad)
+
+
+    },[])
 
     return (
         <Listbox value={selected} onChange={setSelected}>
@@ -136,7 +204,7 @@ const SwitchNetWork = () =>{
                         <Listbox.Button className="relative w-full bg-neutral-800 mt-0.5 ml-2 rounded-full shadow-sm pl-3 pr-8 py-2 text-left cursor-default  sm:text-sm">
                             <div className="flex items-center">
                 <span className={classNames(selected.online,'flex-shrink-0 inline-block h-2 w-2 rounded-full')}/>
-                 <span className="ml-3 block truncate text-gray-200 w-14 ">{selected.name}</span>
+                 <span  id="sss" className="ml-3 block truncate text-gray-200 w-14 ">{selected.name}</span>
                             </div>
                             <span className="absolute inset-y-0 right-2 flex items-center text-gray-200 pr-2 pointer-events-none">
                        <i className="fa fa-chevron-down" aria-hidden="true"></i>

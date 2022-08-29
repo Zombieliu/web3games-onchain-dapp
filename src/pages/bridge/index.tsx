@@ -11,6 +11,7 @@ import {
     WalletButtonShowState,
     WalletListShowState
 } from "../../jotai";
+import SelectTokenTop from "../../components/selecttokentop";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -287,7 +288,7 @@ const Bridge = () =>{
                                                                     <div>
                                                                         <img className="w-6 rounded-full mr-1" src={swapTokenTop.img} alt=""/>
                                                                     </div>
-                                                                    <div className="text-gray-200">
+                                                                    <div className="text-gray-200 w-10">
                                                                         {swapTokenTop.name}
                                                                     </div>
                                                                     <i className="fa fa-angle-down text-white ml-3 " aria-hidden="true"></i>
@@ -473,6 +474,7 @@ const Bridge = () =>{
                     </div>
                 </div>
             </div>
+            <SelectTokenTop/>
             <Tail/>
         </div>
     )

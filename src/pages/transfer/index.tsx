@@ -15,6 +15,7 @@ import { useRouter } from "next/router";
 import { check_balance } from "../../utils/chain/balance";
 import { evm_address_to_sub_address } from "../../utils/chain/address";
 import {ApiPromise,WsProvider} from "@polkadot/api";
+import SelectTokenTop from "../../components/selecttokentop";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -142,7 +143,7 @@ const Transfer = () =>{
                                     </div></div>
                                     <div className="flex mt-5">
                                         <div className="flex  -mr-3">
-                                            <button onClick={ChooseToken} className="flex -mr-24 mt-2.5 z-20">
+                                            <button onClick={ChooseToken} className="flex -mr-36 mt-2.5 z-20">
                                                 <div>
                                                     <img className="w-6 rounded-full mr-1" src={swapTokenTop.img} alt=""/>
                                                 </div>
@@ -153,7 +154,7 @@ const Transfer = () =>{
                                             </button>
                                         </div>
                                         <input type="text"
-                                               className=" bg-gray-700 bg-opacity-30 text-xs text-right md:text-sm text-white  rounded-lg  p-3  w-full  hover:border-black focus:border-black transition duration-300  outline-none"
+                                               className="pl-40 bg-gray-700 bg-opacity-30 text-xs text-right md:text-sm text-white  rounded-lg  p-3  w-full  hover:border-black focus:border-black transition duration-300  outline-none"
                                                placeholder="Input transfer amount"
                                                id="transfer"
                                         />
@@ -190,6 +191,7 @@ const Transfer = () =>{
                     </div>
                 </div>
             </div>
+            <SelectTokenTop/>
             <Tail/>
         </div>
     )

@@ -34,10 +34,10 @@ const AccountConfigPageState = atom(false)
 
 const netWork = [
     { id: 1, name: 'Mainnet', online: "bg-green-400" },
-    { id: 2, name: 'Testnet', online: "bg-yellow-500" },
+    { id: 2, name: 'Testnet', online: "bg-yellow-400" },
 ]
 
-const NetWorkState = atomWithStorage("NetWorkState",netWork[0])
+const NetWorkState = atomWithStorage('W3GNetWorkState',netWork[1])
 
 // show address
 const WalletAddress = atom('')

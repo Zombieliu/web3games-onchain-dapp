@@ -814,7 +814,7 @@ const Pools = () =>{
             </Transition.Root>
             <SelectTokenTail/>
             <SelectTokenTop/>
-            <TokenList/>
+
             <Tail/>
         </div>
     )
