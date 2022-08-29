@@ -70,11 +70,11 @@ const Recent = ()=>{
     }
         return (
             <>
-                <div className="bg-neutral-800  p-3 rounded-2xl">
+                <div className="bg-W3GBG  p-3 rounded-2xl">
                     <div className="flex justify-between">
-                        <div className="flex bg-neutral-700 p-1 rounded-full">
+                        <div className="flex bg-W3GInfoBG p-1 rounded-full border border-W3GInfoBG hover:border-W3G3">
                             <div className="flex">
-                                <button onClick={selectTokenTop} className="flex items-center">
+                                <button onClick={selectTokenTop} className="flex items-center  ">
                                     <div>
                                         <img className="w-6 rounded-full mr-1" src={swapTokenTop.img} alt=""/>
                                     </div>
@@ -89,11 +89,11 @@ const Recent = ()=>{
                             <div className="text-gray-300 mt-2 text-xs mr-2">
                                 Pay from
                             </div>
-                            <div className="px-1.5 pt-1.5 text-center text-gray-200 text-sm bg-neutral-700 rounded-full ">
+                            <div className="px-1.5 pt-1.5 text-center text-gray-200 text-sm bg-W3GInfoBG rounded-full ">
                                 Wallet
                             </div>
                             <div>
-                                <i className="fa fa-question-circle ml-2 mt-1.5 text-gray-300"
+                                <i className="fa fa-question-circle ml-2 mt-1.5 text-W3G3"
                                    aria-hidden="true"></i>
                             </div>
                         </div>
@@ -102,7 +102,7 @@ const Recent = ()=>{
                         <div className="flex">
                             <input type="number"
                                    onKeyUp={check}
-                                   className=" bg-neutral-700  text-xs md:text-sm text-white  rounded-lg p-2  md:w-48    hover:border-black focus:border-black transition duration-300  outline-none"
+                                   className=" bg-W3GInfoBG  text-xs md:text-sm text-white  rounded-lg p-2  md:w-48  border border-W3GInfoBG   hover:border-W3G3 focus:border-W3G3 transition duration-300  outline-none"
                                    placeholder="0.0"
                                    id=""
                             />
@@ -111,14 +111,14 @@ const Recent = ()=>{
                     </div>
                 </div>
                 <div className="flex justify-center -mt-2 ">
-                    <button onClick={exchange}>
-                        <i className="fa fa-arrow-down text-gray-100 p-1.5  bg-neutral-700 rounded-2xl"
+                    <button onClick={exchange} className="items-center">
+                        <i className="fa fa-arrow-down text-W3G3 p-1.5   bg-W3GInfoBG rounded-2xl"
                            aria-hidden="true"></i>
                     </button>
                 </div>
-                <div className="-mt-2 bg-neutral-800 p-3 rounded-2xl">
+                <div className="-mt-2 bg-W3GBG p-3 rounded-2xl">
                     <div className="flex justify-between">
-                        <div className="flex bg-neutral-700 p-1 rounded-full">
+                        <div className="flex bg-W3GInfoBG p-1 rounded-full border border-W3GInfoBG hover:border-W3G3 ">
                             <button onClick={selectTokenTail} className="flex items-center">
                                 <div>
                                     <img className="w-6 rounded-full mr-1" src={swapTokenTail.img} alt=""/>
@@ -133,11 +133,11 @@ const Recent = ()=>{
                             <div className="text-gray-300 mt-2 text-xs mr-2">
                                 Pay from
                             </div>
-                            <div className="px-1.5 pt-1.5 text-center text-gray-200 text-sm bg-neutral-700 rounded-full ">
+                            <div className="px-1.5 pt-1.5 text-center text-gray-200 text-sm bg-W3GInfoBG rounded-full ">
                                 Wallet
                             </div>
                             <div>
-                                <i className="fa fa-question-circle ml-2 mt-1.5 text-gray-300"
+                                <i className="fa fa-question-circle ml-2 mt-1.5 text-W3G3"
                                    aria-hidden="true"></i>
                             </div>
                         </div>
@@ -146,7 +146,7 @@ const Recent = ()=>{
                     <div className="flex justify-between mt-5">
                         <div className="flex">
                             <input type="number"
-                                   className=" bg-neutral-700 text-xs md:text-sm text-white  rounded-lg p-2   md:w-48    hover:border-black focus:border-black transition duration-300  outline-none"
+                                   className=" bg-W3GInfoBG text-xs md:text-sm text-white  rounded-lg p-2   md:w-48   border border-W3GInfoBG   hover:border-W3G3 focus:border-W3G3 transition duration-300  outline-none"
                                    placeholder='0.0'
                                    id="swapoutput"
                                    value={`${swapOutPutValue}`}
@@ -164,7 +164,7 @@ const Recent = ()=>{
                         </button>
                     </div>
                     <div className={WalletButtonShow ? "mt-1" : "hidden"}>
-                        <button onClick={swapnow} className="px-24 py-1.5 rounded-lg text-white font-semibold bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 ">
+                        <button onClick={swapnow} className="px-24 py-1.5 rounded-lg text-white font-semibold bg-gradient-to-r from-W3G2   to-W3G3 ">
                             Swap
                         </button>
                     </div>
@@ -322,45 +322,48 @@ const Swap = () =>{
     return(
         <div>
             <div className="flex  justify-center  mx-auto px-2 py-12 sm:px-0">
-                <div className="bg-black  p-5 rounded-2xl">
-                    <Tab.Group>
-                        <Tab.List className=" p-1 space-x-1 bg-neutral-800 rounded-xl mx-auto  flex justify-between ">
-                            <div>
-                                {Object.keys(categories).map((category) => (
-                                    <Tab
-                                        key={category}
-                                        className={({ selected }) =>
-                                            classNames(
-                                                'w-24 py-2 text-sm leading-5 font-medium text-gray-600 ',
-                                                selected
-                                                    ? ' text-yellow-50 border-b border-gray-400 shadow'
-                                                    : ' hover:bg-white/[0.12] hover:text-white')}>
-                                        {category}
-                                    </Tab>
-                                ))}
-                            </div>
-                            <div className="text-white px-2 py-1 text-xl">
-                                <i className="fa fa-cog " aria-hidden="true"></i>
-                            </div>
-                        </Tab.List>
-                       {/*Recent*/}
-                        <Tab.Panels className="mt-2 ">
-                            <Tab.Panel
-                                className={classNames(' rounded-xl p-1 w-80 md:w-96 ')}>
+                <div className="p-0.5 rounded-xl bg-gradient-to-r from-W3G2   to-W3G3">
+                    <div className="bg-black  px-10 py-7 rounded-xl">
+                        <Tab.Group>
+                            <Tab.List className=" p-1 space-x-1 bg-W3GBG rounded-xl mx-auto  flex justify-between ">
+                                <div>
+                                    {Object.keys(categories).map((category) => (
+                                        <Tab
+                                            key={category}
+                                            className={({ selected }) =>
+                                                classNames(
+                                                    'w-24 py-3  leading-5 font-medium text-gray-600 ',
+                                                    selected
+                                                        ? ' text-yellow-50  border-gray-400 shadow'
+                                                        : ' hover:bg-white/[0.12] hover:text-white')}>
+                                            {category}
+                                        </Tab>
+                                    ))}
+                                </div>
+                                <div className="text-white px-2 py-1 text-xl">
+                                    <i className="fa fa-cog " aria-hidden="true"></i>
+                                </div>
+                            </Tab.List>
+                            {/*Recent*/}
+                            <Tab.Panels className="mt-2 ">
+                                <Tab.Panel
+                                    className={classNames(' rounded-xl p-1  md:w-97 ')}>
 
-                               <Recent/>
+                                    <Recent/>
 
-                            </Tab.Panel>
-                            {/*Popular*/}
-                            <Tab.Panel className={classNames('text-gray-300 rounded-xl p-1 w-80 md:w-96')}>
+                                </Tab.Panel>
+                                {/*Popular*/}
+                                <Tab.Panel className={classNames('text-gray-300 rounded-xl p-1 md:w-97')}>
 
-                                {/*<Popular/>*/}
+                                    {/*<Popular/>*/}
 
-                            </Tab.Panel>
-                        </Tab.Panels>
-                    </Tab.Group>
+                                </Tab.Panel>
+                            </Tab.Panels>
+                        </Tab.Group>
 
+                    </div>
                 </div>
+
             </div>
             <div className="text-gray-600 text-sm flex justify-center text-center md:w-1/2 mx-auto">
                 Limit orders use funds from BentoBox, to create a limit order depositing into BentoBox is required.

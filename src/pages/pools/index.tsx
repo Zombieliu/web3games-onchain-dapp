@@ -36,42 +36,53 @@ const deliveryMethods = [
     { id: 3, title: '0.60%'},
 ]
 const types = [
-    { id: 1, name: 'EVM' },
-    { id: 2, name: 'Substrate' },
+    { id: 1, name: 'All' },
+    { id: 2, name: 'Stablecion' },
+    { id: 3, name: 'W3G ecosystem' },
+    { id: 4, name: 'Gaming' },
+    { id: 5, name: 'NFT' },
+    { id: 6, name: 'Bridged tokens' },
 ]
 const tokenstitle=[
+    {
+        title:"#"
+    },
     {
         title:"Assets"
     },
     {
-        title:"TVL"
+        title:"Fee"
     },
     {
-        title:"Volume "
+        title:"TVL "
+    },
+    {
+        title:"Pools "
     },
 
 ]
 
 const Pools = () =>{
 
-    // const token_pair = {
-    //     assets_a: '',
-    //     assets_a_address: "",
-    //     assets_a_id: "",
-    //     assets_a_image_url: "",
-    //     assets_b: "",
-    //     assets_b_address: "",
-    //     assets_b_id: "",
-    //     assets_b_image_url: "",
-    //     id: ,
-    //     pool_id: "0",
-    //     total_lp: "0",
-    //     tvl: "1231231",
-    //     volume: "231231",
-    //     volume_days: "0",
-    //     your_lp: "0"
-    //
-    // }
+    const token_pair = [{
+        assets_a: 'W3G',
+        assets_a_address: "123213",
+        assets_a_id: "1",
+        assets_a_image_url: "/web3logo.svg",
+        assets_b: "ETH",
+        assets_b_address: "dasdasd",
+        assets_b_id: "2",
+        assets_b_image_url: "/substrate.svg",
+        id: "1",
+        pool_id: "0",
+        total_lp: "0",
+        tvl: "1231231",
+        volume: "231231",
+        volume_days: "0",
+        your_lp: "0",
+        fee:"0.3%",
+
+    }]
 
     const router = useRouter()
     const [selectedDeliveryMethod, setSelectedDeliveryMethod] = useState(deliveryMethods[0])
@@ -280,12 +291,12 @@ const Pools = () =>{
     }
     // @ts-ignore
     return(
-        <div>
+        <div className="bg-W3GBG">
             <Header/>
-            <div className="relative pt-16">
+            <div className=" relative pt-16">
                 <div className="absolute inset-x-0 bottom-0    " />
                 <div className=" mx-auto  ">
-                    <div className="bg-black bg-opacity-90 ">
+                    <div className="  ">
                         <Transition
                             show={openAlert}
                             as={Fragment}
@@ -296,7 +307,7 @@ const Pools = () =>{
                             leaveFrom="opacity-100"
                             leaveTo="opacity-0"
                         >
-                        <div className={openAlert?"flex fixed z-20  motion-safe:animate-spin inset-x-0 px-6 pt-4  justify-end ":"hidden "}>
+                        <div className={openAlert?"flex fixed z-20   inset-x-0 px-6 pt-4  justify-end ":"hidden "}>
                             <div className="bg-green-100 rounded-lg py-5 px-4  text-base text-green-700 inline-flex " role="alert">
                                 <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="check-circle"
                                      className="w-6 h-6 mr-2 mt-1 fill-current" role="img" xmlns="http://www.w3.org/2000/svg"
@@ -321,198 +332,220 @@ const Pools = () =>{
                             </div>
                         </div>
                             </Transition>
-                            <div className="mx-auto max-w-7xl relative px-5 py-16  ">
-                                <div className="md:flex justify-between items-center">
-                                <div>
-                                    <div className="text-3xl text-gray-200 tracking-[-0.02em] font-bold text-high-emphesis"> Provide liquidity & earn.</div>
-                                    <div className="text-sm leading-5 font-medium currentColor text-gray-300">Earn LP fees by depositing tokens to the platform.</div>
-                                </div>
+                            <div className="mx-auto max-w-7xl relative px-5 pt-16  ">
+                                <div className="flex justify-center items-center">
                                     <div className="mt-10 md:mt-0  text-center" >
                                         <div className={WalletButtonShow ? "hidden": "mt-1"}>
                                             <button  onClick={()=>{SetOpenWalletListState(true)}} className="px-12 py-1.5 text-gray-200 rounded-lg bg-blue-500">
                                                 Connect Wallet
                                             </button>
                                         </div>
-                                        <div className={WalletButtonShow ? "mt-1": "hidden"}>
-                                            <button onClick={()=>{setOpenCreate(true)}}  className=" lg:mt-0 bg-blue-500 px-3 py-2 rounded-lg bg-indigo-500 text-white">
-                                                Create Pool
+                                        <div className={WalletButtonShow ? "mt-1 p-0.5 rounded-full bg-gradient-to-r from-[#6B91E7] via-[#6B91E7] to-[#7ADFD6]  shadow-xl": "hidden"}>
+                                            <button onClick={()=>{setOpenCreate(true)}}  className=" lg:mt-0 bg-black px-24 py-2 rounded-full  shadow-[0_2px_16px_-1px_rgb(0,0,0,0.1)] shadow-[#7ADFD6] text-W3G3">
+                                               View Pools
                                             </button>
                                         </div>
                                     </div>
-
                             </div>
                         </div>
                     </div>
 
-                    <div  className="bg-black bg-opacity-95 ">
                         <div className="max-w-7xl relative px-5 py-16  sm:px-6   mx-auto ">
-                    <div className="">
-                        <div className="flex justify-between">
-                            <div className="text-gray-400 hidden lg:inline-block ">
-                                <div>
-                                    <div>TWAP Oracles </div>
-                                    <div className="flex mt-2">
-                                        <input
-                                            id="candidates"
-                                            aria-describedby="candidates-description"
-                                            name="candidates"
-                                            type="checkbox"
-                                            className=" h-4 w-4 text-indigo-600 border-gray-300 rounded"
-                                        />
-                                        <div className="text-gray-600 w-36 font-light text-sm ml-2 -mt-0.5"> Show oracle pairs only</div>
-                                    </div>
-                                </div>
-                                {/*<div>*/}
-                                {/*    <div className="mt-5">Fee Tiers </div>*/}
-                                {/*    <div className="flex mt-2">*/}
-                                {/*        <input*/}
-                                {/*            id="candidates"*/}
-                                {/*            aria-describedby="candidates-description"*/}
-                                {/*            name="candidates"*/}
-                                {/*            type="checkbox"*/}
-                                {/*            className=" h-4 w-4 text-indigo-600 border-gray-300 rounded"*/}
-                                {/*        />*/}
-                                {/*        <div className="text-gray-600 font-light text-sm ml-2 -mt-0.5">1%</div>*/}
-                                {/*    </div>*/}
-                                {/*    <div className="flex mt-2">*/}
-                                {/*        <input*/}
-                                {/*            id="candidates"*/}
-                                {/*            aria-describedby="candidates-description"*/}
-                                {/*            name="candidates"*/}
-                                {/*            type="checkbox"*/}
-                                {/*            className=" h-4 w-4 text-indigo-600 border-gray-300 rounded"*/}
-                                {/*        />*/}
-                                {/*        <div className="text-gray-600 font-light text-sm ml-2 -mt-0.5">0.3%</div>*/}
-                                {/*    </div>*/}
-                                {/*    <div className="flex mt-2">*/}
-                                {/*        <input*/}
-                                {/*            id="candidates"*/}
-                                {/*            aria-describedby="candidates-description"*/}
-                                {/*            name="candidates"*/}
-                                {/*            type="checkbox"*/}
-                                {/*            className=" h-4 w-4 text-indigo-600 border-gray-300 rounded"*/}
-                                {/*        />*/}
-                                {/*        <div className="text-gray-600 font-light text-sm ml-2 -mt-0.5">0.05%</div>*/}
-                                {/*    </div>*/}
-                                {/*    <div className="flex mt-2">*/}
-                                {/*        <input*/}
-                                {/*            id="candidates"*/}
-                                {/*            aria-describedby="candidates-description"*/}
-                                {/*            name="candidates"*/}
-                                {/*            type="checkbox"*/}
-                                {/*            className=" h-4 w-4 text-indigo-600 border-gray-300 rounded"*/}
-                                {/*        />*/}
-                                {/*        <div className="text-gray-600 font-light text-sm ml-2 -mt-0.5">0.01%</div>*/}
-                                {/*    </div>*/}
-                                {/*</div>*/}
-                            </div>
 
-                            <div className="lg:ml-10 lg:w-10/12 overflow-auto">
-                                <div className="lg:flex w-full">
+                                <div className="text-white">
+                                    Liquidity Pools
+                                </div>
+                                {/*Liquidity Pools*/}
+                                <div className="text-white mt-4 p-5 rounded-lg bg-W3GInfoBG">
                                     <div className="flex ">
-                                        <div className="text-xl ml-2  -mr-6 mt-1 text-gray-300">
-                                            <i className="fa fa-search" aria-hidden="true"></i>
+                                        <div className="text-gray-400 ">
+                                            My Watchlist
                                         </div>
                                         <div>
-                                            <input type="text"
-                                                   className="pl-8 bg-black bg-opacity-10 text-white text-xs md:text-sm   rounded-lg px-2 py-2 w-60 lg:w-96  border border-gray-800    outline-none"
-                                                   placeholder="Search by token or pair "
-                                                   id="Pools"
-                                            />
+                                            <i className="fa fa-question-circle ml-2 mt-1.5 text-gray-300"
+                                               aria-hidden="true"></i>
                                         </div>
                                     </div>
-                                    <div className="mt-6 lg:mt-0 lg:ml-10">
-                                        {/*<Listbox value={selected} onChange={setSelected} >*/}
-                                        {/*    {({ open }) => (*/}
-                                        {/*        <>*/}
-                                        {/*            <div className=" relative ">*/}
-                                        {/*                <Listbox.Button className="relative lg:ml-4 border-gray-300 bg-gray-900 px-6 py-1  rounded-xl  xl:pl-12    text-left cursor-default flex  sm:text-base">*/}
-                                        {/*                    <span className="block text-gray-300 truncate text-lg w-18 xl:w-24 mr-5 xl:mr-2"> {selected.name}</span>*/}
-                                        {/*                    <span className="text-gray-200 mt-0.5">*/}
-                                        {/*           <i className="fa fa-angle-down" aria-hidden="true"></i>*/}
-                                        {/*        </span>*/}
-                                        {/*                </Listbox.Button>*/}
 
-                                        {/*                /!*<Transition*!/*/}
-                                        {/*                /!*    show={open}*!/*/}
-                                        {/*                /!*    as={Fragment}*!/*/}
-                                        {/*                /!*    leave="transition ease-in duration-100"*!/*/}
-                                        {/*                /!*    leaveFrom="opacity-100"*!/*/}
-                                        {/*                /!*    leaveTo="opacity-0"*!/*/}
-                                        {/*                /!*>*!/*/}
-                                        {/*                /!*    <Listbox.Options className="absolute z-10 mt-1 w-36 xl:w-44 bg-gray-900 shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto  sm:text-sm">*!/*/}
-                                        {/*                /!*        {types.map((type) => (*!/*/}
-                                        {/*                /!*            <Listbox.Option*!/*/}
-                                        {/*                /!*                key={type.id}*!/*/}
-                                        {/*                /!*                className={({ active }) =>*!/*/}
-                                        {/*                /!*                    classNames(*!/*/}
-                                        {/*                /!*                        active ? 'text-white bg-gray-600' : 'text-gray-400',*!/*/}
-                                        {/*                /!*                        'cursor-default selecttokentop-none relative py-2 pl-8 pr-4'*!/*/}
-                                        {/*                /!*                    )*!/*/}
-                                        {/*                /!*                }*!/*/}
-                                        {/*                /!*                value={type}*!/*/}
-                                        {/*                /!*            >*!/*/}
-                                        {/*                /!*                {({ selected, active }) => (*!/*/}
-                                        {/*                /!*                    <>*!/*/}
-                                        {/*                /!*                <span className={classNames(selected ? 'font-semibold' : 'font-normal', 'block truncate')}>*!/*/}
-                                        {/*                /!*                  {type.name}*!/*/}
-                                        {/*                /!*                </span>*!/*/}
-
-                                        {/*                /!*                        {selected ? (*!/*/}
-                                        {/*                /!*                            <span*!/*/}
-                                        {/*                /!*                                className={classNames(*!/*/}
-                                        {/*                /!*                                    active ? 'text-white' : ' text-gray-400',*!/*/}
-                                        {/*                /!*                                    'absolute inset-y-0 left-0 flex items-center pl-1.5'*!/*/}
-                                        {/*                /!*                                )}*!/*/}
-                                        {/*                /!*                            >*!/*/}
-                                        {/*                /!*                    <CheckIcon className="h-5 w-5" aria-hidden="true" />*!/*/}
-                                        {/*                /!*                  </span>*!/*/}
-                                        {/*                /!*                        ) : null}*!/*/}
-                                        {/*                /!*                    </>*!/*/}
-                                        {/*                /!*                )}*!/*/}
-                                        {/*                /!*            </Listbox.Option>*!/*/}
-                                        {/*                /!*        ))}*!/*/}
-                                        {/*                /!*    </Listbox.Options>*!/*/}
-                                        {/*                /!*</Transition>*!/*/}
-                                        {/*            </div>*/}
-                                        {/*        </>*/}
-                                        {/*    )}*/}
-                                        {/*</Listbox>*/}
-                                    </div>
-                                </div>
-                                <div className="text-gray-400 mt-10">
-                                    Top Liquidity Pools
-                                    <div className="mt-2 overflow-auto mb-12">
-                                        <table className=" w-full divide-y divide-gray-700 overflow-auto">
-                                            <thead className="bg-black ">
+                                    <div className="w-full mt-2   ">
+                                        <table className="min-w-full divide-y divide-W3GInfoBorderBG">
+                                            <thead className=" text-neutral-300 ">
                                             <tr>
                                                 {tokenstitle.map(title => (
                                                     <th key={title.title}
                                                         scope="col"
-                                                        className="px-6 py-3 text-left text-sm font-semibold text-gray-300  "
+                                                        className="px-6 py-3 text-left text-sm font-semibold text-gray-500  "
                                                     >
                                                         {title.title}
                                                     </th>
                                                 ))}
                                             </tr>
                                             </thead>
-                                            <tbody className="bg-black  divide-y divide-gray-700">
-                                            {localTokenPoolPair.map(item => (
-                                                <tr key={item.pool_id}  onClick={()=>{toDetail(item.pool_id)}} className="cursor-pointer hover:bg-gray-900">
-                                                    <td className="px-6 py-4 pr-24 md:pr-0  whitespace-nowrap text-sm font-medium text-gray-200 font-medium">
+                                            <tbody className="  divide-y divide-W3GInfoBorderBG">
+                                            {token_pair.map(item => (
+                                                <tr key={item.pool_id}  onClick={()=>{toDetail(item.pool_id)}} className="cursor-pointer hover:bg-neutral-800">
+                                                    <td className="px-6 py-4  whitespace-nowrap text-sm text-gray-200">
+                                                        {item.id}
+                                                    </td>
+                                                    <td className="px-6 py-4 pr-12 md:w-96 md:pr-0  whitespace-nowrap text-sm font-medium text-gray-200 font-medium">
                                                         <div className="flex items-center">
                                                             <img className="w-8 rounded-full" src={item.assets_a_image_url} alt=""/>
-                                                            <img className="w-8 rounded-full -ml-4" src={item.assets_b_image_url} alt=""/>
+                                                            <img className="w-8 rounded-full " src={item.assets_b_image_url} alt=""/>
                                                             <div className="ml-2 ">
                                                                 {item.assets_a}-{item.assets_b}
+                                                            </div>
+                                                            <div className="ml-2 px-3 py-0.5 rounded-lg  bg-gradient-to-b from-[#6FDADA]  to-[#5C7BBF]/90">
+                                                                Farms
                                                             </div>
                                                         </div>
                                                     </td>
                                                     <td className="px-6 py-4  whitespace-nowrap text-sm text-gray-200">
-                                                        ${item.tvl}
+                                                        {item.fee}
                                                     </td>
                                                     <td className="px-6 py-4  whitespace-nowrap text-sm text-gray-200">
-                                                        ${item.volume}
+                                                        ${item.tvl}M
+                                                    </td>
+                                                    <td className="px-6 py-4  whitespace-nowrap text-sm text-gray-200">
+                                                        {item.pool_id}
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                                {/*TopPools*/}
+                                <div className="text-white mt-10 p-5 rounded-lg bg-W3GInfoBG">
+                                    <div className="flex items-center justify-between">
+
+                                    <div className="flex ">
+                                        <div className=" ">
+                                           Top Pools
+                                        </div>
+                                        <div>
+                                            <i className="fa fa-question-circle ml-2 mt-1.5 text-gray-300"
+                                               aria-hidden="true"></i>
+                                        </div>
+                                    </div>
+
+                                        <div className="flex justify-between items-center">
+                                            <div className="flex items-center">
+                                                <div className="text-gray-500 mr-1">
+                                                    Filter by
+                                                </div>
+                                                <Listbox value={selected} onChange={setSelected}>
+                                                    {({ open }) => (
+                                                        <>
+                                                            <div className=" relative">
+                                                                <Listbox.Button className="bg-neutral-700 relative w-full border border-gray-600 rounded-full w-40  pl-3 pr-10  text-left cursor-default focus:outline-none hover:border-[#76FFFF] focus:border-[#76FFFF]  sm:text-sm">
+                                                                    <span className="block truncate text-gray-500">{selected.name}</span>
+                                                                    <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                                                                        <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                                                                    </span>
+                                                                </Listbox.Button>
+
+                                                                <Transition
+                                                                    show={open}
+                                                                    as={Fragment}
+                                                                    leave="transition ease-in duration-100"
+                                                                    leaveFrom="opacity-100"
+                                                                    leaveTo="opacity-0"
+                                                                >
+                                                                    <Listbox.Options className="absolute z-10 mt-1 w-full bg-neutral-800  max-h-60 rounded-md py-1 text-base border border-[#76FFFF] overflow-auto focus:outline-none sm:text-sm">
+                                                                        {types.map((type) => (
+                                                                            <Listbox.Option
+                                                                                key={type.id}
+                                                                                className={({ active }) =>
+                                                                                    classNames(
+                                                                                        active ? 'text-[#76FFFF] ' : 'text-gray-400',
+                                                                                        'cursor-default select-none relative py-2 pl-3 pr-9'
+                                                                                    )
+                                                                                }
+                                                                                value={type}
+                                                                            >
+                                                                                {({ selected, active }) => (
+                                                                                    <>
+                                                                                        <span className={classNames(selected ? 'font-semibold' : 'font-normal', 'block truncate')}>
+                                                                                            {type.name}
+                                                                                        </span>
+                                                                                    </>
+                                                                                )}
+                                                                            </Listbox.Option>
+                                                                        ))}
+                                                                    </Listbox.Options>
+                                                                </Transition>
+                                                            </div>
+                                                        </>
+                                                    )}
+                                                </Listbox>
+
+                                            </div>
+
+                                            {/* CheckBox*/}
+                                            <div className="mx-4 flex items-center">
+                                                <input type="checkbox" className="accent-[#76FFFF] mx-2" />
+                                            <div className="text-gray-500">
+                                                Hide low TVL
+                                            </div>
+                                            </div>
+
+
+                                    {/*Search*/}
+                                    <div className="flex items-center hover:text-[#76FFFF]">
+                                        <div >
+                                            <input type="text"
+                                                   className="  bg-neutral-700 text-white text-xs md:text-sm  pr-6 rounded-lg p-2 w-full   border border-gray-800 hover:border-[#76FFFF] focus:border-[#76FFFF]  outline-none"
+                                                   placeholder="Search by token "
+                                                   id="Pools"
+                                            />
+                                        </div>
+                                        <div className="text-xl ml-2  -ml-6  ">
+                                            <i className="fa fa-search" aria-hidden="true"></i>
+                                        </div>
+                                    </div>
+                                        </div>
+                                    </div>
+                                    <div className="w-full mt-2  mb-12 ">
+                                        <table className="min-w-full divide-y divide-W3GInfoBorderBG">
+                                            <thead className=" text-neutral-300 ">
+                                            <tr>
+                                                {tokenstitle.map(title => (
+                                                    <th key={title.title}
+                                                        scope="col"
+                                                        className="px-6 py-3 text-left text-sm font-semibold text-gray-500  "
+                                                    >
+                                                        {title.title}
+                                                    </th>
+                                                ))}
+                                            </tr>
+                                            </thead>
+                                            <tbody className="  divide-y divide-W3GInfoBorderBG">
+                                            {token_pair.map(item => (
+                                                <tr key={item.pool_id}  onClick={()=>{toDetail(item.pool_id)}} className="cursor-pointer hover:bg-neutral-800">
+                                                    <td className="px-6 py-4  whitespace-nowrap text-sm text-gray-200">
+                                                        {item.id}
+                                                    </td>
+                                                    <td className="px-6 py-4 pr-12 md:w-96 md:pr-0  whitespace-nowrap text-sm font-medium text-gray-200 font-medium">
+                                                        <div className="flex items-center">
+                                                            <img className="w-8 rounded-full" src={item.assets_a_image_url} alt=""/>
+                                                            <img className="w-8 rounded-full " src={item.assets_b_image_url} alt=""/>
+                                                            <div className="ml-2 ">
+                                                                {item.assets_a}-{item.assets_b}
+                                                            </div>
+                                                            <div className="ml-2 px-3 py-0.5 rounded-lg bg-gradient-to-b from-[#6FDADA]  to-[#5C7BBF]/90">
+                                                                Farms
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td className="px-6 py-4  whitespace-nowrap text-sm text-gray-200">
+                                                        {item.fee}
+                                                    </td>
+                                                    <td className="px-6 py-4  whitespace-nowrap text-sm text-gray-200">
+                                                        ${item.tvl}M
+                                                    </td>
+                                                    <td className="px-6 py-4  whitespace-nowrap text-sm text-gray-200">
+                                                        {item.pool_id}
                                                     </td>
                                                 </tr>
                                             ))}
@@ -556,10 +589,6 @@ const Pools = () =>{
                                 </div>
 
                             </div>
-                        </div>
-                    </div>
-                            </div>
-                    </div>
                 </div>
             </div>
             <Transition.Root show={openCreate} as={Fragment}>

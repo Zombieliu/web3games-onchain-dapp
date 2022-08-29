@@ -76,58 +76,84 @@ const SelectTokenTail = () =>{
                             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                         >
-                            <div className="inline-block align-bottom bg-gray-900 w-11/12 md:w-9/12 xl:w-1/3  rounded-lg px-4 py-5 text-left overflow-hidden shadow-xl transform transition-all sm:y-8 sm:align-middle  sm:px-6 lg:px-12 ">
+                            <div className="inline-block align-bottom border-2 border-W3G3  bg-black w-11/12 md:w-9/12 xl:w-7/12  rounded-lg px-4 py-5 text-left overflow-hidden shadow-xl transform transition-all sm:y-8 sm:align-middle  sm:px-6 lg:px-12 ">
                                 <div>
                                     <div className='flex justify-between text-xl font-light text-white 	mb-5'>
-                                        <div className=" font-light  text-xl ">
+                                        <div className=" font-light text-base text-white font-semibold ">
                                             Select a token
                                         </div>
                                         <button  onClick={() => setSelectTokenTail(false)}
                                                  className="fa fa-times " aria-hidden="true"></button>
                                     </div>
-                                    <input type="text"
-                                           className=" bg-gray-700 bg-opacity-30 text-xs md:text-sm text-white  rounded-lg p-2 py-4 w-full border-gray-700 border   focus:border-blue-400 transition duration-300  outline-none"
-                                           placeholder="Search Fungible Token ID"
-                                           id="address"
-                                    />
-                                    <div className="my-5 text-gray-500 text-sm">
+                                    <div className="flex ">
+                                        <div className="flex w-72">
+                                            <input type="text"
+                                                   className=" bg-W3GInfoBG  text-xs md:text-sm text-white  rounded-lg p-2 w-full  border border-W3GInfoBG   hover:border-W3G3 focus:border-W3G3 transition duration-300  outline-none"
+                                                   placeholder="Search token"
+                                                   id="address"
+                                            />
+                                            <div className="flex justify-center z-10 text-white  rounded-lg m-1   -ml-7 ">
+                                                <button >
+                                                    <i className="fa fa-search" aria-hidden="true"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <button className="ml-4 p-0.5 w-32 rounded-lg bg-gradient-to-b from-W3G3 text-white to-W3G2">Add Token</button>
+
+                                    </div>
+                                    <div className="my-5 text-white font-semibold">
                                         Common bases
                                     </div>
                                     <div className="my-5">
-                                        <div className="flex flex-wrap">
+                                        <div className="flex grid grid-cols-4 gap-4">
                                             {tokenList.map((item=>(
-                                            <div  key={item.name} className="mr-3 mb-2  px-2 p-1 bg-gray-800 rounded-full ">
-                                                <button onClick={() => select(item)} className="flex">
-                                                    <div id={item.name} className="flex">
-                                                        <img  className="w-6 h-6 mr-1 rounded-full" src={item.img} alt=""/>
-                                                        <div  className="text-gray-300">{item.name}</div>
-                                                    </div>
+                                                <div  key={item.name} className="rounded-full ">
+                                                    <button onClick={() => select(item)} className="flex">
+                                                        <div id={item.name} className="flex items-center">
+                                                            <img  className="w-9 mr-1 rounded-full" src={item.img} alt=""/>
+                                                            <div className="text-sm ml-1">
+                                                                <div  className="text-white">{item.name}</div>
+                                                                <div  className="text-gray-400">$ {item.data}</div>
 
-                                                </button>
-                                            </div>
+                                                            </div>
+
+                                                        </div>
+
+                                                    </button>
+                                                </div>
                                             )))}
                                         </div>
                                     </div>
-                                    <div className="overflow-y-auto border border-gray-700 h-96 p-3 rounded-xl">
+                                    <div className="my-3  text-gray-400 flex justify-between">
+                                        <div>
+                                            Asset
+                                        </div>
+
+                                        <div>
+                                            Balance
+                                        </div>
+                                    </div>
+                                    <div className="overflow-y-auto border-t border-gray-700 h-96 p-3 ">
                                         {tokenList.map(item=>(
-                                        <div key={item.name} onClick={() => select(item)} className="cursor-pointer flex justify-between">
-                                            <div className="flex my-2">
-                                                <img className="w-9 rounded-full" src={item.img} alt=""/>
-                                                <div className="ml-1.5">
-                                                    <div className="text-gray-400 text-xs">
-                                                        {item.title}
-                                                    </div>
-                                                    <div className="text-gray-200 text-sm">
-                                                        {item.name}
+                                            <div key={item.name} onClick={() => select(item)} className="cursor-pointer flex justify-between">
+                                                <div className="flex my-2">
+                                                    <img className="w-9 rounded-full" src={item.img} alt=""/>
+                                                    <div className="ml-1.5">
+                                                        <div className="text-gray-400 text-xs">
+                                                            {item.name}
+                                                        </div>
+                                                        <div className="text-gray-200 text-sm">
+                                                            {item.data}
+                                                        </div>
                                                     </div>
                                                 </div>
+                                                <div className="mt-3 text-gray-500">
+                                                    {item.data}
+                                                </div>
                                             </div>
-                                            <div className="mt-3 text-gray-500">
-                                                {item.data}
-                                            </div>
-                                        </div>
                                         ))}
                                     </div>
+
                                     <div className="mt-2 flex justify-center text-blue-500 font-semibold hover:text-blue-400">
                                         <button onClick={openTokenLists}>
                                             Manage Token Lists

@@ -33,6 +33,7 @@ const  Trident = () => {
                 { name: 'Assets', href: '/assets', },
                 { name: 'Transfer', href: '/transfer',},
                 // { name: 'Transaction', href: '/transaction',},
+                { name: 'Faucet', href: '/faucet',},
             ]
         },
         {
@@ -224,34 +225,34 @@ const Header = () =>{
     }
 
     return (
-        <div className=" bg-black">
+        <div className=" ">
             <header>
                 <Login/>
                 <Account/>
-                <Popover className="relative bg-white  ">
-                    <div className="flex  fixed z-20 inset-x-0 bg-black    transition duration-700 mb-10 pl-5  justify-between items-center  p-3 sm:px-6 lg:justify-end md:space-x-10 lg:px-10  xl:pl-32 xl:pr-24">
-                        <div className=" flex w-full justify-between items-center lg:justify-start">
+                <Popover className="relative   ">
+                    <div className="flex  fixed z-20 inset-x-0 bg-black/95 backdrop-blur-sm     transition duration-700 mb-10   justify-between items-center  p-3  lg:justify-end  px-5 md:px-10  ">
+                        <div className=" flex w-full justify-between items-center xl:justify-start">
                             {/*Logo */}
-                            <div className="flex justify-start items-center ">
+                            <div className=" ">
                                 <Link  href="/home">
                                     <a>
                                         <span className="sr-only">Workflow</span>
                                         <img
-                                            className="w-auto h-10  "
-                                            src="/logo.png"
+                                            className="w-auto h-14   "
+                                            src="/web3logo.svg"
                                             alt=""
                                         />
                                     </a>
                                 </Link>
                             </div>
                             {/* Top bar function */}
-                            <Tab.Group as="nav" className="hidden  lg:flex  space-x-10 mt-1 pl-10">
+                            <Tab.Group as="nav" className="hidden  xl:flex  space-x-10 mt-1.5 pl-10">
                                 <Trident/>
                             </Tab.Group>
                         </div>
 
                         {/* mobile function list design */}
-                        <div className="-mr-2  my-0.5 lg:hidden">
+                        <div className="-mr-2  my-0.5 xl:hidden">
                             <Popover.Button className="bg-white  rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
                                 <span className="sr-only">Open menu</span>
                                 <MenuIcon className="h-6 w-6" aria-hidden="true" />
@@ -259,7 +260,7 @@ const Header = () =>{
                         </div>
 
                         {/* Wallet Button */}
-                        <div className="hidden lg:flex w-full  md:flex-1 ">
+                        <div className="hidden  xl:flex w-full  md:flex-1 ">
                             <div className={WalletButtonShow ? "hidden": "mt-1"}>
                                 <button  onClick={open_wallet_list} className="bg-blue-600 transition duration-700  w-36 px-4 py-2 text-white rounded-lg  flex justify-center">
                                     Connect Wallet
@@ -354,6 +355,7 @@ const Header = () =>{
         </div>
     )
 }
+
 export default Header
 
 
