@@ -14,6 +14,7 @@ import SelectTokenTop from "../../components/selecttokentop";
 import axios from "axios";
 import { swap } from "../../chain/web3games";
 import TokenList from "../../components/token_lists";
+import {add_liquidity} from "../../utils/chain/pool";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -41,6 +42,7 @@ const Recent = ()=>{
         setSelectTokenTail(true)
     }
 
+
     const get_swap_number =(input_data)=>{
         axios.get('http://127.0.0.1:3004/api/swap', {
             params: {
@@ -55,8 +57,12 @@ const Recent = ()=>{
                 console.log(error);
             });
     }
+
     const check = (e) => {
-        console.log(swapTimes);
+        e.target.value = e.target.value.toString().match(/^\d+(?:\.\d{0,8})?/)
+        if (e.target.value.indexOf('.') < 0 && e.target.value != '') {
+            e.target.value = parseFloat(e.target.value);
+        }
         setSwapTimes(swapTimes + 1)
         if (swapTimes == 1) {
             const input_data = e.target.value.replace(/\D/g, '')
@@ -101,7 +107,7 @@ const Recent = ()=>{
                     </div>
                     <div className="flex justify-between mt-5">
                         <div className="flex">
-                            <input type="number"
+                            <input
                                    onKeyUp={check}
                                    className=" bg-W3GInfoBG  text-xs md:text-sm text-white  rounded-lg p-2  md:w-48  border border-W3GInfoBG   hover:border-W3G3 focus:border-W3G3 transition duration-300  outline-none"
                                    placeholder="0.0"
@@ -146,7 +152,7 @@ const Recent = ()=>{
 
                     <div className="flex justify-between mt-5">
                         <div className="flex">
-                            <input type="number"
+                            <input
                                    className=" bg-W3GInfoBG text-xs md:text-sm text-white  rounded-lg p-2   md:w-48   border border-W3GInfoBG   hover:border-W3G3 focus:border-W3G3 transition duration-300  outline-none"
                                    placeholder='0.0'
                                    id="swapoutput"
