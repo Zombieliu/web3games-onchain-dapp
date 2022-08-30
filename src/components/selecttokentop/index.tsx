@@ -49,7 +49,7 @@ const SelectTokenTop = () =>{
                             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                         >
-                            <div className="inline-block align-bottom border-2 border-W3G3  bg-black w-11/12 md:w-9/12 xl:w-7/12  rounded-lg px-4 py-5 text-left overflow-hidden shadow-xl transform transition-all sm:y-8 sm:align-middle  sm:px-6 lg:px-12 ">
+                            <div className="inline-block align-bottom border border-[#76FFFF]  bg-black w-11/12 md:w-9/12 xl:w-7/12  rounded-lg px-4 py-5 text-left overflow-hidden shadow-xl transform transition-all sm:y-8 sm:align-middle  sm:px-6 lg:px-12 ">
                                 <div>
                                     <div className='flex justify-between text-xl font-light text-white 	mb-5'>
                                         <div className=" font-light text-base text-white font-semibold ">
@@ -61,8 +61,10 @@ const SelectTokenTop = () =>{
                                     <div className="flex ">
                                         <div className="flex w-72">
                                     <input type="text"
-                                           className=" bg-W3GInfoBG  text-xs md:text-sm text-white  rounded-lg p-2 w-full  border border-W3GInfoBG   hover:border-W3G3 focus:border-W3G3 transition duration-300  outline-none"
+                                           className=" bg-W3GInfoBG  text-xs md:text-sm text-white  rounded-lg p-2 w-full  border border-gray-800 hover:border-[#76FFFF]/40 focus:border-[#76FFFF]/40
+                                                    focus:shadow-[0_2px_16px_-1px_rgb(0,0,0,0.1)] focus:shadow-[#76FFFF]/50 transition duration-300  outline-none"
                                            placeholder="Search token"
+                                           autoComplete="off"
                                            id="address"
                                     />
                                         <div className="flex justify-center z-10 text-white  rounded-lg m-1   -ml-7 ">

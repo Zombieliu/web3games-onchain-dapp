@@ -495,7 +495,8 @@ const Pools = () =>{
                                     <div className="flex items-center hover:text-[#76FFFF]">
                                         <div >
                                             <input type="text"
-                                                   className="  bg-neutral-700 text-white text-xs md:text-sm  pr-6 rounded-lg p-2 w-full   border border-gray-800 hover:border-[#76FFFF] focus:border-[#76FFFF]  outline-none"
+                                                   className="  bg-neutral-700 text-white text-xs md:text-sm  pr-6 rounded-lg p-2 w-full   border border-gray-800 hover:border-[#76FFFF]/40 focus:border-[#76FFFF]/40
+                                                    focus:shadow-[0_2px_16px_-1px_rgb(0,0,0,0.1)] focus:shadow-[#76FFFF]/50  outline-none"
                                                    placeholder="Search by token "
                                                    id="Pools"
                                             />
@@ -618,13 +619,13 @@ const Pools = () =>{
                             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                         >
-                            <div className="inline-block align-bottom bg-gray-900 rounded-lg w-11/12 md:w-9/12 xl:w-1/3 px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8  sm:p-6">
+                            <div className="inline-block align-bottom border border-[#76FFFF] bg-black rounded-lg w-11/12 md:w-10/12 xl:w-1/3 px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8  sm:p-6">
                                 <div className="w-full  ">
-                                    <div className="flex justify-between text-xl text-white w-full">
+                                    <div className="flex justify-between text-xl text-white w-full items-center  font-semibold">
                                         <div>
                                             Create New Pool
                                         </div>
-                                        <button onClick={()=>{setOpenCreate(false)}} >
+                                        <button onClick={()=>{setOpenCreate(false)}} className="text-[#76FFFF] text-3xl">
                                             <i className="fa fa-times" aria-hidden="true"></i>
                                         </button></div>
                                 </div>
@@ -635,12 +636,12 @@ const Pools = () =>{
                                                 Token
                                             </div>
                                             <div className="flex  w-full">
-                                                <div className="flex bg-gray-600 bg-opacity-90 p-2 w-full rounded-lg">
+                                                <div className="flex bg-[#1F1F1F] p-2 w-full rounded-lg">
                                                     <div className="flex w-full">
                                                         <button onClick={()=>{setSelectTokenTop(true)}} className="flex w-full px-2 items-center justify-between">
                                                             <div className="flex w-full items-center">
                                                             <div>
-                                                                <img className="w-7 rounded-full mr-1" src={swapTokenTop.img} alt=""/>
+                                                                <img className="w-7 rounded-full mr-2" src={swapTokenTop.img} alt=""/>
                                                             </div>
                                                             <div className="text-gray-200">
                                                                 {swapTokenTop.name}
@@ -658,12 +659,12 @@ const Pools = () =>{
                                            Pair
                                         </div>
                                         <div className="flex  w-full">
-                                            <div className="flex bg-gray-600 bg-opacity-90 p-2 w-full rounded-lg">
+                                            <div className="flex bg-[#1F1F1F]  p-2 w-full rounded-lg">
                                                 <div className="flex w-full">
                                                     <button onClick={()=>{setSelectTokenTail(true)}} className="flex w-full px-2 items-center justify-between">
                                                         <div className="flex w-full items-center">
                                                             <div>
-                                                                <img className="w-7 rounded-full mr-1" src={swapTokenTail.img} alt=""/>
+                                                                <img className="w-7 rounded-full mr-2" src={swapTokenTail.img} alt=""/>
                                                             </div>
                                                             <div className="text-gray-200">
                                                                 {swapTokenTail.name}
@@ -730,7 +731,7 @@ const Pools = () =>{
                                 {/*        %*/}
                                 {/*    </div>*/}
                                 {/*</div>*/}
-                                <div className="bg-black mt-10 bg-opacity-50 rounded-lg p-3 text-base">
+                                <div className=" mt-10 bg-[#1F1F1F] rounded-lg p-3 text-base">
                                     <div className="flex justify-between">
                                         <div className="text-gray-400 ">
                                             LP fee
@@ -741,14 +742,14 @@ const Pools = () =>{
                                     </div>
                                 </div>
 
-                                <div className="text-center mt-5" >
+                                <div className="text-center mt-7" >
                                     <div className={WalletButtonShow  ? "hidden": "mt-1"}>
                                         <button  onClick={()=>{SetOpenWalletListState(true)}} className="w-full py-1.5 text-gray-200 rounded-lg bg-blue-500">
                                             Connect Wallet
                                         </button>
                                     </div>
                                     <div className={WalletButtonShow  ? "mt-1": "hidden"}>
-                                        <button  onClick={createPool} className=" lg:mt-0 bg-blue-500 w-full px-3 py-2 rounded-lg bg-indigo-500 text-white">
+                                        <button  onClick={createPool} className=" lg:mt-0 bg-gradient-to-r from-W3G2   to-W3G3 w-56 px-3 py-2 rounded-lg bg-indigo-500 text-white">
                                            Create
                                         </button>
                                     </div>
@@ -814,7 +815,7 @@ const Pools = () =>{
             </Transition.Root>
             <SelectTokenTail/>
             <SelectTokenTop/>
-
+            <TokenList/>
             <Tail/>
         </div>
     )

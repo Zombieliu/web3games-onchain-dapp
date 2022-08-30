@@ -378,7 +378,7 @@ const Header = () =>{
                         >
                             <Popover.Panel
                                 focus
-                                className="absolute my-auto  fixed z-20 inset-x-0  min-h-screen  inset-y-auto    transition transform origin-top-right lg:hidden"
+                                className="absolute my-auto  fixed z-20 inset-x-0  min-h-screen  inset-y-auto    transition transform origin-top-right xl:hidden"
                             >
                                 <div className="rounded-lg  shadow-lg ring-1 ring-black ring-opacity-5 bg-black    transition duration-700 divide-y-2 divide-gray-400">
                                     <div className="pt-5 pb-6 px-5">

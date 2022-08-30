@@ -227,11 +227,27 @@ const Detail = () =>{
             <div className="relative pt-16">
                 <div className="absolute inset-x-0 bottom-0    " />
                 <div className=" mx-auto  ">
-                    <div className="bg-black bg-opacity-95 ">
+                    <div className="bg-W3GBG">
                         <div className="max-w-7xl relative px-5 pt-16 pb-32 sm:px-6  mx-auto ">
+                            <div className="flex justify-center xl:justify-start">
+                                <Link href="/pools">
+                                    <a  className="p-0.5 rounded-lg bg-gradient-to-r from-W3G2  mb-10 to-W3G3">
+                                        <div className="bg-black rounded-lg text-[#76FFFF] p-2 w-90 text-center" >
+                                        View Pools
+                                        </div>
+
+                                    </a>
+                                </Link>
+                            </div>
                             <div className="xl:flex ">
-                                <div className="bg-gray-800  py-5 rounded-2xl  xl:w-4/12">
-                                    <div className="flex justify-between px-3 items-center">
+                                <div className="p-0.5 rounded-lg bg-gradient-to-b from-W3G2   to-W3G3 xl:w-4/12">
+                                <div className="bg-[#151515]  p-5 rounded-lg  w-full">
+                                    <div className="flex mb-4">
+                                    <div className=" rounded-full text-white py-0.5 px-6 bg-gradient-to-r from-W3G2  to-W3G3">
+                                        Farms
+                                    </div>
+                                    </div>
+                                    <div className="flex justify-between bg-[#2B2B2B] rounded-md p-1 items-center">
                                         <div className="flex items-center">
                                             <div>
                                                 <img className="w-10 rounded-full" src={PoolDetails.assets_a_image_url} alt=""/>
@@ -251,12 +267,12 @@ const Detail = () =>{
                                             {tokenABalance}
                                         </div>
                                     </div>
-                                    <div className="flex mt-4 justify-between px-3 items-center">
+                                    <div className="flex mt-4 justify-between bg-[#2B2B2B] rounded-md p-1 items-center">
                                         <div className="flex items-center">
                                             <div>
                                                 <img className="w-10 rounded-full" src={PoolDetails.assets_b_image_url} alt=""/>
                                             </div>
-                                            <div className="ml-2 text-white font-semibold">
+                                            <div className="ml-2 text-white font-semibold  ">
                                                 <div>
                                                     {PoolDetails.assets_b}
                                                 </div>
@@ -271,22 +287,22 @@ const Detail = () =>{
                                             {tokenBBalance}
                                         </div>
                                     </div>
-                                    <div className="flex justify-between my-5 px-3">
-                                        <div className="border border-gray-100 text-white px-1 text-sm">
+                                    <div className="flex justify-between my-5 ">
+                                        <div className="border border-[#76FFFF] rounded-full text-white px-4 text-sm ">
                                             1 {PoolDetails.assets_a} ≈ {(Number(tokenBBalance)/Number(tokenABalance)).toFixed(2)} {PoolDetails.assets_b}
                                         </div>
 
-                                        <div className="border border-gray-100 text-white px-1 text-sm">
+                                        <div className="border border-[#76FFFF] rounded-full text-white px-4 text-sm">
                                             1 {PoolDetails.assets_b} ≈ {(Number(tokenABalance)/Number(tokenBBalance)).toFixed(2)} {PoolDetails.assets_a}
                                         </div>
                                     </div>
-                                    <div className="border-b border-gray-500"></div>
-                                    <div className="p-3 pt-5">
-                                        <div className="flex justify-between">
+                                    <div className="border-b border-[#2E2E2E]"></div>
+                                    <div className=" pt-5">
+                                        <div className="flex justify-between items-center">
                                             <div className="text-gray-400">
                                                 Fee
                                             </div>
-                                            <div className="border-green-500 border text-white text-sm px-1 rounded-md">
+                                            <div className=" border-[#76FFFF] border text-white text-sm px-1 rounded-md">
                                                 0.3%
                                             </div>
                                         </div>
@@ -327,17 +343,17 @@ const Detail = () =>{
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
-                                <div className=" xl:w-9/12 mt-5  xl:mt-0">
-                                    <div className="flex justify-end">
+                                </div>
+                                <div className=" xl:w-9/12 mt-5 xl:ml-8  xl:mt-0">
+                                    <div className="flex ">
 
                                             <button onClick={()=>{
                                                 setOpenAdd(true)}
-                                            } className="lg:mt-0 bg-blue-500 px-8 py-2 rounded-lg bg-indigo-500 text-white">
+                                            } className="lg:mt-0 bg-gradient-to-b from-[#7BE1D8]   to-[#2C948B] px-8 py-2 rounded-lg  text-white">
                                                 Add Liquidity
                                             </button>
-                                            <button onClick={()=>{setOpenRemove(true)}} className="ml-5 lg:mt-0  px-8 py-2 rounded-lg border border-indigo-500 text-white">
+                                            <button onClick={()=>{setOpenRemove(true)}} className="ml-5 lg:mt-0  px-8 py-2 rounded-lg bg-gradient-to-b from-[#7BE1D8] to-[#2C948B] text-white">
                                                 Remove Liquidity
                                             </button>
                                     </div>
@@ -350,7 +366,7 @@ const Detail = () =>{
                 </div>
                 <Transition.Root show={openAdd} as={Fragment}>
                     <Dialog as="div" className="fixed z-20 inset-0 overflow-y-auto "  onClose={setOpenAdd}>
-                        <div className="flex items-center justify-center min-h-screen -mt-20  px-4  text-center ">
+                        <div className="flex items-center justify-center min-h-screen    px-4  text-center ">
                             <Transition.Child
                                 as={Fragment}
                                 enter="ease-out duration-300"
@@ -375,7 +391,8 @@ const Detail = () =>{
                                 leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                                 leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                             >
-                                <div className="inline-block align-bottom bg-gray-900 rounded-lg w-11/12 md:w-9/12 xl:w-1/3 px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8  sm:p-6">
+
+                                <div className="inline-block align-bottom border border-[#76FFFF] bg-[#151515]    rounded-lg w-11/12 md:w-9/12 xl:w-5/12 px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8  sm:p-6">
                                     <div className="w-full  ">
                                         <div className="flex justify-between text-xl text-white w-full">
                                             <div>
@@ -390,23 +407,25 @@ const Detail = () =>{
                                             <div className="text-sm  mt-5 flex items-center text-white font-semibold">
                                                 <img className="w-10 mr-2" src={PoolDetails.assets_a_image_url} alt=""/>
                                                 {PoolDetails.assets_a}
+
                                             </div>
                                             <div className="items-center">
-                                                <div className="flex justify-end text-gray-400 text-sm mb-2">
-                                                    Balance:{tokenAAccountBalance}
+                                                <div className="flex justify-end text-gray-400 text-sm mb-2 pr-5">
+                                                    Balance: {tokenAAccountBalance}
                                                 </div>
                                             <div className="flex mx-4">
                                                 <input type="text"
-                                                       className="text-xs md:text-sm placeholder-gray-50 bg-gray-600 rounded-lg p-2 py-3 xl:w-80 text-white    outline-none"
+                                                       className="text-xs md:text-sm placeholder-gray-500 bg-[#1F1F1F] rounded-lg p-2 py-3 xl:w-80 text-white    outline-none"
                                                        placeholder="0"
                                                        maxLength={14}
                                                        onInput={checkNumber_token_a}
                                                        id="amount_a"
                                                 />
-                                                <button onClick={max_balance_a} className="-ml-12 text-sm flex items-center ">
+                                                <button onClick={max_balance_a} className="rounded-lg py-1 px-5 ml-2 bg-gradient-to-b from-W3G2 to-W3G3 text-sm flex items-center  text-white ">
                                                     MAX
                                                 </button>
                                             </div>
+
                                         </div>
                                         </div>
                                     </div>
@@ -417,18 +436,18 @@ const Detail = () =>{
                                                 {PoolDetails.assets_b}
                                             </div>
                                             <div className="items-center">
-                                                <div className="flex justify-end text-gray-400 text-sm mb-2">
-                                                    Balance:{tokenBAccountBalance}
+                                                <div className="flex justify-end text-gray-400 text-sm mb-2 pr-5">
+                                                    Balance: {tokenBAccountBalance}
                                                 </div>
                                                 <div className="flex mx-4">
                                                     <input type="text"
-                                                           className="text-xs md:text-sm placeholder-gray-50 bg-gray-600 rounded-lg p-2 py-3 xl:w-80 text-white    outline-none"
+                                                           className="text-xs md:text-sm placeholder-gray-500 bg-[#1F1F1F] rounded-lg p-2 py-3 xl:w-80 text-white    outline-none"
                                                            placeholder="0"
                                                            maxLength={14}
                                                            onInput={checkNumber_token_b}
                                                            id="amount_b"
                                                     />
-                                                    <button onClick={max_balance_b} className="-ml-12 text-sm flex items-center ">
+                                                    <button onClick={max_balance_b} className="rounded-lg py-1 px-5 ml-2 bg-gradient-to-b from-W3G2 to-W3G3 text-sm flex items-center  text-white ">
                                                         MAX
                                                     </button>
                                                 </div>
@@ -436,8 +455,8 @@ const Detail = () =>{
                                         </div>
                                     </div>
                                     <div className="mt-5 flex justify-between " >
-                                        <div className="text-gray-500">
-                                            LP Token
+                                        <div className="text-gray-600">
+                                            LP Tokens
                                         </div>
                                         <div className="text-white">
                                             {PoolDetails.your_lp}
@@ -450,7 +469,7 @@ const Detail = () =>{
                                             </button>
                                         </div>
                                         <div className={WalletButtonShow  ? "mt-1": "hidden"}>
-                                            <button  id='add_liquidity_button' onClick={addLiquidity} className=" lg:mt-0 bg-blue-500 w-full px-3 py-2 rounded-lg bg-indigo-500 text-white">
+                                            <button  id='add_liquidity_button' onClick={addLiquidity} className=" lg:mt-0  w-56 px-3 py-2 rounded-lg bg-gradient-to-b from-W3G2  to-W3G3 text-white">
                                                 Add Liquidity
                                             </button>
                                         </div>
@@ -462,7 +481,7 @@ const Detail = () =>{
                 </Transition.Root>
                 <Transition.Root show={openRemove} as={Fragment}>
                     <Dialog as="div" className="fixed z-20 inset-0 overflow-y-auto "  onClose={setOpenRemove}>
-                        <div className="flex items-center justify-center min-h-screen -mt-20  px-4  text-center ">
+                        <div className="flex items-center justify-center min-h-screen   px-4  text-center ">
                             <Transition.Child
                                 as={Fragment}
                                 enter="ease-out duration-300"
@@ -487,7 +506,7 @@ const Detail = () =>{
                                 leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                                 leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                             >
-                                <div className="inline-block align-bottom bg-gray-900 rounded-lg w-11/12 md:w-9/12 xl:w-1/3 px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8  sm:p-6">
+                                <div className="inline-block align-bottom border border-[#76FFFF] bg-[#151515] rounded-lg w-11/12 md:w-9/12 xl:w-1/3 px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8  sm:p-6">
                                     <div className="w-full  ">
                                         <div className="flex justify-between text-xl text-white w-full">
                                             <div>
@@ -505,13 +524,13 @@ const Detail = () =>{
                                                 </div>
                                                 <div className="flex  w-full">
                                                     <input type="text"
-                                                           className="text-xs md:text-sm placeholder-gray-50 bg-gray-600 rounded-lg p-2 py-3 w-full text-white    outline-none"
+                                                           className="text-xs md:text-sm placeholder-gray-500 bg-[#1F1F1F] rounded-lg p-2 py-3 w-full text-white    outline-none"
                                                            placeholder="0"
                                                            maxLength={21}
                                                            onInput={checkNumber}
                                                            id="amount_c"
                                                     />
-                                                    <button onClick={max_balance_c} className="-ml-12 text-sm flex items-center ">
+                                                    <button onClick={max_balance_c} className="rounded-lg py-1 px-5 ml-2 bg-gradient-to-b from-W3G2 to-W3G3 text-sm flex items-center  text-white ">
                                                         MAX
                                                     </button>
                                                 </div>
@@ -524,7 +543,7 @@ const Detail = () =>{
                                         </div>
                                         <div className="text-white">
                                             <RadioGroup value={selectedDeliveryMethod} onChange={setSelectedDeliveryMethod}>
-                                                <div className="mt-4 grid grid-cols-3 gap-4">
+                                                <div className=" grid grid-cols-3 gap-4">
                                                     {deliveryMethods.map((deliveryMethod) => (
                                                         <RadioGroup.Option
                                                             key={deliveryMethod.id}
@@ -532,8 +551,8 @@ const Detail = () =>{
                                                             className={({ checked, active }) =>
                                                                 classNames(
                                                                     checked ? 'border-transparent' : 'border-gray-300',
-                                                                    active ? 'ring-2 ring-indigo-500' : '',
-                                                                    'relative bg-black bg-opacity-80 border border-gray-700 rounded-lg shadow-sm items-center mx-auto px-2 flex cursor-pointer focus:outline-none'
+                                                                    active ? '' : '',
+                                                                    'relative bg-black bg-opacity-80 border border-gray-700 rounded-lg shadow-sm items-center mx-auto  flex cursor-pointer focus:outline-none'
                                                                 )
                                                             }
                                                         >
@@ -541,19 +560,23 @@ const Detail = () =>{
                                                                 <>
                                                                     <div className=" flex items-center">
                                                                         <div className="flex justify-center">
-                                                                            <RadioGroup.Label as="span" className=" text-center   font-medium text-gray-200">
+                                                                            <RadioGroup.Label as="span" className={classNames(
+                                                                                active ? 'bg-gradient-to-b from-W3G2  to-W3G3' : '',
+                                                                                checked ? 'bg-gradient-to-b from-W3G2  to-W3G3' : '',
+                                                                                '" text-center  rounded-lg pointer-events-none px-2 font-medium text-white"'
+                                                                            )}>
                                                                                 {deliveryMethod.title}
                                                                             </RadioGroup.Label>
                                                                         </div>
                                                                     </div>
-                                                                    <div
-                                                                        className={classNames(
-                                                                            active ? 'border' : 'border-2',
-                                                                            checked ? 'border-indigo-500' : 'border-transparent',
-                                                                            'absolute -inset-px rounded-lg pointer-events-none'
-                                                                        )}
-                                                                        aria-hidden="true"
-                                                                    />
+                                                                    {/*<div*/}
+                                                                    {/*    className={classNames(*/}
+                                                                    {/*        active ? 'bg-gradient-to-b from-W3G2  to-W3G3' : '',*/}
+                                                                    {/*        checked ? 'bg-gradient-to-b from-W3G2  to-W3G3' : '',*/}
+                                                                    {/*        'absolute -inset-px rounded-lg pointer-events-none'*/}
+                                                                    {/*    )}*/}
+                                                                    {/*    aria-hidden="true"*/}
+                                                                    {/*/>*/}
                                                                 </>
                                                             )}
                                                         </RadioGroup.Option>
@@ -570,7 +593,7 @@ const Detail = () =>{
                                             </button>
                                         </div>
                                         <div className={WalletButtonShow ? "mt-1": "hidden"}>
-                                            <button   className=" lg:mt-0 bg-blue-500 w-full px-3 py-2 rounded-lg bg-indigo-500 text-white">
+                                            <button   className=" lg:mt-0  w-56 px-3 py-2 rounded-lg bg-gradient-to-b from-W3G2  to-W3G3 text-white">
                                                 Remove Liquidity
                                             </button>
                                         </div>

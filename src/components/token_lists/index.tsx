@@ -46,11 +46,13 @@ const List = () =>{
     return(
         <>
             <input type="number"
-                   className=" bg-gray-700 bg-opacity-30 text-xs md:text-sm text-white  rounded-lg p-2 py-4 w-full border-gray-700 border z-40  focus:border-blue-400 transition duration-300  outline-none"
+                   className=" bg-W3GInfoBG  text-xs md:text-sm text-white my-2 rounded-lg p-2 w-full  border border-gray-800 hover:border-[#76FFFF]/40 focus:border-[#76FFFF]/40
+                  focus:shadow-[0_2px_16px_-1px_rgb(0,0,0,0.1)] focus:shadow-[#76FFFF]/50 transition duration-300  outline-none"
+                   autoComplete="off"
                    placeholder="http:// or ipfs:// or ENS name"
                    id="token"
             />
-            <div className="overflow-y-auto border border-gray-700 h-96 mt-7 p-3 rounded-xl">
+            <div className="overflow-y-auto border bg-[#1F1F1F] border-gray-700 h-96 mt-3 p-3 rounded-xl">
                 {tokenList.map(((item,index)=>(
                 <div key={item.token} className="flex mb-5 justify-between items-center">
                     <div className="flex ">
@@ -73,7 +75,7 @@ const List = () =>{
                             setEnabled(index)
                         }}
                         className={classNames(
-                            item.enabled ? 'bg-indigo-600' : 'bg-gray-600',
+                            item.enabled ? 'bg-[#6ACECF]' : 'bg-gray-600',
                             'relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out '
                         )}
                     >
@@ -216,19 +218,21 @@ const Tokens = () =>{
         <>
 
             <input type="number"
-                   className=" bg-gray-700 bg-opacity-30 text-xs md:text-sm text-white  rounded-lg px-3 p-2 py-4 w-full border-gray-700 border z-40  focus:border-blue-400 transition duration-300  outline-none"
+                   className=" bg-W3GInfoBG  text-xs md:text-sm text-white my-2 rounded-lg py-3 p-2 w-full  border border-gray-800 hover:border-[#76FFFF]/40 focus:border-[#76FFFF]/40
+                  focus:shadow-[0_2px_16px_-1px_rgb(0,0,0,0.1)] focus:shadow-[#76FFFF]/50 transition duration-300  outline-none"
+                   autoComplete="off"
                    placeholder="Foungible tokenId"
                    onChange={get_token}
                    id="token_id"
             />
-            <button onClick={()=>{setImportToken(true)}} className={valuable?"flex mt-5 w-full border border-gray-700 bg-gray-700 bg-opacity-30 p-2 px-3 rounded-xl":"hidden"}>
+            <button onClick={()=>{setImportToken(true)}} className={valuable?"flex mt-5 w-full border border-gray-700 bg-W3GInfoBG p-2 px-3 rounded-xl":"hidden"}>
                 <div className="flex  items-center  ">
                     <img className="w-10" src={tokenInfo.img} alt=""/>
                     <div className="text-white ml-4 ">
                         <div className="flex items-center">
                             {tokenInfo.address}
 
-                            <div className="ml-2 text-xs py-1 px-2 bg-yellow-400 bg-opacity-70 rounded-full">
+                            <div className="ml-2 text-xs py-1 px-2 bg-[#6BA2E5] rounded-full">
                                 Unknown Source
                             </div>
                         </div>
@@ -238,7 +242,7 @@ const Tokens = () =>{
                     </div>
                 </div>
             </button>
-            <div className="my-5 rounded-xl px-3  bg-gray-700 bg-opacity-30 border-gray-700 border p-2 py-4">
+            <div className="my-5 rounded-xl    bg-W3GInfoBG  border-gray-700 border p-3 py-2">
                 <div className="flex justify-between items-center">
                <div className="flex">
                    {customTokenList.length}
@@ -311,24 +315,24 @@ const Tokens = () =>{
                             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                         >
-                            <div className="inline-block align-bottom bg-gray-900 w-11/12 md:w-9/12 xl:w-1/3 h-big  rounded-lg px-4 py-5 text-left overflow-hidden shadow-xl transform transition-all sm:y-8 sm:align-middle  sm:px-6 lg:px-12 ">
-                                <div>
+                            <div className="inline-block align-bottom border border-[#76FFFF] bg-[#151515] w-11/12 md:w-9/12 xl:w-5/12   rounded-lg px-4 py-5 text-left overflow-hidden shadow-xl transform transition-all sm:y-8 sm:align-middle  sm:px-6 lg:px-12 ">
+
                                     <div className='flex justify-between text-xl font-light text-white 	mb-5'>
                                         <div className=" flex items-center">
-                                            <button onClick={back}>
+                                            <button onClick={back} className="text-[#76FFFF]">
                                                 <i className="fa fa-arrow-left" aria-hidden="true"></i>
                                             </button>
-                                            <div  className="font-light ml-4 text-xl">
+                                            <div  className="font-semibold ml-4 text-xl">
                                                 Import token
                                             </div>
                                         </div>
-                                        <button onClick={()=>{setImportToken(false)}}>
+                                        <button onClick={()=>{setImportToken(false)}} className="text-[#76FFFF] text-2xl">
                                             <i className="fa fa-times" aria-hidden="true"></i>
                                         </button>
                                     </div>
 
-                                    <div  className=" mt-5 w-full border border-gray-700 bg-gray-700 bg-opacity-30 p-2 px-4 rounded-xl">
-                                        <div className="text-yellow-400 p-2 py-4  border-b border-gray-500">
+                                    <div  className=" mt-5 w-full border border-[#1F1F1F] bg-[#1F1F1F] p-2 px-4 rounded-xl">
+                                        <div className="text-yellow-400 p-2 py-4  border-b border-[#1F1F1F]">
                                             This token doesn`t appear on the active token list(s).Make sure this is the token that you want to trade.
                                         </div>
                                         <div className="flex  items-center my-4 ">
@@ -336,21 +340,22 @@ const Tokens = () =>{
                                             <div className="text-white ml-4 ">
                                                 <div className="flex items-center">
                                                      {tokenInfo.address}
-                                                    <div className="ml-2 text-xs py-1 px-2 bg-yellow-400 bg-opacity-70 rounded-full">
+                                                    <div className="ml-2 text-xs py-1 px-2 bg-[#6BA2E5] rounded-full">
                                                         Unknown Source
                                                     </div>
                                                 </div>
-                                                <div className="text-xs mt-1 text-left text-gray-300">
+                                                <div className="text-xs mt-1 text-left text-gray-500">
                                                     {tokenInfo.token}   {tokenInfo.h1}
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <button onClick={add_token_in_list}  className="px-24 py-2 w-full mt-6 rounded-lg bg-indigo-400">
+                                <div className="flex justify-center py-10">
+                                    <button onClick={add_token_in_list}  className="px-5 py-2 w-56 text-white mt-6 rounded-lg  bg-gradient-to-r from-W3G2 to-W3G3">
                                         Import
                                     </button>
-
                                 </div>
+
                             </div>
                         </Transition.Child>
                     </div>
@@ -400,34 +405,34 @@ const TokenList = () =>{
                             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                         >
-                            <div className="inline-block align-bottom bg-gray-900 w-11/12 md:w-6/12 xl:w-1/3  h-big rounded-lg px-4 py-5 text-left overflow-hidden shadow-xl transform transition-all sm:y-8 sm:align-middle  sm:px-6 lg:px-12 ">
+                            <div className="inline-block align-bottom border border-[#76FFFF] bg-black w-11/12 md:w-6/12 xl:w-1/3  h-big rounded-lg px-4 py-5 text-left overflow-hidden shadow-xl transform transition-all sm:y-8 sm:align-middle  sm:px-6 lg:px-12 ">
                                 <div>
-                                    <div className='flex justify-between text-xl font-light text-white 	mb-5'>
+                                    <div className='flex justify-between text-xl font-light text-[#76FFFF] items-center mb-5'>
                                         <div className=" flex items-center">
                                             <button onClick={back}>
                                                 <i className="fa fa-arrow-left" aria-hidden="true"></i>
                                             </button>
-                                            <div  className="font-light ml-4 text-xl">
+                                            <div  className="font-light ml-4 text-xl text-white">
                                                 Select a token
                                             </div>
 
                                         </div>
-                                        <button onClick={()=>{setCloseTokenList(false)}}>
+                                        <button onClick={()=>{setCloseTokenList(false)}} className="text-2xl">
                                             <i className="fa fa-times" aria-hidden="true"></i>
                                         </button>
                                     </div>
 
                                     <Tab.Group>
-                                        <Tab.List className=" p-1  bg-blue-900/20 rounded-xl mx-auto   ">
-                                            <div className="flex justify-between">
+                                        <Tab.List className="bg-[#1F1F1F] rounded-xl mx-auto   ">
+                                            <div className="flex justify-between ">
                                                 {Object.keys(categories).map((category) => (
                                                     <Tab
                                                         key={category}
                                                         className={({ selected }) =>
                                                             classNames(
-                                                                'w-full py-2 text-sm leading-5 rounded-lg font-medium text-gray-600 ',
+                                                                'w-full py-2 px-1 text-sm leading-5 rounded-lg font-medium text-gray-600 ',
                                                                 selected
-                                                                    ? ' text-yellow-50 border border-blue-400 shadow'
+                                                                    ? ' text-yellow-50 bg-gradient-to-r from-W3G2 to-W3G3'
                                                                     : ' hover:bg-white/[0.12] hover:text-white')}>
                                                         {category}
                                                     </Tab>

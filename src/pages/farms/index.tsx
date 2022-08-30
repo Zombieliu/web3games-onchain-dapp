@@ -11,9 +11,6 @@ function classNames(...classes) {
 
 const farmType = [
     {
-        name: 'Sort by',
-    },
-    {
         name: 'TVL',
     },
     {
@@ -121,9 +118,10 @@ const Farms = () =>{
                                     <div className="flex items-center hover:text-[#76FFFF]">
                                         <div >
                                             <input type="text"
-                                                   className="  bg-neutral-700 text-white text-xs md:text-sm  pr-6 rounded-lg p-2 w-96 md:w-48   border border-gray-800 hover:border-[#76FFFF] focus:border-[#76FFFF]  outline-none"
-                                                   placeholder="Search farms by token "
-                                                   id="farms"
+                                                   className="  bg-neutral-700 text-white text-xs md:text-sm  pr-6 rounded-lg p-2  w-96 md:w-48   border border-gray-800 hover:border-[#76FFFF]/40 focus:border-[#76FFFF]/40
+                                                    focus:shadow-[0_2px_16px_-1px_rgb(0,0,0,0.1)] focus:shadow-[#76FFFF]/50  outline-none"
+                                                   placeholder="Search by token "
+                                                   id="Farms"
                                             />
                                         </div>
                                         <div className="text-xl ml-2  -ml-6  ">
@@ -133,8 +131,12 @@ const Farms = () =>{
 
                                     <div className="w-full md:px-4 mt-4 md:mt-0">
                                         <div className="mx-auto w-full max-w-md">
+
                                             <RadioGroup value={selected} onChange={setSelected}>
-                                                <div className="flex">
+                                                <div className="flex items-center">
+                                                    <div className="text-neutral-400 font-medium text-sm mr-2">
+                                                      Sort by
+                                                    </div>
                                                     {farmType.map((type) => (
                                                         <RadioGroup.Option
                                                             key={type.name}
