@@ -162,16 +162,16 @@ const Recent = ()=>{
                         <div className="text-sm mt-2 flex ml-1 text-gray-400">Balance: 0</div>
                     </div>
                 </div>
-                <div className="text-center mt-5  text-black">
+                <div className="text-center mt-5  text-white">
                     <div className={WalletButtonShow ? "hidden" : "mt-1"}>
                         <button onClick={() => {
                             SetOpenWalletListState(true)
-                        }} className="px-24 py-1.5 rounded-lg bg-blue-500">
+                        }} className="px-24 py-1.5 rounded-lg bg-[#474747] text-white">
                             Connect Wallet
                         </button>
                     </div>
                     <div className={WalletButtonShow ? "mt-1" : "hidden"}>
-                        <button onClick={swapnow} className="px-24 py-1.5 rounded-lg text-white font-semibold bg-gradient-to-r from-W3G2   to-W3G3 ">
+                        <button onClick={swapnow} className="px-24 py-1.5 rounded-lg  font-semibold bg-gradient-to-r from-W3G2   to-W3G3 ">
                             Swap
                         </button>
                     </div>
@@ -303,7 +303,7 @@ const Popular = ()=>{
             </div>
             <div className="text-center mt-5  text-black" >
                 <div className={WalletButtonShow ? "hidden": "mt-1"}>
-                    <button  onClick={()=>{SetOpenWalletListState(true)}} className="px-24 py-1.5 rounded-lg bg-blue-500">
+                    <button  onClick={()=>{SetOpenWalletListState(true)}} className="px-24 py-1.5 rounded-lg bg-[#474747] text-white">
                         Connect Wallet
                     </button>
                 </div>

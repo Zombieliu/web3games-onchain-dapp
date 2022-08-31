@@ -279,10 +279,10 @@ const Bridge = () =>{
                                                            placeholder="0"
                                                            id="amount"
                                                     />
-                                                    <div   className="-ml-36 text-sm flex items-center text-white font-semibold">
+                                                    <div   className="-ml-36 text-sm flex items-center py-1 text-white font-semibold">
                                                         <button className="mr-2">
                                                         MAX</button>
-                                                        <div className="flex items-center bg-gray-600 bg-opacity-90 p-1 rounded-full">
+                                                        <div className="flex items-center bg-gray-600  p-1  rounded-full">
                                                             <div className="flex items-center">
                                                                 <button onClick={selectTokenTop} className="flex items-center">
                                                                     <div>
@@ -395,7 +395,7 @@ const Bridge = () =>{
 
                                     <div className="mt-10" >
                                         <div className={WalletButtonShow ? "hidden": "mt-8  flex justify-center"}>
-                                            <button  onClick={()=>{SetOpenWalletListState(true)}} className="px-12 py-1.5 rounded-lg bg-blue-500">
+                                            <button  onClick={()=>{SetOpenWalletListState(true)}} className="px-12 py-1.5 rounded-lg bg-[#474747] text-white">
                                                 Connect Wallet
                                             </button>
                                         </div>
@@ -417,7 +417,7 @@ const Bridge = () =>{
                                    </div>
                                    <div className="hidden  md:flex items-center justify-end ml-10 md:ml-20">
                                        1 W3G on <img className="w-6 rounded-full mx-1" src={selectedfrom.avatar} alt=""/>
-                                       = 1 W3G on <img className="w-6 mx-1" src={selectedto.avatar} alt=""/>
+                                       = 1 W3G on <img className="w-6 ml-1" src={selectedto.avatar} alt=""/>
                                    </div>
                                    <div className="md:hidden ">
                                        1

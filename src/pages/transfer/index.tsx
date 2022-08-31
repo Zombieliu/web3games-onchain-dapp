@@ -173,7 +173,7 @@ const Transfer = () =>{
                                     </div>
                                     <div className="text-center mt-5 " >
                                         <div className={WalletButtonShow  ? "hidden": "mt-1"}>
-                                            <button  onClick={()=>{SetOpenWalletListState(true)}} className="px-24 py-1.5 rounded-lg bg-blue-500">
+                                            <button  onClick={()=>{SetOpenWalletListState(true)}} className="px-24 py-1.5 rounded-lg bg-[#474747] text-white ">
                                                 Connect Wallet
                                             </button>
                                         </div>

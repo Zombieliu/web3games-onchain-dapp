@@ -330,7 +330,7 @@ const Header = () =>{
                         {/* Wallet Button */}
                         <div className="hidden  xl:flex w-full  md:flex-1 ">
                             <div className={WalletButtonShow ? "hidden": "mt-1"}>
-                                <button  onClick={open_wallet_list} className="bg-blue-600 transition duration-700  w-36 px-4 py-2 text-white rounded-lg  flex justify-center">
+                                <button  onClick={open_wallet_list} className="bg-[#151515] border border-[#333333] transition duration-700  w-44  py-2 text-white rounded-lg  flex justify-center">
                                     Connect Wallet
                                 </button>
                             </div>

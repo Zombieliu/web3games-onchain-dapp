@@ -336,7 +336,7 @@ const Pools = () =>{
                                 <div className="flex justify-center items-center">
                                     <div className="mt-10 md:mt-0  text-center" >
                                         <div className={WalletButtonShow ? "hidden": "mt-1"}>
-                                            <button  onClick={()=>{SetOpenWalletListState(true)}} className="px-12 py-1.5 text-gray-200 rounded-lg bg-blue-500">
+                                            <button  onClick={()=>{SetOpenWalletListState(true)}} className="px-12 py-1.5 text-gray-200 rounded-lg bg-[#474747]">
                                                 Connect Wallet
                                             </button>
                                         </div>
@@ -744,7 +744,7 @@ const Pools = () =>{
 
                                 <div className="text-center mt-7" >
                                     <div className={WalletButtonShow  ? "hidden": "mt-1"}>
-                                        <button  onClick={()=>{SetOpenWalletListState(true)}} className="w-full py-1.5 text-gray-200 rounded-lg bg-blue-500">
+                                        <button  onClick={()=>{SetOpenWalletListState(true)}} className="w-full py-1.5 text-gray-200 rounded-lg bg-[#474747]">
                                             Connect Wallet
                                         </button>
                                     </div>
