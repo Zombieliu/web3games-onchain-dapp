@@ -1,8 +1,8 @@
 import Header from "../../../components/header/index.";
 import Tail from "../../../components/tail";
-import React, {Fragment, useState ,useEffect} from 'react'
+import React, {Fragment, useState ,useEffect, useCallback} from 'react'
 import Link from "next/link";
-import {Dialog, RadioGroup, Transition} from "@headlessui/react";
+import {Dialog, RadioGroup, Tab, Transition} from "@headlessui/react";
 import {useAtom} from "jotai";
 import {IntactWalletAddress, token_pool_pair, WalletButtonShowState, WalletListShowState} from "../../../jotai";
 import {CheckCircleIcon, CheckIcon, ExclamationIcon} from "@heroicons/react/solid";
@@ -12,6 +12,7 @@ import { useRouter } from "next/router";
 import { address_slice } from "../../../utils/chain/address";
 import { add_liquidity } from "../../../utils/chain/pool";
 import { checkNumber } from "../../../utils/math";
+import {Bar, BarChart, CartesianGrid, Legend, Line, LineChart, ReferenceLine, Tooltip, XAxis, YAxis} from "recharts";
 
 
 
@@ -24,6 +25,257 @@ const deliveryMethods = [
     { id: 2, title: '0.5%'},
     { id: 3, title: '1%'},
 ]
+
+const data = [
+    {
+        "name": "1",
+        "TVL": 4000,
+        "Volume": 2400,
+        "amt": 2400
+    },
+    {
+        "name": "2",
+        "TVL": 3000,
+        "Volume": 1398,
+        "amt": 2210
+    },
+    {
+        "name": "3",
+        "TVL": 2000,
+        "Volume": 9800,
+        "amt": 2290
+    },
+    {
+        "name": "4",
+        "TVL": 2780,
+        "Volume": 3908,
+        "amt": 2000
+    },
+    {
+        "name": "5",
+        "TVL": 1890,
+        "Volume": 4800,
+        "amt": 2181
+    },
+    {
+        "name": "6",
+        "TVL": 2390,
+        "Volume": 3800,
+        "amt": 2500
+    },
+    {
+        "name": "7",
+        "TVL": 3490,
+        "Volume": 4300,
+        "amt": 2100
+    },
+    {
+        "name": "1",
+        "TVL": 4000,
+        "Volume": 2400,
+        "amt": 2400
+    },
+    {
+        "name": "2",
+        "TVL": 3000,
+        "Volume": 1398,
+        "amt": 2210
+    },
+    {
+        "name": "3",
+        "TVL": 2000,
+        "Volume": 9800,
+        "amt": 2290
+    },
+    {
+        "name": "4",
+        "TVL": 2780,
+        "Volume": 3908,
+        "amt": 2000
+    },
+    {
+        "name": "5",
+        "TVL": 1890,
+        "Volume": 4800,
+        "amt": 2181
+    },
+    {
+        "name": "6",
+        "TVL": 2390,
+        "Volume": 3800,
+        "amt": 2500
+    },
+    {
+        "name": "1",
+        "TVL": 4000,
+        "Volume": 2400,
+        "amt": 2400
+    },
+    {
+        "name": "2",
+        "TVL": 3000,
+        "Volume": 1398,
+        "amt": 2210
+    },
+    {
+        "name": "3",
+        "TVL": 2000,
+        "Volume": 9800,
+        "amt": 2290
+    },
+    {
+        "name": "4",
+        "TVL": 2780,
+        "Volume": 3908,
+        "amt": 2000
+    },
+    {
+        "name": "5",
+        "TVL": 1890,
+        "Volume": 4800,
+        "amt": 2181
+    },
+    {
+        "name": "6",
+        "TVL": 2390,
+        "Volume": 3800,
+        "amt": 2500
+    },
+
+];
+
+const  Recharts =() => {
+    const Title = [
+        {
+            title:"TVL"
+        },
+        {
+            title:"Internal Txns"
+        },
+
+    ]
+
+    return (
+        <div className="w-full  p-2 sm:px-0">
+            <Tab.Group>
+                <div className="flex justify-end">
+                    <Tab.List className="grid grid-cols-2 gap-4   rounded-xl  p-1">
+                        {Title.map((items) => (
+                            <div   key={items.title} className="flex mx-auto flex  items-center">
+                                <Tab
+                                    className={({ selected }) =>
+                                        classNames(
+                                            'w-full  py-1.5 rounded-full  px-4 font-medium leading-5  text-gray-400 outline-none ',
+                                            selected
+                                                ? ' bg-clip-text text-transparent  bg-gradient-to-r from-W3G1  via-W3G2 to-W3G3 border border-gray-600  '
+                                                : '  hover:text-gray-500 dark:hover:text-white'
+                                        )
+                                    }
+                                >
+                                    <div className="">
+                                        {items.title}
+                                    </div>
+
+                                </Tab>
+                            </div>
+                        ))}
+                    </Tab.List>
+                </div>
+
+                <Tab.Panels className="mt-2">
+
+                    <Tab.Panel>
+                        <Recharts1/>
+                    </Tab.Panel>
+
+                    <Tab.Panel>
+                        <Recharts2/>
+                    </Tab.Panel>
+                </Tab.Panels>
+            </Tab.Group>
+        </div>
+    )
+}
+
+const Recharts1 = () =>{
+    const [opacity, setOpacity] = useState({
+        TVL: 1,
+        Volume: 1
+    });
+
+    const handleMouseEnter = useCallback(
+        (o) => {
+            const { dataKey } = o;
+
+            setOpacity({ ...opacity, [dataKey]: 0.5 });
+        },
+        [opacity, setOpacity]
+    );
+
+    const handleMouseLeave = useCallback(
+        (o) => {
+            const { dataKey } = o;
+            setOpacity({ ...opacity, [dataKey]: 1 });
+        },
+        [opacity, setOpacity]
+    );
+
+    return (
+        <div className="hidden xl:block  text-center font-serif">
+            <LineChart
+                className=""
+                width={800}
+                height={360}
+                data={data}
+                margin={{
+                    top: 0,
+                    right: 30,
+                    left: 0,
+                    bottom: -28
+                }}
+            >
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                <Legend
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
+                />
+
+                <Line
+                    type="monotone"
+                    dataKey="TVL"
+                    strokeOpacity={opacity.TVL}
+                    stroke="#7AE0D5"
+                    activeDot={{ r: 8 }}
+                />
+            </LineChart>
+        </div>
+    );
+}
+
+const Recharts2 = () => {
+    return(
+        <div className="hidden xl:block  text-center  font-serif">
+            <BarChart width={800}
+                      height={360}
+                      data={data}
+                      margin={{
+                          top: 0,
+                          right: 30,
+                          left: 0,
+                          bottom: -28
+                      }}>
+                <XAxis dataKey="name"  />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="Volume" fill="#7AE0D5" />
+            </BarChart>
+        </div>
+    )
+}
+
 
 const Detail = () =>{
     const router = useRouter()
@@ -70,8 +322,9 @@ const Detail = () =>{
                 const api = await chain_api(intactWalletAddress)
                 const balance = await api.query.exchange.reserves(pool_id)
                 const pair_lp_token_result:any = await api.query.exchange.pools(pool_id)
-                const pair_lp_token_owner = pair_lp_token_result.toJSON().owner
-                const pair_lp_token_address = pair_lp_token_result.toJSON().lpToken
+                // const pair_lp_token_owner = pair_lp_token_result.toJSON().owner
+                const pair_lp_token_address = pair_lp_token_result.toJSON()
+                    // .lpToken
                 const pair_lp_token_balance_result:any = await api.query.tokenFungible.tokens(pair_lp_token_address)
                 const user_lp_token_balance_result:any = await api.query.tokenFungible.balances(pair_lp_token_address,intactWalletAddress)
                 const poolDetails={
@@ -240,7 +493,7 @@ const Detail = () =>{
                                 </Link>
                             </div>
                             <div className="xl:flex ">
-                                <div className="p-0.5 rounded-lg bg-gradient-to-b from-W3G2   to-W3G3 xl:w-4/12">
+                                <div className="p-0.5 rounded-lg bg-gradient-to-b from-W3G2 h-full  to-W3G3 xl:w-4/12">
                                 <div className="bg-[#151515]  p-5 rounded-lg  w-full">
                                     <div className="flex mb-4">
                                     <div className=" rounded-full text-white py-0.5 px-6 bg-gradient-to-r from-W3G2  to-W3G3">
@@ -288,11 +541,11 @@ const Detail = () =>{
                                         </div>
                                     </div>
                                     <div className="flex justify-between my-5 ">
-                                        <div className="border border-[#76FFFF] rounded-full text-white px-4 text-sm ">
+                                        <div className="border border-[#76FFFF] rounded-full text-white py-0.5  px-2 text-sm ">
                                             1 {PoolDetails.assets_a} ≈ {(Number(tokenBBalance)/Number(tokenABalance)).toFixed(2)} {PoolDetails.assets_b}
                                         </div>
 
-                                        <div className="border border-[#76FFFF] rounded-full text-white px-4 text-sm">
+                                        <div className="border border-[#76FFFF] rounded-full text-white py-0.5 px-2 text-sm">
                                             1 {PoolDetails.assets_b} ≈ {(Number(tokenABalance)/Number(tokenBBalance)).toFixed(2)} {PoolDetails.assets_a}
                                         </div>
                                     </div>
@@ -339,14 +592,14 @@ const Detail = () =>{
                                               LP Token
                                             </div>
                                             <div className="text-white text-sm px-1">
-                                                {PoolDetails.your_lp}({Number(PoolDetails.your_lp)/Number(PoolDetails.total_lp)* 100} %)
+                                                {PoolDetails.your_lp} ( {Number(PoolDetails.your_lp)/Number(PoolDetails.total_lp)* 100}% )
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 </div>
                                 <div className=" xl:w-9/12 mt-5 xl:ml-8  xl:mt-0">
-                                    <div className="flex ">
+                                    <div className="flex justify-center xl:justify-start">
 
                                             <button onClick={()=>{
                                                 setOpenAdd(true)}
@@ -358,6 +611,7 @@ const Detail = () =>{
                                             </button>
                                     </div>
                                     <div className="py-5 rounded-2xl">
+                                        <Recharts/>
                                     </div>
                                 </div>
                             </div>

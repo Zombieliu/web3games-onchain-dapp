@@ -125,7 +125,7 @@ const Pools = () =>{
             // set last pages number
             setPagesLast(pagesLast)
 
-            console.log(tokenPoolPair)
+            // console.log(tokenPoolPair)
             //frist page
             firstPage()
 
@@ -390,18 +390,18 @@ const Pools = () =>{
                                                     </td>
                                                     <td className="px-6 py-4 pr-12 md:w-96 md:pr-0  whitespace-nowrap text-sm font-medium text-gray-200 font-medium">
                                                         <div className="flex items-center">
-                                                            <img className="w-8 rounded-full border-0.5 border-[#76FFFF] border-opacity-30" src={item.assets_a_image_url} alt=""/>
-                                                            <img className="w-8 rounded-full " src={item.assets_b_image_url} alt=""/>
+                                                            <img className="w-8 rounded-full" src={item.assets_a_image_url} alt=""/>
+                                                            <img className="w-8 rounded-full -ml-1" src={item.assets_b_image_url} alt=""/>
                                                             <div className="ml-2 ">
                                                                 {item.assets_a}-{item.assets_b}
                                                             </div>
-                                                            <div className="ml-2 px-3 py-0.5 rounded-lg  bg-gradient-to-b from-[#6FDADA]  to-[#5C7BBF]/90">
+                                                            <div className="ml-2 px-3 py-0.5 rounded-lg bg-gradient-to-b from-[#6FDADA]  to-[#5C7BBF]/90">
                                                                 Farms
                                                             </div>
                                                         </div>
                                                     </td>
                                                     <td className="px-6 py-4  whitespace-nowrap text-sm text-gray-200">
-                                                        {item.fee}
+                                                        {/*{item.fee}*/} 0.3%
                                                     </td>
                                                     <td className="px-6 py-4  whitespace-nowrap text-sm text-gray-200">
                                                         ${item.tvl}M
@@ -526,7 +526,7 @@ const Pools = () =>{
                                             {token_pair.map(item => (
                                                 <tr key={item.pool_id}  onClick={()=>{toDetail(item.pool_id)}} className="cursor-pointer hover:bg-neutral-800">
                                                     <td className="px-6 py-4  whitespace-nowrap text-sm text-gray-200">
-                                                        {item.id}
+                                                        {item.pool_id}
                                                     </td>
                                                     <td className="px-6 py-4 pr-12 md:w-96 md:pr-0  whitespace-nowrap text-sm font-medium text-gray-200 font-medium">
                                                         <div className="flex items-center">
@@ -541,7 +541,7 @@ const Pools = () =>{
                                                         </div>
                                                     </td>
                                                     <td className="px-6 py-4  whitespace-nowrap text-sm text-gray-200">
-                                                        {item.fee}
+                                                        {/*{item.fee}*/} 0.3%
                                                     </td>
                                                     <td className="px-6 py-4  whitespace-nowrap text-sm text-gray-200">
                                                         ${item.tvl}M
