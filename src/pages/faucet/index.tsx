@@ -124,9 +124,9 @@ const token = [
     return (
       <div className="mx-auto bg-W3GBG transition duration-700">
           <Header/>
-          <div className="max-w-4xl mx-auto py-16  px-4 ">
-              <div className="p-1 rounded-md bg-gradient-to-r from-W3G1 my-10 via-W3G2 to-W3G3  backdrop-blur-sm">
-                  <div className="p-10 bg-W3GBG  backdrop-blur-sm  rounded-md ">
+          <div className="max-w-5xl mx-auto py-24  px-4 ">
+              <div className="p-1 rounded-xl bg-gradient-to-r from-[#CC5F88] my-10 via-[#8574D0] to-[#7ADFD7]  ">
+                  <div className="p-10 bg-W3GBG    rounded-xl ">
                       <div className="mx-auto flex justify-between items-center">
 
                           <div className="text-xl my-2 lg:my-0 text-3xl font-bold  bg-clip-text text-transparent bg-gradient-to-r from-W3G1  via-W3G2 to-W3G3">
