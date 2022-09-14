@@ -62,27 +62,125 @@ const tokenstitle=[
 
 ]
 
-const Pools = () =>{
+const token_pair = [
+    {
+    id: "1",
+    assets_a: 'USDT',
+    assets_a_address: "123213",
+    assets_a_id: "1",
+    assets_a_image_url: "/token/USDT.png",
+    assets_b: "W3G",
+    assets_b_address: "dasdasd",
+    assets_b_id: "2",
+    assets_b_image_url: "/web3gsmall.png",
+    pool_id: "0",
+    total_lp: "0",
+    tvl: "0",
+    volume: "0",
+    volume_days: "0",
+    your_lp: "0",
+    fee:"0.3%",
 
-    const token_pair = [{
-        assets_a: 'W3G',
+},
+    {
+        id: "1",
+        assets_a: 'USDC',
         assets_a_address: "123213",
         assets_a_id: "1",
-        assets_a_image_url: "/web3logo.svg",
-        assets_b: "ETH",
+        assets_a_image_url: "/token/USDC.png",
+        assets_b: "W3G",
         assets_b_address: "dasdasd",
         assets_b_id: "2",
-        assets_b_image_url: "/substrate.svg",
-        id: "1",
+        assets_b_image_url: "/web3gsmall.png",
         pool_id: "0",
         total_lp: "0",
-        tvl: "1231231",
-        volume: "231231",
+        tvl: "0",
+        volume: "0",
         volume_days: "0",
         your_lp: "0",
         fee:"0.3%",
 
-    }]
+    },
+    {
+        id: "1",
+        assets_a: 'BUSD',
+        assets_a_address: "123213",
+        assets_a_id: "1",
+        assets_a_image_url: "/token/BUSD.png",
+        assets_b: "W3G",
+        assets_b_address: "dasdasd",
+        assets_b_id: "2",
+        assets_b_image_url: "/web3gsmall.png",
+        pool_id: "0",
+        total_lp: "0",
+        tvl: "0",
+        volume: "0",
+        volume_days: "0",
+        your_lp: "0",
+        fee:"0.3%",
+
+    },
+    {
+        id: "1",
+        assets_a: 'BNB',
+        assets_a_address: "123213",
+        assets_a_id: "1",
+        assets_a_image_url: "/token/BNB.png",
+        assets_b: "W3G",
+        assets_b_address: "dasdasd",
+        assets_b_id: "2",
+        assets_b_image_url: "/web3gsmall.png",
+        pool_id: "0",
+        total_lp: "0",
+        tvl: "0",
+        volume: "0",
+        volume_days: "0",
+        your_lp: "0",
+        fee:"0.3%",
+
+    },
+    {
+        id: "1",
+        assets_a: 'SOL',
+        assets_a_address: "123213",
+        assets_a_id: "1",
+        assets_a_image_url: "/token/SOL.png",
+        assets_b: "W3G",
+        assets_b_address: "dasdasd",
+        assets_b_id: "2",
+        assets_b_image_url: "/web3gsmall.png",
+        pool_id: "0",
+        total_lp: "0",
+        tvl: "0",
+        volume: "0",
+        volume_days: "0",
+        your_lp: "0",
+        fee:"0.3%",
+
+    },
+    {
+        id: "1",
+        assets_a: 'ETH',
+        assets_a_address: "123213",
+        assets_a_id: "1",
+        assets_a_image_url: "/token/ETH.png",
+        assets_b: "W3G",
+        assets_b_address: "dasdasd",
+        assets_b_id: "2",
+        assets_b_image_url: "/web3gsmall.png",
+        pool_id: "0",
+        total_lp: "0",
+        tvl: "0",
+        volume: "0",
+        volume_days: "0",
+        your_lp: "0",
+        fee:"0.3%",
+
+    },
+]
+
+const Pools = () =>{
+
 
     const router = useRouter()
     const [selectedDeliveryMethod, setSelectedDeliveryMethod] = useState(deliveryMethods[0])
@@ -531,7 +629,7 @@ const Pools = () =>{
                                                     <td className="px-6 py-4 pr-12 md:w-96 md:pr-0  whitespace-nowrap text-sm font-medium text-gray-200 font-medium">
                                                         <div className="flex items-center">
                                                             <img className="w-8 rounded-full" src={item.assets_a_image_url} alt=""/>
-                                                            <img className="w-8 rounded-full " src={item.assets_b_image_url} alt=""/>
+                                                            <img className="w-8 rounded-full -ml-1" src={item.assets_b_image_url} alt=""/>
                                                             <div className="ml-2 ">
                                                                 {item.assets_a}-{item.assets_b}
                                                             </div>

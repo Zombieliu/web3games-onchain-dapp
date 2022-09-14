@@ -12,7 +12,7 @@ import { useRouter } from "next/router";
 import { address_slice } from "../../../utils/chain/address";
 import { add_liquidity } from "../../../utils/chain/pool";
 import { checkNumber } from "../../../utils/math";
-import {Bar, BarChart, CartesianGrid, Legend, Line, LineChart, ReferenceLine, Tooltip, XAxis, YAxis} from "recharts";
+import {Area, AreaChart, Bar, BarChart, CartesianGrid, Legend, Line, LineChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis} from "recharts";
 
 
 
@@ -28,129 +28,164 @@ const deliveryMethods = [
 
 const data = [
     {
-        "name": "1",
-        "TVL": 4000,
-        "Volume": 2400,
-        "amt": 2400
+        name: "1",
+        TVL: 4000,
+        Volume: 2400,
+        amt: 2400
     },
     {
-        "name": "2",
-        "TVL": 3000,
-        "Volume": 1398,
-        "amt": 2210
+        name: "2",
+        TVL: 3000,
+        Volume: 1398,
+        amt: 2210
     },
     {
-        "name": "3",
-        "TVL": 2000,
-        "Volume": 9800,
-        "amt": 2290
+        name: "3",
+        TVL: 2000,
+        Volume: 9800,
+        amt: 2290
     },
     {
-        "name": "4",
-        "TVL": 2780,
-        "Volume": 3908,
-        "amt": 2000
+        name: "4",
+        TVL: 2780,
+        Volume: 3908,
+        amt: 2000
     },
     {
-        "name": "5",
-        "TVL": 1890,
-        "Volume": 4800,
-        "amt": 2181
+        name: "5",
+        TVL: 1890,
+        Volume: 4800,
+        amt: 2181
     },
     {
-        "name": "6",
-        "TVL": 2390,
-        "Volume": 3800,
-        "amt": 2500
+        name: "6",
+        TVL: 2390,
+        Volume: 3800,
+        amt: 2500
     },
     {
-        "name": "7",
-        "TVL": 3490,
-        "Volume": 4300,
-        "amt": 2100
+        name: "7",
+        TVL: 3490,
+        Volume: 4300,
+        amt: 2100
     },
     {
-        "name": "1",
-        "TVL": 4000,
-        "Volume": 2400,
-        "amt": 2400
+        name: "8",
+        TVL: 4000,
+        Volume: 2400,
+        amt: 2400
     },
     {
-        "name": "2",
-        "TVL": 3000,
-        "Volume": 1398,
-        "amt": 2210
+        name: "9",
+        TVL: 3000,
+        Volume: 1398,
+        amt: 2210
     },
     {
-        "name": "3",
-        "TVL": 2000,
-        "Volume": 9800,
-        "amt": 2290
+        name: "10",
+        TVL: 2000,
+        Volume: 9800,
+        amt: 2290
     },
     {
-        "name": "4",
-        "TVL": 2780,
-        "Volume": 3908,
-        "amt": 2000
+        name: "11",
+        TVL: 2780,
+        Volume: 3908,
+        amt: 2000
     },
     {
-        "name": "5",
-        "TVL": 1890,
-        "Volume": 4800,
-        "amt": 2181
+        name: "12",
+        TVL: 1890,
+        Volume: 4800,
+        amt: 2181
     },
     {
-        "name": "6",
-        "TVL": 2390,
-        "Volume": 3800,
-        "amt": 2500
+        name: "13",
+        TVL: 2390,
+        Volume: 3800,
+        amt: 2500
     },
     {
-        "name": "1",
-        "TVL": 4000,
-        "Volume": 2400,
-        "amt": 2400
+        name: "14",
+        TVL: 4000,
+        Volume: 2400,
+        amt: 2400
     },
     {
-        "name": "2",
-        "TVL": 3000,
-        "Volume": 1398,
-        "amt": 2210
+        name: "15",
+        TVL: 3000,
+        Volume: 1398,
+        amt: 2210
     },
     {
-        "name": "3",
-        "TVL": 2000,
-        "Volume": 9800,
-        "amt": 2290
+        name: "16",
+        TVL: 2000,
+        Volume: 9800,
+        amt: 2290
     },
     {
-        "name": "4",
-        "TVL": 2780,
-        "Volume": 3908,
-        "amt": 2000
+        name: "17",
+        TVL: 2780,
+        Volume: 3908,
+        amt: 2000
     },
     {
-        "name": "5",
-        "TVL": 1890,
-        "Volume": 4800,
-        "amt": 2181
+        name: "18",
+        TVL: 1890,
+        Volume: 4800,
+        amt: 2181
     },
     {
-        "name": "6",
-        "TVL": 2390,
-        "Volume": 3800,
-        "amt": 2500
+        name: "19",
+        TVL: 2390,
+        Volume: 3800,
+        amt: 2500
     },
-
+    {
+        name: "20",
+        TVL: 4000,
+        Volume: 2400,
+        amt: 2400
+    },
+    {
+        name: "21",
+        TVL: 3000,
+        Volume: 1398,
+        amt: 2210
+    },
+    {
+        name: "22",
+        TVL: 2000,
+        Volume: 9800,
+        amt: 2290
+    },
+    {
+        name: "23",
+        TVL: 2780,
+        Volume: 3908,
+        amt: 2000
+    },
+    {
+        name: "24",
+        TVL: 1890,
+        Volume: 4800,
+        amt: 2181
+    },
+    {
+        name: "25",
+        TVL: 2390,
+        Volume: 3800,
+        amt: 2500
+    },
 ];
 
-const  Recharts =() => {
+const Recharts =() => {
     const Title = [
         {
             title:"TVL"
         },
         {
-            title:"Internal Txns"
+            title:"Volume"
         },
 
     ]
@@ -167,8 +202,8 @@ const  Recharts =() => {
                                         classNames(
                                             'w-full  py-1.5 rounded-full  px-4 font-medium leading-5  text-gray-400 outline-none ',
                                             selected
-                                                ? ' bg-clip-text text-transparent  bg-gradient-to-r from-W3G1  via-W3G2 to-W3G3 border border-gray-600  '
-                                                : '  hover:text-gray-500 dark:hover:text-white'
+                                                ? ' text-white   border border-gray-300  '
+                                                : '  hover:text-white '
                                         )
                                     }
                                 >
@@ -198,80 +233,67 @@ const  Recharts =() => {
 }
 
 const Recharts1 = () =>{
-    const [opacity, setOpacity] = useState({
-        TVL: 1,
-        Volume: 1
-    });
-
-    const handleMouseEnter = useCallback(
-        (o) => {
-            const { dataKey } = o;
-
-            setOpacity({ ...opacity, [dataKey]: 0.5 });
-        },
-        [opacity, setOpacity]
-    );
-
-    const handleMouseLeave = useCallback(
-        (o) => {
-            const { dataKey } = o;
-            setOpacity({ ...opacity, [dataKey]: 1 });
-        },
-        [opacity, setOpacity]
-    );
-
     return (
-        <div className="hidden xl:block  text-center font-serif">
-            <LineChart
-                className=""
-                width={800}
-                height={360}
-                data={data}
-                margin={{
-                    top: 0,
-                    right: 30,
-                    left: 0,
-                    bottom: -28
-                }}
-            >
+        <div className="hidden xl:block bg-[#1F1F1F] text-center font-serif">
+            <AreaChart width={800}
+                       height={360}
+                       data={data}
+                       margin={{
+                           top: 10,
+                           right: 2,
+                           left: 30,
+                           bottom: 0
+                       }}>
+                <defs>
+                    <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#7AE0D5" stopOpacity={0.8}/>
+                        <stop offset="95%" stopColor="#7AE0D5" stopOpacity={0}/>
+                    </linearGradient>
+                </defs>
                 <XAxis dataKey="name" />
-                <YAxis />
                 <Tooltip />
-                <Legend
-                    onMouseEnter={handleMouseEnter}
-                    onMouseLeave={handleMouseLeave}
-                />
+                <Area type="monotone" dataKey="TVL" stroke="#7AE0D5" fillOpacity={1} fill="url(#colorUv)" />
+            </AreaChart>
 
-                <Line
-                    type="monotone"
-                    dataKey="TVL"
-                    strokeOpacity={opacity.TVL}
-                    stroke="#7AE0D5"
-                    activeDot={{ r: 8 }}
-                />
-            </LineChart>
         </div>
     );
 }
 
 const Recharts2 = () => {
     return(
-        <div className="hidden xl:block  text-center  font-serif">
-            <BarChart width={800}
-                      height={360}
-                      data={data}
-                      margin={{
-                          top: 0,
-                          right: 30,
-                          left: 0,
-                          bottom: -28
-                      }}>
-                <XAxis dataKey="name"  />
-                <YAxis />
+        <div className="hidden xl:block bg-[#1F1F1F] text-center  font-serif">
+            <BarChart
+                width={800}
+                height={360}
+                data={data}
+                margin={{
+                    top: 10,
+                    right: 2,
+                    left: 40,
+                    bottom: 0
+                }}
+                barSize={20}
+            >
+                <XAxis dataKey="name" scale="point"  />
                 <Tooltip />
                 <Legend />
-                <Bar dataKey="Volume" fill="#7AE0D5" />
+                <Bar dataKey="Volume" fill="#7AE0D5" background={{ fill: "#1F1F1F" }} />
             </BarChart>
+            {/*<BarChart width={800}*/}
+            {/*          height={360}*/}
+            {/*          data={data}*/}
+            {/*          margin={{*/}
+            {/*              top: 10,*/}
+            {/*              right: 30,*/}
+            {/*              left: 12,*/}
+            {/*              bottom: -28*/}
+            {/*          }}>*/}
+            {/*    <XAxis dataKey="name"  />*/}
+
+            {/*    <Tooltip />*/}
+            {/*    <Legend />*/}
+            {/*    <Bar dataKey="Volume" fill="#7AE0D5"   />*/}
+            {/*</BarChart>*/}
         </div>
     )
 }
@@ -599,7 +621,7 @@ const Detail = () =>{
                                 </div>
                                 </div>
                                 <div className=" xl:w-9/12 mt-5 xl:ml-8  xl:mt-0">
-                                    <div className="flex justify-center xl:justify-start">
+                                    <div className="flex justify-center xl:justify-end">
 
                                             <button onClick={()=>{
                                                 setOpenAdd(true)}

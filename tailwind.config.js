@@ -67,14 +67,24 @@ module.exports = {
                     DEFAULT: '#7AE0D5',
                     dark: '#7AE0D5',
                 },
+                custom:{
+                    DEFAULT:'#47BCBC',
+                    light:"#47BCBC",
+                    dark:"#47BCBC",
+                }
 
             },
         },
         variants: {
             extend: {},
         },
-        plugins: [
-            // require('flowbite/plugin')
-        ],
+
+    },
+    plugins: [
+        // require('flowbite/plugin')
+        require('tailwind-scrollbar')
+    ],
+    variants: {
+        scrollbar: ['rounded']
     }
 }

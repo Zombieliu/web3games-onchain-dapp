@@ -135,9 +135,9 @@ const SelectTokenTail = () =>{
                                             Balance
                                         </div>
                                     </div>
-                                    <div className="overflow-y-auto border-t border-gray-700 h-96 p-3 ">
+                                    <div className="overflow-y-auto border-t border-gray-700 h-80 p-3  scrollbar-thin scrollbar-thumb-custom  scrollbar-thumb-rounded-full  overflow-y-scroll">
                                         {tokenList.map(item=>(
-                                            <div key={item.name} onClick={() => select(item)} className="cursor-pointer flex justify-between">
+                                            <div key={item.name} onClick={() => select(item)} className="cursor-pointer flex justify-between mr-2">
                                                 <div className="flex my-2">
                                                     <img className="w-9 rounded-full" src={item.img} alt=""/>
                                                     <div className="ml-1.5">

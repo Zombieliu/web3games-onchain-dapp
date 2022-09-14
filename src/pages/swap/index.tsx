@@ -15,6 +15,9 @@ import axios from "axios";
 import { swap } from "../../chain/web3games";
 import TokenList from "../../components/token_lists";
 import {add_liquidity} from "../../utils/chain/pool";
+import { chain_api } from "../../chain/web3games";
+
+
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -58,7 +61,7 @@ const Recent = ()=>{
             });
     }
 
-    const check = (e) => {
+    const check = async (e) => {
         e.target.value = e.target.value.toString().match(/^\d+(?:\.\d{0,8})?/)
         if (e.target.value.indexOf('.') < 0 && e.target.value != '') {
             e.target.value = parseFloat(e.target.value);
@@ -69,12 +72,18 @@ const Recent = ()=>{
             setTimeout(() => get_swap_number(input_data), 2000)
             setSwapTimes(0)
         }
+        const api = await chain_api(intactWalletAddress)
+        // const result = await api.call.exchange.get_amount_in_price(10000,[0,1])
+        // const result = await api.rpc.chain.getBlock()
+        // console.log(result.toJSON())
     }
 
     const swapnow = async ()=>{
         console.log(1);
         await swap(intactWalletAddress)
     }
+
+
         return (
             <>
                 <div className="bg-W3GBG  p-3 rounded-2xl">
