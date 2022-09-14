@@ -395,7 +395,7 @@ const Bridge = () =>{
 
                                     <div className="mt-10" >
                                         <div className={WalletButtonShow ? "hidden": "mt-8  flex justify-center"}>
-                                            <button  onClick={()=>{SetOpenWalletListState(true)}} className="px-12 py-1.5 rounded-lg bg-[#474747] text-white">
+                                            <button  onClick={()=>{SetOpenWalletListState(true)}} className="px-12 py-1.5 rounded-lg bg-[#2C2C2C] text-white">
                                                 Connect Wallet
                                             </button>
                                         </div>

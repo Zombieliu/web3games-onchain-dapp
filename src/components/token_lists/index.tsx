@@ -46,8 +46,7 @@ const List = () =>{
     return(
         <>
             <input type="number"
-                   className=" bg-W3GInfoBG  text-xs md:text-sm text-white my-2 rounded-lg p-2 w-full  border border-gray-800 hover:border-[#76FFFF]/40 focus:border-[#76FFFF]/40
-                  focus:shadow-[0_2px_16px_-1px_rgb(0,0,0,0.1)] focus:shadow-[#76FFFF]/50 transition duration-300  outline-none"
+                   className=" bg-W3GInfoBG  text-xs md:text-sm text-white my-2 rounded-lg p-2 w-full  border border-W3GInfoBG   hover:border-neutral-600 focus:border-neutral-600  transition duration-300    outline-none"
                    autoComplete="off"
                    placeholder="http:// or ipfs:// or ENS name"
                    id="token"
@@ -75,26 +74,26 @@ const List = () =>{
                             setEnabled(index)
                         }}
                         className={classNames(
-                            item.enabled ? 'bg-[#6ACECF]' : 'bg-gray-600',
+                            item.enabled ? 'bg-gray-600' : 'bg-gray-600',
                             'relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out '
                         )}
                     >
                         <span className="sr-only">Use setting</span>
                         <span
                             className={classNames(
-                                item.enabled ? 'translate-x-5' : 'translate-x-0',
+                                item.enabled ? 'translate-x-5 bg-[#9970E5]' : 'translate-x-0 ',
                                 'pointer-events-none relative inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200'
                             )}
                         >
 
         <span
             className={classNames(
-                item.enabled ? 'opacity-0 ease-out duration-100' : 'opacity-100 ease-in duration-200',
-                'absolute inset-0 h-full w-full flex items-center justify-center transition-opacity'
+                item.enabled ? 'opacity-0 ease-out duration-100 ' : 'opacity-100 ease-in duration-200  ',
+                'absolute inset-0 h-full w-full flex items-center justify-center transition-opacity rounded-full bg-gray-400'
             )}
             aria-hidden="true"
         >
-          <svg className="h-3 w-3 text-gray-400" fill="none" viewBox="0 0 12 12">
+          <svg className="h-3 w-3 text-gray-400 " fill="none" viewBox="0 0 12 12">
             <path
                 d="M4 8l2-2m0 0l2-2M6 6L4 4m2 2l2 2"
                 stroke="currentColor"
@@ -111,7 +110,7 @@ const List = () =>{
             )}
             aria-hidden="true"
         >
-          <svg className="h-3 w-3 text-indigo-600" fill="currentColor" viewBox="0 0 12 12">
+          <svg className="h-3 w-3 text-[#9970E5] " fill="currentColor" viewBox="0 0 12 12">
             <path d="M3.707 5.293a1 1 0 00-1.414 1.414l1.414-1.414zM5 8l-.707.707a1 1 0 001.414 0L5 8zm4.707-3.293a1 1 0 00-1.414-1.414l1.414 1.414zm-7.414 2l2 2 1.414-1.414-2-2-1.414 1.414zm3.414 2l4-4-1.414-1.414-4 4 1.414 1.414z" />
           </svg>
         </span>
@@ -249,7 +248,7 @@ const Tokens = () =>{
                    <div className="ml-1">
                        Custom Tokens
                    </div></div>
-                <div   className=" text-sm rounded-full flex items-center text-white text-sm h-8 items-center px-1 pl-1.5 text-center bg-indigo-400 font-semibold">
+                <div   className=" text-sm rounded-md flex items-center text-white text-sm h-8 items-center px-1 pl-1.5 text-center bg-gradient-to-r from-[#AE72D2] to-[#7192E7] font-semibold">
                     <button className="mr-2">
                         Clear all</button>
                     </div>
@@ -405,9 +404,10 @@ const TokenList = () =>{
                             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                         >
-                            <div className="inline-block align-bottom border border-[#76FFFF] bg-black w-11/12 md:w-6/12 xl:w-1/3  h-big rounded-lg px-4 py-5 text-left overflow-hidden shadow-xl transform transition-all sm:y-8 sm:align-middle  sm:px-6 lg:px-12 ">
-                                <div>
-                                    <div className='flex justify-between text-xl font-light text-[#76FFFF] items-center mb-5'>
+                              <div className="inline-block align-bottom p-0.5 rounded-lg bg-gradient-to-br from-W3G1  via-W3G2 to-W3G3 w-11/12 md:w-6/12 xl:w-1/3  rounded-lg  text-left overflow-hidden shadow-xl transform transition-all sm:y-8 sm:align-middle   ">
+                                    <div className="bg-black px-4 py-5 sm:px-6 lg:px-12 rounded-md">
+
+                                    <div className='flex justify-between text-xl font-light text-white items-center mb-5'>
                                         <div className=" flex items-center">
                                             <button onClick={back}>
                                                 <i className="fa fa-arrow-left" aria-hidden="true"></i>
@@ -415,7 +415,6 @@ const TokenList = () =>{
                                             <div  className="font-light ml-4 text-xl text-white">
                                                 Select a token
                                             </div>
-
                                         </div>
                                         <button onClick={()=>{setCloseTokenList(false)}} className="text-2xl">
                                             <i className="fa fa-times" aria-hidden="true"></i>
@@ -432,7 +431,7 @@ const TokenList = () =>{
                                                             classNames(
                                                                 'w-full py-2 px-1 text-sm leading-5 rounded-lg font-medium text-gray-600 ',
                                                                 selected
-                                                                    ? ' text-yellow-50 bg-gradient-to-r from-W3G2 to-W3G3'
+                                                                    ? ' text-yellow-50 bg-gradient-to-r from-[#DA6081] via-[#8D6BCD]  to-[#7092E7]'
                                                                     : ' hover:bg-white/[0.12] hover:text-white')}>
                                                         {category}
                                                     </Tab>

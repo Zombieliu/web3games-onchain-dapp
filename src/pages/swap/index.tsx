@@ -34,10 +34,12 @@ const Recent = ()=>{
     const [,SetOpenWalletListState] = useAtom(WalletListShowState)
     const [swapOutPutValue,setSwapOutPutValue] = useState(0)
     const [swapTimes,setSwapTimes] = useState(0)
+    const [rotate,setRotate] = useState(false)
     const [intactWalletAddress,] = useAtom(IntactWalletAddress)
     const [,setSwapSuccess] = useAtom(SwapSuccess)
     const [,setSwapFail] = useAtom(SwapFail)
     const exchange = () =>{
+        setRotate(!rotate)
         setSwapTokenTop(swapTokenTail)
         setSwapTokenTail(swapTokenTop)
     }
@@ -84,7 +86,7 @@ const Recent = ()=>{
     const swapnow = async ()=>{
         console.log(1);
         // await swap(intactWalletAddress)
-        setSwapSuccess(true)
+        setSwapFail(true)
     }
         return (
             <>
@@ -92,7 +94,7 @@ const Recent = ()=>{
                 <SwapFailPop_up_box/>
                 <div className="bg-W3GBG  p-3 rounded-2xl">
                     <div className="flex justify-between">
-                        <div className="flex bg-W3GInfoBG p-1 rounded-full border border-W3GInfoBG hover:border-W3G3">
+                        <div className="flex bg-W3GInfoBG p-1 rounded-full border border-W3GInfoBG hover:border-neutral-600 focus:border-neutral-600  transition duration-300 ">
                             <div className="flex">
                                 <button onClick={selectTokenTop} className="flex items-center  ">
                                     <div>
@@ -112,17 +114,17 @@ const Recent = ()=>{
                             <div className="px-1.5 pt-1.5 text-center text-gray-200 text-sm bg-W3GInfoBG rounded-full ">
                                 Wallet
                             </div>
-                            <div>
-                                <i className="fa fa-question-circle ml-2 mt-1.5 text-W3G3"
-                                   aria-hidden="true"></i>
-                            </div>
+                            {/*<div>*/}
+                            {/*    <i className="fa fa-question-circle ml-2 mt-1.5 text-W3G3"*/}
+                            {/*       aria-hidden="true"></i>*/}
+                            {/*</div>*/}
                         </div>
                     </div>
                     <div className="flex justify-between mt-5">
-                        <div className="flex">
+                        <div className="flex ">
                             <input
                                    onKeyUp={check}
-                                   className=" bg-W3GInfoBG  text-xs md:text-sm text-white  rounded-lg p-2  md:w-48  border border-W3GInfoBG   hover:border-W3G3 focus:border-W3G3 transition duration-300  outline-none"
+                                   className=" bg-W3GInfoBG  text-xs md:text-sm text-white  rounded-md p-2  md:w-48 border border-W3GInfoBG   hover:border-neutral-600 focus:border-neutral-600  transition duration-300    outline-none"
                                    placeholder="0.0"
                                    id=""
                             />
@@ -131,14 +133,14 @@ const Recent = ()=>{
                     </div>
                 </div>
                 <div className="flex justify-center -mt-2 ">
-                    <button onClick={exchange} className="items-center">
-                        <i className="fa fa-arrow-down text-W3G3 p-1.5   bg-W3GInfoBG rounded-2xl"
+                    <button onClick={exchange} className={classNames(rotate?"rotate-180":"","items-center text-[#8B8EFA] text-base px-1.5 py-0.5  rounded-2xl  bg-W3GInfoBG  transition duration-300")}>
+                        <i className="fa fa-arrow-down "
                            aria-hidden="true"></i>
                     </button>
                 </div>
                 <div className="-mt-2 bg-W3GBG p-3 rounded-2xl">
                     <div className="flex justify-between">
-                        <div className="flex bg-W3GInfoBG p-1 rounded-full border border-W3GInfoBG hover:border-W3G3 ">
+                        <div className="flex bg-W3GInfoBG p-1 rounded-full border border-W3GInfoBG hover:border-neutral-600 focus:border-neutral-600  transition duration-300  ">
                             <button onClick={selectTokenTail} className="flex items-center">
                                 <div>
                                     <img className="w-6 rounded-full mr-1" src={swapTokenTail.img} alt=""/>
@@ -156,17 +158,17 @@ const Recent = ()=>{
                             <div className="px-1.5 pt-1.5 text-center text-gray-200 text-sm bg-W3GInfoBG rounded-full ">
                                 Wallet
                             </div>
-                            <div>
-                                <i className="fa fa-question-circle ml-2 mt-1.5 text-W3G3"
-                                   aria-hidden="true"></i>
-                            </div>
+                            {/*<div>*/}
+                            {/*    <i className="fa fa-question-circle ml-2 mt-1.5 text-W3G3"*/}
+                            {/*       aria-hidden="true"></i>*/}
+                            {/*</div>*/}
                         </div>
                     </div>
 
                     <div className="flex justify-between mt-5">
                         <div className="flex">
                             <input
-                                   className=" bg-W3GInfoBG text-xs md:text-sm text-white  rounded-lg p-2   md:w-48   border border-W3GInfoBG   hover:border-W3G3 focus:border-W3G3 transition duration-300  outline-none"
+                                   className=" bg-W3GInfoBG text-xs md:text-sm text-white  rounded-lg p-2   md:w-48   border border-W3GInfoBG   hover:border-neutral-600 focus:border-neutral-600  transition duration-300  outline-none"
                                    placeholder='0.0'
                                    id="swapoutput"
                                    value={`${swapOutPutValue}`}
@@ -179,12 +181,12 @@ const Recent = ()=>{
                     <div className={WalletButtonShow ? "hidden" : "mt-1"}>
                         <button onClick={() => {
                             SetOpenWalletListState(true)
-                        }} className="px-24 py-1.5 rounded-lg bg-[#474747] text-white">
+                        }} className="px-24 py-1.5 rounded-lg bg-[#2C2C2C] text-white">
                             Connect Wallet
                         </button>
                     </div>
                     <div className={WalletButtonShow ? "mt-1" : "hidden"}>
-                        <button onClick={swapnow} className="px-24 py-1.5 rounded-lg  font-semibold bg-gradient-to-r from-W3G2   to-W3G3 ">
+                        <button onClick={swapnow} className="px-24 py-1.5 rounded-lg  font-semibold bg-gradient-to-r from-[#DB5E7F]  via-[#876BD2] to-[#6E93E8] ">
                             Swap
                         </button>
                     </div>
@@ -316,7 +318,7 @@ const Popular = ()=>{
             </div>
             <div className="text-center mt-5  text-black" >
                 <div className={WalletButtonShow ? "hidden": "mt-1"}>
-                    <button  onClick={()=>{SetOpenWalletListState(true)}} className="px-24 py-1.5 rounded-lg bg-[#474747] text-white">
+                    <button  onClick={()=>{SetOpenWalletListState(true)}} className="px-24 py-1.5 rounded-lg bg-[#2C2C2C] text-white">
                         Connect Wallet
                     </button>
                 </div>
@@ -342,8 +344,8 @@ const Swap = () =>{
     return(
         <div>
             <div className="flex  justify-center  mx-auto px-2 py-12 sm:px-0">
-                <div className="p-0.5 rounded-xl bg-gradient-to-r from-W3G2   to-W3G3">
-                    <div className="bg-black  px-10 py-7 rounded-xl">
+                <div className="p-0.5 rounded-xl bg-gradient-to-br from-W3G1  via-W3G2 to-W3G3 shadow-[0_2px_16px_-1px_rgb(0,0,0,0.1)] shadow-gray-500 ">
+                    <div className="bg-black  px-5 py-7 rounded-xl">
                         <Tab.Group>
                             <Tab.List className=" p-1 space-x-1 bg-W3GBG rounded-xl mx-auto  flex justify-between ">
                                 <div>

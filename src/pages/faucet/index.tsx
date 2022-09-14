@@ -28,11 +28,25 @@ const token = [
     const [openload ,setOpenload]= useState(false)
     const [success, successchange] = useState(false)
     const [fail, failchange] = useState(false)
+     const [scroll,setScroll] = useState(true)
     const router=useRouter()
 
     useEffect(()=>{
-
+        setTimeout(function(){
+            setScroll(false)
+        },100)
     },[router.isReady])
+
+     if(typeof window !== "undefined"){
+         window.onscroll = function() {myFunction()};
+     }
+     function myFunction() {
+         if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+             setScroll(false)
+         } else {
+             setScroll(true)
+         }
+     }
 
     function sendtoken(){
         let inputValue = (document.getElementById('faucet') as HTMLInputElement).value;
@@ -122,14 +136,30 @@ const token = [
         return true
     }
     return (
-      <div className="mx-auto bg-W3GBG transition duration-700">
+      <div className="mx-auto bg-W3GBG transition duration-700 bg-auto">
           <Header/>
-          <div className="max-w-5xl mx-auto py-24  px-4 ">
-              <div className="p-1 rounded-xl bg-gradient-to-r from-[#CC5F88] my-10 via-[#8574D0] to-[#7ADFD7]  ">
-                  <div className="p-10 bg-W3GBG    rounded-xl ">
+          <div className="hidden xl:block absolute xl:top-14 2xl:top-20 xl:left-44 2xl:left-96">
+              <img className={classNames(scroll?" transform ":" transform translate-y-8",'w-90 transition duration-700 transition delay-300 duration-300') } src="/img/3d-triangle.png" alt=""/>
+          </div>
+          <div className=" hidden xl:block absolute xl:top-14 xl:right-36 2xl:top-16 2xl:right-96">
+              <img className={classNames(scroll?" transform ":" transform -translate-y-8",'w-64 transition duration-700 transition delay-300 duration-300') } src="/img/3d-circle.png" alt=""/>
+          </div>
+          <div className="hidden xl:block absolute  xl:bottom-2 xl:left-56 2xl:bottom-24 2xl:left-99">
+              <img className={classNames(scroll?" transform ":" transform -translate-y-8",'w-56 transition duration-700 transition delay-300 duration-300') } src="/img/3d-block.png" alt=""/>
+          </div>
+          <div className=" absolute  xl:bottom-2 xl:right-56 2xl:bottom-6 2xl:right-96">
+              <img className={classNames(scroll?" transform ":" transform translate-y-8",'w-90 transition duration-700 transition delay-300 duration-300') } src="/img/3d-square 1.png" alt=""/>
+          </div>
+          <div className="absolute bottom-96 right-56 xl:bottom-2 xl:right-56 2xl:bottom-6 2xl:right-104 ">
+              <img className={classNames(scroll?" transform ":" transform -translate-y-8",'w-44 transition duration-700 transition delay-300 duration-300') } src="/img/3d-cross.png" alt=""/>
+          </div>
+
+          <div className="relative max-w-3xl mx-auto py-32 xl:py-20 2xl:py-36  px-4 ">
+              <div className=" rounded-xl border-2 border-[#333333]   ">
+                  <div className="p-10 bg-[#272727]    rounded-xl bg-opacity-50 backdrop-blur-sm ">
                       <div className="mx-auto flex justify-between items-center">
 
-                          <div className="text-xl my-2 lg:my-0 text-3xl font-bold  bg-clip-text text-transparent bg-gradient-to-r from-W3G1  via-W3G2 to-W3G3">
+                          <div className="text-xl my-2 lg:my-0 text-2xl font-bold  bg-clip-text text-transparent bg-gradient-to-r from-W3G1  via-W3G2 to-W3G3">
                               Get Test Tokens
                           </div>
                       </div>
@@ -137,8 +167,8 @@ const token = [
                           This faucet transfers TestToken on Matic testnets and parent chain. Confirm details before submitting.This faucet transfers TestToken on Matic testnets and parent chain. Confirm details before submitting.
                       </div>
 
-                      <div className="mt-16  items-center">
-                          <label htmlFor="location" className="block text-xl font-semibold text-white  mb-4">
+                      <div className="mt-10  items-center">
+                          <label htmlFor="location" className="block text-xl font-semibold text-gray-300   mb-4">
                               Account Type
                           </label>
                           <RadioGroup value={selected} onChange={setSelected}>
@@ -149,17 +179,21 @@ const token = [
                                           value={type}
                                           className={({ checked, active }) =>
                                               classNames(
-                                                  checked ? 'border-transparent' : 'border-gray-300',
+                                                  checked ? 'border-transparent' : 'border-neutral-700',
                                                   active ? '' : '',
-                                                  'relative bg-neutral-800 border border-gray-200 rounded-lg shadow-sm p-2 flex cursor-pointer focus:outline-none '
+                                                  'relative  border border-gray-200 rounded-lg shadow-sm p-2 flex cursor-pointer focus:outline-none '
                                               )
                                           }
                                       >
                                           {({ checked, active }) => (
                                               <>
                                                   <div className="flex-1 flex justify-center">
-                                                      <div className="flex flex-col ">
-                                                          <RadioGroup.Label  className="block text-xl text-white  ">
+                                                      <div className="flex flex-col text-gray-400">
+                                                          <RadioGroup.Label  className={classNames(
+                                                              active ? 'text-white ' : '',
+                                                              checked ? 'border-indigo-500 text-white' : 'border-transparent transition duration-300',
+                                                              "block text-base   "
+                                                          )}>
                                                               {type.name}
                                                           </RadioGroup.Label>
                                                       </div>
@@ -167,8 +201,8 @@ const token = [
                                                   <div
                                                       className={classNames(
                                                           active ? 'border-2 ' : 'border-2',
-                                                          checked ? 'border-indigo-500' : 'border-transparent',
-                                                          'absolute -inset-px rounded-lg pointer-events-none '
+                                                          checked ? 'border-white' : 'border-transparent',
+                                                          'absolute -inset-px rounded-lg pointer-events-none transition duration-300'
                                                       )}
                                                       aria-hidden="true"
                                                   />
@@ -181,17 +215,17 @@ const token = [
                       </div>
 
                       <div className="mt-5  items-center">
-                          <label htmlFor="location" className="block text-xl font-semibold text-white  mb-4">
-                              Seletct Token
+                          <label htmlFor="location" className="block text-xl font-semibold text-gray-300  mb-4">
+                              Select Token
                           </label>
                           <Listbox value={selectedToken} onChange={setSelectedToken} >
                               {({ open }) => (
                                   <>
                                       <div className=" relative ">
-                                          <Listbox.Button className="relative bg-neutral-900 text-xs md:text-sm  2xl:text-lg rounded-lg p-3 text-white   w-full  border border-neutral-700   focus:border-neutral-700  outline-none ">
-                                              <span className="block truncate  text-lg w-full mr-5 xl:mr-2"> {selectedToken.name}</span>
-                                              <span className="absolute inset-y-0  right-0 flex items-center  pointer-events-none">
-                                                <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                                          <Listbox.Button className="relative bg-[#303030] text-xs md:text-sm  2xl:text-lg rounded-lg p-3 text-white   w-full  border border-neutral-700   focus:border-neutral-700  outline-none ">
+                                              <span className="block truncate text-left  text-lg w-full mr-5 xl:mr-2"> {selectedToken.name}</span>
+                                              <span className="absolute inset-y-0  right-2 mb-1 flex items-center  pointer-events-none">
+                                             <i className="h-5 w-5 fa fa-sort-desc" aria-hidden="true"></i>
                                                 </span>
                                           </Listbox.Button>
 
@@ -240,11 +274,11 @@ const token = [
                       </div>
 
                       <div className="mt-5  items-center">
-                          <label htmlFor="location" className="block text-xl font-semibold text-white  mb-4">
+                          <label htmlFor="location" className="block text-xl font-semibold text-gray-300    mb-4">
                               Wallet Address
                           </label>
                           <input type="text"
-                                 className="bg-neutral-900 text-xs md:text-sm  2xl:text-lg rounded-lg p-3 text-white focus:border-neutral-400  w-full  border border-neutral-700    outline-none "
+                                 className="bg-[#303030] text-xs md:text-sm  2xl:text-lg rounded-lg p-3 text-white focus:border-neutral-400  w-full  border border-neutral-700  transition duration-500  outline-none "
                                  placeholder=""
                                  autoComplete="off"
                                  id="faucet"
@@ -254,7 +288,7 @@ const token = [
 
                       <p className="flex justify-center text-center text-base font-medium text-gray-500">
 
-                          <button  onClick={sendtoken} className="mt-10 rounded-full  px-32 py-2 bg-gradient-to-r from-W3G2   to-W3G3 text-white font-bold text-gray-600 text-base  "
+                          <button  onClick={sendtoken} className="mt-10 rounded-full  px-32 py-2 bg-gradient-to-r from-W3G1  via-W3G2 to-W3G3 text-white font-bold text-white text-base  "
                           >
                               Claim
                           </button>

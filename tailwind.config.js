@@ -18,6 +18,8 @@ module.exports = {
                 '90':"23rem",
                 "97":"28rem",
                 '99': "32rem",
+                '100':"33rem",
+                '104':"38rem",
             },
             colors: {
                 transparent: 'transparent',
@@ -53,24 +55,24 @@ module.exports = {
                     dark: '#131414',
                 },
                 W3G1: {
-                    light: '#D65D7F',
-                    DEFAULT: '#D65D7F',
-                    dark: '#D65D7F',
+                    light: '#DB5E7F',
+                    DEFAULT: '#DB5E7F',
+                    dark: '#DB5E7F',
                 },
                 W3G2: {
-                    light: '#6A8CE9',
-                    DEFAULT: '#6A8CE9',
-                    dark: '#6A8CE9',
+                    light: '#876BD2',
+                    DEFAULT: '#876BD2',
+                    dark: '#8E6ACA',
                 },
                 W3G3: {
-                    light: '#7AE0D5',
-                    DEFAULT: '#7AE0D5',
-                    dark: '#7AE0D5',
+                    light: '#6E93E8',
+                    DEFAULT: '#6E93E8',
+                    dark: '#6E93E8',
                 },
                 custom:{
-                    DEFAULT:'#47BCBC',
-                    light:"#47BCBC",
-                    dark:"#47BCBC",
+                    DEFAULT:'#8861D1',
+                    light:"#8861D1",
+                    dark:"#8861D1",
                 }
 
             },

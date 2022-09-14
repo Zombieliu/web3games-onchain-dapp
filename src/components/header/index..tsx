@@ -298,7 +298,7 @@ const Header = () =>{
                 <Login/>
                 <Account/>
                 <Popover className="relative   ">
-                    <div className="flex  fixed z-20 inset-x-0 bg-black/95 backdrop-blur-sm     transition duration-700 mb-10   justify-between items-center  p-3  lg:justify-end  px-5 md:px-10  ">
+                    <div className="flex  fixed z-20 inset-x-0 bg-black/85 backdrop-blur     transition duration-700 mb-10   justify-between items-center  p-3  lg:justify-end  px-5 md:px-10  ">
                         <div className=" flex w-full justify-between items-center xl:justify-start">
                             {/*Logo */}
                             <div className=" ">
@@ -330,9 +330,11 @@ const Header = () =>{
                         {/* Wallet Button */}
                         <div className="hidden  xl:flex w-full  md:flex-1 ">
                             <div className={WalletButtonShow ? "hidden": "mt-1"}>
-                                <button  onClick={open_wallet_list} className="bg-[#151515] border border-[#333333] transition duration-700  w-44  py-2 text-white rounded-lg  flex justify-center">
+                                <div className="p-0.5 rounded-lg bg-gradient-to-r from-[#D95F82]  via-[#8273D7] to-[#729CEA]">
+                                <button  onClick={open_wallet_list} className="bg-[#151515]  transition duration-700  w-44  py-2 text-white rounded-md  flex justify-center">
                                     Connect Wallet
                                 </button>
+                                </div>
                             </div>
                             <div className={WalletButtonShow && AccountChoose == 1 ? "": "hidden"}>
                                 <div className="flex bg-neutral-800 rounded-full p-1 justify-center">

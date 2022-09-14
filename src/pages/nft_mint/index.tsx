@@ -173,7 +173,7 @@ const NFT_Mint = () =>{
                                 </div>
                                 <div className="flex justify-center mt-10 " >
                                     <div className={WalletButtonShow ? "hidden": "mt-1"}>
-                                        <button  onClick={()=>{SetOpenWalletListState(true)}} className="px-24 py-1.5 rounded-lg bg-[#474747] text-white">
+                                        <button  onClick={()=>{SetOpenWalletListState(true)}} className="px-24 py-1.5 rounded-lg bg-[#2C2C2C] text-white">
                                             Connect Wallet
                                         </button>
                                     </div>

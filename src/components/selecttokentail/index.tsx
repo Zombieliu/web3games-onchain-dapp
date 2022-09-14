@@ -51,7 +51,7 @@ const SelectTokenTail = () =>{
         <>
             <Transition.Root show={selectTokenTail} as={Fragment}>
                 <Dialog as="div" className="fixed z-30 inset-0 overflow-y-auto " onClose={()=>{return false}}>
-                    <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center shadow-2xl  sm:block sm:p-0">
+                    <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center shadow-2xl   sm:block sm:p-0">
                         <Transition.Child
                             as={Fragment}
                             enter="ease-out duration-300"
@@ -76,8 +76,8 @@ const SelectTokenTail = () =>{
                             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                         >
-                            <div className="inline-block align-bottom border border-[#76FFFF]  bg-black w-11/12 md:w-9/12 xl:w-7/12  rounded-lg px-4 py-5 text-left overflow-hidden shadow-xl transform transition-all sm:y-8 sm:align-middle  sm:px-6 lg:px-12 ">
-                                <div>
+                            <div className="inline-block align-bottom p-0.5 rounded-lg bg-gradient-to-br from-W3G1  via-W3G2 to-W3G3 w-11/12 md:w-5/12 2xl:w-4/12  rounded-lg  text-left overflow-hidden shadow-xl transform transition-all sm:y-8 sm:align-middle   ">
+                                <div className="bg-black px-4 py-5 sm:px-6 lg:px-12 rounded-md">
                                     <div className='flex justify-between text-xl font-light text-white 	mb-5'>
                                         <div className=" font-light text-base text-white font-semibold ">
                                             Select a token
@@ -88,8 +88,7 @@ const SelectTokenTail = () =>{
                                     <div className="flex ">
                                         <div className="flex w-72">
                                             <input type="text"
-                                                   className=" bg-W3GInfoBG  text-xs md:text-sm text-white  rounded-lg p-2 w-full  border border-gray-800 hover:border-[#76FFFF]/40 focus:border-[#76FFFF]/40
-                                                    focus:shadow-[0_2px_16px_-1px_rgb(0,0,0,0.1)] focus:shadow-[#76FFFF]/50 transition duration-300  outline-none"
+                                                   className=" bg-W3GInfoBG  text-xs md:text-sm text-white  rounded-lg p-2 w-full  border border-W3GInfoBG   hover:border-neutral-600 focus:border-neutral-600  transition duration-300    outline-none"
                                                    placeholder="Search token"
                                                    autoComplete="off"
                                                    id="address"
@@ -100,14 +99,14 @@ const SelectTokenTail = () =>{
                                                 </button>
                                             </div>
                                         </div>
-                                        <button className="ml-4 p-0.5 w-32 rounded-lg bg-gradient-to-b from-W3G3 text-white to-W3G2">Add Token</button>
+                                        <button className="ml-4 p-0.5 w-32 rounded-lg text-white bg-gradient-to-r from-[#DA6081] via-[#8D6BCD]  to-[#7092E7]">Add Token</button>
 
                                     </div>
                                     <div className="my-5 text-white font-semibold">
                                         Common bases
                                     </div>
                                     <div className="my-5">
-                                        <div className="flex grid grid-cols-4 gap-4">
+                                        <div className="flex grid md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
                                             {tokenList.map((item=>(
                                                 <div  key={item.name} className="rounded-full ">
                                                     <button onClick={() => select(item)} className="flex">
@@ -156,7 +155,7 @@ const SelectTokenTail = () =>{
                                         ))}
                                     </div>
 
-                                    <div className="mt-2 flex justify-center text-blue-500 font-semibold hover:text-blue-400">
+                                    <div className="mt-2 flex justify-center text-gray-300 font-semibold ">
                                         <button onClick={openTokenLists}>
                                             Manage Token Lists
                                         </button>

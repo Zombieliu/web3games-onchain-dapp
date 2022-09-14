@@ -44,23 +44,21 @@ const SwapSuccessPop_up_box = () =>{
                     leaveFrom="opacity-100"
                     leaveTo="opacity-0"
                 >
-                    <div className="pointer-events-auto w-full max-w-xs overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
+                    <div className="pointer-events-auto w-full max-w-xs overflow-hidden rounded-lg bg-[#2B2B2B] shadow-lg shadow-[0_2px_16px_-1px_rgb(0,0,0,0.1)] shadow-black">
                         <div className="p-4">
                             <div className="flex items-start">
-                                <div className="flex-shrink-0">
-                                    <CheckCircleIcon className="h-10 w-10 text-green-400" aria-hidden="true" />
-                                </div>
+                                <img className="w-10  mt-1" src="/successful.svg" alt=""/>
                                 <div className="ml-3 w-0 flex-1 pt-0.5">
-                                    <p className="text-sm font-medium text-gray-900 ">Token exchange successful</p>
+                                    <p className="text-sm font-medium text-white ">Token exchange successful</p>
                                     <Link href="https://explorer-devnet.web3games.org/" >
-                                        <a className="mt-1 text-sm text-black underline font-semibold hover:text-blue-400">
+                                        <a className="mt-1 text-sm text-white underline font-semibold hover:text-blue-400">
                                         View on Explorer
                                     </a></Link>
                                 </div>
                                 <div className=" flex flex-shrink-0">
                                     <button
                                         type="button"
-                                        className="inline-flex rounded-md bg-white text-black hover:text-gray-500 focus:outline-none "
+                                        className="inline-flex rounded-md  text-white hover:text-gray-500 focus:outline-none "
                                         onClick={() => {
                                             setSwapSuccess(false)
                                         }}
@@ -117,20 +115,18 @@ const SwapFailPop_up_box = () =>{
                     leaveFrom="opacity-100"
                     leaveTo="opacity-0"
                 >
-                    <div className="pointer-events-auto w-full  max-w-xs overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
+                    <div className="pointer-events-auto w-full  max-w-xs overflow-hidden rounded-lg bg-[#2B2B2B] shadow-lg shadow-[0_2px_16px_-1px_rgb(0,0,0,0.1)] shadow-black">
                         <div className="p-4">
                             <div className="flex items-start">
-                                <div className="flex-shrink-0">
-                                    <XCircleIcon className="h-10 w-10 text-red-600" aria-hidden="true" />
-                                </div>
-                                <div className="ml-3 w-0 flex-1 pt-0.5">
-                                    <p className="text-sm font-medium text-gray-900">Swap Failed</p>
-                                    <p className="mt-1 text-sm text-gray-500">Please try again</p>
+                                <img className="w-10  mt-1" src="/fail.svg" alt=""/>
+                                <div className="ml-3 w-0 flex-1 pt-0.5 text-white">
+                                    <p className="text-sm font-medium ">Swap Failed</p>
+                                    <p className="mt-1 text-sm ">Please try again</p>
                                 </div>
                                 <div className=" flex flex-shrink-0">
                                     <button
                                         type="button"
-                                        className="inline-flex rounded-md bg-white text-black hover:text-gray-500 focus:outline-none "
+                                        className="inline-flex rounded-md  text-white hover:text-gray-500 focus:outline-none "
                                         onClick={() => {
                                             setSwapFail(false)
                                         }}
@@ -187,19 +183,17 @@ const CreatePollSuccessPop_up_box = () =>{
                         leaveFrom="opacity-100"
                         leaveTo="opacity-0"
                     >
-                        <div className="pointer-events-auto w-full max-w-xs overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
+                        <div className="pointer-events-auto w-full max-w-xs overflow-hidden rounded-lg bg-[#2B2B2B] shadow-lg shadow-[0_2px_16px_-1px_rgb(0,0,0,0.1)] shadow-black">
                             <div className="p-4">
                                 <div className="flex items-start">
-                                    <div className="flex-shrink-0">
-                                        <CheckCircleIcon className="h-10 w-10 text-green-400" aria-hidden="true" />
-                                    </div>
-                                    <div className="ml-3 w-0 flex-1 pt-2.5">
-                                        <p className="text-sm font-medium text-gray-900 ">Pool created successfully</p>
+                                    <img className="w-10  mt-1" src="/successful.svg" alt=""/>
+                                    <div className="ml-3 w-0 flex-1 pt-2.5 text-white">
+                                        <p className="text-sm font-medium  ">Pool created successfully</p>
                                     </div>
                                     <div className=" flex flex-shrink-0">
                                         <button
                                             type="button"
-                                            className="inline-flex rounded-md bg-white text-black hover:text-gray-500 focus:outline-none "
+                                            className="inline-flex rounded-md  text-white hover:text-gray-500 focus:outline-none "
                                             onClick={() => {
                                                 setCreatePollSuccess(false)
                                             }}
@@ -257,20 +251,18 @@ const CreatePollFailPop_up_box = () =>{
                     leaveFrom="opacity-100"
                     leaveTo="opacity-0"
                 >
-                    <div className="pointer-events-auto w-full  max-w-xs overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
+                    <div className="pointer-events-auto w-full  max-w-xs overflow-hidden rounded-lg bg-[#2B2B2B] shadow-lg shadow-[0_2px_16px_-1px_rgb(0,0,0,0.1)] shadow-black">
                         <div className="p-4">
                             <div className="flex items-start">
-                                <div className="flex-shrink-0">
-                                    <XCircleIcon className="h-10 w-10 text-red-600" aria-hidden="true" />
-                                </div>
-                                <div className="ml-3 w-0 flex-1 pt-0.5">
-                                    <p className="text-sm font-medium text-gray-900">Swap Failed</p>
-                                    <p className="mt-1 text-sm text-gray-500">Please try again</p>
+                                <img className="w-10  mt-1" src="/fail.svg" alt=""/>
+                                <div className="ml-3 w-0 flex-1 pt-0.5 text-white">
+                                    <p className="text-sm font-medium ">Swap Failed</p>
+                                    <p className="mt-1 text-sm ">Please try again</p>
                                 </div>
                                 <div className=" flex flex-shrink-0">
                                     <button
                                         type="button"
-                                        className="inline-flex rounded-md bg-white text-black hover:text-gray-500 focus:outline-none "
+                                        className="inline-flex rounded-md  text-white hover:text-gray-500 focus:outline-none "
                                         onClick={() => {
                                             setCreatePollFail(false)
                                         }}

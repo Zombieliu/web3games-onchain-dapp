@@ -247,13 +247,13 @@ const Recharts1 = () =>{
                        }}>
                 <defs>
                     <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#7AE0D5" stopOpacity={0.8}/>
-                        <stop offset="95%" stopColor="#7AE0D5" stopOpacity={0}/>
+                        <stop offset="5%" stopColor="#6F9BE7" stopOpacity={0.8}/>
+                        <stop offset="95%" stopColor="#9669C3" stopOpacity={0}/>
                     </linearGradient>
                 </defs>
                 <XAxis dataKey="name" />
                 <Tooltip />
-                <Area type="monotone" dataKey="TVL" stroke="#7AE0D5" fillOpacity={1} fill="url(#colorUv)" />
+                <Area type="monotone" dataKey="TVL" stroke="#8E6CCD" fillOpacity={1} fill="url(#colorUv)" />
             </AreaChart>
 
         </div>
@@ -278,23 +278,8 @@ const Recharts2 = () => {
                 <XAxis dataKey="name" scale="point"  />
                 <Tooltip />
                 <Legend />
-                <Bar dataKey="Volume" fill="#7AE0D5" background={{ fill: "#1F1F1F" }} />
+                <Bar dataKey="Volume" fill="#7573EA" background={{ fill: "#1F1F1F" }} />
             </BarChart>
-            {/*<BarChart width={800}*/}
-            {/*          height={360}*/}
-            {/*          data={data}*/}
-            {/*          margin={{*/}
-            {/*              top: 10,*/}
-            {/*              right: 30,*/}
-            {/*              left: 12,*/}
-            {/*              bottom: -28*/}
-            {/*          }}>*/}
-            {/*    <XAxis dataKey="name"  />*/}
-
-            {/*    <Tooltip />*/}
-            {/*    <Legend />*/}
-            {/*    <Bar dataKey="Volume" fill="#7AE0D5"   />*/}
-            {/*</BarChart>*/}
         </div>
     )
 }
@@ -499,17 +484,17 @@ const Detail = () =>{
     }
     if(PoolDetails.assets_a){
         return (
-            <div>
+            <div className="bg-W3GBG">
                 <Header/>
                 <div className="relative pt-16">
                     <div className="absolute inset-x-0 bottom-0    " />
                     <div className=" mx-auto  ">
-                        <div className="bg-W3GBG">
+                        <div className="">
                             <div className="max-w-7xl relative px-5 pt-16 pb-32 sm:px-6  mx-auto ">
                                 <div className="flex justify-center xl:justify-start">
                                     <Link href="/pools">
-                                        <a  className="p-0.5 rounded-lg bg-gradient-to-r from-W3G2  mb-10 to-W3G3">
-                                            <div className="bg-black rounded-lg text-[#76FFFF] p-2 w-90 text-center" >
+                                        <a  className="p-0.5 rounded-lg bg-gradient-to-r from-W3G1  via-W3G2 to-W3G3  mb-10">
+                                            <div className="bg-black rounded-lg text-white p-2 w-90 text-center" >
                                                 View Pools
                                             </div>
 
@@ -517,10 +502,10 @@ const Detail = () =>{
                                     </Link>
                                 </div>
                                 <div className="xl:flex ">
-                                    <div className="p-0.5 rounded-lg bg-gradient-to-b from-W3G2 h-full  to-W3G3 xl:w-4/12">
+                                    <div className="p-0.5 rounded-lg bg-gradient-to-br from-W3G1 via-W3G2  to-W3G3  h-full xl:w-4/12">
                                         <div className="bg-[#151515]  p-5 rounded-lg  w-full">
                                             <div className="flex mb-4">
-                                                <div className=" rounded-full text-white py-0.5 px-6 bg-gradient-to-r from-W3G2  to-W3G3">
+                                                <div className=" rounded-full text-white py-0.5 px-6 bg-gradient-to-r from-W3G1 via-W3G2  to-W3G3">
                                                     Farms
                                                 </div>
                                             </div>
@@ -565,11 +550,11 @@ const Detail = () =>{
                                                 </div>
                                             </div>
                                             <div className="flex justify-between my-5 ">
-                                                <div className="border border-[#76FFFF] rounded-full text-white py-0.5  px-2 text-sm ">
+                                                <div className="border border-[#8E6CCD] rounded-full text-white py-0.5  px-2 text-sm ">
                                                     1 {PoolDetails.assets_a} ≈ {(Number(tokenBBalance)/Number(tokenABalance)).toFixed(2)} {PoolDetails.assets_b}
                                                 </div>
 
-                                                <div className="border border-[#76FFFF] rounded-full text-white py-0.5 px-2 text-sm">
+                                                <div className="border border-[#8E6CCD] rounded-full text-white py-0.5 px-2 text-sm">
                                                     1 {PoolDetails.assets_b} ≈ {(Number(tokenABalance)/Number(tokenBBalance)).toFixed(2)} {PoolDetails.assets_a}
                                                 </div>
                                             </div>
@@ -579,7 +564,7 @@ const Detail = () =>{
                                                     <div className="text-gray-400">
                                                         Fee
                                                     </div>
-                                                    <div className=" border-[#76FFFF] border text-white text-sm px-1 rounded-md">
+                                                    <div className=" border-[#8E6CCD] border text-white text-sm px-1 rounded-md">
                                                         0.3%
                                                     </div>
                                                 </div>
@@ -627,10 +612,10 @@ const Detail = () =>{
 
                                             <button onClick={()=>{
                                                 setOpenAdd(true)}
-                                            } className="lg:mt-0 bg-gradient-to-b from-[#7BE1D8]   to-[#2C948B] px-8 py-2 rounded-lg  text-white">
+                                            } className="lg:mt-0 bg-gradient-to-r from-W3G1 via-W3G2  to-W3G3 px-8 py-2 rounded-lg  text-white">
                                                 Add Liquidity
                                             </button>
-                                            <button onClick={()=>{setOpenRemove(true)}} className="ml-5 lg:mt-0  px-8 py-2 rounded-lg bg-gradient-to-b from-[#7BE1D8] to-[#2C948B] text-white">
+                                            <button onClick={()=>{setOpenRemove(true)}} className="ml-5 lg:mt-0  px-8 py-2 rounded-lg bg-gradient-to-r from-W3G1 via-W3G2  to-W3G3 text-white">
                                                 Remove Liquidity
                                             </button>
                                         </div>
@@ -670,7 +655,9 @@ const Detail = () =>{
                                     leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                                 >
 
-                                    <div className="inline-block align-bottom border border-[#76FFFF] bg-[#151515]    rounded-lg w-11/12 md:w-9/12 xl:w-5/12 px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8  sm:p-6">
+                                     <div className="inline-block align-bottom p-0.5 rounded-lg bg-gradient-to-br from-W3G1  via-W3G2 to-W3G3 w-11/12 md:w-9/12 xl:w-6/12 2xl:w-4/12  rounded-lg  text-left overflow-hidden shadow-xl transform transition-all sm:y-8 sm:align-middle   ">
+                                            <div className="bg-black px-4 py-5 sm:px-6 lg:px-12 rounded-md">
+
                                         <div className="w-full  ">
                                             <div className="flex justify-between text-xl text-white w-full">
                                                 <div>
@@ -693,13 +680,14 @@ const Detail = () =>{
                                                     </div>
                                                     <div className="flex mx-4">
                                                         <input type="text"
-                                                               className="text-xs md:text-sm placeholder-gray-500 bg-[#1F1F1F] rounded-lg p-2 py-3 xl:w-80 text-white    outline-none"
+                                                               className="text-xs md:text-sm placeholder-gray-500 bg-[#1F1F1F] rounded-lg p-2 py-3 xl:w-80 text-white border border-W3GInfoBG   hover:border-neutral-600 focus:border-neutral-600  transition duration-300    outline-none"
                                                                placeholder="0"
                                                                maxLength={14}
                                                                onInput={checkNumber_token_a}
                                                                id="amount_a"
+                                                               autoComplete="off"
                                                         />
-                                                        <button onClick={max_balance_a} className="rounded-lg py-1 px-5 ml-2 bg-gradient-to-b from-W3G2 to-W3G3 text-sm flex items-center  text-white ">
+                                                        <button onClick={max_balance_a} className="rounded-lg py-1 px-5 ml-2 bg-gradient-to-r from-W3G1 via-W3G2 to-W3G3 text-sm flex items-center  text-white ">
                                                             MAX
                                                         </button>
                                                     </div>
@@ -724,15 +712,17 @@ const Detail = () =>{
                                                                maxLength={14}
                                                                onInput={checkNumber_token_b}
                                                                id="amount_b"
+                                                               autoComplete="off"
+                                                               readOnly={true}
                                                         />
-                                                        <button onClick={max_balance_b} className="rounded-lg py-1 px-5 ml-2 bg-gradient-to-b from-W3G2 to-W3G3 text-sm flex items-center  text-white ">
+                                                        <button onClick={max_balance_b} className="rounded-lg py-1 px-5 ml-2 bg-gradient-to-r from-W3G1 via-W3G2 to-W3G3 text-sm flex items-center  text-white ">
                                                             MAX
                                                         </button>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="mt-5 flex justify-between " >
+                                        <div className="mt-5 flex justify-between mx-4" >
                                             <div className="text-gray-600">
                                                 LP Tokens
                                             </div>
@@ -747,12 +737,14 @@ const Detail = () =>{
                                                 </button>
                                             </div>
                                             <div className={WalletButtonShow  ? "mt-1": "hidden"}>
-                                                <button  id='add_liquidity_button' onClick={addLiquidity} className=" lg:mt-0  w-56 px-3 py-2 rounded-lg bg-gradient-to-b from-W3G2  to-W3G3 text-white">
+                                                <button  id='add_liquidity_button' onClick={addLiquidity} className=" lg:mt-0  w-56 px-3 py-2 rounded-lg bg-gradient-to-r from-W3G1 via-W3G2 to-W3G3 text-white">
                                                     Add Liquidity
                                                 </button>
                                             </div>
                                         </div>
                                     </div>
+
+                                     </div>
                                 </Transition.Child>
                             </div>
                         </Dialog>
@@ -784,8 +776,10 @@ const Detail = () =>{
                                     leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                                     leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                                 >
-                                    <div className="inline-block align-bottom border border-[#76FFFF] bg-[#151515] rounded-lg w-11/12 md:w-9/12 xl:w-1/3 px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8  sm:p-6">
-                                        <div className="w-full  ">
+                                      <div className="inline-block align-bottom p-0.5 rounded-lg bg-gradient-to-br from-W3G1  via-W3G2 to-W3G3 w-11/12 md:w-9/12 xl:w-1/3 xl:w-1/4  rounded-lg  text-left overflow-hidden shadow-xl transform transition-all sm:y-8 sm:align-middle   ">
+                                            <div className="bg-black px-4 py-5 sm:px-6 lg:px-12 rounded-md">
+
+                                            <div className="w-full  ">
                                             <div className="flex justify-between text-xl text-white w-full">
                                                 <div>
                                                     Remove Liquidity
@@ -802,13 +796,14 @@ const Detail = () =>{
                                                     </div>
                                                     <div className="flex  w-full">
                                                         <input type="text"
-                                                               className="text-xs md:text-sm placeholder-gray-500 bg-[#1F1F1F] rounded-lg p-2 py-3 w-full text-white    outline-none"
+                                                               className="text-xs md:text-sm placeholder-gray-500 bg-[#1F1F1F] rounded-lg p-2 py-3 w-full text-white   border border-W3GInfoBG   hover:border-neutral-600 focus:border-neutral-600  transition duration-300    outline-none"
                                                                placeholder="0"
                                                                maxLength={21}
                                                                onInput={checkNumber}
                                                                id="amount_c"
+                                                               autoComplete="off"
                                                         />
-                                                        <button onClick={max_balance_c} className="rounded-lg py-1 px-5 ml-2 bg-gradient-to-b from-W3G2 to-W3G3 text-sm flex items-center  text-white ">
+                                                        <button onClick={max_balance_c} className="rounded-lg py-1 px-5 ml-2 bg-gradient-to-r from-W3G1 via-W3G2 to-W3G3 text-sm flex items-center  text-white ">
                                                             MAX
                                                         </button>
                                                     </div>
@@ -839,8 +834,8 @@ const Detail = () =>{
                                                                         <div className=" flex items-center">
                                                                             <div className="flex justify-center">
                                                                                 <RadioGroup.Label as="span" className={classNames(
-                                                                                    active ? 'bg-gradient-to-b from-W3G2  to-W3G3' : '',
-                                                                                    checked ? 'bg-gradient-to-b from-W3G2  to-W3G3' : '',
+                                                                                    active ? 'bg-gradient-to-r  from-W3G1 via-W3G2 to-W3G3' : '',
+                                                                                    checked ? 'bg-gradient-to-r from-W3G1 via-W3G2 to-W3G3' : '',
                                                                                     '" text-center  rounded-lg pointer-events-none px-2 font-medium text-white"'
                                                                                 )}>
                                                                                     {deliveryMethod.title}
@@ -871,11 +866,12 @@ const Detail = () =>{
                                                 </button>
                                             </div>
                                             <div className={WalletButtonShow ? "mt-1": "hidden"}>
-                                                <button   className=" lg:mt-0  w-56 px-3 py-2 rounded-lg bg-gradient-to-b from-W3G2  to-W3G3 text-white">
+                                                <button   className=" lg:mt-0  w-56 px-3 py-2 rounded-lg bg-gradient-to-r from-W3G1 via-W3G2  to-W3G3 text-white">
                                                     Remove Liquidity
                                                 </button>
                                             </div>
                                         </div>
+                                    </div>
                                     </div>
                                 </Transition.Child>
                             </div>

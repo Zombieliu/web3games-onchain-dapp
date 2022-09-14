@@ -181,8 +181,6 @@ const token_pair = [
 ]
 
 const Pools = () =>{
-
-
     const router = useRouter()
     const [selectedDeliveryMethod, setSelectedDeliveryMethod] = useState(deliveryMethods[0])
     const [selected, setSelected] = useState(types[0])
@@ -250,7 +248,8 @@ const Pools = () =>{
     let time
     const createPool = async ()=>{
         if (swapTokenTop.tokenId === swapTokenTail.tokenId){
-            alert("error")
+            setOpenCreate(false)
+            setCreatePollFail(true)
         }else{
             const creat_pool_event_name = 'exchange.PoolCreated'
             const api = await chain_api(intactWalletAddress)
@@ -439,12 +438,12 @@ const Pools = () =>{
                                 <div className="flex justify-center items-center">
                                     <div className="mt-10 md:mt-0  text-center" >
                                         <div className={WalletButtonShow ? "hidden": "mt-1"}>
-                                            <button  onClick={()=>{SetOpenWalletListState(true)}} className="px-12 py-1.5 text-gray-200 rounded-lg bg-[#474747]">
+                                            <button  onClick={()=>{SetOpenWalletListState(true)}} className="px-12 py-1.5 text-gray-200 rounded-lg bg-[#2C2C2C]">
                                                 Connect Wallet
                                             </button>
                                         </div>
-                                        <div className={WalletButtonShow ? "mt-1 p-0.5 rounded-full bg-gradient-to-r from-[#6B91E7] via-[#6B91E7] to-[#7ADFD6]  shadow-xl": "hidden"}>
-                                            <button onClick={()=>{setOpenCreate(true)}}  className=" lg:mt-0 bg-black px-24 py-2 rounded-full  shadow-[0_2px_16px_-1px_rgb(0,0,0,0.1)] shadow-[#7ADFD6] text-W3G3">
+                                        <div className={WalletButtonShow ? "mt-1 p-0.5 rounded-full bg-gradient-to-r from-[#DB5E7F]  via-[#876BD2] to-[#6E93E8]  shadow-xl": "hidden"}>
+                                            <button onClick={()=>{setOpenCreate(true)}}  className=" lg:mt-0 bg-black px-24 py-2 rounded-full  text-white font-semibold">
                                                View Pools
                                             </button>
                                         </div>
@@ -453,7 +452,7 @@ const Pools = () =>{
                         </div>
                     </div>
 
-                        <div className="max-w-7xl relative px-5 py-16  sm:px-6   mx-auto ">
+                        <div className="max-w-7xl relative px-5 pb-16 pt-4 sm:px-6   mx-auto ">
 
                                 <div className="text-white">
                                     Liquidity Pools
@@ -497,7 +496,7 @@ const Pools = () =>{
                                                             <div className="ml-2 ">
                                                                 {item.assets_a}-{item.assets_b}
                                                             </div>
-                                                            <div className="ml-2 px-3 py-0.5 rounded-lg bg-gradient-to-b from-[#6FDADA]  to-[#5C7BBF]/90">
+                                                            <div className="ml-2 px-3 py-0.5 rounded-lg bg-gradient-to-r from-[#DB5E7F] via-[#876BD2]  to-[#6E93E8]">
                                                                 Farms
                                                             </div>
                                                         </div>
@@ -541,7 +540,7 @@ const Pools = () =>{
                                                     {({ open }) => (
                                                         <>
                                                             <div className=" relative">
-                                                                <Listbox.Button className="bg-neutral-700 relative w-full border border-gray-600 rounded-full w-40  pl-3 pr-10  text-left cursor-default focus:outline-none hover:border-[#76FFFF] focus:border-[#76FFFF]  sm:text-sm">
+                                                                <Listbox.Button className="bg-neutral-700 relative w-full rounded-full w-40  pl-3 pr-10  text-left cursor-default focus:outline-none border border-W3GInfoBG   hover:border-neutral-600 focus:border-neutral-600  transition duration-300    sm:text-sm">
                                                                     <span className="block truncate text-gray-500">{selected.name}</span>
                                                                     <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                                                                         <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
@@ -555,13 +554,13 @@ const Pools = () =>{
                                                                     leaveFrom="opacity-100"
                                                                     leaveTo="opacity-0"
                                                                 >
-                                                                    <Listbox.Options className="absolute z-10 mt-1 w-full bg-neutral-800  max-h-60 rounded-md py-1 text-base border border-[#76FFFF] overflow-auto focus:outline-none sm:text-sm">
+                                                                    <Listbox.Options className="absolute z-10 mt-1 w-full bg-neutral-800  max-h-60 rounded-md py-1 text-base border border-W3GInfoBG   hover:border-neutral-600 focus:border-neutral-600  transition duration-300   overflow-auto focus:outline-none sm:text-sm">
                                                                         {types.map((type) => (
                                                                             <Listbox.Option
                                                                                 key={type.id}
                                                                                 className={({ active }) =>
                                                                                     classNames(
-                                                                                        active ? 'text-[#76FFFF] ' : 'text-gray-400',
+                                                                                        active ? 'text-[#9D76E3] ' : 'text-gray-400',
                                                                                         'cursor-default select-none relative py-2 pl-3 pr-9'
                                                                                     )
                                                                                 }
@@ -587,7 +586,7 @@ const Pools = () =>{
 
                                             {/* CheckBox*/}
                                             <div className="mx-4 flex items-center">
-                                                <input type="checkbox" className="accent-[#76FFFF] mx-2" />
+                                                <input type="checkbox" className="accent-[#8E6CCD] mx-2" />
                                             <div className="text-gray-500">
                                                 Hide low TVL
                                             </div>
@@ -595,16 +594,15 @@ const Pools = () =>{
 
 
                                     {/*Search*/}
-                                    <div className="flex items-center hover:text-[#76FFFF]">
+                                    <div className="flex items-center text-gray-400 hover:text-white">
                                         <div >
                                             <input type="text"
-                                                   className="  bg-neutral-700 text-white text-xs md:text-sm  pr-6 rounded-lg p-2 w-full   border border-gray-800 hover:border-[#76FFFF]/40 focus:border-[#76FFFF]/40
-                                                    focus:shadow-[0_2px_16px_-1px_rgb(0,0,0,0.1)] focus:shadow-[#76FFFF]/50  outline-none"
+                                                   className="  bg-neutral-700 text-white text-xs md:text-sm  pr-6 rounded-lg p-2 w-full   border border-W3GInfoBG   hover:border-neutral-600 focus:border-neutral-600  transition duration-300    outline-none"
                                                    placeholder="Search by token "
                                                    id="Pools"
                                             />
                                         </div>
-                                        <div className="text-xl ml-2  -ml-6  ">
+                                        <div className="text-xl ml-2  -ml-7  ">
                                             <i className="fa fa-search" aria-hidden="true"></i>
                                         </div>
                                     </div>
@@ -637,7 +635,7 @@ const Pools = () =>{
                                                             <div className="ml-2 ">
                                                                 {item.assets_a}-{item.assets_b}
                                                             </div>
-                                                            <div className="ml-2 px-3 py-0.5 rounded-lg bg-gradient-to-b from-[#6FDADA]  to-[#5C7BBF]/90">
+                                                            <div className="ml-2 px-3 py-0.5 rounded-lg bg-gradient-to-r from-[#DB5E7F] via-[#876BD2]  to-[#6E93E8]">
                                                                 Farms
                                                             </div>
                                                         </div>
@@ -659,23 +657,23 @@ const Pools = () =>{
                                     <div>
                                         <div className="rounded-md   flex justify-end my-5" aria-label="Pagination">
                                             <button onClick={()=>firstPage()}>
-                                                <div className="relative inline-flex items-center px-2 py-2 mr-2 rounded-md bg-gray-500 border border-gray-300  text-sm font-medium text-white "
+                                                <div className="relative inline-flex items-center px-2 py-2 mr-2 rounded-md bg-[#3F3F3F]   text-sm font-medium text-white "
                                                 >
                                                     <span className="">First</span>
                                                 </div>
                                             </button>
                                             <button onClick={()=>leftPage(pages - 1)}>
-                                                <div className="relative inline-flex items-center px-2 py-2 rounded-l-md  bg-gray-500 border border-gray-400 text-sm font-medium text-white ">
+                                                <div className="relative inline-flex items-center px-2 py-2 mr-2 rounded-md  bg-gray-200 dark:bg-[#3F3F3F]  text-sm font-semibold  ">
                                                     <span className="sr-only">Previous</span>
                                                     <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
                                                 </div>
                                             </button>
-                                            <div className="bg-gray-500  text-white relative inline-flex items-center px-4 py-2 border border-gray-400 text-sm font-medium">
+                                            <div className="  text-white relative inline-flex rounded-md items-center px-4 py-2 bg-[#3F3F3F] text-sm font-medium">
                                                 Page {pages} of {pagesLast}
                                             </div>
 
                                             <button onClick={()=>rightPage(pages + 1)}>
-                                                <a className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-400 bg-gray-500 text-sm font-medium text-white">
+                                                <a className="relative inline-flex items-center mx-2 px-2 py-2 rounded-md  bg-gray-200 dark:bg-[#3F3F3F] text-sm font-semibold">
                                                     <span className="sr-only">Next</span>
                                                     <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
                                                 </a>
@@ -683,7 +681,7 @@ const Pools = () =>{
                                             <button onClick={ ()=>{
                                                 lastsPage()
                                             }}>
-                                                <div className="relative inline-flex items-center px-2 py-2 ml-2 rounded-md border border-gray-300 bg-gray-500 text-sm font-medium text-white ">
+                                                <div className="relative inline-flex items-center px-2 py-2 ml-2 rounded-md bg-[#3F3F3F] text-sm font-medium text-white ">
                                                     <span className="">Last</span>
                                                 </div>
                                             </button>
@@ -722,13 +720,14 @@ const Pools = () =>{
                             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                         >
-                            <div className="inline-block align-bottom border border-[#76FFFF] bg-black rounded-lg w-11/12 md:w-10/12 xl:w-1/3 px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8  sm:p-6">
-                                <div className="w-full  ">
+                              <div className="inline-block align-bottom p-0.5 rounded-lg bg-gradient-to-br from-W3G1  via-W3G2 to-W3G3  w-11/12 md:w-10/12 xl:w-1/3  rounded-lg  text-left overflow-hidden shadow-xl transform transition-all sm:y-8 sm:align-middle   ">
+                                    <div className="bg-black px-4 py-5 sm:px-6 lg:px-12 rounded-md">
+                                    <div className="w-full  ">
                                     <div className="flex justify-between text-xl text-white w-full items-center  font-semibold">
                                         <div>
                                             Create New Pool
                                         </div>
-                                        <button onClick={()=>{setOpenCreate(false)}} className="text-[#76FFFF] text-3xl">
+                                        <button onClick={()=>{setOpenCreate(false)}} className="text-white text-3xl">
                                             <i className="fa fa-times" aria-hidden="true"></i>
                                         </button></div>
                                 </div>
@@ -780,6 +779,7 @@ const Pools = () =>{
                                         </div>
                                     </div>
                                 </div>
+
                                 {/*<div className="mt-5 flex justify-between items-center" >*/}
                                 {/*    <div className=" text-gray-100 font-medium">*/}
                                 {/*        Total fee*/}
@@ -847,17 +847,18 @@ const Pools = () =>{
 
                                 <div className="text-center mt-7" >
                                     <div className={WalletButtonShow  ? "hidden": "mt-1"}>
-                                        <button  onClick={()=>{SetOpenWalletListState(true)}} className="w-full py-1.5 text-gray-200 rounded-lg bg-[#474747]">
+                                        <button  onClick={()=>{SetOpenWalletListState(true)}} className="w-full py-1.5 text-gray-200 rounded-lg bg-[#2C2C2C]">
                                             Connect Wallet
                                         </button>
                                     </div>
                                     <div className={WalletButtonShow  ? "mt-1": "hidden"}>
-                                        <button  onClick={createPool} className=" lg:mt-0 bg-gradient-to-r from-W3G2   to-W3G3 w-56 px-3 py-2 rounded-lg bg-indigo-500 text-white">
+                                        <button  onClick={createPool} className=" lg:mt-0  w-56 px-3 py-2 rounded-lg bg-gradient-to-r from-[#DB5E7F]  via-[#876BD2] to-[#6E93E8] text-white">
                                            Create
                                         </button>
                                     </div>
                                 </div>
                             </div>
+                              </div>
                         </Transition.Child>
                     </div>
                 </Dialog>
