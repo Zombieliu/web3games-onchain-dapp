@@ -5,6 +5,10 @@ import { BUSD, DAI, USDC, USDT } from '../assets'
 const  Select_TokenTail = atom(false)
 const  Select_TokenTop =  atom(false)
 const  Token_Lists =   atom(false)
+const SwapSuccess = atom(false)
+const SwapFail = atom(false)
+const CreatePollSuccess = atom(false)
+const CreatePollFail = atom(false)
 const tokenTop={
     tokenId:'0',
     img:"/img.png",
@@ -177,5 +181,5 @@ const token_list_and_balance = atomWithStorage('token_list_and_balance',[
 
 
 
-export {Select_TokenTop,Select_TokenTail,Token_Lists,SwapTokenTop,SwapTokenTail,AssetsOpenPopup,WalletListShowState,AccountChooseValue,WalletButtonShowState,WalletAddress,AccountConfigPageState,HiddenClaim,
+export {CreatePollFail,CreatePollSuccess,SwapFail,SwapSuccess,Select_TokenTop,Select_TokenTail,Token_Lists,SwapTokenTop,SwapTokenTail,AssetsOpenPopup,WalletListShowState,AccountChooseValue,WalletButtonShowState,WalletAddress,AccountConfigPageState,HiddenClaim,
    AfterSubstrateAddressList,IntactWalletAddress,NetWorkState,token_list_and_balance,custom_token_list,token_pool_pair}

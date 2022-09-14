@@ -43,7 +43,7 @@ const  Trident = () => {
              { name: 'Pools ', href: '/pools',},
              // { name: 'Create', href: '/create',},
              // { name: 'Bridge', href: '/bridge',},
-             { name: 'Farms', href: '/farms',},
+             // { name: 'Farms', href: '/farms',},
              // { name: 'Staking', href: '/staking',},
              // { name: 'Mint', href: '/defi_mint',}
          ]

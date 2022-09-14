@@ -4,7 +4,7 @@ import {useAtom} from "jotai";
 import {
     IntactWalletAddress,
     Select_TokenTail,
-    Select_TokenTop,
+    Select_TokenTop, SwapFail, SwapSuccess,
     SwapTokenTail,
     SwapTokenTop,
     WalletButtonShowState, WalletListShowState
@@ -16,6 +16,7 @@ import { swap } from "../../chain/web3games";
 import TokenList from "../../components/token_lists";
 import {add_liquidity} from "../../utils/chain/pool";
 import { chain_api } from "../../chain/web3games";
+import {SwapFailPop_up_box, SwapSuccessPop_up_box} from "../../components/pop_up_box";
 
 
 
@@ -34,6 +35,8 @@ const Recent = ()=>{
     const [swapOutPutValue,setSwapOutPutValue] = useState(0)
     const [swapTimes,setSwapTimes] = useState(0)
     const [intactWalletAddress,] = useAtom(IntactWalletAddress)
+    const [,setSwapSuccess] = useAtom(SwapSuccess)
+    const [,setSwapFail] = useAtom(SwapFail)
     const exchange = () =>{
         setSwapTokenTop(swapTokenTail)
         setSwapTokenTail(swapTokenTop)
@@ -80,12 +83,13 @@ const Recent = ()=>{
 
     const swapnow = async ()=>{
         console.log(1);
-        await swap(intactWalletAddress)
+        // await swap(intactWalletAddress)
+        setSwapSuccess(true)
     }
-
-
         return (
             <>
+                <SwapSuccessPop_up_box/>
+                <SwapFailPop_up_box/>
                 <div className="bg-W3GBG  p-3 rounded-2xl">
                     <div className="flex justify-between">
                         <div className="flex bg-W3GInfoBG p-1 rounded-full border border-W3GInfoBG hover:border-W3G3">
