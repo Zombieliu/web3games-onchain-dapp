@@ -139,19 +139,19 @@ const token = [
       <div className="mx-auto bg-W3GBG transition duration-700 bg-auto">
           <Header/>
           <div className="hidden xl:block absolute xl:top-14 2xl:top-20 xl:left-44 2xl:left-96">
-              <img className={classNames(scroll?" transform ":" transform translate-y-8",'w-90 transition duration-700 transition delay-300 duration-300') } src="/img/3d-triangle.png" alt=""/>
+              <img className={classNames(scroll?" transform ":" transform translate-y-8",'w-90 transition duration-700 transition delay-150 duration-300') } src="/img/3d-triangle.png" alt=""/>
           </div>
           <div className=" hidden xl:block absolute xl:top-14 xl:right-36 2xl:top-16 2xl:right-96">
-              <img className={classNames(scroll?" transform ":" transform -translate-y-8",'w-64 transition duration-700 transition delay-300 duration-300') } src="/img/3d-circle.png" alt=""/>
+              <img className={classNames(scroll?" transform ":" transform -translate-y-8",'w-64 transition duration-700 transition delay-150 duration-300') } src="/img/3d-circle.png" alt=""/>
           </div>
           <div className="hidden xl:block absolute  xl:bottom-2 xl:left-56 2xl:bottom-24 2xl:left-99">
-              <img className={classNames(scroll?" transform ":" transform -translate-y-8",'w-56 transition duration-700 transition delay-300 duration-300') } src="/img/3d-block.png" alt=""/>
+              <img className={classNames(scroll?" transform ":" transform -translate-y-8",'w-56 transition duration-700 transition delay-150 duration-300') } src="/img/3d-block.png" alt=""/>
           </div>
           <div className=" absolute  xl:bottom-2 xl:right-56 2xl:bottom-6 2xl:right-96">
-              <img className={classNames(scroll?" transform ":" transform translate-y-8",'w-90 transition duration-700 transition delay-300 duration-300') } src="/img/3d-square 1.png" alt=""/>
+              <img className={classNames(scroll?" transform ":" transform translate-y-8",'w-90 transition duration-700 transition delay-150 duration-300') } src="/img/3d-square 1.png" alt=""/>
           </div>
           <div className="absolute bottom-96 right-56 xl:bottom-2 xl:right-56 2xl:bottom-6 2xl:right-104 ">
-              <img className={classNames(scroll?" transform ":" transform -translate-y-8",'w-44 transition duration-700 transition delay-300 duration-300') } src="/img/3d-cross.png" alt=""/>
+              <img className={classNames(scroll?" transform ":" transform -translate-y-8",'w-44 transition duration-700 transition delay-150 duration-300') } src="/img/3d-cross.png" alt=""/>
           </div>
 
           <div className="relative max-w-3xl mx-auto py-32 xl:py-20 2xl:py-36  px-4 ">
@@ -200,7 +200,7 @@ const token = [
                                                   </div>
                                                   <div
                                                       className={classNames(
-                                                          active ? 'border-2 ' : 'border-2',
+                                                          active ? 'border-4 ' : 'border-4',
                                                           checked ? 'border-white' : 'border-transparent',
                                                           'absolute -inset-px rounded-lg pointer-events-none transition duration-300'
                                                       )}
