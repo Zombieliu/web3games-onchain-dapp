@@ -55,7 +55,7 @@ const Pop_up_box = () =>{
                                 <img className={pop_up_boxData.state?"w-10  mt-1":"hidden"} src="/successful.svg" alt=""/>
                                 <img className={pop_up_boxData.state?"hidden":"w-10  mt-1"} src="/fail.svg" alt=""/>
                                 <div className="ml-3 w-0 flex-1 pt-0.5 text-white text-sm">
-                                    <p className=" font-medium  ">{pop_up_boxData.type} {classNames(pop_up_boxData.state?"successful":"Failed")}</p>
+                                    <p className=" font-medium  ">{pop_up_boxData.type} {classNames(pop_up_boxData.state?"Success":"Failed")}</p>
                                     <p className={pop_up_boxData.state?"hidden":"mt-1 "}>Please try again</p>
                                     <Link href={`https://explorer-devnet.web3games.org/${pop_up_boxData.hash}` }>
                                         <a className={pop_up_boxData.state?"mt-1 underline font-semibold hover:text-blue-400":"hidden"}>

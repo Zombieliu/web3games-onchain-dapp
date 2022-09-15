@@ -197,7 +197,7 @@ const Pools = () =>{
     // success
 
     const [,setPop_up_boxData] =useAtom(PopUpBoxInfo)
-    const [pop_up_boxState,setSop_up_boxState] = useAtom(PopUpBoxState)
+    const [,setSop_up_boxState] = useAtom(PopUpBoxState)
 
     useEffect(()=>{
         if (router.isReady) {
