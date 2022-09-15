@@ -10,7 +10,7 @@ const chain_api = async (intactWalletAddress:string)=>{
   const provider = new WsProvider('ws://127.0.0.1:9944');
   const api = await ApiPromise.create({
     provider,
-    rpc:{}
+    // rpc:{}
 
   });
   return api

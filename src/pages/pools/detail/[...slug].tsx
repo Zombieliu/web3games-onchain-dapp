@@ -327,8 +327,10 @@ const Detail = () =>{
             const token_detail = async ()=>{
                 const pool_id = router.query.slug[0]
                 const result = tokenPoolPair.filter(token => token.pool_id = pool_id)
+                console.log(result[0].assets_a_address)
+                console.log(tokenPoolPair)
                 const api = await chain_api(intactWalletAddress)
-                const balance = await api.query.exchange.reserves(pool_id)
+                const balance = await api.query.exchange.reserves([result[0].assets_b_id,result[0].assets_a_id])
                 const pair_lp_token_result:any = await api.query.exchange.pools(pool_id)
                 // const pair_lp_token_owner = pair_lp_token_result.toJSON().owner
                 const pair_lp_token_address = pair_lp_token_result.toJSON()
@@ -343,8 +345,8 @@ const Detail = () =>{
                     assets_b_id:result[0].assets_b_id,
                     assets_a_image_url:result[0].assets_a_image_url,
                     assets_b_image_url:result[0].assets_b_image_url,
-                    assets_a_address:address_slice(JSON.parse(result[0].assets_a_address).owner),
-                    assets_b_address:address_slice(JSON.parse(result[0].assets_b_address).owner),
+                    assets_a_address:address_slice(result[0].assets_a_address),
+                    assets_b_address:address_slice(result[0].assets_b_address),
                     tvl:result[0].tvl,
                     volume:result[0].volume,
                     volume_days:result[0].volume_days,
@@ -354,8 +356,9 @@ const Detail = () =>{
                 setPoolDetails(poolDetails)
                 setTokenABalance(balance.toJSON()[0])
                 setTokenBBalance(balance.toJSON()[1])
-                const account_token_a_balance = await api.query.tokenFungible.balances(result[0].assets_a_id,intactWalletAddress);
-                const account_token_b_balance = await api.query.tokenFungible.balances(result[0].assets_b_id,intactWalletAddress);
+                const account_token_a_balance = await api.query.tokenFungible.balances(result[0].assets_a_id,intactWalletAddress)
+                const account_token_b_balance = await api.query.tokenFungible.balances(result[0].assets_b_id,intactWalletAddress)
+                console.log(result[0].assets_a_id,result[0].assets_b_id)
                 setTokenAccountABalance(account_token_a_balance.toString())
                 setTokenAccountBBalance(account_token_b_balance.toString())
             }

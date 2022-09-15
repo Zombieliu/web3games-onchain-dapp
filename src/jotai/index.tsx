@@ -57,6 +57,7 @@ const AfterSubstrateAddressList = atomWithStorage('AfterSubstrateAddressList',[]
 
 const custom_token_list = atomWithStorage('custom_token_list',[])
 
+const TOKENWATCHPOOLPAIR = atomWithStorage('token_watchlist_pool_pair',[])
 const token_pool_pair = atomWithStorage('token_pool_pair',[
     // {
     //     assets_a: "wW3G",
@@ -182,4 +183,4 @@ const token_list_and_balance = atomWithStorage('token_list_and_balance',[
 
 
 export {CreatePollFail,CreatePollSuccess,SwapFail,SwapSuccess,Select_TokenTop,Select_TokenTail,Token_Lists,SwapTokenTop,SwapTokenTail,AssetsOpenPopup,WalletListShowState,AccountChooseValue,WalletButtonShowState,WalletAddress,AccountConfigPageState,HiddenClaim,
-   AfterSubstrateAddressList,IntactWalletAddress,NetWorkState,token_list_and_balance,custom_token_list,token_pool_pair}
+   AfterSubstrateAddressList,IntactWalletAddress,NetWorkState,token_list_and_balance,custom_token_list,TOKENWATCHPOOLPAIR,token_pool_pair}

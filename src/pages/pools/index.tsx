@@ -15,8 +15,8 @@ import {
     SwapTokenTail, SwapTokenTop,
     WalletButtonShowState,
     WalletListShowState,
-    token_pool_pair, SwapSuccess, CreatePollSuccess, CreatePollFail
-} from "../../jotai";
+    token_pool_pair, SwapSuccess, CreatePollSuccess, CreatePollFail, TOKENWATCHPOOLPAIR,
+} from '../../jotai';
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { chain_api, substrate_wallet_injector } from "../../chain/web3games";
@@ -65,7 +65,6 @@ const tokenstitle=[
 
 const token_pair = [
     {
-
     pool_id: "0",
     assets_a: 'USDT',
     assets_b: "W3G",
@@ -73,7 +72,7 @@ const token_pair = [
     assets_b_id: "0",
     assets_a_image_url: "/token/USDT.png",
     assets_b_image_url: "/web3gsmall.png",
-    assets_a_address: "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
+    assets_a_address: "5Dq9YFto6nMbAvsqL7KHc7dvSPEcH1GDL9Up8px8E64W9tFv",
     assets_b_address: "5EYCAe5k5uC6j4y78z6KmSNA6aR3FG2krqAZQXLaEzhAmbfW",
     tvl: "0",
     volume: "0",
@@ -90,9 +89,7 @@ const token_pair = [
         assets_a_image_url: "/token/USDC.png",
         assets_b: "W3G",
         assets_b_address: "dasdasd",
-
         assets_b_image_url: "/web3gsmall.png",
-
         total_lp: "0",
         tvl: "0",
         volume: "0",
@@ -189,7 +186,10 @@ const Pools = () =>{
     // local address
     const [intactWalletAddress,] = useAtom(IntactWalletAddress)
     // token pool pair info
+
+    const [token_watchlist_pool_pair,set_token_watchlist_pool_pair] = useAtom(TOKENWATCHPOOLPAIR)
     const [tokenPoolPair,setTokenPoolPair] = useAtom(token_pool_pair)
+
     const [localTokenPoolPair,setLocalTokenPoolPair] = useState([])
     // all pages number
     const [pages,setPages] = useState(1)
@@ -213,12 +213,14 @@ const Pools = () =>{
             if (AccountChoose == 1){
                 intactWalletAddress_local = evm_address_to_sub_address(intactWalletAddress_local)
             }
+
+            setTokenPoolPair(token_pair)
             // set pages last number
             const pagesLast = Math.ceil(tokenPoolPair.length/5)
             // set last pages number
             setPagesLast(pagesLast)
 
-            // console.log(tokenPoolPair)
+
             //frist page
             firstPage()
 
@@ -477,7 +479,7 @@ const Pools = () =>{
                                             </tr>
                                             </thead>
                                             <tbody className="  divide-y divide-W3GInfoBorderBG">
-                                            {tokenPoolPair.map(item => (
+                                            {token_watchlist_pool_pair.map(item => (
                                                 <tr key={item.pool_id}  onClick={()=>{toDetail(item.pool_id)}} className="cursor-pointer hover:bg-neutral-800">
                                                     <td className="px-6 py-4  whitespace-nowrap text-sm text-gray-200">
                                                         {item.pool_id}
