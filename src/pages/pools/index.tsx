@@ -15,7 +15,7 @@ import {
     SwapTokenTail, SwapTokenTop,
     WalletButtonShowState,
     WalletListShowState,
-    token_pool_pair, SwapSuccess, CreatePollSuccess, CreatePollFail, TOKENWATCHPOOLPAIR,
+    token_pool_pair, TOKENWATCHPOOLPAIR, PopUpBoxInfo, PopUpBoxState,
 } from '../../jotai';
 import { useRouter } from "next/router";
 import Link from "next/link";
@@ -26,7 +26,7 @@ import TokenList from "../../components/token_lists";
 import SelectTokenTop from "../../components/selecttokentop";
 import SelectTokenTail from "../../components/selecttokentail";
 import {address_slice, evm_address_to_sub_address} from "../../utils/chain/address";
-import {CreatePollFailPop_up_box, CreatePollSuccessPop_up_box} from "../../components/pop_up_box";
+import {Pop_up_box} from "../../components/pop_up_box";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -196,9 +196,8 @@ const Pools = () =>{
     const [tokenlist,settokenList] = useAtom(token_list_and_balance)
     // success
 
-    const [,setCreatePollSuccess] = useAtom(CreatePollSuccess)
-
-    const [,setCreatePollFail] = useAtom(CreatePollFail)
+    const [,setPop_up_boxData] =useAtom(PopUpBoxInfo)
+    const [pop_up_boxState,setSop_up_boxState] = useAtom(PopUpBoxState)
 
     useEffect(()=>{
         if (router.isReady) {
@@ -239,7 +238,12 @@ const Pools = () =>{
     const createPool = async ()=>{
         if (swapTokenTop.tokenId === swapTokenTail.tokenId){
             setOpenCreate(false)
-            setCreatePollFail(true)
+            setPop_up_boxData({
+                state:false,
+                type:"Create Pool",
+                hash:"",
+            })
+            setSop_up_boxState(true)
         }else{
             const creat_pool_event_name = 'exchange.PoolCreated'
             const api = await chain_api(intactWalletAddress)
@@ -299,7 +303,12 @@ const Pools = () =>{
                             setTokenPoolPair(new_result)
                             // success
                             setOpenCreate(false)
-                            setCreatePollSuccess(true)
+                            setPop_up_boxData({
+                                state:true,
+                                type:"Create Pool",
+                                hash:"",
+                            })
+                            setSop_up_boxState(true)
                         }
                     });
                 }
@@ -853,8 +862,7 @@ const Pools = () =>{
                     </div>
                 </Dialog>
             </Transition.Root>
-            <CreatePollSuccessPop_up_box/>
-            <CreatePollFailPop_up_box/>
+            <Pop_up_box/>
             <SelectTokenTail/>
             <SelectTokenTop/>
             <TokenList/>

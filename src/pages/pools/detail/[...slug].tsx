@@ -5,7 +5,13 @@ import Link from "next/link";
 import {Dialog, RadioGroup, Tab, Transition} from "@headlessui/react";
 import {useAtom} from "jotai";
 import Error from "../../../components/error";
-import {IntactWalletAddress, token_pool_pair, WalletButtonShowState, WalletListShowState} from "../../../jotai";
+import {
+    IntactWalletAddress, PopUpBoxInfo,
+    PopUpBoxState,
+    token_pool_pair,
+    WalletButtonShowState,
+    WalletListShowState
+} from "../../../jotai";
 import {CheckCircleIcon, CheckIcon, ExclamationIcon} from "@heroicons/react/solid";
 import {chain_api, substrate_wallet_injector } from "../../../chain/web3games";
 import axios from "axios";
@@ -320,6 +326,9 @@ const Detail = () =>{
     const [tokenAAccountBalance,setTokenAccountABalance] = useState('')
     const [tokenBAccountBalance,setTokenAccountBBalance] = useState('')
     // const [Add_liquidity,set_add_liquidity] = useState('Add Liquidity')
+
+    const [,setSop_up_boxState] = useAtom(PopUpBoxState)
+    const [pop_up_boxData,] =useAtom(PopUpBoxInfo)
 
 
     useEffect(()=>{
