@@ -25,7 +25,7 @@ import { BUSD, DAI, USDC, USDT } from "../../assets";
 import TokenList from "../../components/token_lists";
 import SelectTokenTop from "../../components/selecttokentop";
 import SelectTokenTail from "../../components/selecttokentail";
-import { evm_address_to_sub_address } from "../../utils/chain/address";
+import {address_slice, evm_address_to_sub_address} from "../../utils/chain/address";
 import {CreatePollFailPop_up_box, CreatePollSuccessPop_up_box} from "../../components/pop_up_box";
 
 function classNames(...classes) {
@@ -65,52 +65,50 @@ const tokenstitle=[
 
 const token_pair = [
     {
-    id: "1",
-    assets_a: 'USDT',
-    assets_a_address: "123213",
-    assets_a_id: "1",
-    assets_a_image_url: "/token/USDT.png",
-    assets_b: "W3G",
-    assets_b_address: "dasdasd",
-    assets_b_id: "2",
-    assets_b_image_url: "/web3gsmall.png",
+
     pool_id: "0",
-    total_lp: "0",
+    assets_a: 'USDT',
+    assets_b: "W3G",
+    assets_a_id: "1",
+    assets_b_id: "0",
+    assets_a_image_url: "/token/USDT.png",
+    assets_b_image_url: "/web3gsmall.png",
+    assets_a_address: "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
+    assets_b_address: "5EYCAe5k5uC6j4y78z6KmSNA6aR3FG2krqAZQXLaEzhAmbfW",
     tvl: "0",
     volume: "0",
-    volume_days: "0",
+    volume_days:"0",
+    total_lp: "0",
     your_lp: "0",
-    fee:"0.3%",
-
 },
     {
-        id: "1",
+        pool_id: "1",
         assets_a: 'USDC',
         assets_a_address: "123213",
-        assets_a_id: "1",
+        assets_a_id: "2",
+        assets_b_id: "0",
         assets_a_image_url: "/token/USDC.png",
         assets_b: "W3G",
         assets_b_address: "dasdasd",
-        assets_b_id: "2",
+
         assets_b_image_url: "/web3gsmall.png",
-        pool_id: "1",
+
         total_lp: "0",
         tvl: "0",
         volume: "0",
         volume_days: "0",
         your_lp: "0",
-        fee:"0.3%",
 
     },
     {
         id: "1",
         assets_a: 'BUSD',
         assets_a_address: "123213",
-        assets_a_id: "1",
+        assets_a_id: "3",
         assets_a_image_url: "/token/BUSD.png",
         assets_b: "W3G",
         assets_b_address: "dasdasd",
-        assets_b_id: "2",
+        assets_b_id: "0",
         assets_b_image_url: "/web3gsmall.png",
         pool_id: "2",
         total_lp: "0",
@@ -118,18 +116,17 @@ const token_pair = [
         volume: "0",
         volume_days: "0",
         your_lp: "0",
-        fee:"0.3%",
 
     },
     {
         id: "1",
         assets_a: 'BNB',
         assets_a_address: "123213",
-        assets_a_id: "1",
+        assets_a_id: "4",
         assets_a_image_url: "/token/BNB.png",
         assets_b: "W3G",
         assets_b_address: "dasdasd",
-        assets_b_id: "2",
+        assets_b_id: "0",
         assets_b_image_url: "/web3gsmall.png",
         pool_id: "3",
         total_lp: "0",
@@ -137,18 +134,17 @@ const token_pair = [
         volume: "0",
         volume_days: "0",
         your_lp: "0",
-        fee:"0.3%",
 
     },
     {
         id: "1",
         assets_a: 'SOL',
         assets_a_address: "123213",
-        assets_a_id: "1",
+        assets_a_id: "5",
         assets_a_image_url: "/token/SOL.png",
         assets_b: "W3G",
         assets_b_address: "dasdasd",
-        assets_b_id: "2",
+        assets_b_id: "0",
         assets_b_image_url: "/web3gsmall.png",
         pool_id: "4",
         total_lp: "0",
@@ -156,18 +152,17 @@ const token_pair = [
         volume: "0",
         volume_days: "0",
         your_lp: "0",
-        fee:"0.3%",
 
     },
     {
         id: "1",
         assets_a: 'ETH',
         assets_a_address: "123213",
-        assets_a_id: "1",
+        assets_a_id: "6",
         assets_a_image_url: "/token/ETH.png",
         assets_b: "W3G",
         assets_b_address: "dasdasd",
-        assets_b_id: "2",
+        assets_b_id: "0",
         assets_b_image_url: "/web3gsmall.png",
         pool_id: "5",
         total_lp: "0",
@@ -175,8 +170,6 @@ const token_pair = [
         volume: "0",
         volume_days: "0",
         your_lp: "0",
-        fee:"0.3%",
-
     },
 ]
 
