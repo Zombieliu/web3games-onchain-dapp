@@ -93,7 +93,7 @@ const token_pair = [
         assets_b_address: "dasdasd",
         assets_b_id: "2",
         assets_b_image_url: "/web3gsmall.png",
-        pool_id: "0",
+        pool_id: "1",
         total_lp: "0",
         tvl: "0",
         volume: "0",
@@ -112,7 +112,7 @@ const token_pair = [
         assets_b_address: "dasdasd",
         assets_b_id: "2",
         assets_b_image_url: "/web3gsmall.png",
-        pool_id: "0",
+        pool_id: "2",
         total_lp: "0",
         tvl: "0",
         volume: "0",
@@ -131,7 +131,7 @@ const token_pair = [
         assets_b_address: "dasdasd",
         assets_b_id: "2",
         assets_b_image_url: "/web3gsmall.png",
-        pool_id: "0",
+        pool_id: "3",
         total_lp: "0",
         tvl: "0",
         volume: "0",
@@ -150,7 +150,7 @@ const token_pair = [
         assets_b_address: "dasdasd",
         assets_b_id: "2",
         assets_b_image_url: "/web3gsmall.png",
-        pool_id: "0",
+        pool_id: "4",
         total_lp: "0",
         tvl: "0",
         volume: "0",
@@ -169,7 +169,7 @@ const token_pair = [
         assets_b_address: "dasdasd",
         assets_b_id: "2",
         assets_b_image_url: "/web3gsmall.png",
-        pool_id: "0",
+        pool_id: "5",
         total_lp: "0",
         tvl: "0",
         volume: "0",
@@ -663,7 +663,7 @@ const Pools = () =>{
                                                 </div>
                                             </button>
                                             <button onClick={()=>leftPage(pages - 1)}>
-                                                <div className="relative inline-flex items-center px-2 py-2 mr-2 rounded-md  bg-gray-200 dark:bg-[#3F3F3F]  text-sm font-semibold  ">
+                                                <div className="relative inline-flex items-center px-2 py-2 mr-2 rounded-md bg-[#3F3F3F]  text-sm font-semibold  ">
                                                     <span className="sr-only">Previous</span>
                                                     <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
                                                 </div>
@@ -673,7 +673,7 @@ const Pools = () =>{
                                             </div>
 
                                             <button onClick={()=>rightPage(pages + 1)}>
-                                                <a className="relative inline-flex items-center mx-2 px-2 py-2 rounded-md  bg-gray-200 dark:bg-[#3F3F3F] text-sm font-semibold">
+                                                <a className="relative inline-flex items-center mx-2 px-2 py-2 rounded-md  bg-[#3F3F3F] text-sm font-semibold">
                                                     <span className="sr-only">Next</span>
                                                     <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
                                                 </a>
