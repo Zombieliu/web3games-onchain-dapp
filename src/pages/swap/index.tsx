@@ -2,9 +2,9 @@ import {Tab} from "@headlessui/react";
 import React, {useState} from "react";
 import {useAtom} from "jotai";
 import {
-    IntactWalletAddress, PopUpBoxInfo, PopUpBoxState,
+    IntactWalletAddress,
     Select_TokenTail,
-    Select_TokenTop,
+    Select_TokenTop, SwapFail, SwapSuccess,
     SwapTokenTail,
     SwapTokenTop,
     WalletButtonShowState, WalletListShowState
@@ -12,12 +12,13 @@ import {
 import SelectTokenTail from "../../components/selecttokentail";
 import SelectTokenTop from "../../components/selecttokentop";
 import axios from "axios";
-import { swap } from "../../chain/web3games";
+import {substrate_getAmountOutPrice,} from "../../chain/web3games";
 import TokenList from "../../components/token_lists";
 import {add_liquidity} from "../../utils/chain/pool";
 import { chain_api } from "../../chain/web3games";
-import {Pop_up_box} from "../../components/pop_up_box";
-
+import {SwapFailPop_up_box, SwapSuccessPop_up_box} from "../../components/pop_up_box";
+import {Simulate} from "react-dom/test-utils";
+import doubleClick = Simulate.doubleClick;
 
 
 
@@ -37,9 +38,8 @@ const Recent = ()=>{
     const [swapTimes,setSwapTimes] = useState(0)
     const [rotate,setRotate] = useState(false)
     const [intactWalletAddress,] = useAtom(IntactWalletAddress)
-
-    const [,setPop_up_boxData] =useAtom(PopUpBoxInfo)
-    const [pop_up_boxState,setSop_up_boxState] = useAtom(PopUpBoxState)
+    const [,setSwapSuccess] = useAtom(SwapSuccess)
+    const [,setSwapFail] = useAtom(SwapFail)
     const exchange = () =>{
         setRotate(!rotate)
         setSwapTokenTop(swapTokenTail)
@@ -53,19 +53,11 @@ const Recent = ()=>{
     }
 
 
-    const get_swap_number =(input_data)=>{
-        axios.get('http://127.0.0.1:3004/api/swap', {
-            params: {
-                token_a_amount:input_data
-            }
-        })
-            .then(function (response) {
-                console.log(response);
-                setSwapOutPutValue(response.data)
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+    const get_swap_number = async (input_data)=>{
+        const pool = [1,0]
+        const token_number = input_data
+        const result = await substrate_getAmountOutPrice(intactWalletAddress,pool,token_number)
+        setSwapOutPutValue(result[1])
     }
 
     const check = async (e) => {
@@ -73,31 +65,49 @@ const Recent = ()=>{
         if (e.target.value.indexOf('.') < 0 && e.target.value != '') {
             e.target.value = parseFloat(e.target.value);
         }
-        setSwapTimes(swapTimes + 1)
-        if (swapTimes == 1) {
-            const input_data = e.target.value.replace(/\D/g, '')
-            setTimeout(() => get_swap_number(input_data), 2000)
-            setSwapTimes(0)
-        }
-        const api = await chain_api(intactWalletAddress)
-        // const result = await api.call.exchange.get_amount_in_price(10000,[0,1])
-        // const result = await api.rpc.chain.getBlock()
-        // console.log(result.toJSON())
+        const input_data = e.target.value.replace(/\D/g, '')
+        get_swap_number(input_data)
     }
 
     const swapnow = async ()=>{
-        console.log(1);
-        // await swap(intactWalletAddress)
-        setPop_up_boxData(
-            {   state:false,
-                type:"Token exchange",
-                hash:"",
-            })
-        setSop_up_boxState(true)
+        const input = (document.getElementById('token_input') as any).value
+        const output = (document.getElementById('token_output') as any).value
+        const web3Enable = (await import("@polkadot/extension-dapp")).web3Enable;
+        await web3Enable('my cool dapp');
+        const web3FromAddress = (await import("@polkadot/extension-dapp")).web3FromAddress;
+        const injector = await web3FromAddress(intactWalletAddress);
+        const api = await chain_api(intactWalletAddress)
+        const block = await api.rpc.chain.getHeader();
+        const next_block = block.number.toNumber() + 3
+        // const transferExtrinsic = api.tx.exchange.swapExactTokensForTokens(output,input,[swapTokenTop.tokenId,swapTokenTail.tokenId],intactWalletAddress,next_block)
+        // transferExtrinsic.signAndSend(intactWalletAddress, { signer: injector.signer }, ({ status }) => {
+        //     if (status.isInBlock) {
+        //         console.log(`Completed at block hash #${status.asInBlock.toString()}`);
+        //         setSwapSuccess(true)
+        //     } else {
+        //         console.log(`Current status: ${status.type}`);
+        //     }
+        // }).catch((error: any) => {
+        //     console.log(':( transaction failed', error);
+        //     setSwapFail(true)
+        // })
+        const transferExtrinsic = api.tx.exchange.swapExactW3gForTokens(input,0,[swapTokenTop.tokenId,swapTokenTail.tokenId],intactWalletAddress,next_block)
+        transferExtrinsic.signAndSend(intactWalletAddress, { signer: injector.signer }, ({ status }) => {
+            if (status.isInBlock) {
+                console.log(`Completed at block hash #${status.asInBlock.toString()}`);
+                setSwapSuccess(true)
+            } else {
+                console.log(`Current status: ${status.type}`);
+            }
+        }).catch((error: any) => {
+            console.log(':( transaction failed', error);
+            setSwapFail(true)
+        })
     }
         return (
             <>
-                <Pop_up_box/>
+                <SwapSuccessPop_up_box/>
+                <SwapFailPop_up_box/>
                 <div className="bg-W3GBG  p-3 rounded-2xl">
                     <div className="flex justify-between">
                         <div className="flex bg-W3GInfoBG p-1 rounded-full border border-W3GInfoBG hover:border-neutral-600 focus:border-neutral-600  transition duration-300 ">
@@ -132,7 +142,7 @@ const Recent = ()=>{
                                    onKeyUp={check}
                                    className=" bg-W3GInfoBG  text-xs md:text-sm text-white  rounded-md p-2  md:w-48 border border-W3GInfoBG   hover:border-neutral-600 focus:border-neutral-600  transition duration-300    outline-none"
                                    placeholder="0.0"
-                                   id=""
+                                   id="token_input"
                             />
                         </div>
                         <div className="text-sm mt-2 flex ml-1 text-gray-400">Balance: 0</div>
@@ -176,7 +186,7 @@ const Recent = ()=>{
                             <input
                                    className=" bg-W3GInfoBG text-xs md:text-sm text-white  rounded-lg p-2   md:w-48   border border-W3GInfoBG   hover:border-neutral-600 focus:border-neutral-600  transition duration-300  outline-none"
                                    placeholder='0.0'
-                                   id="swapoutput"
+                                   id="token_output"
                                    value={`${swapOutPutValue}`}
                             />
                         </div>
