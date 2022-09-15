@@ -18,6 +18,7 @@ import {add_liquidity} from "../../utils/chain/pool";
 import { chain_api } from "../../chain/web3games";
 import {Simulate} from "react-dom/test-utils";
 import doubleClick = Simulate.doubleClick;
+import { Pop_up_box } from "../../components/pop_up_box";
 
 
 
@@ -123,7 +124,7 @@ const Recent = ()=>{
     }
         return (
             <>
-
+                <Pop_up_box/>
                 <div className="bg-W3GBG  p-3 rounded-2xl">
                     <div className="flex justify-between">
                         <div className="flex bg-W3GInfoBG p-1 rounded-full border border-W3GInfoBG hover:border-neutral-600 focus:border-neutral-600  transition duration-300 ">
