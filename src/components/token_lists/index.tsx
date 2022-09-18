@@ -1,6 +1,15 @@
 import {useAtom} from "jotai";
-import {custom_token_list,
-    IntactWalletAddress, Select_TokenTail, Select_TokenTop, SwapTokenTail, SwapTokenTop, Token_Lists, token_list_and_balance} from "../../jotai";
+import {
+    custom_token_list,
+    IntactWalletAddress,
+    Select_TokenTail,
+    Select_TokenTop,
+    SwapTokenTail,
+    SwapTokenTop,
+    Token_Lists,
+    token_list_and_balance,
+    token_pool_pair
+} from "../../jotai";
 import {Dialog, Switch, Tab, Transition} from "@headlessui/react";
 import React, {Fragment, useEffect, useState} from "react";
 import {useRouter} from "next/router";
@@ -138,6 +147,7 @@ const Tokens = () =>{
     const [,setCloseTokenList] = useAtom(Token_Lists)
     const [tokenInfo,setTokenInfo] = useState(baseTokenInfo)
     const [tokenList,setTokenList] = useAtom(token_list_and_balance)
+    const [,setTokenPoolPair] = useAtom(token_pool_pair)
     const [customTokenList,setCustomTokenList] = useAtom(custom_token_list)
     const [intactWalletAddress,] = useAtom(IntactWalletAddress)
 
@@ -178,6 +188,35 @@ const Tokens = () =>{
             setValuable(true)
         }
     }
+    const deleteTokens = (e) =>{
+
+        // console.log(customTokenList)
+
+        // let new_result
+        // for (let i = 0; i < customTokenList.length; i++){
+        //     if (customTokenList[i].token == e){
+        //         console.log(i)
+        //         new_result = customTokenList.splice(i -1,1)
+        //     }
+        // }
+        // console.log(new_result)
+
+
+        // let new_result = [1,2]
+        // const a = new_result.splice(-1,1)
+        // console.log(a)
+        // const TokenName  = e
+        // // console.log(TokenName)
+        //
+        // for(let i in TokenName.data){
+        //     if (TokenName.data[i].name == TokenName){
+        //         const result = TokenName.data.splice(i,1);
+        //         console.log(result)
+        //     }
+        //
+        // }
+
+    }
 
     const add_token_in_list = async ()=>{
         let before_lost = tokenList
@@ -204,6 +243,7 @@ const Tokens = () =>{
             }
         }
         setTokenList(new_result)
+        // setTokenPoolPair(new_result)
         const before_custom_token = customTokenList.concat()
         const custom_token  = {
             img:tokenInfo.img,
@@ -263,7 +303,7 @@ const Tokens = () =>{
                             </div>
                         </div>
                         <div className="flex text-xl mr-2">
-                            <button className="mr-5">
+                            <button onClick={()=>{deleteTokens(item.token)}} className="mr-5">
                                 <i className="fa fa-trash-o" aria-hidden="true"></i>
                             </button>
 
@@ -314,18 +354,19 @@ const Tokens = () =>{
                             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                         >
-                            <div className="inline-block align-bottom border border-[#76FFFF] bg-[#151515] w-11/12 md:w-9/12 xl:w-5/12   rounded-lg px-4 py-5 text-left overflow-hidden shadow-xl transform transition-all sm:y-8 sm:align-middle  sm:px-6 lg:px-12 ">
+                             <div className="inline-block align-bottom p-0.5 rounded-lg bg-gradient-to-br from-W3G1  via-W3G2 to-W3G3 w-11/12 md:w-9/12 xl:w-5/12  rounded-lg  text-left overflow-hidden shadow-xl transform transition-all sm:y-8 sm:align-middle   ">
+                                    <div className="bg-black px-4 py-5 sm:px-6 lg:px-12 rounded-md">
 
                                     <div className='flex justify-between text-xl font-light text-white 	mb-5'>
                                         <div className=" flex items-center">
-                                            <button onClick={back} className="text-[#76FFFF]">
+                                            <button onClick={back} className="text-white">
                                                 <i className="fa fa-arrow-left" aria-hidden="true"></i>
                                             </button>
                                             <div  className="font-semibold ml-4 text-xl">
                                                 Import token
                                             </div>
                                         </div>
-                                        <button onClick={()=>{setImportToken(false)}} className="text-[#76FFFF] text-2xl">
+                                        <button onClick={()=>{setImportToken(false)}} className="text-white text-2xl">
                                             <i className="fa fa-times" aria-hidden="true"></i>
                                         </button>
                                     </div>
@@ -350,11 +391,11 @@ const Tokens = () =>{
                                         </div>
                                     </div>
                                 <div className="flex justify-center py-10">
-                                    <button onClick={add_token_in_list}  className="px-5 py-2 w-56 text-white mt-6 rounded-lg  bg-gradient-to-r from-W3G2 to-W3G3">
+                                    <button onClick={add_token_in_list}  className="px-5 py-2 w-56 text-white mt-6 rounded-lg  bg-gradient-to-r from-W3G1 via-W3G2 to-W3G3">
                                         Import
                                     </button>
                                 </div>
-
+                                </div>
                             </div>
                         </Transition.Child>
                     </div>

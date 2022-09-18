@@ -5,6 +5,7 @@ import Link from "next/link";
 import {Dialog, Listbox, Menu, Popover, Tab, Transition} from '@headlessui/react'
 import { CheckIcon, MenuIcon, SelectorIcon, XIcon } from '@heroicons/react/solid'
 import Sort from "../../components/sort";
+import Heads from "../../components/head";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -400,6 +401,7 @@ const Collections = () =>{
 
     return (
         <div>
+            <Heads/>
             <Header/>
             <div className="relative pt-16">
                 <div className="absolute inset-x-0 bottom-0    " />

@@ -118,7 +118,7 @@ const Login=()=>{
       <>
         <Transition.Root show={OpenWalletListState} as={Fragment}>
           <Dialog as="div" className="fixed z-20 inset-0 overflow-y-auto " onClose={close_wallet_list}>
-            <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div className="flex items-center justify-center min-h-screen  px-4 pb-20 text-center sm:block -mt-10">
               <Transition.Child
                   as={Fragment}
                   enter="ease-out duration-300"
@@ -143,21 +143,24 @@ const Login=()=>{
                   leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                   leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
               >
-                <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:y-8 sm:align-middle  sm:p-6 lg:p-12 ">
-                  <div>
+                <div className="inline-block align-bottom p-0.5 rounded-lg bg-gradient-to-br from-W3G1  via-W3G2 to-W3G3 text-left overflow-hidden shadow-xl transform transition-all sm:y-8 sm:align-middle   ">
+
+                    <div className="bg-black px-4 py-5 sm:px-6 lg:px-12 rounded-md sm:p-6 lg:p-12">
+
+
                     <div className='flex justify-between text-xl font-light	'>
 
-                      <div className=" font-bold mb-2 text-2xl">
+                      <div className=" font-bold mb-2 text-2xl text-white">
                         Connect your wallet
                       </div>
                       <button  onClick={close_wallet_list}
-                               className="fa fa-times " aria-hidden="true"></button>
+                               className="fa fa-times text-white text-2xl " aria-hidden="true"></button>
                     </div>
-                    <div className="text-base text-gray-600 lg:w-96 mr-8">
+                    <div className="text-base text-gray-300 lg:w-96 mr-8">
                       Connect with one of available wallet providers or create a new wallet.</div>
 
 
-                    <button onClick={loginMeatMask} className="bg-black flex justify-between text-white p-4 rounded-lg w-full my-8">
+                    <button onClick={loginMeatMask} className="bg-neutral-700 text-white flex justify-between  p-4 rounded-lg w-full my-8">
                       <div className="text-lg font-semibold">
                         MetaMask
                       </div>
@@ -166,7 +169,7 @@ const Login=()=>{
                       </div>
                     </button>
 
-                    <button className="bg-black flex justify-between text-white p-4 rounded-lg w-full my-8">
+                    <button className="bg-neutral-700 flex justify-between text-white p-4 rounded-lg w-full my-8">
                       <div className="text-lg font-semibold">
                         WalletConnect
                       </div>
@@ -174,7 +177,7 @@ const Login=()=>{
                         <img className="w-8 h-8" src="https://portal.web3games.org/icon-wallet-walletconnect.svg" alt=""/>
                       </div>
                     </button>
-                    <button onClick={loginsubstrate} className="bg-black flex justify-between text-white p-4 rounded-lg w-full my-8">
+                    <button onClick={loginsubstrate} className="bg-neutral-600 flex justify-between text-white p-4 rounded-lg w-full my-8">
                       <div className="text-lg font-semibold">
                         Polkadotjs
                       </div>
@@ -219,19 +222,20 @@ const Login=()=>{
                   leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                   leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
               >
-                <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:y-8 sm:align-middle  sm:p-6 ">
-                  <div>
+                <div className="inline-block align-bottom p-0.5 rounded-lg bg-gradient-to-br from-W3G1  via-W3G2 to-W3G3 text-left overflow-hidden shadow-xl transform transition-all sm:align-middle   ">
+                  <div className="bg-black px-4 py-5 sm:px-6 lg:px-12 rounded-md sm:p-6">
+
                     <div className='flex justify-end text-xl'>
                       <button  onClick={rechoose_substrate_address}
                                className="fa fa-times " aria-hidden="true"></button>
                     </div>
-                    <div className="text-center font-bold mb-5 w-80 md:w-96">
+                    <div className="text-center text-white font-bold mb-5 w-80 md:w-96">
                       Choose Account
                     </div>
 
                     {SubstrateAddressList.map((item) => (
-                        <div key={item.address} onClick={getSubstrateAddressvalue} className=" flex justify-between px-5 py-3 sm: border-t ">
-                          <label  htmlFor={item.address} id={item.address}  className="font-medium text-gray-700">
+                        <div key={item.address} onClick={getSubstrateAddressvalue} className=" flex justify-between px-5 py-3 sm: border-t items-center">
+                          <label  htmlFor={item.address} id={item.address}  className="font-medium text-white">
                             {item.meta.name}
                           </label>
                           <input
@@ -239,8 +243,7 @@ const Login=()=>{
                               aria-describedby="comments-description"
                               name="comments"
                               type="radio"
-
-                              className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
+                              className="accent-[#8E6CCD] h-4 w-4 text-white border-gray-300 rounded"
                           />
                         </div>   ))}
 
@@ -249,7 +252,7 @@ const Login=()=>{
                       <div className="mt-5 sm:mt-6 flex justify-center">
                         <button onClick={loginaccount}
                                 type="button"
-                                className="inline-flex justify-center px-10  rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm"
+                                className="inline-flex justify-center px-10  rounded-md   shadow-sm px-4 py-2 bg-gradient-to-r from-W3G1  via-W3G2 to-W3G3 text-base font-medium text-white  sm:text-sm"
                         >
                           login
                         </button>

@@ -3,6 +3,7 @@ import Tail from "../../components/tail";
 import React, {Fragment, useState } from 'react'
 import {useAtom} from "jotai";
 import {WalletButtonShowState, WalletListShowState} from "../../jotai";
+import Heads from "../../components/head";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -35,6 +36,7 @@ const Defi_Mint = () =>{
 
     return (
         <div>
+            <Heads/>
             <Header/>
             <div className="relative pt-16">
                 <div className="absolute inset-x-0 bottom-0    " />

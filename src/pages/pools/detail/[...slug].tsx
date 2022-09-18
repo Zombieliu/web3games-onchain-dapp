@@ -13,13 +13,20 @@ import {
     WalletListShowState
 } from "../../../jotai";
 import {CheckCircleIcon, CheckIcon, ExclamationIcon} from "@heroicons/react/solid";
-import {chain_api, substrate_wallet_injector } from "../../../chain/web3games";
+import {
+    chain_api,
+    substrate_EstimateOutToken,
+    substrate_getEstimateLpToken,
+    substrate_wallet_injector
+} from "../../../chain/web3games";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { address_slice } from "../../../utils/chain/address";
 import { add_liquidity } from "../../../utils/chain/pool";
 import { checkNumber } from "../../../utils/math";
 import {Area, AreaChart, Bar, BarChart, CartesianGrid, Legend, Line, LineChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis} from "recharts";
+import Heads from "../../../components/head";
+import {PoolSkeleton} from "../../../components/skeleton";
 
 
 
@@ -302,6 +309,12 @@ const Detail = () =>{
     // token pool pair info
     const [tokenPoolPair,setTokenPoolPair] = useAtom(token_pool_pair)
 
+    const [token_b_number,setToken_b_number] =useState("0")
+
+    const [token_a_number,setToken_a_number] = useState("0")
+
+    const [yourLP,setYourLP] = useState("0")
+
     const poolDetails={
         pool_id:"",
         assets_a:"",
@@ -396,44 +409,48 @@ const Detail = () =>{
         return PoolDetails.total_lp == '0'
     }
 
-    const checkNumber_token_a = async (e) =>{
-        const value = e.target.value;
-        e.target.value = e.target.value.toString().match(/^\d+(?:\.\d{0,8})?/)
-        if (e.target.value.indexOf('.') < 0 && e.target.value != '') {
-            e.target.value = parseFloat(e.target.value);
+    const checkNumber_token_a = async (e,token_a,token_b) =>{
+        const value = e;
+        e = e.toString().match(/^\d+(?:\.\d{0,8})?/)
+        if (e.indexOf('.') < 0 && e != '') {
+            e = parseFloat(e);
         }
         token_balance_check(value,Number(tokenAAccountBalance),'add_liquidity_button',PoolDetails.assets_a,'amount_a')
         const result = first_add_liquidity_check()
         if (!result){
-            const amount = await add_liquidity(intactWalletAddress,poolDetails.pool_id,value,value)
+            const amount = await substrate_EstimateOutToken(intactWalletAddress,value,token_a,token_b)
             if (typeof amount == 'string'){
-                alert(amount)
+                setToken_b_number(amount)
+               const lp_number = await  substrate_getEstimateLpToken(intactWalletAddress,token_b,amount,token_a,value)
+                setYourLP(lp_number)
+
+
             }else{
-                console.log(amount);
+                // console.log(amount);
                 (document.getElementById('amount_a') as HTMLInputElement).value = amount[0].toString();
                 (document.getElementById('amount_b') as HTMLInputElement).value = amount[1].toString();
             }
         }
     }
 
-    const checkNumber_token_b = async (e) =>{
-        const value = e.target.value;
-        e.target.value = e.target.value.toString().match(/^\d+(?:\.\d{0,8})?/)
-        if (e.target.value.indexOf('.') < 0 && e.target.value != '') {
-            e.target.value = parseFloat(e.target.value);
-        }
-        token_balance_check(value,Number(tokenBAccountBalance),'add_liquidity_button',PoolDetails.assets_b,'amount_b')
-        const result = first_add_liquidity_check()
-        if (!result){
-            const amount = await add_liquidity(intactWalletAddress,poolDetails.pool_id,value,value)
-            if (typeof amount == 'string'){
-                alert(amount)
-            }else{
-                (document.getElementById('amount_a') as HTMLInputElement).value = amount[0].toString();
-                // (document.getElementById('amount_b') as HTMLInputElement).value = amount[1].toString();
-            }
-        }
-    }
+    // const checkNumber_token_b = async (e) =>{
+    //     const value = e.target.value;
+    //     e.target.value = e.target.value.toString().match(/^\d+(?:\.\d{0,8})?/)
+    //     if (e.target.value.indexOf('.') < 0 && e.target.value != '') {
+    //         e.target.value = parseFloat(e.target.value);
+    //     }
+    //     token_balance_check(value,Number(tokenBAccountBalance),'add_liquidity_button',PoolDetails.assets_b,'amount_b')
+    //     const result = first_add_liquidity_check()
+    //     if (!result){
+    //         const amount = await add_liquidity(intactWalletAddress,poolDetails.pool_id,value,value)
+    //         if (typeof amount == 'string'){
+    //             alert(amount)
+    //         }else{
+    //             (document.getElementById('amount_a') as HTMLInputElement).value = amount[0].toString();
+    //             // (document.getElementById('amount_b') as HTMLInputElement).value = amount[1].toString();
+    //         }
+    //     }
+    // }
 
     const addLiquidity = async ()=>{
         const token_a = Number((document.getElementById('amount_a') as HTMLInputElement).value)
@@ -483,15 +500,35 @@ const Detail = () =>{
             })
         });
     }
+    const closeOpen = () =>{
+        setOpenAdd(false)
+        setToken_a_number("0")
+        setToken_b_number("0")
+        setYourLP("0")
+    }
 
-    const max_balance_a = async () => {
-        const amount = await add_liquidity(intactWalletAddress,poolDetails.pool_id,tokenAAccountBalance,1)
-        if (typeof amount == 'string'){
-            alert(amount)
-        }else{
-            (document.getElementById('amount_a') as HTMLInputElement).value = tokenAAccountBalance;
-            (document.getElementById('amount_b') as HTMLInputElement).value = amount[1].toString();
-        }
+    const max_balance_a = async (token_a,token_b) => {
+        await checkNumber_token_a(tokenAAccountBalance,token_a,token_b);
+        setToken_a_number(tokenAAccountBalance);
+        (document.getElementById("amount_a") as  HTMLInputElement).value  = tokenAAccountBalance
+        // const data = await add_liquidity(intactWalletAddress,poolDetails.pool_id,tokenAAccountBalance,1)
+        // console.log(data)
+        // const result = first_add_liquidity_check()
+        //
+        //
+        // if (!result){
+        //     const amount = await substrate_EstimateOutToken(intactWalletAddress,data,token_a,token_b)
+        //     if (typeof amount == 'string'){
+        //         setToken_b_number(amount)
+        //         const lp_number = await  substrate_getEstimateLpToken(intactWalletAddress,token_b,amount,token_a,data)
+        //         setYourLP(lp_number);
+        //         (document.getElementById('amount_a') as HTMLInputElement).value = data[0].toString();
+        //     }else{
+        //         // console.log(amount);
+        //
+        //         (document.getElementById('amount_b') as HTMLInputElement).value = data[1].toString();
+        //     }
+        // }
     }
 
     const max_balance_b = async() => {
@@ -512,6 +549,7 @@ const Detail = () =>{
     if(PoolDetails.assets_a){
         return (
             <div className="bg-W3GBG">
+                <Heads/>
                 <Header/>
                 <div className="relative pt-16">
                     <div className="absolute inset-x-0 bottom-0    " />
@@ -655,7 +693,7 @@ const Detail = () =>{
                         </div>
                     </div>
                     <Transition.Root show={openAdd} as={Fragment}>
-                        <Dialog as="div" className="fixed z-20 inset-0 overflow-y-auto "  onClose={setOpenAdd}>
+                        <Dialog as="div" className="fixed z-20 inset-0 overflow-y-auto "  onClose={closeOpen}>
                             <div className="flex items-center justify-center min-h-screen    px-4  text-center ">
                                 <Transition.Child
                                     as={Fragment}
@@ -690,16 +728,15 @@ const Detail = () =>{
                                                 <div>
                                                     Add Liquidity
                                                 </div>
-                                                <button onClick={()=>{setOpenAdd(false)}} >
+                                                <button onClick={closeOpen} >
                                                     <i className="fa fa-times" aria-hidden="true"></i>
                                                 </button></div>
                                         </div>
                                         <div className="mt-5 ">
                                             <div className="flex items-center justify-between mt-4 ">
                                                 <div className="text-sm  mt-5 flex items-center text-white font-semibold">
-                                                    <img className="w-10 mr-2" src={PoolDetails.assets_a_image_url} alt=""/>
+                                                    <img className="w-10 mr-2"   src={PoolDetails.assets_a_image_url} alt=""/>
                                                     {PoolDetails.assets_a}
-
                                                 </div>
                                                 <div className="items-center">
                                                     <div className="flex justify-end text-gray-400 text-sm mb-2 pr-5">
@@ -708,13 +745,19 @@ const Detail = () =>{
                                                     <div className="flex mx-4">
                                                         <input type="text"
                                                                className="text-xs md:text-sm placeholder-gray-500 bg-[#1F1F1F] rounded-lg p-2 py-3 xl:w-80 text-white border border-W3GInfoBG   hover:border-neutral-600 focus:border-neutral-600  transition duration-300    outline-none"
-                                                               placeholder="0"
+                                                               placeholder={token_a_number}
+
                                                                maxLength={14}
-                                                               onInput={checkNumber_token_a}
+                                                               onInput={(e)=>
+                                                                   checkNumber_token_a((e.target as HTMLInputElement).value
+                                                                   ,PoolDetails.assets_a_id
+                                                                   ,PoolDetails.assets_b_id)}
+                                                               // onInput={(e)=>checkNumber_token_a(e.target,PoolDetails.assets_a_id,PoolDetails.assets_b_id)}
                                                                id="amount_a"
                                                                autoComplete="off"
                                                         />
-                                                        <button onClick={max_balance_a} className="rounded-lg py-1 px-5 ml-2 bg-gradient-to-r from-W3G1 via-W3G2 to-W3G3 text-sm flex items-center  text-white ">
+                                                        <button onClick={()=>
+                                                            max_balance_a(PoolDetails.assets_a_id,PoolDetails.assets_b_id)} className="rounded-lg py-1 px-5 ml-2 bg-gradient-to-r from-W3G1 via-W3G2 to-W3G3 text-sm flex items-center  text-white ">
                                                             MAX
                                                         </button>
                                                     </div>
@@ -735,16 +778,15 @@ const Detail = () =>{
                                                     <div className="flex mx-4">
                                                         <input type="text"
                                                                className="text-xs md:text-sm placeholder-gray-500 bg-[#1F1F1F] rounded-lg p-2 py-3 xl:w-80 text-white    outline-none"
-                                                               placeholder="0"
+                                                               placeholder={token_b_number}
                                                                maxLength={14}
-                                                               onInput={checkNumber_token_b}
                                                                id="amount_b"
                                                                autoComplete="off"
                                                                readOnly={true}
                                                         />
-                                                        <button onClick={max_balance_b} className="rounded-lg py-1 px-5 ml-2 bg-gradient-to-r from-W3G1 via-W3G2 to-W3G3 text-sm flex items-center  text-white ">
-                                                            MAX
-                                                        </button>
+                                                        {/*<button onClick={max_balance_b} className="rounded-lg py-1 px-5 ml-2 bg-gradient-to-r from-W3G1 via-W3G2 to-W3G3 text-sm flex items-center  text-white ">*/}
+                                                        {/*    MAX*/}
+                                                        {/*</button>*/}
                                                     </div>
                                                 </div>
                                             </div>
@@ -754,7 +796,7 @@ const Detail = () =>{
                                                 LP Tokens
                                             </div>
                                             <div className="text-white">
-                                                {PoolDetails.your_lp}
+                                                {yourLP}
                                             </div>
                                         </div>
                                         <div className="text-center mt-5" >
@@ -910,8 +952,8 @@ const Detail = () =>{
         )
     }else {
         return (
-            <div>
-                <Error/>
+            <div className="h-screen bg-W3GBG py-16">
+          <PoolSkeleton/>
             </div>
         )
 

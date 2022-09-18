@@ -7,6 +7,7 @@ import axios from "axios";
 import {useRouter} from "next/router";
 import Header from "../../components/header/index.";
 import check_address from "../../utils";
+import Heads from "../../components/head";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -137,6 +138,7 @@ const token = [
     }
     return (
       <div className="mx-auto bg-W3GBG transition duration-700 bg-auto">
+          <Heads/>
           <Header/>
           <div className="hidden xl:block absolute xl:top-14 2xl:top-20 xl:left-44 2xl:left-96">
               <img className={classNames(scroll?" transform ":" transform translate-y-8",'w-90 transition duration-700 transition delay-150 duration-300') } src="/img/3d-triangle.png" alt=""/>

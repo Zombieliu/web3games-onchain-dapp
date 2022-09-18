@@ -2,6 +2,7 @@ import Header from "../../components/header/index.";
 import Tail from "../../components/tail";
 import React, {Fragment, useState } from 'react'
 import Link from "next/link";
+import Heads from "../../components/head";
 
 
 function classNames(...classes) {
@@ -173,6 +174,7 @@ const Detail = () =>{
 
     return (
         <div>
+            <Heads/>
             <Header/>
             <div className="relative pt-16">
                 <div className="absolute inset-x-0 bottom-0    " />

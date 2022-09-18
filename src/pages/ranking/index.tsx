@@ -4,6 +4,7 @@ import Tail from "../../components/tail";
 import React from "react";
 import Sort from "../../components/sort";
 import {router} from "next/client";
+import Heads from "../../components/head";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -92,6 +93,7 @@ const Ranking = () =>{
 
     return (
         <div>
+            <Heads/>
             <Header/>
             <div className="relative pt-16">
                 <div className="absolute inset-x-0 bottom-0    " />

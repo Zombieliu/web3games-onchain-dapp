@@ -7,6 +7,7 @@ import {WalletButtonShowState, WalletListShowState} from "../../jotai";
 import Link from "next/link";
 import {ChevronDownIcon, ChevronUpIcon, ExclamationIcon} from "@heroicons/react/solid";
 import {Dialog, Disclosure, Transition} from "@headlessui/react";
+import Heads from "../../components/head";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -18,6 +19,7 @@ const Staking = () =>{
     const [stakeShow,setStakeShow] = useState(false)
     return (
         <div>
+            <Heads/>
             <Header/>
             <div className="relative pt-16">
                 <div className="absolute inset-x-0 bottom-0    " />

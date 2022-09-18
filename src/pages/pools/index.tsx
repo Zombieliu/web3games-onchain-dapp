@@ -27,6 +27,7 @@ import SelectTokenTop from "../../components/selecttokentop";
 import SelectTokenTail from "../../components/selecttokentail";
 import {address_slice, evm_address_to_sub_address} from "../../utils/chain/address";
 import {Pop_up_box} from "../../components/pop_up_box";
+import Heads from "../../components/head";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -72,8 +73,8 @@ const token_pair = [
     assets_b_id: "0",
     assets_a_image_url: "/token/USDT.png",
     assets_b_image_url: "/web3gsmall.png",
-    assets_a_address: "5Dq9YFto6nMbAvsqL7KHc7dvSPEcH1GDL9Up8px8E64W9tFv",
-    assets_b_address: "5EYCAe5k5uC6j4y78z6KmSNA6aR3FG2krqAZQXLaEzhAmbfW",
+    assets_a_address: "5EYCAe5k5uC6j4y78z6KmSNA6aR3FG2krqAZQXLaEzhAmbfW",
+    assets_b_address: "5Dq9YFto6nMbAvsqL7KHc7dvSPEcH1GDL9Up8px8E64W9tFv",
     tvl: "0",
     volume: "0",
     volume_days:"0",
@@ -208,7 +209,7 @@ const Pools = () =>{
                 intactWalletAddress_local = evm_address_to_sub_address(intactWalletAddress_local)
             }
 
-            setTokenPoolPair(token_pair)
+            // setTokenPoolPair(token_pair)
             // set pages last number
             const pagesLast = Math.ceil(tokenPoolPair.length/5)
             // set last pages number
@@ -228,6 +229,7 @@ const Pools = () =>{
                     const account_token_balance_result = await api.query.tokenFungible.balances(tokenlist[i].tokenId,intactWalletAddress_local);
                     token_list[i].data = account_token_balance_result.toString()
                 }
+                console.log(token_list)
                 settokenList(token_list)
             }
             query_token_balance()
@@ -393,6 +395,7 @@ const Pools = () =>{
     // @ts-ignore
     return(
         <div className="bg-W3GBG">
+            <Heads/>
             <Header/>
             <div className=" relative pt-16">
                 <div className="absolute inset-x-0 bottom-0    " />
@@ -622,7 +625,7 @@ const Pools = () =>{
                                             </tr>
                                             </thead>
                                             <tbody className="  divide-y divide-W3GInfoBorderBG">
-                                            {token_pair.map(item => (
+                                            {tokenPoolPair.map(item => (
                                                 <tr key={item.pool_id}  onClick={()=>{toDetail(item.pool_id)}} className="cursor-pointer hover:bg-neutral-800">
                                                     <td className="px-6 py-4  whitespace-nowrap text-sm text-gray-200">
                                                         {item.pool_id}

@@ -4,6 +4,7 @@ import React, {Fragment, useState } from 'react'
 import {Listbox, Tab, Transition} from "@headlessui/react";
 import Link from "next/link";
 import {CheckIcon, SelectorIcon} from "@heroicons/react/solid";
+import Heads from "../../components/head";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -28,6 +29,7 @@ const Send = () =>{
     const [selectedfrom, setSelectedfrom] = useState(from[0])
     return (
         <div>
+            <Heads/>
             <Header/>
             <div className="relative pt-16">
                 <div className="absolute inset-x-0 bottom-0    " />

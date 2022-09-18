@@ -2,6 +2,7 @@ import Header from "../../components/header/index.";
 import Tail from "../../components/tail";
 import React, {Fragment, useState } from 'react'
 import Link from "next/link";
+import Heads from "../../components/head";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -98,6 +99,7 @@ const Drops = () =>{
     ]
     return (
         <div>
+            <Heads/>
             <Header/>
             <div className="relative pt-16">
                 <div className=" mx-auto  ">

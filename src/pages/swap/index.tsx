@@ -1,12 +1,14 @@
 import {Tab} from "@headlessui/react";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useAtom} from "jotai";
 import {
+    AccountChooseValue,
+    AwaitPopUpBoxState,
     IntactWalletAddress, PopUpBoxInfo, PopUpBoxState,
     Select_TokenTail,
     Select_TokenTop,
     SwapTokenTail,
-    SwapTokenTop,
+    SwapTokenTop, token_list_and_balance,
     WalletButtonShowState, WalletListShowState
 } from "../../jotai";
 import SelectTokenTail from "../../components/selecttokentail";
@@ -18,7 +20,11 @@ import {add_liquidity} from "../../utils/chain/pool";
 import { chain_api } from "../../chain/web3games";
 import {Simulate} from "react-dom/test-utils";
 import doubleClick = Simulate.doubleClick;
-import { Pop_up_box } from "../../components/pop_up_box";
+import {AwaitPop_Up_box, Pop_up_box} from "../../components/pop_up_box";
+import {LOGICAL_OPERATORS} from "@babel/types";
+import {evm_address_to_sub_address} from "../../utils/chain/address";
+import {router} from "next/client";
+import {useRouter} from "next/router";
 
 
 
@@ -41,6 +47,8 @@ const Recent = ()=>{
 
     const [,setPop_up_boxData] =useAtom(PopUpBoxInfo)
     const [,setSop_up_boxState] = useAtom(PopUpBoxState)
+
+    const [,setAwait_pop_up_boxState] = useAtom(AwaitPopUpBoxState)
 
     const exchange = () =>{
         setRotate(!rotate)
@@ -79,38 +87,31 @@ const Recent = ()=>{
         const web3FromAddress = (await import("@polkadot/extension-dapp")).web3FromAddress;
         const injector = await web3FromAddress(intactWalletAddress);
         const api = await chain_api(intactWalletAddress)
+        // const result = await api.rpc.exchange.EstimateOutToken(4000,2,3)
+        // const result2 = await api.rpc.exchange.EstimateLpToken(2,4000,3,result.toString())
+        // console.log(result.toString())
+        // console.log(result2.toString())
         const block = await api.rpc.chain.getHeader();
         const next_block = block.number.toNumber() + 3
-        // const transferExtrinsic = api.tx.exchange.swapExactTokensForTokens(output,input,[swapTokenTop.tokenId,swapTokenTail.tokenId],intactWalletAddress,next_block)
-        // transferExtrinsic.signAndSend(intactWalletAddress, { signer: injector.signer }, ({ status }) => {
-        //     if (status.isInBlock) {
-        //         console.log(`Completed at block hash #${status.asInBlock.toString()}`);
-        //         setSwapSuccess(true)
-        //     } else {
-        //         console.log(`Current status: ${status.type}`);
-        //     }
-        // }).catch((error: any) => {
-        //     console.log(':( transaction failed', error);
-        //     setSwapFail(true)
-        // })
         const transferExtrinsic = api.tx.exchange.swapExactW3gForTokens(input,0,[swapTokenTop.tokenId,swapTokenTail.tokenId],intactWalletAddress,next_block)
-        transferExtrinsic.signAndSend(intactWalletAddress, { signer: injector.signer }, ({ status }) => {
+        transferExtrinsic.signAndSend(intactWalletAddress, { signer: injector.signer }, ({ status  }) => {
             if (status.isInBlock) {
-                console.log(`Completed at block hash #${status.asInBlock.toString()}`);
+                setAwait_pop_up_boxState(true)
+            }
+            if (status.isFinalized) {
+                // console.log(`Completed at block hash #${status.asInBlock.toString()}`);
                 setPop_up_boxData({
                     state:true,
                     type:"Swap",
-                    hash:"",
+                    hash:status.asFinalized.toString(),
                 })
-                setSop_up_boxState(true)
-            } else {
+                setTimeout(()=>{
+                    setAwait_pop_up_boxState(false)
+                    setSop_up_boxState(true)
+                },2000)
+            }
+            else {
                 console.log(`Current status: ${status.type}`);
-                setPop_up_boxData({
-                    state:false,
-                    type:"Swap",
-                    hash:"",
-                })
-                setSop_up_boxState(true)
             }
         }).catch((error: any) => {
             console.log(':( transaction failed', error);
@@ -125,6 +126,7 @@ const Recent = ()=>{
         return (
             <>
                 <Pop_up_box/>
+                <AwaitPop_Up_box/>
                 <div className="bg-W3GBG  p-3 rounded-2xl">
                     <div className="flex justify-between">
                         <div className="flex bg-W3GInfoBG p-1 rounded-full border border-W3GInfoBG hover:border-neutral-600 focus:border-neutral-600  transition duration-300 ">
@@ -366,10 +368,44 @@ const Popular = ()=>{
     )
 }
 const Swap = () =>{
+    const router = useRouter()
     let [categories] = useState({
         Recent: [],
         // Popular: [],
     })
+    // local address
+    const [intactWalletAddress,] = useAtom(IntactWalletAddress)
+    // token list
+    const [tokenlist,settokenList] = useAtom(token_list_and_balance)
+    // wallet type
+    const [AccountChoose,] = useAtom(AccountChooseValue)
+    useEffect(()=>{
+        if (router.isReady) {
+            let intactWalletAddress_local = intactWalletAddress
+
+            // evm to substrate
+            if (AccountChoose == 1){
+                intactWalletAddress_local = evm_address_to_sub_address(intactWalletAddress_local)
+            }
+
+            //check token balance
+            const query_token_balance = async () =>{
+                const api = await chain_api(intactWalletAddress)
+                const times = tokenlist.length
+                let token_list = tokenlist.concat()
+                let token_balance = []
+                for (let i =0;i<times;i++){
+                    const account_token_balance_result = await api.query.tokenFungible.balances(tokenlist[i].tokenId,intactWalletAddress_local);
+                    token_list[i].data = account_token_balance_result.toString()
+                }
+                console.log(token_list)
+                settokenList(token_list)
+            }
+            query_token_balance()
+        }
+    },[router.isReady])
+
+
         // // const swapoutput = (document.getElementById("swapoutput") as HTMLInputElement)
         // // @ts-ignore
         // document.getElementById("swapoutput").value = data

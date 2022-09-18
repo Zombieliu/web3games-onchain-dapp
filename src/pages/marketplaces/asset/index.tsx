@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Disclosure, Transition } from "@headlessui/react";
 import { ChevronUpIcon } from "@heroicons/react/solid";
 import Sort from "../../../components/sort";
+import Heads from "../../../components/head";
 
 
 function classNames(...classes) {
@@ -593,6 +594,7 @@ const Asset = () =>{
 
     return (
         <div>
+            <Heads/>
             <Header/>
             <div className="relative pt-16">
                 <div className="absolute inset-x-0 bottom-0    " />

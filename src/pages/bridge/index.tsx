@@ -12,6 +12,7 @@ import {
     WalletListShowState
 } from "../../jotai";
 import SelectTokenTop from "../../components/selecttokentop";
+import Heads from "../../components/head";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -198,6 +199,7 @@ const Bridge = () =>{
 
     return (
         <div>
+            <Heads/>
             <Header/>
             <div className="relative pt-16">
                 <div className="absolute inset-x-0 bottom-0    " />

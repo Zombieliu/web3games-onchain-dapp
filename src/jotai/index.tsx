@@ -12,6 +12,8 @@ const PopUpBoxInfo = atom({
 })
 const PopUpBoxState = atom(false)
 
+const AwaitPopUpBoxState = atom(false)
+
 const tokenTop={
     tokenId:'0',
     img:"/img.png",
@@ -62,73 +64,105 @@ const custom_token_list = atomWithStorage('custom_token_list',[])
 
 const TOKENWATCHPOOLPAIR = atomWithStorage('token_watchlist_pool_pair',[])
 const token_pool_pair = atomWithStorage('token_pool_pair',[
-    // {
-    //     assets_a: "wW3G",
-    //     assets_a_address: "assets_a_address",
-    //     assets_a_id: "0",
-    //     assets_a_image_url: "/img.png",
-    //     assets_b: "USDT",
-    //     assets_b_address: "assets_b_address",
-    //     assets_b_id: "1",
-    //     assets_b_image_url: USDT,
-    //     pool_id: "0",
-    //     total_lp: "0",
-    //     tvl: "1231231",
-    //     volume: "231231",
-    //     volume_days: "0",
-    //     your_lp: "0"
-    //
-    // },
-    // {
-    //     assets_a: "wW3G",
-    //     assets_a_address: "assets_a_address",
-    //     assets_a_id: "0",
-    //     assets_a_image_url: "/img.png",
-    //     assets_b: "USDC",
-    //     assets_b_address: "assets_b_address",
-    //     assets_b_id: "2",
-    //     assets_b_image_url: USDC,
-    //     pool_id: "1",
-    //     total_lp: "0",
-    //     tvl: "12311231",
-    //     volume: "2311231",
-    //     volume_days: "0",
-    //     your_lp: "0"
-    //
-    // },
-    // {
-    //     assets_a: "wW3G",
-    //     assets_a_address: "assets_a_address",
-    //     assets_a_id: "0",
-    //     assets_a_image_url: "/img.png",
-    //     assets_b: "BUSD",
-    //     assets_b_address: "assets_b_address",
-    //     assets_b_id: "3",
-    //     assets_b_image_url: BUSD,
-    //     pool_id: "2",
-    //     total_lp: "0",
-    //     tvl: "15231231",
-    //     volume: "2531231",
-    //     volume_days: "0",
-    //     your_lp: "0"
-    //
-    // },
-    // {
-    //     assets_a: "wW3G",
-    //     assets_a_address: "assets_a_address",
-    //     assets_a_id: "0",
-    //     assets_a_image_url: "/img.png",
-    //     assets_b: "DAI",
-    //     assets_b_address: "assets_b_address",
-    //     assets_b_id: "4",
-    //     assets_b_image_url: DAI,
-    //     pool_id: "3",
-    //     total_lp: "0",
-    //     tvl: "2231231",
-    //     volume: "231231",
-    //     volume_days: "0",
-    //     your_lp: "0"
-    // },
+    {
+        pool_id: "0",
+        assets_a: 'USDT',
+        assets_b: "W3G",
+        assets_a_id: "1",
+        assets_b_id: "0",
+        assets_a_image_url: "/token/USDT.png",
+        assets_b_image_url: "/web3gsmall.png",
+        assets_a_address: "5EYCAe5k5uC6j4y78z6KmSNA6aR3FG2krqAZQXLaEzhAmbfW",
+        assets_b_address: "5Dq9YFto6nMbAvsqL7KHc7dvSPEcH1GDL9Up8px8E64W9tFv",
+        tvl: "0",
+        volume: "0",
+        volume_days:"0",
+        total_lp: "0",
+        your_lp: "0",
+    },
+    {
+        pool_id: "1",
+        assets_a: 'USDC',
+        assets_b: "W3G",
+        assets_a_id: "2",
+        assets_b_id: "0",
+        assets_a_image_url:"/token/USDC.png",
+        assets_b_image_url:"/web3gsmall.png",
+        assets_a_address: "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
+        assets_b_address: "dasdasd",
+        total_lp: "0",
+        tvl: "0",
+        volume: "0",
+        volume_days: "0",
+        your_lp: "0",
+
+    },
+    {
+        pool_id: "2",
+        assets_a: 'BUSD',
+        assets_b: "W3G",
+        assets_a_id: "3",
+        assets_b_id: "0",
+        assets_a_image_url:"/token/BUSD.png",
+        assets_b_image_url:"/web3gsmall.png",
+        assets_a_address: "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
+        assets_b_address: "dasdasd",
+        total_lp: "0",
+        tvl: "0",
+        volume: "0",
+        volume_days: "0",
+        your_lp: "0",
+    },
+    {
+        pool_id: "3",
+        assets_a: 'BNB',
+        assets_b: "W3G",
+        assets_a_id: "4",
+        assets_b_id: "0",
+        assets_a_image_url: "/token/BNB.png",
+        assets_b_image_url:"/web3gsmall.png",
+        assets_a_address: "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
+        assets_b_address: "dasdasd",
+        total_lp: "0",
+        tvl: "0",
+        volume: "0",
+        volume_days: "0",
+        your_lp: "0",
+
+    },
+    {
+        pool_id: "4",
+        assets_a: 'SOL',
+        assets_b: "W3G",
+        assets_a_id: "5",
+        assets_b_id: "0",
+        assets_a_image_url: "/token/SOL.png",
+        assets_b_image_url:"/web3gsmall.png",
+        assets_a_address: "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
+        assets_b_address: "dasdasd",
+        total_lp: "0",
+        tvl: "0",
+        volume: "0",
+        volume_days: "0",
+        your_lp: "0",
+
+    },
+    {
+        pool_id: "5",
+        assets_a: 'ETH',
+        assets_b: "W3G",
+        assets_a_id: "6",
+        assets_b_id: "0",
+        assets_a_image_url: "/token/ETH.png",
+        assets_b_image_url:"/web3gsmall.png",
+        assets_a_address: "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
+        assets_b_address: "dasdasd",
+        total_lp: "0",
+        tvl: "0",
+        volume: "0",
+        volume_days: "0",
+        your_lp: "0",
+    },
 ])
 
 const token_list_and_balance = atomWithStorage('token_list_and_balance',[
@@ -185,5 +219,5 @@ const token_list_and_balance = atomWithStorage('token_list_and_balance',[
 
 
 
-export {PopUpBoxInfo,PopUpBoxState,Select_TokenTop,Select_TokenTail,Token_Lists,SwapTokenTop,SwapTokenTail,AssetsOpenPopup,WalletListShowState,AccountChooseValue,WalletButtonShowState,WalletAddress,AccountConfigPageState,HiddenClaim,
+export {AwaitPopUpBoxState,PopUpBoxInfo,PopUpBoxState,Select_TokenTop,Select_TokenTail,Token_Lists,SwapTokenTop,SwapTokenTail,AssetsOpenPopup,WalletListShowState,AccountChooseValue,WalletButtonShowState,WalletAddress,AccountConfigPageState,HiddenClaim,
    AfterSubstrateAddressList,IntactWalletAddress,NetWorkState,token_list_and_balance,custom_token_list,TOKENWATCHPOOLPAIR,token_pool_pair}

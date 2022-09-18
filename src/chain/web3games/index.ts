@@ -8,6 +8,7 @@ const chain_api = async (intactWalletAddress:string)=>{
   const web3Enable = (await import("@polkadot/extension-dapp")).web3Enable;
   await web3Enable('my cool dapp');
   const provider = new WsProvider('ws://127.0.0.1:9944');
+  // const provider = new WsProvider('ws://47.243.17.26:9944');
   const api = await ApiPromise.create({
     provider,
     rpc: {
@@ -30,14 +31,78 @@ const chain_api = async (intactWalletAddress:string)=>{
             }
           ],
           "type": "Vec<u128>",
-          "isSubscription": false,
-          "jsonrpc": "exchange_getAmountOutPrice",
-          "method": "getAmountOutPrice",
-          "section": "exchange"
-        }
+        },
+        "getAmountInPrice": {
+          "description": "get amount in price",
+          "params": [
+            {
+              "name": "supply",
+              "type": "u128"
+            },
+            {
+              "name": "path",
+              "type": "Vec<u128>"
+            },
+            {
+              "name": "at",
+              "type": "Hash",
+              "isOptional": true
+            }
+          ],
+          "type": "Vec<u128>",
+        },
+        "getEstimateLpToken": {
+          "description": "get estimate lp token",
+          "params": [
+            {
+              "name": "token_0",
+              "type": "u128"
+            },
+            {
+              "name": "amount_0",
+              "type": "u128"
+            },
+            {
+              "name": "token_1",
+              "type": "u128"
+            },
+            {
+              "name": "amount_1",
+              "type": "u128"
+            },
+            {
+              "name": "at",
+              "type": "Hash",
+              "isOptional": true
+            }
+          ],
+          "type": "u128",
+        },
+        "getEstimateOutToken": {
+          "description": "get estimate out token",
+          "params": [
+            {
+              "name": "supply",
+              "type": "u128"
+            },
+            {
+              "name": "token_0",
+              "type": "u128"
+            },
+            {
+              "name": "token_1",
+              "type": "u128"
+            },
+            {
+              "name": "at",
+              "type": "Hash",
+              "isOptional": true
+            }
+          ],
+          "type": "u128",
+        },
       },
     }
-
   });
   return api
 }
@@ -76,9 +141,25 @@ const substrate_getAmountOutPrice = async (intactWalletAddress,pool,token_number
     return value
 }
 
+const substrate_EstimateOutToken = async (intactWalletAddress,input_number,token_a_id,token_b_id) =>{
+  const api = await chain_api(intactWalletAddress)
+  const result = await api.rpc.exchange.getEstimateOutToken(input_number,token_a_id,token_b_id)
+  api.disconnect()
+  return result.toString()
+}
+
+const substrate_getEstimateLpToken = async (intactWalletAddress,token_a,amount_a,token_b,amount_b) =>{
+  const api = await chain_api(intactWalletAddress)
+  const result = await api.rpc.exchange.getEstimateLpToken(token_a,amount_a,token_b,amount_b)
+  api.disconnect()
+  return result.toString()
+}
+
 export{
   chain_api,
   substrate_wallet_injector,
   // swap,
-  substrate_getAmountOutPrice
+  substrate_getAmountOutPrice,
+  substrate_EstimateOutToken,
+  substrate_getEstimateLpToken
 }

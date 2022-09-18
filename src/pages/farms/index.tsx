@@ -2,6 +2,7 @@ import { RadioGroup } from "@headlessui/react";
 import React, {Fragment, useEffect, useState} from "react";
 import Header from "../../components/header/index.";
 import Tail from "../../components/tail";
+import Heads from "../../components/head";
 
 
 function classNames(...classes) {
@@ -86,6 +87,7 @@ const Farms = () =>{
     const [selected, setSelected] = useState(farmType[0])
     return(
         <div className="bg-W3GBG">
+            <Heads/>
             <Header/>
             <div className=" relative pt-16">
                 <div className="absolute inset-x-0 bottom-0    " />

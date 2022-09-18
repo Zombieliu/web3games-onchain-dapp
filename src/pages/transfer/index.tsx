@@ -16,6 +16,7 @@ import { check_balance } from "../../utils/chain/balance";
 import { evm_address_to_sub_address } from "../../utils/chain/address";
 import {ApiPromise,WsProvider} from "@polkadot/api";
 import SelectTokenTop from "../../components/selecttokentop";
+import Heads from "../../components/head";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -122,6 +123,7 @@ const Transfer = () =>{
 
     return (
         <div>
+            <Heads/>
             <Header/>
             <div className="relative pt-16">
                 <div className="absolute inset-x-0 bottom-0    " />
