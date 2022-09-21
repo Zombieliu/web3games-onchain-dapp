@@ -211,7 +211,7 @@ const Pools = () =>{
 
             // setTokenPoolPair(token_pair)
             // set pages last number
-            const pagesLast = Math.ceil(tokenPoolPair.length/5)
+            const pagesLast = Math.ceil(tokenPoolPair.length/6)
             // set last pages number
             setPagesLast(pagesLast)
 
