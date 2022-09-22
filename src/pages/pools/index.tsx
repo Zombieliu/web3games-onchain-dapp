@@ -227,7 +227,12 @@ const Pools = () =>{
                 let token_balance = []
                 for (let i =0;i<times;i++){
                     const account_token_balance_result = await api.query.tokenFungible.balances(tokenlist[i].tokenId,intactWalletAddress_local);
-                    token_list[i].data = account_token_balance_result.toString()
+                    const account_token_balance_decimals = await api.query.tokenFungible.tokens(tokenlist[i].tokenId)
+                    const baseNumber = Math.pow(10,account_token_balance_decimals.toJSON().decimals)
+                    const token_balance =  Number(account_token_balance_result.toString())
+                    const token_balance_real_number = parseFloat((token_balance/baseNumber).toFixed(4))
+                    token_list[i].data = token_balance_real_number.toString()
+
                 }
                 console.log(token_list)
                 settokenList(token_list)
@@ -362,8 +367,8 @@ const Pools = () =>{
         return token_pair_info
     }
 
-    const toDetail = (e)=>{
-        router.push(`/pools/detail/${e}`)
+    const toDetail = (tokenA_id,tokenB_id)=>{
+        router.push(`/pools/detail/${tokenA_id}/${tokenB_id}`)
     }
 
     const firstPage = async () =>{
@@ -487,7 +492,7 @@ const Pools = () =>{
                                             </thead>
                                             <tbody className="  divide-y divide-W3GInfoBorderBG">
                                             {token_watchlist_pool_pair.map(item => (
-                                                <tr key={item.pool_id}  onClick={()=>{toDetail(item.pool_id)}} className="cursor-pointer hover:bg-neutral-800">
+                                                <tr key={item.pool_id}  onClick={()=>{toDetail(item.assets_a_id,item.assets_b_id)}} className="cursor-pointer hover:bg-neutral-800">
                                                     <td className="px-6 py-4  whitespace-nowrap text-sm text-gray-200">
                                                         {item.pool_id}
                                                     </td>
@@ -626,7 +631,7 @@ const Pools = () =>{
                                             </thead>
                                             <tbody className="  divide-y divide-W3GInfoBorderBG">
                                             {tokenPoolPair.map(item => (
-                                                <tr key={item.pool_id}  onClick={()=>{toDetail(item.pool_id)}} className="cursor-pointer hover:bg-neutral-800">
+                                                <tr key={item.pool_id}  onClick={()=>{toDetail(item.assets_a_id,item.assets_b_id)}} className="cursor-pointer hover:bg-neutral-800">
                                                     <td className="px-6 py-4  whitespace-nowrap text-sm text-gray-200">
                                                         {item.pool_id}
                                                     </td>

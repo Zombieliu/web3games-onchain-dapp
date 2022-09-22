@@ -1,7 +1,7 @@
 import {useAtom} from "jotai";
 import {token_list_and_balance, Select_TokenTop, SwapTokenTail, SwapTokenTop, Token_Lists} from "../../jotai";
 import {Dialog, Transition} from "@headlessui/react";
-import React, {Fragment} from "react";
+import React, {Fragment, useEffect} from "react";
 import { BUSD, DAI, USDC, USDT } from "../../assets";
 
 
@@ -10,7 +10,7 @@ const SelectTokenTop = () =>{
     const [selectToken,setSelectToken] = useAtom(Select_TokenTop)
     const [swapTokenTop,setSwapTokenTop] = useAtom(SwapTokenTop)
     const [swapTokenTail,setSwapTokenTail] = useAtom(SwapTokenTail)
-    const [tokenList,] = useAtom(token_list_and_balance)
+    const [tokenList,setTokenListData] = useAtom(token_list_and_balance)
     const [,setTokenList] = useAtom(Token_Lists)
     const openTokenLists = ()=>{
         setSelectToken(false)
@@ -20,6 +20,9 @@ const SelectTokenTop = () =>{
         setSwapTokenTop(item)
         setSelectToken(false)
     }
+
+
+
     return(
         <>
             <Transition.Root show={selectToken} as={Fragment}>
@@ -78,16 +81,16 @@ const SelectTokenTop = () =>{
                                     <div className="my-5 text-white font-semibold">
                                         Common bases
                                     </div>
-                                    <div className="my-5">
-                                        <div className="flex grid grid-cols-4 gap-4">
+                                    <div className="my-5 h-28 pr-4 scrollbar-thin scrollbar-thumb-custom  scrollbar-thumb-rounded-full  overflow-y-scroll">
+                                        <div className="flex grid md:grid-cols-2 xl:grid-cols-3  gap-4">
                                             {tokenList.map((item=>(
                                             <div  key={item.name} className="rounded-full ">
                                                 <button onClick={() => select(item)} className="flex">
                                                     <div id={item.name} className="flex items-center">
                                                         <img  className="w-9 mr-1 rounded-full" src={item.img} alt=""/>
                                                         <div className="text-sm ml-1">
-                                                            <div  className="text-white">{item.name}</div>
-                                                            <div  className="text-gray-400">$ {item.data}</div>
+                                                            <div  className="text-white text-left">{item.name}</div>
+                                                            <div  className="text-gray-400 text-left">$ {item.data}</div>
 
                                                         </div>
 
@@ -107,21 +110,21 @@ const SelectTokenTop = () =>{
                                           Balance
                                         </div>
                                     </div>
-                                    <div className="overflow-y-auto border-t border-gray-700 h-64 p-3  scrollbar-thin scrollbar-thumb-custom  scrollbar-thumb-rounded-full  overflow-y-scroll ">
+                                    <div className="overflow-y-auto border-t border-gray-700 h-64 pr-3  scrollbar-thin scrollbar-thumb-custom  scrollbar-thumb-rounded-full  overflow-y-scroll ">
                                         {tokenList.map(item=>(
-                                        <div key={item.name} onClick={() => select(item)} className="cursor-pointer flex justify-between mr-2">
+                                        <div key={item.name} onClick={() => select(item)} className="cursor-pointer flex justify-between mr-2 items-center">
                                             <div className="flex my-2">
                                                 <img className="w-9 rounded-full" src={item.img} alt=""/>
                                                 <div className="ml-1.5">
-                                                    <div className="text-gray-400 text-xs">
+                                                    <div className="text-gray-200 text-xs">
                                                         {item.name}
                                                     </div>
-                                                    <div className="text-gray-200 text-sm">
-                                                        {item.data}
+                                                    <div className="text-gray-400 text-sm">
+                                                        ${item.data}
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className="mt-3 text-gray-500">
+                                            <div className="mt-3 text-gray-300">
                                                 {item.data}
                                             </div>
                                         </div>

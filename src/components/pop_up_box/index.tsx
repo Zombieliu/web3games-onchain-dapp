@@ -1,5 +1,5 @@
 import {Dialog, Transition} from "@headlessui/react";
-import React, {Fragment, useEffect} from "react";
+import React, {Fragment, useEffect, useState} from "react";
 import {CheckCircleIcon, CheckIcon, XCircleIcon,} from "@heroicons/react/solid";
 import {atom, useAtom} from "jotai";
 import {PopUpBoxState,PopUpBoxInfo, AwaitPopUpBoxState} from "../../jotai";
@@ -35,7 +35,7 @@ const Pop_up_box = () =>{
         <div
             id="SwapSuccessPop_up_box"
             aria-live="assertive"
-            className="pointer-events-none fixed inset-0 top-20 flex items-end px-4 py-6 sm:items-start sm:p-6"
+            className="pointer-events-none fixed inset-0 top-20 flex items-end px-4 py-6 sm:items-start sm:p-6 z-40"
         >
             <div className="flex w-full flex-col items-center space-y-4 sm:items-end">
                 {/* Notification panel, dynamically insert this into the live region when it needs to be displayed */}
@@ -49,18 +49,19 @@ const Pop_up_box = () =>{
                     leaveFrom="opacity-100"
                     leaveTo="opacity-0"
                 >
-                    <div className="pointer-events-auto w-full max-w-xs overflow-hidden rounded-lg bg-[#2B2B2B] shadow-lg shadow-[0_2px_16px_-1px_rgb(0,0,0,0.1)] shadow-black">
+                    <div className=" pointer-events-auto w-full max-w-xs overflow-hidden rounded-lg bg-[#2B2B2B] shadow-lg shadow-[0_2px_16px_-1px_rgb(0,0,0,0.1)] shadow-black">
                         <div className="p-4">
                             <div className="flex items-start">
                                 <img className={pop_up_boxData.state?"w-10  mt-1":"hidden"} src="/successful.svg" alt=""/>
                                 <img className={pop_up_boxData.state?"hidden":"w-10  mt-1"} src="/fail.svg" alt=""/>
                                 <div className="ml-3 w-0 flex-1 pt-0.5 text-white text-sm">
-                                    <p className=" font-medium  ">{pop_up_boxData.type} {classNames(pop_up_boxData.state?"Success":"Failed")}</p>
+                                    <p className="font-medium">{pop_up_boxData.type} {classNames(pop_up_boxData.state?"Success":"Failed")}</p>
                                     <p className={pop_up_boxData.state?"hidden":"mt-1 "}>Please try again</p>
-                                    <Link href={`http://localhost:3005/blocksdetails/${pop_up_boxData.hash}` }>
-                                        <a className={pop_up_boxData.state?"mt-1 underline font-semibold hover:text-blue-400":"hidden"}>
+                                    <Link href={`https://explorer-devnet.web3games.org/blocksdetails/${pop_up_boxData.hash}` }>
+                                        <a className={pop_up_boxData.type !=="Create TokenList" && pop_up_boxData.type !=="Clear TokenList" && pop_up_boxData.state?"mt-1 underline font-semibold hover:text-blue-400":"hidden"}>
                                         View on Explorer
                                     </a></Link>
+
                                 </div>
                                 <div className=" flex flex-shrink-0">
                                     <button
@@ -134,6 +135,8 @@ const AwaitPop_Up_box = () =>{
         </div>
     )
 }
+
+
 
 
 

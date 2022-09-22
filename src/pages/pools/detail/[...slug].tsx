@@ -345,20 +345,26 @@ const Detail = () =>{
     useEffect(()=>{
         if (router.isReady){
             const token_detail = async ()=>{
-                const pool_id = router.query.slug[0]
-                const result = tokenPoolPair.filter(token => token.pool_id = pool_id)
+                const token_id_a = router.query.slug[0]
+                const token_id_b = router.query.slug[1]
+                console.log(token_id_a,token_id_b)
+                const result = tokenPoolPair.filter(token => token.pool_id = token_id_a)
                 console.log(result[0].assets_a_address)
                 console.log(tokenPoolPair)
                 const api = await chain_api(intactWalletAddress)
                 const balance = await api.query.exchange.reserves([result[0].assets_b_id,result[0].assets_a_id])
-                const pair_lp_token_result:any = await api.query.exchange.pools(pool_id)
-                // const pair_lp_token_owner = pair_lp_token_result.toJSON().owner
-                const pair_lp_token_address = pair_lp_token_result.toJSON()
+                const pair_lp_token_result:any = await api.query.exchange.pools([token_id_b,token_id_a])
+                // const pair_lp_token_owner = pair_lp_token_result.toJSON().lpTokenAccountId
+                // // const pair_lp_token_owner = pair_lp_token_result.toJSON()
+                // console.log('1',pair_lp_token_result.toJSON().lpToken)
+
+                const pair_lp_token_address = pair_lp_token_result.toJSON().lpToken
+                // console.log(pair_lp_token_address)
                     // .lpToken
                 const pair_lp_token_balance_result:any = await api.query.tokenFungible.tokens(pair_lp_token_address)
                 const user_lp_token_balance_result:any = await api.query.tokenFungible.balances(pair_lp_token_address,intactWalletAddress)
                 const poolDetails={
-                    pool_id : pool_id,
+                    pool_id : token_id_a,
                     assets_a: result[0].assets_a,
                     assets_b:result[0].assets_b,
                     assets_a_id:result[0].assets_a_id,
@@ -370,15 +376,15 @@ const Detail = () =>{
                     tvl:result[0].tvl,
                     volume:result[0].volume,
                     volume_days:result[0].volume_days,
-                    total_lp:pair_lp_token_balance_result.toJSON().totalSupply.toString(),
+                    total_lp:(pair_lp_token_balance_result.toJSON().totalSupply/Math.pow(10,18)).toString(),
                     your_lp:user_lp_token_balance_result.toString(),
                 }
+
                 setPoolDetails(poolDetails)
                 setTokenABalance(balance.toJSON()[0])
                 setTokenBBalance(balance.toJSON()[1])
                 const account_token_a_balance = await api.query.tokenFungible.balances(result[0].assets_a_id,intactWalletAddress)
                 const account_token_b_balance = await api.query.tokenFungible.balances(result[0].assets_b_id,intactWalletAddress)
-                console.log(result[0].assets_a_id,result[0].assets_b_id)
                 setTokenAccountABalance(account_token_a_balance.toString())
                 setTokenAccountBBalance(account_token_b_balance.toString())
             }

@@ -19,14 +19,14 @@ const tokenTop={
     img:"/img.png",
     title:"wW3G",
     name:"Select a Token",
-    data:"0.00",
+    data:"0",
 }
 const tokenTail ={
     tokenId:'0',
     img:"/img.png",
     title:"wW3G",
     name:"Select a Token",
-    data:"0.00",
+    data:"0",
 }
 const SwapTokenTop = atom(tokenTop)
 const SwapTokenTail = atom(tokenTail)
@@ -164,8 +164,7 @@ const token_pool_pair = atomWithStorage('token_pool_pair',[
         your_lp: "0",
     },
 ])
-
-const token_list_and_balance = atomWithStorage('token_list_and_balance',[
+const TokenListAndBalance = [
     {
         tokenId:'0',
         img:"/img.png",
@@ -215,9 +214,10 @@ const token_list_and_balance = atomWithStorage('token_list_and_balance',[
         name:"ETH",
         data:"0.00",
     },
-])
+]
+const token_list_and_balance = atomWithStorage('token_list_and_balance',TokenListAndBalance)
 
 
 
-export {AwaitPopUpBoxState,PopUpBoxInfo,PopUpBoxState,Select_TokenTop,Select_TokenTail,Token_Lists,SwapTokenTop,SwapTokenTail,AssetsOpenPopup,WalletListShowState,AccountChooseValue,WalletButtonShowState,WalletAddress,AccountConfigPageState,HiddenClaim,
+export {TokenListAndBalance,AwaitPopUpBoxState,PopUpBoxInfo,PopUpBoxState,Select_TokenTop,Select_TokenTail,Token_Lists,SwapTokenTop,SwapTokenTail,AssetsOpenPopup,WalletListShowState,AccountChooseValue,WalletButtonShowState,WalletAddress,AccountConfigPageState,HiddenClaim,
    AfterSubstrateAddressList,IntactWalletAddress,NetWorkState,token_list_and_balance,custom_token_list,TOKENWATCHPOOLPAIR,token_pool_pair}

@@ -105,7 +105,7 @@ const SelectTokenTail = () =>{
                                     <div className="my-5 text-white font-semibold">
                                         Common bases
                                     </div>
-                                    <div className="my-5">
+                                    <div className="my-5 h-28 pr-4 scrollbar-thin scrollbar-thumb-custom  scrollbar-thumb-rounded-full  overflow-y-scroll">
                                         <div className="flex grid md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
                                             {tokenList.map((item=>(
                                                 <div  key={item.name} className="rounded-full ">
@@ -113,7 +113,7 @@ const SelectTokenTail = () =>{
                                                         <div id={item.name} className="flex items-center">
                                                             <img  className="w-9 mr-1 rounded-full" src={item.img} alt=""/>
                                                             <div className="text-sm ml-1">
-                                                                <div  className="text-white">{item.name}</div>
+                                                                <div  className="text-white text-left">{item.name}</div>
                                                                 <div  className="text-gray-400">$ {item.data}</div>
 
                                                             </div>
@@ -134,21 +134,21 @@ const SelectTokenTail = () =>{
                                             Balance
                                         </div>
                                     </div>
-                                    <div className="overflow-y-auto border-t border-gray-700 h-80 p-3  scrollbar-thin scrollbar-thumb-custom  scrollbar-thumb-rounded-full  overflow-y-scroll">
+                                    <div className="overflow-y-auto border-t border-gray-700 h-64 pr-3  scrollbar-thin scrollbar-thumb-custom  scrollbar-thumb-rounded-full  overflow-y-scroll">
                                         {tokenList.map(item=>(
-                                            <div key={item.name} onClick={() => select(item)} className="cursor-pointer flex justify-between mr-2">
+                                            <div key={item.name} onClick={() => select(item)} className="cursor-pointer flex justify-between mr-2 items-center">
                                                 <div className="flex my-2">
                                                     <img className="w-9 rounded-full" src={item.img} alt=""/>
                                                     <div className="ml-1.5">
-                                                        <div className="text-gray-400 text-xs">
+                                                        <div className="text-gray-200 text-xs">
                                                             {item.name}
                                                         </div>
-                                                        <div className="text-gray-200 text-sm">
+                                                        <div className="text-gray-400 text-sm">
                                                             {item.data}
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div className="mt-3 text-gray-500">
+                                                <div className="mt-3 text-gray-300">
                                                     {item.data}
                                                 </div>
                                             </div>

@@ -6,7 +6,18 @@ import {CheckIcon, XCircleIcon} from "@heroicons/react/solid";
 export default function Example() {
     const [openAdd,setOpenAdd] = useState(false)
     const Show = () =>{
-        setOpenAdd(true)
+
+        // let new_result = [1,2]
+        // const a = new_result.splice(0,1)
+        // console.log(a)
+
+        const arr = (12.0001.toFixed(6)).toString().split(".");
+        const integer_length = arr[0].length
+
+        console.log(integer_length)
+        const token_balance_real_number = (12.000001).toFixed(5-integer_length)
+        console.log(token_balance_real_number)
+
     }
     return (
         <>

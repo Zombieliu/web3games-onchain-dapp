@@ -8,7 +8,7 @@ import {
     SwapTokenTop,
     Token_Lists,
     token_list_and_balance,
-    token_pool_pair
+    token_pool_pair, TokenListAndBalance, PopUpBoxInfo, PopUpBoxState,
 } from "../../jotai";
 import {Dialog, Switch, Tab, Transition} from "@headlessui/react";
 import React, {Fragment, useEffect, useState} from "react";
@@ -17,6 +17,7 @@ import {hexToString} from '@polkadot/util'
 import axios from "axios";
 import { address_slice } from "../../utils/chain/address";
 import { chain_api } from "../../chain/web3games";
+import Link from "next/link";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -135,12 +136,13 @@ const List = () =>{
 
 const Tokens = () =>{
     const baseTokenInfo = {
-        tokenId:'0',
+        tokenId:'99',
         img:"/base.png",
         token:"DACV",
         h1:"mushrooming BTCB Token",
         original:'5xcascascasc',
         address:"5CsaS...d304",
+        allAddress:"",
     }
     const [valuable,setValuable] = useState(false)
     const [importToken,setImportToken] = useState(false)
@@ -150,6 +152,11 @@ const Tokens = () =>{
     const [,setTokenPoolPair] = useAtom(token_pool_pair)
     const [customTokenList,setCustomTokenList] = useAtom(custom_token_list)
     const [intactWalletAddress,] = useAtom(IntactWalletAddress)
+    const [,setPop_up_boxData] =useAtom(PopUpBoxInfo)
+    const [,setSop_up_boxState] = useAtom(PopUpBoxState)
+    const [removeAllTokenList,setRemoveAllTokenList] = useState(false)
+    const [removeTokenList,setRemoveTokenList] = useState(false)
+    const [removeTokenDateName,setRemoveTokenDateName]  = useState("")
 
     const  back= () =>{
         setImportToken(false)
@@ -183,51 +190,73 @@ const Tokens = () =>{
                   h1:name,
                   original:owner,
                   address:address_slice(owner),
+                  allAddress:owner,
               }
             )
+            // console.log(owner)
             setValuable(true)
         }
     }
+    const DeleteTokensPopUpBox = (e) =>{
+        setRemoveTokenDateName(e)
+        setRemoveTokenList(true)
+    }
     const deleteTokens = (e) =>{
+        for (let i = 0; i < customTokenList.length; i++){
+            if (customTokenList[i].token == e){
+                customTokenList.splice(i,1)
 
-        // console.log(customTokenList)
+            }
+        }
+        setCustomTokenList(customTokenList)
 
-        // let new_result
-        // for (let i = 0; i < customTokenList.length; i++){
-        //     if (customTokenList[i].token == e){
-        //         console.log(i)
-        //         new_result = customTokenList.splice(i -1,1)
-        //     }
-        // }
-        // console.log(new_result)
+        for(let x = 0 ; x < tokenList.length; x++){
+            console.log(tokenList[0].name)
+            if (tokenList[x].name == e){
+                console.log(x)
+            tokenList.splice(x,1)
+            }
+        }
 
+        setTokenList(tokenList)
+        setRemoveTokenList(false)
+        location.reload()
+    }
 
-        // let new_result = [1,2]
-        // const a = new_result.splice(-1,1)
-        // console.log(a)
-        // const TokenName  = e
-        // // console.log(TokenName)
-        //
-        // for(let i in TokenName.data){
-        //     if (TokenName.data[i].name == TokenName){
-        //         const result = TokenName.data.splice(i,1);
-        //         console.log(result)
-        //     }
-        //
-        // }
+    const ClearAllPopUpBox = () =>{
+        setRemoveAllTokenList(true)
+    }
+
+    const ClearAll = () =>{
+        if(customTokenList.length !== 0){
+            const TokenList = TokenListAndBalance
+            setTokenList(TokenList)
+            setCustomTokenList([])
+            setPop_up_boxData({
+                state:true,
+                type:"Clear TokenList",
+                hash:"",
+            })
+            setSop_up_boxState(true)
+
+        }
+        setRemoveAllTokenList(false)
 
     }
+
 
     const add_token_in_list = async ()=>{
         let before_lost = tokenList
         let list = tokenList
         const input = {
-              tokenId:tokenInfo.tokenId,
-              img:tokenInfo.img,
-              title:tokenInfo.h1,
-              name:tokenInfo.token,
-              data:"0.00",
+            tokenId:tokenInfo.tokenId,
+            img:tokenInfo.img,
+            title:tokenInfo.h1,
+            name:tokenInfo.token,
+            data:"0.00",
+            allAddress:tokenInfo.allAddress,
         }
+        console.log(input.allAddress)
         list.push(input)
         let fix = before_lost.concat(list)
         let new_result = []
@@ -242,16 +271,60 @@ const Tokens = () =>{
                 new_result.push(item1)
             }
         }
+        console.log(new_result)
         setTokenList(new_result)
-        // setTokenPoolPair(new_result)
-        const before_custom_token = customTokenList.concat()
+        // const before_custom_token = customTokenList.concat()
         const custom_token  = {
+            tokenId:tokenInfo.tokenId,
             img:tokenInfo.img,
             token:tokenInfo.token,
+            allAddress:tokenInfo.allAddress
         }
-        before_custom_token.push(custom_token)
-        setCustomTokenList(before_custom_token)
-        location.reload()
+
+
+        console.log(customTokenList)
+        if(customTokenList.length !==0 ){
+            let State = true
+            for(let x=0;x<customTokenList.length ;x++){
+
+                if(customTokenList[x].tokenId == custom_token.tokenId){
+                     State = false
+                    setPop_up_boxData({
+                        state:false,
+                        type:"Create TokenList",
+                        hash:"",
+                    })
+                    setSop_up_boxState(true)
+
+                }
+
+            }
+            if(State){
+                customTokenList.push(custom_token)
+                setCustomTokenList(customTokenList)
+                setPop_up_boxData({
+                    state:true,
+                    type:"Create TokenList",
+                    hash:"",
+                })
+                setSop_up_boxState(true)
+            }
+
+        }else {
+            customTokenList.push(custom_token)
+            setCustomTokenList(customTokenList)
+            setPop_up_boxData({
+                state:true,
+                type:"Create TokenList",
+                hash:"",
+            })
+            setSop_up_boxState(true)
+        }
+        // before_custom_token.push(custom_token)
+        // setCustomTokenList(before_custom_token)
+        // location.reload()
+        setImportToken(false)
+
     }
     return(
         <>
@@ -281,7 +354,7 @@ const Tokens = () =>{
                     </div>
                 </div>
             </button>
-            <div className="my-5 rounded-xl    bg-W3GInfoBG  border-gray-700 border p-3 py-2">
+            <div className="my-5 rounded-xl    bg-W3GInfoBG  border-gray-700 border p-3 py-2 ">
                 <div className="flex justify-between items-center">
                <div className="flex">
                    {customTokenList.length}
@@ -289,11 +362,11 @@ const Tokens = () =>{
                        Custom Tokens
                    </div></div>
                 <div   className=" text-sm rounded-md flex items-center text-white text-sm h-8 items-center px-1 pl-1.5 text-center bg-gradient-to-r from-[#AE72D2] to-[#7192E7] font-semibold">
-                    <button className="mr-2">
+                    <button className="mr-2" onClick={()=>{ClearAllPopUpBox()}}>
                         Clear all</button>
                     </div>
                 </div>
-                <div className={customTokenList.length?"h-60 overflow-y-auto mt-2":"hidden"}>
+                <div className={customTokenList.length?"h-60 overflow-y-auto mt-2  scrollbar-thin scrollbar-thumb-custom  scrollbar-thumb-rounded-full  overflow-y-scroll":"hidden"}>
                 {customTokenList.map((item=>(
                     <div key={item.token} className="flex items-center justify-between mt-2">
                         <div className="flex items-center">
@@ -302,14 +375,14 @@ const Tokens = () =>{
                                 {item.token}
                             </div>
                         </div>
-                        <div className="flex text-xl mr-2">
-                            <button onClick={()=>{deleteTokens(item.token)}} className="mr-5">
+                        <div className="flex text-xl mr-2 items-center">
+                            <button onClick={()=>{DeleteTokensPopUpBox(item.token)}} className="mr-5">
                                 <i className="fa fa-trash-o" aria-hidden="true"></i>
                             </button>
 
-                            <button>
-                                <i className="fa fa-share-square-o" aria-hidden="true"></i>
-                            </button>
+                            <Link    href={`https://explorer-devnet.web3games.org/account/${item.allAddress}`}  >
+                                <i  className="fa fa-share-square-o mt-0.5 cursor-pointer" aria-hidden="true"></i>
+                            </Link>
 
                         </div>
 
@@ -401,6 +474,126 @@ const Tokens = () =>{
                     </div>
                 </Dialog>
             </Transition.Root>
+            <Transition.Root show={removeAllTokenList} as={Fragment}>
+                <Dialog as="div" className="fixed z-30 inset-0 overflow-y-auto "  onClose={setRemoveAllTokenList}>
+                    <div className="flex items-center justify-center min-h-screen    px-4  text-center ">
+                        <Transition.Child
+                            as={Fragment}
+                            enter="ease-out duration-300"
+                            enterFrom="opacity-0"
+                            enterTo="opacity-100"
+                            leave="ease-in duration-200"
+                            leaveFrom="opacity-100"
+                            leaveTo="opacity-0"
+                        >
+                            <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-90 transition-opacity" />
+                        </Transition.Child>
+
+                        {/* This element is to trick the browser into centering the modal contents. */}
+                        <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;
+              </span>
+                        <Transition.Child
+                            as={Fragment}
+                            enter="ease-out duration-300"
+                            enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                            enterTo="opacity-100 translate-y-0 sm:scale-100"
+                            leave="ease-in duration-200"
+                            leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                            leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                        >
+
+                            <div className="inline-block align-bottom p-0.5 rounded-lg bg-gradient-to-br from-W3G1  via-W3G2 to-W3G3 rounded-lg  text-left overflow-hidden shadow-xl transform transition-all sm:y-8 sm:align-middle   ">
+                                <div className="bg-black px-4 py-5 sm:px-6 lg:px-12 rounded-md">
+
+                                    <div className="w-full  py-10">
+                                        <div className="flex justify-center text-xl text-white w-full">
+                                            <div>
+                                                Are you sure you want to delete all listings ？
+                                            </div>
+                                           </div>
+                                    </div>
+
+                                    <div className="text-center mt-5 flex justify-between" >
+                                        <div className= "mt-1">
+                                            <button onClick={()=>{setRemoveAllTokenList(false)}}   className=" lg:mt-0  w-36 px-3 py-2 rounded-lg bg-gradient-to-r from-W3G1 via-W3G2 to-W3G3 text-white">
+                                                Cancel
+                                            </button>
+                                        </div>
+                                        <div className= "mt-1">
+                                            <button onClick={ClearAll}   className=" lg:mt-0  w-36 px-3 py-2 rounded-lg bg-gradient-to-r from-W3G1 via-W3G2 to-W3G3 text-white">
+                                                Confirm
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </Transition.Child>
+                    </div>
+                </Dialog>
+            </Transition.Root>
+            <Transition.Root show={removeTokenList} as={Fragment}>
+                <Dialog as="div" className="fixed z-30 inset-0 overflow-y-auto "  onClose={setRemoveTokenList}>
+                    <div className="flex items-center justify-center min-h-screen    px-4  text-center ">
+                        <Transition.Child
+                            as={Fragment}
+                            enter="ease-out duration-300"
+                            enterFrom="opacity-0"
+                            enterTo="opacity-100"
+                            leave="ease-in duration-200"
+                            leaveFrom="opacity-100"
+                            leaveTo="opacity-0"
+                        >
+                            <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-90 transition-opacity" />
+                        </Transition.Child>
+
+                        {/* This element is to trick the browser into centering the modal contents. */}
+                        <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;
+              </span>
+                        <Transition.Child
+                            as={Fragment}
+                            enter="ease-out duration-300"
+                            enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                            enterTo="opacity-100 translate-y-0 sm:scale-100"
+                            leave="ease-in duration-200"
+                            leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                            leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                        >
+
+                            <div className="inline-block align-bottom p-0.5 rounded-lg bg-gradient-to-br from-W3G1  via-W3G2 to-W3G3  rounded-lg  text-left overflow-hidden shadow-xl transform transition-all sm:y-8 sm:align-middle   ">
+                                <div className="bg-black px-4 py-5 sm:px-6 lg:px-12 rounded-md">
+
+                                    <div className="w-full  py-10">
+                                        <div className="flex justify-center md:text-xl text-white w-full">
+                                            <div className="flex">
+                                                Are you sure you want to delete
+                                                <div className="px-0.5 underline">
+                                                {removeTokenDateName}
+                                            </div>？
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="text-center mt-5 flex justify-center" >
+                                        <div className= "mt-1">
+                                            <button  onClick={()=>{setRemoveTokenList(false)}}  className=" lg:mt-0  mr-10  w-36 px-3 py-2 rounded-lg bg-gradient-to-r from-W3G1 via-W3G2 to-W3G3 text-white">
+                                                Cancel
+                                            </button>
+                                        </div>
+                                        <div className= "mt-1">
+                                            <button onClick={()=>deleteTokens(removeTokenDateName)}   className=" lg:mt-0  w-36 px-3 py-2 rounded-lg bg-gradient-to-r from-W3G1 via-W3G2 to-W3G3 text-white">
+                                                Confirm
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </Transition.Child>
+                    </div>
+                </Dialog>
+            </Transition.Root>
+
         </>
     )
 }

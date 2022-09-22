@@ -67,7 +67,13 @@ const Recent = ()=>{
         const pool = [1,0]
         const token_number = input_data
         const result = await substrate_getAmountOutPrice(intactWalletAddress,pool,token_number)
-        setSwapOutPutValue(result[1])
+
+        if(result[1] == undefined){
+            setSwapOutPutValue(0)
+        }else {
+            setSwapOutPutValue(result[1])
+        }
+
     }
 
     const check = async (e) => {
@@ -162,9 +168,12 @@ const Recent = ()=>{
                                    className=" bg-W3GInfoBG  text-xs md:text-sm text-white  rounded-md p-2  md:w-48 border border-W3GInfoBG   hover:border-neutral-600 focus:border-neutral-600  transition duration-300    outline-none"
                                    placeholder="0.0"
                                    id="token_input"
+                                   maxLength={16}
                             />
                         </div>
-                        <div className="text-sm mt-2 flex ml-1 text-gray-400">Balance: 0</div>
+                        <div className="text-sm mt-2 flex ml-1 text-gray-400">Balance: <div className="">
+                            {swapTokenTop.data}
+                        </div></div>
                     </div>
                 </div>
                 <div className="flex justify-center -mt-2 ">
@@ -207,9 +216,10 @@ const Recent = ()=>{
                                    placeholder='0.0'
                                    id="token_output"
                                    value={`${swapOutPutValue}`}
+
                             />
                         </div>
-                        <div className="text-sm mt-2 flex ml-1 text-gray-400">Balance: 0</div>
+                        <div className="text-sm mt-2 flex ml-1 text-gray-400">Balance:{swapTokenTail.data}</div>
                     </div>
                 </div>
                 <div className="text-center mt-5  text-white">
@@ -396,7 +406,11 @@ const Swap = () =>{
                 let token_balance = []
                 for (let i =0;i<times;i++){
                     const account_token_balance_result = await api.query.tokenFungible.balances(tokenlist[i].tokenId,intactWalletAddress_local);
-                    token_list[i].data = account_token_balance_result.toString()
+                    const account_token_balance_decimals = await api.query.tokenFungible.tokens(tokenlist[i].tokenId)
+                    const baseNumber = Math.pow(10,account_token_balance_decimals.toJSON().decimals)
+                    const token_balance =  Number(account_token_balance_result.toString())
+                    const token_balance_real_number = parseFloat((token_balance/baseNumber).toFixed(4))
+                    token_list[i].data = token_balance_real_number.toString()
                 }
                 console.log(token_list)
                 settokenList(token_list)
