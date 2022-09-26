@@ -28,6 +28,7 @@ import SelectTokenTail from "../../components/selecttokentail";
 import {address_slice, evm_address_to_sub_address} from "../../utils/chain/address";
 import {Pop_up_box} from "../../components/pop_up_box";
 import Heads from "../../components/head";
+import {cropData} from "../../utils/math";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -230,8 +231,9 @@ const Pools = () =>{
                     const account_token_balance_decimals = await api.query.tokenFungible.tokens(tokenlist[i].tokenId)
                     const baseNumber = Math.pow(10,account_token_balance_decimals.toJSON().decimals)
                     const token_balance =  Number(account_token_balance_result.toString())
-                    const token_balance_real_number = parseFloat((token_balance/baseNumber).toFixed(4))
+                    const token_balance_real_number = parseFloat(String(cropData((token_balance / baseNumber), 4)))
                     token_list[i].data = token_balance_real_number.toString()
+                    console.log(account_token_balance_decimals.toJSON().decimals)
 
                 }
                 console.log(token_list)

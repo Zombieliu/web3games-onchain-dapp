@@ -25,6 +25,7 @@ import {LOGICAL_OPERATORS} from "@babel/types";
 import {evm_address_to_sub_address} from "../../utils/chain/address";
 import {router} from "next/client";
 import {useRouter} from "next/router";
+import {cropData} from "../../utils/math";
 
 
 
@@ -64,14 +65,20 @@ const Recent = ()=>{
 
 
     const get_swap_number = async (input_data)=>{
-        const pool = [1,0]
+        const pool = [swapTokenTop.tokenId,swapTokenTail.tokenId]
         const token_number = input_data
         const result = await substrate_getAmountOutPrice(intactWalletAddress,pool,token_number)
+
+        const api = await chain_api(intactWalletAddress)
+        const accountA_token_balance_decimals = await api.query.tokenFungible.tokens(swapTokenTop.tokenId)
+        const accountB_token_balance_decimals = await api.query.tokenFungible.tokens(swapTokenTail.tokenId)
+        const base = Math.abs(Number(accountA_token_balance_decimals.toJSON().decimals) - Number(accountB_token_balance_decimals.toJSON().decimals))
+
 
         if(result[1] == undefined){
             setSwapOutPutValue(0)
         }else {
-            setSwapOutPutValue(result[1])
+            setSwapOutPutValue(cropData(Number(result[1])/Math.pow(10,base),4))
         }
 
     }
@@ -81,7 +88,12 @@ const Recent = ()=>{
         if (e.target.value.indexOf('.') < 0 && e.target.value != '') {
             e.target.value = parseFloat(e.target.value);
         }
-        const input_data = e.target.value.replace(/\D/g, '')
+        let input_data = e.target.value.replace(/\D/g, '')
+        if(Number(e.target.value) > Number(swapTokenTop.data)){
+            input_data=  swapTokenTop.data;
+            (document.getElementById('token_input') as HTMLInputElement).value = input_data
+
+        }
         get_swap_number(input_data)
     }
 
@@ -114,7 +126,7 @@ const Recent = ()=>{
                 setTimeout(()=>{
                     setAwait_pop_up_boxState(false)
                     setSop_up_boxState(true)
-                },2000)
+                },2500)
             }
             else {
                 console.log(`Current status: ${status.type}`);
@@ -409,7 +421,7 @@ const Swap = () =>{
                     const account_token_balance_decimals = await api.query.tokenFungible.tokens(tokenlist[i].tokenId)
                     const baseNumber = Math.pow(10,account_token_balance_decimals.toJSON().decimals)
                     const token_balance =  Number(account_token_balance_result.toString())
-                    const token_balance_real_number = parseFloat((token_balance/baseNumber).toFixed(4))
+                    const token_balance_real_number = parseFloat(String(cropData((token_balance / baseNumber), 4)))
                     token_list[i].data = token_balance_real_number.toString()
                 }
                 console.log(token_list)

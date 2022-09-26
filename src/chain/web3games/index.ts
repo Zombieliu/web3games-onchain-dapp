@@ -1,3 +1,5 @@
+import {cropData} from "../../utils/math";
+
 const { ApiPromise, WsProvider} = require('@polkadot/api');
 
 
@@ -144,8 +146,12 @@ const substrate_getAmountOutPrice = async (intactWalletAddress,pool,token_number
 const substrate_EstimateOutToken = async (intactWalletAddress,input_number,token_a_id,token_b_id) =>{
   const api = await chain_api(intactWalletAddress)
   const result = await api.rpc.exchange.getEstimateOutToken(input_number,token_a_id,token_b_id)
-  api.disconnect()
-  return result.toString()
+  const accountA_token_balance_decimals = await api.query.tokenFungible.tokens(token_a_id)
+  const accountB_token_balance_decimals = await api.query.tokenFungible.tokens(token_b_id)
+  const base = Math.abs(Number(accountA_token_balance_decimals.toJSON().decimals) - Number(accountB_token_balance_decimals.toJSON().decimals))
+  const result_real = cropData(Number(result)/Math.pow(10,base),4)
+  await api.disconnect()
+  return result_real.toString()
 }
 
 const substrate_getEstimateLpToken = async (intactWalletAddress,token_a,amount_a,token_b,amount_b) =>{

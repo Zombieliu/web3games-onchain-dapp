@@ -15,8 +15,8 @@ export default function Example() {
         const integer_length = arr[0].length
 
         console.log(integer_length)
-        const token_balance_real_number = (12.000001).toFixed(5-integer_length)
-        console.log(token_balance_real_number)
+        // const token_balance_real_number = (12.000001).toFixed(5-integer_length)
+        // console.log(token_balance_real_number)
 
     }
     return (
@@ -24,6 +24,12 @@ export default function Example() {
         <div onClick={Show}>
             1
         </div>
+            <div className="flex  justify-center">
+                <div className="pr-4">
+                    2
+                </div>
+                <div>3</div>
+            </div>
             <Transition.Root show={openAdd} as={Fragment}>
                 <Dialog as="div" className="fixed z-20 inset-0 overflow-y-auto "  onClose={setOpenAdd}>
                     <div className="flex items-center justify-center min-h-screen    px-4  text-center ">

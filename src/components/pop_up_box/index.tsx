@@ -35,7 +35,7 @@ const Pop_up_box = () =>{
         <div
             id="SwapSuccessPop_up_box"
             aria-live="assertive"
-            className="pointer-events-none fixed inset-0 top-20 flex items-end px-4 py-6 sm:items-start sm:p-6 z-40"
+            className="pointer-events-none z-40 fixed inset-0 top-20 flex items-end px-4 py-6 sm:items-start sm:p-6 z-40"
         >
             <div className="flex w-full flex-col items-center space-y-4 sm:items-end">
                 {/* Notification panel, dynamically insert this into the live region when it needs to be displayed */}
@@ -92,7 +92,7 @@ const AwaitPop_Up_box = () =>{
         <div
             id="Await_pop_up_boxState"
             aria-live="assertive"
-            className="pointer-events-none fixed inset-0 top-20 flex items-end px-4 py-6 sm:items-start sm:p-6"
+            className="pointer-events-none z-40 fixed inset-0 top-20 flex items-end px-4 py-6 sm:items-start sm:p-6"
         >
             <div className="flex w-full flex-col items-center space-y-4 sm:items-end">
                 {/* Notification panel, dynamically insert this into the live region when it needs to be displayed */}

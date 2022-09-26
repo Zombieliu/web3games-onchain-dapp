@@ -6,6 +6,7 @@ import {Dialog, RadioGroup, Tab, Transition} from "@headlessui/react";
 import {useAtom} from "jotai";
 import Error from "../../../components/error";
 import {
+    AwaitPopUpBoxState,
     IntactWalletAddress, PopUpBoxInfo,
     PopUpBoxState,
     token_pool_pair,
@@ -23,10 +24,12 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { address_slice } from "../../../utils/chain/address";
 import { add_liquidity } from "../../../utils/chain/pool";
-import { checkNumber } from "../../../utils/math";
+import {checkNumber, cropData} from "../../../utils/math";
 import {Area, AreaChart, Bar, BarChart, CartesianGrid, Legend, Line, LineChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis} from "recharts";
 import Heads from "../../../components/head";
 import {PoolSkeleton} from "../../../components/skeleton";
+import {AwaitPop_Up_box, Pop_up_box} from "../../../components/pop_up_box";
+import BigNumber from "bignumber.js";
 
 
 
@@ -193,6 +196,21 @@ const data = [
     },
 ];
 
+function CustomTooltip({ payload, label, active }) {
+    if (active) {
+        return (
+            <div className="custom-tooltip bg-white rounded-md p-4">
+                <p  className="label text-gray-400 text-xl"> ${payload[0].value}</p>
+                <p className="label text-gray-400 text-sm">Day{`${label}`}</p>
+
+
+            </div>
+        );
+    }
+
+    return null;
+}
+
 const Recharts =() => {
     const Title = [
         {
@@ -248,7 +266,7 @@ const Recharts =() => {
 
 const Recharts1 = () =>{
     return (
-        <div className="hidden xl:block bg-[#1F1F1F] text-center font-serif">
+        <div className="hidden xl:block bg-[#1F1F1F] text-center font-sans">
             <AreaChart width={800}
                        height={360}
                        data={data}
@@ -265,7 +283,7 @@ const Recharts1 = () =>{
                     </linearGradient>
                 </defs>
                 <XAxis dataKey="name" />
-                <Tooltip />
+                <Tooltip  />
                 <Area type="monotone" dataKey="TVL" stroke="#8E6CCD" fillOpacity={1} fill="url(#colorUv)" />
             </AreaChart>
 
@@ -275,7 +293,7 @@ const Recharts1 = () =>{
 
 const Recharts2 = () => {
     return(
-        <div className="hidden xl:block bg-[#1F1F1F] text-center  font-serif">
+        <div className="hidden xl:block bg-[#1F1F1F] text-center  font-sans	">
             <BarChart
                 width={800}
                 height={360}
@@ -289,7 +307,7 @@ const Recharts2 = () => {
                 barSize={20}
             >
                 <XAxis dataKey="name" scale="point"  />
-                <Tooltip />
+                <Tooltip content={<CustomTooltip payload={undefined} label={undefined} active={undefined} />}/>
                 <Legend />
                 <Bar dataKey="Volume" fill="#7573EA" background={{ fill: "#1F1F1F" }} />
             </BarChart>
@@ -309,14 +327,13 @@ const Detail = () =>{
     // token pool pair info
     const [tokenPoolPair,setTokenPoolPair] = useAtom(token_pool_pair)
 
-    const [token_b_number,setToken_b_number] =useState("0")
+    const [,setAwait_pop_up_boxState] = useAtom(AwaitPopUpBoxState)
+    const [percentage,setPercentage] = useState(0)
 
-    const [token_a_number,setToken_a_number] = useState("0")
 
     const [yourLP,setYourLP] = useState("0")
 
     const poolDetails={
-        pool_id:"",
         assets_a:"",
         assets_b:"",
         assets_a_id:"",
@@ -334,8 +351,8 @@ const Detail = () =>{
     const [PoolDetails,setPoolDetails] = useState(poolDetails)
     const [tokenABalance,setTokenABalance] = useState('')
     const [tokenBBalance,setTokenBBalance] = useState('')
-    const [tokenAAccountBalance,setTokenAccountABalance] = useState('')
-    const [tokenBAccountBalance,setTokenAccountBBalance] = useState('')
+    const [tokenAAccountBalance,setTokenAccountABalance] = useState(0)
+    const [tokenBAccountBalance,setTokenAccountBBalance] = useState(0)
     // const [Add_liquidity,set_add_liquidity] = useState('Add Liquidity')
 
     const [,setPop_up_boxData] =useAtom(PopUpBoxInfo)
@@ -345,15 +362,29 @@ const Detail = () =>{
     useEffect(()=>{
         if (router.isReady){
             const token_detail = async ()=>{
-                const token_id_a = router.query.slug[0]
-                const token_id_b = router.query.slug[1]
+                let token_id_a = router.query.slug[0]
+                let token_id_b = router.query.slug[1]
                 console.log(token_id_a,token_id_b)
-                const result = tokenPoolPair.filter(token => token.pool_id = token_id_a)
-                console.log(result[0].assets_a_address)
                 console.log(tokenPoolPair)
+                const result = tokenPoolPair.filter(token => {
+                    return token.assets_a_id == token_id_a && token.assets_b_id == token_id_b;
+                })
+                console.log(result[0].assets_a_address)
+
+                if(Number(token_id_b)>Number(token_id_a)){
+                    token_id_b  = token_id_a
+                    token_id_a  = token_id_b
+                }
+
                 const api = await chain_api(intactWalletAddress)
-                const balance = await api.query.exchange.reserves([result[0].assets_b_id,result[0].assets_a_id])
+                const balance = await api.query.exchange.reserves([token_id_b,token_id_a])
                 const pair_lp_token_result:any = await api.query.exchange.pools([token_id_b,token_id_a])
+
+                const account_token_balanceA_decimals = await api.query.tokenFungible.tokens(token_id_a)
+                const account_token_balanceB_decimals = await api.query.tokenFungible.tokens(token_id_b)
+                const baseNumberA = Math.pow(10,account_token_balanceA_decimals.toJSON().decimals)
+                const baseNumberB = Math.pow(10,account_token_balanceB_decimals.toJSON().decimals)
+
                 // const pair_lp_token_owner = pair_lp_token_result.toJSON().lpTokenAccountId
                 // // const pair_lp_token_owner = pair_lp_token_result.toJSON()
                 // console.log('1',pair_lp_token_result.toJSON().lpToken)
@@ -364,7 +395,6 @@ const Detail = () =>{
                 const pair_lp_token_balance_result:any = await api.query.tokenFungible.tokens(pair_lp_token_address)
                 const user_lp_token_balance_result:any = await api.query.tokenFungible.balances(pair_lp_token_address,intactWalletAddress)
                 const poolDetails={
-                    pool_id : token_id_a,
                     assets_a: result[0].assets_a,
                     assets_b:result[0].assets_b,
                     assets_a_id:result[0].assets_a_id,
@@ -376,19 +406,22 @@ const Detail = () =>{
                     tvl:result[0].tvl,
                     volume:result[0].volume,
                     volume_days:result[0].volume_days,
-                    total_lp:(pair_lp_token_balance_result.toJSON().totalSupply/Math.pow(10,18)).toString(),
-                    your_lp:user_lp_token_balance_result.toString(),
+                    total_lp:(parseFloat(String(cropData((pair_lp_token_balance_result.toJSON().totalSupply / Math.pow(10, 18)),5)))).toString(),
+                    your_lp:(parseFloat(String(cropData((user_lp_token_balance_result/Math.pow(10,18)),5)))).toString(),
                 }
-
                 setPoolDetails(poolDetails)
-                setTokenABalance(balance.toJSON()[0])
-                setTokenBBalance(balance.toJSON()[1])
-                const account_token_a_balance = await api.query.tokenFungible.balances(result[0].assets_a_id,intactWalletAddress)
-                const account_token_b_balance = await api.query.tokenFungible.balances(result[0].assets_b_id,intactWalletAddress)
-                setTokenAccountABalance(account_token_a_balance.toString())
-                setTokenAccountBBalance(account_token_b_balance.toString())
+                setTokenABalance(String(parseFloat(String(cropData(Number((balance.toJSON()[0]) / baseNumberB), 4)))))
+                setTokenBBalance(String(parseFloat(String(cropData(Number((balance.toJSON()[1]) / baseNumberA), 4)))))
+                const account_token_a_balance = await api.query.tokenFungible.balances(token_id_a,intactWalletAddress)
+                const account_token_b_balance = await api.query.tokenFungible.balances(token_id_b,intactWalletAddress)
+                setTokenAccountABalance(parseFloat(String(cropData(Number((account_token_a_balance.toString()) / baseNumberA), 4))))
+                setTokenAccountBBalance(parseFloat(String(cropData(Number((account_token_b_balance.toString()) / baseNumberB), 4))))
+
+                console.log(cropData((user_lp_token_balance_result / pair_lp_token_balance_result.toJSON().totalSupply),2))
+                setPercentage(cropData((user_lp_token_balance_result / pair_lp_token_balance_result.toJSON().totalSupply),2)*100)
             }
             token_detail()
+            console.log()
         }
     },[router.isReady])
 
@@ -416,88 +449,99 @@ const Detail = () =>{
     }
 
     const checkNumber_token_a = async (e,token_a,token_b) =>{
-        const value = e;
-        e = e.toString().match(/^\d+(?:\.\d{0,8})?/)
-        if (e.indexOf('.') < 0 && e != '') {
-            e = parseFloat(e);
+        e.target.value = e.target.value.toString().match(/^\d+(?:\.\d{0,8})?/)
+        if (e.target.value.indexOf('.') < 0 && e.target.value != '') {
+            e.target.value = parseFloat(e.target.value);
+        }
+
+        let value =e.target.value
+        if(e.target.value > tokenAAccountBalance){
+            value = tokenAAccountBalance;
+            (document.getElementById('amount_a') as HTMLInputElement).value = value
         }
         token_balance_check(value,Number(tokenAAccountBalance),'add_liquidity_button',PoolDetails.assets_a,'amount_a')
         const result = first_add_liquidity_check()
-        if (!result){
-            const amount = await substrate_EstimateOutToken(intactWalletAddress,value,token_a,token_b)
-            if (typeof amount == 'string'){
-                setToken_b_number(amount)
-               const lp_number = await  substrate_getEstimateLpToken(intactWalletAddress,token_b,amount,token_a,value)
-                setYourLP(lp_number)
+            if (!result){
+                const amount = await substrate_EstimateOutToken(intactWalletAddress,value,token_a,token_b)
+                const api = await chain_api(intactWalletAddress)
 
+                const result = await api.rpc.exchange.getEstimateOutToken(value,token_a,token_b)
+                const accountA_token_balance_decimals = await api.query.tokenFungible.tokens(token_a)
+                const result_real = Number(result.toString())/Math.pow(10,accountA_token_balance_decimals.toJSON().decimals)
 
-            }else{
-                // console.log(amount);
-                (document.getElementById('amount_a') as HTMLInputElement).value = amount[0].toString();
-                (document.getElementById('amount_b') as HTMLInputElement).value = amount[1].toString();
+                if (typeof amount == 'string'){
+                    (document.getElementById('amount_b') as HTMLInputElement).value = value
+                    const lp_number = await  substrate_getEstimateLpToken(intactWalletAddress,token_b,result_real,token_a,value)
+                    setYourLP(lp_number)
+                }else{
+                    // console.log(amount);
+                    (document.getElementById('amount_a') as HTMLInputElement).value = amount[0];
+                    (document.getElementById('amount_b') as HTMLInputElement).value = amount[1];
+                }
             }
-        }
+
+
     }
 
-    // const checkNumber_token_b = async (e) =>{
-    //     const value = e.target.value;
-    //     e.target.value = e.target.value.toString().match(/^\d+(?:\.\d{0,8})?/)
-    //     if (e.target.value.indexOf('.') < 0 && e.target.value != '') {
-    //         e.target.value = parseFloat(e.target.value);
-    //     }
-    //     token_balance_check(value,Number(tokenBAccountBalance),'add_liquidity_button',PoolDetails.assets_b,'amount_b')
-    //     const result = first_add_liquidity_check()
-    //     if (!result){
-    //         const amount = await add_liquidity(intactWalletAddress,poolDetails.pool_id,value,value)
-    //         if (typeof amount == 'string'){
-    //             alert(amount)
-    //         }else{
-    //             (document.getElementById('amount_a') as HTMLInputElement).value = amount[0].toString();
-    //             // (document.getElementById('amount_b') as HTMLInputElement).value = amount[1].toString();
-    //         }
-    //     }
-    // }
 
     const addLiquidity = async ()=>{
+
         const token_a = Number((document.getElementById('amount_a') as HTMLInputElement).value)
         const token_b = Number((document.getElementById('amount_b') as HTMLInputElement).value)
-        console.log(token_a,token_b);
+
         const api = await chain_api(intactWalletAddress)
         const injector = await substrate_wallet_injector(intactWalletAddress)
-        console.log(poolDetails.pool_id,poolDetails.assets_a_id,poolDetails.assets_b_id,token_a,token_b,intactWalletAddress);
-        const transferExtrinsic = api.tx.exchange.addLiquidity(poolDetails.pool_id,token_a,token_b,0,0,intactWalletAddress)
+        const block = await api.rpc.chain.getHeader();
+        const next_block = block.number.toNumber() + 3
+        const account_token_balanceA_decimals = await api.query.tokenFungible.tokens(PoolDetails.assets_a_id)
+        const account_token_balanceB_decimals = await api.query.tokenFungible.tokens(PoolDetails.assets_b_id)
+
+        const baseNumberA = Math.pow(10,account_token_balanceA_decimals.toJSON().decimals)
+        const baseNumberB = Math.pow(10,account_token_balanceB_decimals.toJSON().decimals)
+
+        const token_a_real = new BigNumber(token_a * baseNumberA)
+        const token_b_real = new BigNumber(token_b * baseNumberB)
+
+        console.log(PoolDetails.assets_a_id,PoolDetails.assets_b_id,token_a_real,token_b_real,intactWalletAddress,next_block)
+
+
+
+        const transferExtrinsic = api.tx.exchange.addLiquidity(PoolDetails.assets_a_id,PoolDetails.assets_b_id,token_a_real,token_b_real,0,0,intactWalletAddress,next_block)
         transferExtrinsic.signAndSend(intactWalletAddress, { signer: injector.signer }, ({ events = [],status }) => {
+
+            setOpenAdd(false)
+
             if (status.isInBlock) {
+                setAwait_pop_up_boxState(true)
                 const liquidity_add_event_name = 'exchange.LiquidityAdded'
                 const token_fungible_mint_event_name = 'tokenFungible.Mint'
                 // console.log(`Completed at block hash #${status.asInBlock.toString()}`);
                 events.forEach(({ event: { data, method, section }, phase }) => {
+
                     if (liquidity_add_event_name == `${section}.${method}`){
                         // const pool_id = data.toJSON()[0]
                         // const
+
                         // console.log(data.toJSON()[0],data.toJSON()[3])
-                        setOpenAdd(false)
-                        setSop_up_boxState(true)
                         setPop_up_boxData({
                             state:true,
                             type:"Add liquidity",
                             hash:""
                         })
+                        setTimeout(()=>{
+                            setAwait_pop_up_boxState(false)
+                            setSop_up_boxState(true)
+                        },2500)
 
-                    }else{
-                        setSop_up_boxState(true)
-                        setPop_up_boxData({
-                            state:false,
-                            type:"Add liquidity",
-                            hash:""
-                        })
+
+                    }else {
+                        console.log("错误")
                     }
                 });
             } else {
                 console.log(`Current status: ${status.type}`)
             }
         }).catch((error: any) => {
-            console.log(':( transaction failed', error);
             setSop_up_boxState(true)
             setPop_up_boxData({
                 state:false,
@@ -506,17 +550,33 @@ const Detail = () =>{
             })
         });
     }
+
     const closeOpen = () =>{
         setOpenAdd(false)
-        setToken_a_number("0")
-        setToken_b_number("0")
         setYourLP("0")
     }
 
     const max_balance_a = async (token_a,token_b) => {
-        await checkNumber_token_a(tokenAAccountBalance,token_a,token_b);
-        setToken_a_number(tokenAAccountBalance);
-        (document.getElementById("amount_a") as  HTMLInputElement).value  = tokenAAccountBalance
+        const result = first_add_liquidity_check()
+        if (!result){
+            const amount = await substrate_EstimateOutToken(intactWalletAddress,tokenAAccountBalance,token_a,token_b)
+            const api = await chain_api(intactWalletAddress)
+
+            const result = await api.rpc.exchange.getEstimateOutToken(tokenAAccountBalance,token_a,token_b)
+            const accountA_token_balance_decimals = await api.query.tokenFungible.tokens(token_a)
+            const result_real = Number(result.toString())/Math.pow(10,accountA_token_balance_decimals.toJSON().decimals)
+
+            if (typeof amount == 'string'){
+                (document.getElementById('amount_b') as HTMLInputElement).value = amount
+                const lp_number = await  substrate_getEstimateLpToken(intactWalletAddress,token_b,result_real,token_a,tokenAAccountBalance)
+                setYourLP(lp_number)
+            }else{
+                // console.log(amount);
+                (document.getElementById('amount_a') as HTMLInputElement).value = amount[0];
+                (document.getElementById('amount_b') as HTMLInputElement).value = amount[1];
+            }
+        }
+        (document.getElementById("amount_a") as  HTMLInputElement).value  = String(tokenAAccountBalance)
         // const data = await add_liquidity(intactWalletAddress,poolDetails.pool_id,tokenAAccountBalance,1)
         // console.log(data)
         // const result = first_add_liquidity_check()
@@ -537,17 +597,7 @@ const Detail = () =>{
         // }
     }
 
-    const max_balance_b = async() => {
-        const amount = await add_liquidity(intactWalletAddress,poolDetails.pool_id,1,tokenBAccountBalance)
-        if (typeof amount == 'string'){
-            alert(amount)
-        }else{
-            console.log(amount);
-            (document.getElementById('amount_a') as HTMLInputElement).value = amount[0].toString();
-            (document.getElementById('amount_b') as HTMLInputElement).value = amount[1].toString();
-        }
 
-    }
 
     const max_balance_c = (e) => {
         (document.getElementById('amount_c') as HTMLInputElement).value = PoolDetails.your_lp
@@ -555,6 +605,8 @@ const Detail = () =>{
     if(PoolDetails.assets_a){
         return (
             <div className="bg-W3GBG">
+                <AwaitPop_Up_box/>
+                <Pop_up_box/>
                 <Heads/>
                 <Header/>
                 <div className="relative pt-16">
@@ -622,11 +674,11 @@ const Detail = () =>{
                                             </div>
                                             <div className="flex justify-between my-5 ">
                                                 <div className="border border-[#8E6CCD] rounded-full text-white py-0.5  px-2 text-sm ">
-                                                    1 {PoolDetails.assets_a} ≈ {(Number(tokenBBalance)/Number(tokenABalance)).toFixed(2)} {PoolDetails.assets_b}
+                                                    1 {PoolDetails.assets_a} ≈ {cropData((Number(tokenBBalance)/Number(tokenABalance)),2)} {PoolDetails.assets_b}
                                                 </div>
 
                                                 <div className="border border-[#8E6CCD] rounded-full text-white py-0.5 px-2 text-sm">
-                                                    1 {PoolDetails.assets_b} ≈ {(Number(tokenABalance)/Number(tokenBBalance)).toFixed(2)} {PoolDetails.assets_a}
+                                                    1 {PoolDetails.assets_b} ≈ {cropData((Number(tokenABalance)/Number(tokenBBalance)),2)} {PoolDetails.assets_a}
                                                 </div>
                                             </div>
                                             <div className="border-b border-[#2E2E2E]"></div>
@@ -669,10 +721,12 @@ const Detail = () =>{
 
                                                 <div className="flex justify-between mt-4">
                                                     <div className="text-gray-400">
-                                                        LP Token
+                                                       Yours
                                                     </div>
                                                     <div className="text-white text-sm px-1">
-                                                        {PoolDetails.your_lp} ( {Number(PoolDetails.your_lp)/Number(PoolDetails.total_lp)* 100}% )
+
+
+                                                        {PoolDetails.your_lp} ({percentage}%)
                                                     </div>
                                                 </div>
                                             </div>
@@ -698,6 +752,7 @@ const Detail = () =>{
                             </div>
                         </div>
                     </div>
+
                     <Transition.Root show={openAdd} as={Fragment}>
                         <Dialog as="div" className="fixed z-20 inset-0 overflow-y-auto "  onClose={closeOpen}>
                             <div className="flex items-center justify-center min-h-screen    px-4  text-center ">
@@ -750,17 +805,17 @@ const Detail = () =>{
                                                     </div>
                                                     <div className="flex mx-4">
                                                         <input type="text"
-                                                               className="text-xs md:text-sm placeholder-gray-500 bg-[#1F1F1F] rounded-lg p-2 py-3 xl:w-80 text-white border border-W3GInfoBG   hover:border-neutral-600 focus:border-neutral-600  transition duration-300    outline-none"
-                                                               placeholder={token_a_number}
-
+                                                               className="text-xs md:text-sm placeholder-gray-500 bg-[#1F1F1F] rounded-lg p-2 py-3 xl:w-44 text-white border border-W3GInfoBG   hover:border-neutral-600 focus:border-neutral-600  transition duration-300    outline-none"
+                                                               placeholder="0"
                                                                maxLength={14}
                                                                onInput={(e)=>
-                                                                   checkNumber_token_a((e.target as HTMLInputElement).value
+                                                                   checkNumber_token_a(e
                                                                    ,PoolDetails.assets_a_id
                                                                    ,PoolDetails.assets_b_id)}
                                                                // onInput={(e)=>checkNumber_token_a(e.target,PoolDetails.assets_a_id,PoolDetails.assets_b_id)}
                                                                id="amount_a"
                                                                autoComplete="off"
+                                                               max={tokenAAccountBalance}
                                                         />
                                                         <button onClick={()=>
                                                             max_balance_a(PoolDetails.assets_a_id,PoolDetails.assets_b_id)} className="rounded-lg py-1 px-5 ml-2 bg-gradient-to-r from-W3G1 via-W3G2 to-W3G3 text-sm flex items-center  text-white ">
@@ -783,8 +838,8 @@ const Detail = () =>{
                                                     </div>
                                                     <div className="flex mx-4">
                                                         <input type="text"
-                                                               className="text-xs md:text-sm placeholder-gray-500 bg-[#1F1F1F] rounded-lg p-2 py-3 xl:w-80 text-white    outline-none"
-                                                               placeholder={token_b_number}
+                                                               className="text-xs md:text-sm placeholder-gray-500 bg-[#1F1F1F] rounded-lg p-2 py-3 xl:w-64 text-white    outline-none"
+                                                               placeholder="0"
                                                                maxLength={14}
                                                                id="amount_b"
                                                                autoComplete="off"
