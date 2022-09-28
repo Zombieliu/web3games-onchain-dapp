@@ -106,7 +106,7 @@ const SelectTokenTail = () =>{
                                         Common bases
                                     </div>
                                     <div className="my-5 h-28 pr-4 scrollbar-thin scrollbar-thumb-custom  scrollbar-thumb-rounded-full  overflow-y-scroll">
-                                        <div className="flex grid md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
+                                        <div className="flex grid md:grid-cols-2 xl:grid-cols-3  gap-4">
                                             {tokenList.map((item=>(
                                                 <div  key={item.name} className="rounded-full ">
                                                     <button onClick={() => select(item)} className="flex">

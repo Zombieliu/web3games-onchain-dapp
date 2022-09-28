@@ -30,7 +30,7 @@ import Heads from "../../../components/head";
 import {PoolSkeleton} from "../../../components/skeleton";
 import {AwaitPop_Up_box, Pop_up_box} from "../../../components/pop_up_box";
 import BigNumber from "bignumber.js";
-
+import {hexToString} from '@polkadot/util'
 
 
 function classNames(...classes) {
@@ -357,6 +357,7 @@ const Detail = () =>{
 
     const [,setPop_up_boxData] =useAtom(PopUpBoxInfo)
     const [,setSop_up_boxState] = useAtom(PopUpBoxState)
+    const [ size,setSize] = useState(true)
 
 
     useEffect(()=>{
@@ -364,17 +365,17 @@ const Detail = () =>{
             const token_detail = async ()=>{
                 let token_id_a = router.query.slug[0]
                 let token_id_b = router.query.slug[1]
-                console.log(token_id_a,token_id_b)
-                console.log(tokenPoolPair)
-                const result = tokenPoolPair.filter(token => {
-                    return token.assets_a_id == token_id_a && token.assets_b_id == token_id_b;
-                })
-                console.log(result[0].assets_a_address)
 
                 if(Number(token_id_b)>Number(token_id_a)){
-                    token_id_b  = token_id_a
-                    token_id_a  = token_id_b
+                    token_id_a = router.query.slug[1]
+                    token_id_b = router.query.slug[0]
                 }
+                console.log(token_id_a,token_id_b)
+
+                const result = tokenPoolPair.filter(token => {
+                        return token.assets_a_id == token_id_a && token.assets_b_id == token_id_b;
+
+                })
 
                 const api = await chain_api(intactWalletAddress)
                 const balance = await api.query.exchange.reserves([token_id_b,token_id_a])
@@ -394,6 +395,7 @@ const Detail = () =>{
                     // .lpToken
                 const pair_lp_token_balance_result:any = await api.query.tokenFungible.tokens(pair_lp_token_address)
                 const user_lp_token_balance_result:any = await api.query.tokenFungible.balances(pair_lp_token_address,intactWalletAddress)
+                const total_lp_token_balance_result = pair_lp_token_balance_result.toJSON().totalSupply
                 const poolDetails={
                     assets_a: result[0].assets_a,
                     assets_b:result[0].assets_b,
@@ -406,19 +408,25 @@ const Detail = () =>{
                     tvl:result[0].tvl,
                     volume:result[0].volume,
                     volume_days:result[0].volume_days,
-                    total_lp:(parseFloat(String(cropData((pair_lp_token_balance_result.toJSON().totalSupply / Math.pow(10, 18)),5)))).toString(),
+                    total_lp:(parseFloat(String(cropData((total_lp_token_balance_result / Math.pow(10, 18)),5)))).toString(),
                     your_lp:(parseFloat(String(cropData((user_lp_token_balance_result/Math.pow(10,18)),5)))).toString(),
                 }
                 setPoolDetails(poolDetails)
-                setTokenABalance(String(parseFloat(String(cropData(Number((balance.toJSON()[0]) / baseNumberB), 4)))))
-                setTokenBBalance(String(parseFloat(String(cropData(Number((balance.toJSON()[1]) / baseNumberA), 4)))))
+                console.log( new BigNumber(balance.toJSON()[1]).toJSON())
+                setTokenABalance(String(parseFloat(String(cropData(Number((balance.toJSON()[1]) / baseNumberA), 4)))))
+                setTokenBBalance(String(parseFloat(String(cropData(Number((balance.toJSON()[0]) / baseNumberB), 4)))))
                 const account_token_a_balance = await api.query.tokenFungible.balances(token_id_a,intactWalletAddress)
                 const account_token_b_balance = await api.query.tokenFungible.balances(token_id_b,intactWalletAddress)
                 setTokenAccountABalance(parseFloat(String(cropData(Number((account_token_a_balance.toString()) / baseNumberA), 4))))
                 setTokenAccountBBalance(parseFloat(String(cropData(Number((account_token_b_balance.toString()) / baseNumberB), 4))))
 
-                console.log(cropData((user_lp_token_balance_result / pair_lp_token_balance_result.toJSON().totalSupply),2))
-                setPercentage(cropData((user_lp_token_balance_result / pair_lp_token_balance_result.toJSON().totalSupply),2)*100)
+                // console.log(String(parseFloat(String(cropData(Number((balance.toJSON()[1]) / baseNumberB), 4)))))
+                // console.log(String(parseFloat(String(Number((balance.toJSON()[1]/ 100000000000))))))
+                // console.log(cropData((user_lp_token_balance_result / pair_lp_token_balance_result.toJSON().totalSupply),4))
+                const total_lp_token = pair_lp_token_balance_result.toJSON().totalSupply
+                const total_lp_token_real = new BigNumber(total_lp_token)
+
+                setPercentage(cropData((Number(user_lp_token_balance_result.toString()) / Number(total_lp_token_real.toString())),4)*100)
             }
             token_detail()
             console.log()
@@ -430,7 +438,10 @@ const Detail = () =>{
     // }else{
     //   console.log(amount);
     // }
-
+    const closeOpen = () =>{
+        setOpenAdd(false)
+        setYourLP("0")
+    }
     const token_balance_check = (value,token_balance,id_name,assets_name,site_id) =>{
         if (value > token_balance){
             const button = document.getElementById(id_name);
@@ -467,11 +478,29 @@ const Detail = () =>{
 
                 const result = await api.rpc.exchange.getEstimateOutToken(value,token_a,token_b)
                 const accountA_token_balance_decimals = await api.query.tokenFungible.tokens(token_a)
-                const result_real = Number(result.toString())/Math.pow(10,accountA_token_balance_decimals.toJSON().decimals)
+                // const result_real = Number(result.toString())/Math.pow(10,accountA_token_balance_decimals.toJSON().decimals)
+
+                const baseNumber = Math.pow(10,accountA_token_balance_decimals.toJSON().decimals)
+
+                const result_real = new BigNumber(result / baseNumber)
+
+                let token_real_result
+
+                if(result_real.c.length ==1 ){
+                    const data = result_real.c[0]
+                    const length = result_real.e - data.toString().length
+                    let string = ''
+                    for (let i = 0 ; i< length+1; i++){
+                        string = string +"0"
+                    }
+                    token_real_result = data.toString().concat(string)
+                }else {
+                    token_real_result = api.createType("u128",result_real.c[0].toString().concat(result_real.c[1].toString()))
+                }
 
                 if (typeof amount == 'string'){
-                    (document.getElementById('amount_b') as HTMLInputElement).value = value
-                    const lp_number = await  substrate_getEstimateLpToken(intactWalletAddress,token_b,result_real,token_a,value)
+                    (document.getElementById('amount_b') as HTMLInputElement).value = result
+                    const lp_number = await  substrate_getEstimateLpToken(intactWalletAddress,token_b,token_real_result,token_a,value)
                     setYourLP(lp_number)
                 }else{
                     // console.log(amount);
@@ -481,6 +510,32 @@ const Detail = () =>{
             }
 
 
+    }
+
+    const checkNumber_token_b = (e) =>{
+        e.target.value = e.target.value.toString().match(/^\d+(?:\.\d{0,8})?/)
+        if (e.target.value.indexOf('.') < 0 && e.target.value != '') {
+            e.target.value = parseFloat(e.target.value);
+        }
+
+        let value =e.target.value
+        if(e.target.value > tokenBAccountBalance){
+            value = tokenBAccountBalance;
+            (document.getElementById('amount_b') as HTMLInputElement).value = value
+        }
+    }
+
+    const checkNumber_token_c = (e) =>{
+
+        e.target.value = e.target.value.toString().match(/^\d+(?:\.\d{0,8})?/)
+        if (e.target.value.indexOf('.') < 0 && e.target.value != '') {
+            e.target.value = parseFloat(e.target.value);
+        }
+        let value =e.target.value
+        if(e.target.value > Number(PoolDetails.your_lp)){
+            value = PoolDetails.your_lp;
+            (document.getElementById('amount_c') as HTMLInputElement).value = value
+        }
     }
 
 
@@ -499,25 +554,48 @@ const Detail = () =>{
         const baseNumberA = Math.pow(10,account_token_balanceA_decimals.toJSON().decimals)
         const baseNumberB = Math.pow(10,account_token_balanceB_decimals.toJSON().decimals)
 
-        const token_a_real = new BigNumber(token_a * baseNumberA)
-        const token_b_real = new BigNumber(token_b * baseNumberB)
 
-        console.log(PoolDetails.assets_a_id,PoolDetails.assets_b_id,token_a_real,token_b_real,intactWalletAddress,next_block)
+        const token_a_real = new BigNumber(token_a).times(BigNumber(baseNumberA))
+        const token_b_real = new BigNumber(token_b).times(BigNumber(baseNumberB))
 
+        let token_a_real_result
+        let token_b_real_result
 
+        if(token_a_real.c.length ==1 ){
+            const data = token_a_real.c[0]
+            const length = token_a_real.e - data.toString().length
+            let string = ''
+            for (let i = 0 ; i< length+1; i++){
+                string = string +"0"
+            }
+            token_a_real_result = data.toString().concat(string)
+        }else {
+            token_a_real_result = api.createType("u128",token_a_real.c[0].toString().concat(token_a_real.c[1].toString()))
+        }
 
-        const transferExtrinsic = api.tx.exchange.addLiquidity(PoolDetails.assets_a_id,PoolDetails.assets_b_id,token_a_real,token_b_real,0,0,intactWalletAddress,next_block)
+        if(token_b_real.c.length ==1 ){
+            const data = token_b_real.c[0]
+            const length = token_b_real.e - data.toString().length
+            let string = ''
+            for (let i = 0 ; i< length+1; i++){
+                string = string +"0"
+            }
+            token_b_real_result = data.toString().concat(string)
+        }else {
+            token_b_real_result = api.createType("u128",token_b_real.c[0].toString().concat(token_b_real.c[1].toString()))
+        }
+        console.log(token_a_real_result.toString(),token_b_real_result.toString())
+        const transferExtrinsic = api.tx.exchange.addLiquidity(PoolDetails.assets_b_id,PoolDetails.assets_a_id,token_b_real_result.toString(),token_a_real_result.toString(),0,0,intactWalletAddress,next_block)
         transferExtrinsic.signAndSend(intactWalletAddress, { signer: injector.signer }, ({ events = [],status }) => {
 
             setOpenAdd(false)
-
+            setAwait_pop_up_boxState(true)
             if (status.isInBlock) {
-                setAwait_pop_up_boxState(true)
+
                 const liquidity_add_event_name = 'exchange.LiquidityAdded'
                 const token_fungible_mint_event_name = 'tokenFungible.Mint'
                 // console.log(`Completed at block hash #${status.asInBlock.toString()}`);
                 events.forEach(({ event: { data, method, section }, phase }) => {
-
                     if (liquidity_add_event_name == `${section}.${method}`){
                         // const pool_id = data.toJSON()[0]
                         // const
@@ -551,11 +629,6 @@ const Detail = () =>{
         });
     }
 
-    const closeOpen = () =>{
-        setOpenAdd(false)
-        setYourLP("0")
-    }
-
     const max_balance_a = async (token_a,token_b) => {
         const result = first_add_liquidity_check()
         if (!result){
@@ -564,11 +637,28 @@ const Detail = () =>{
 
             const result = await api.rpc.exchange.getEstimateOutToken(tokenAAccountBalance,token_a,token_b)
             const accountA_token_balance_decimals = await api.query.tokenFungible.tokens(token_a)
-            const result_real = Number(result.toString())/Math.pow(10,accountA_token_balance_decimals.toJSON().decimals)
+            const baseNumber = Math.pow(10,accountA_token_balance_decimals.toJSON().decimals)
+
+            const result_real = new BigNumber(result / baseNumber)
+
+            let token_real_result
+
+            if(result_real.c.length ==1 ){
+                const data = result_real.c[0]
+                const length = result_real.e - data.toString().length
+                let string = ''
+                for (let i = 0 ; i< length+1; i++){
+                    string = string +"0"
+                }
+                token_real_result = data.toString().concat(string)
+            }else {
+                token_real_result = api.createType("u128",result_real.c[0].toString().concat(result_real.c[1].toString()))
+            }
+
 
             if (typeof amount == 'string'){
                 (document.getElementById('amount_b') as HTMLInputElement).value = amount
-                const lp_number = await  substrate_getEstimateLpToken(intactWalletAddress,token_b,result_real,token_a,tokenAAccountBalance)
+                const lp_number = await  substrate_getEstimateLpToken(intactWalletAddress,token_b,token_real_result,token_a,tokenAAccountBalance)
                 setYourLP(lp_number)
             }else{
                 // console.log(amount);
@@ -597,10 +687,76 @@ const Detail = () =>{
         // }
     }
 
+    const max_balance_b = () =>{
+        (document.getElementById('amount_b') as HTMLInputElement).value = String(tokenBAccountBalance)
 
-
-    const max_balance_c = (e) => {
+    }
+    const max_balance_c = () => {
         (document.getElementById('amount_c') as HTMLInputElement).value = PoolDetails.your_lp
+    }
+    const removeLiquidity = async () =>{
+        const token_c = Number((document.getElementById('amount_c') as HTMLInputElement).value)
+        const api = await chain_api(intactWalletAddress)
+        const injector = await substrate_wallet_injector(intactWalletAddress)
+        const block = await api.rpc.chain.getHeader();
+        const next_block = block.number.toNumber() + 3
+
+
+        const baseNumberC = Math.pow(10,18)
+        const token_c_real = new BigNumber(token_c).times(BigNumber(baseNumberC))
+
+
+        let token_c_real_result
+
+        if(token_c_real.c.length ==1 ){
+            const data = token_c_real.c[0]
+            const length = token_c_real.e - data.toString().length
+            let string = ''
+            for (let i = 0 ; i< length+1; i++){
+                string = string +"0"
+            }
+            token_c_real_result = data.toString().concat(string)
+        }else {
+            token_c_real_result = api.createType("u128",token_c_real.c[0].toString().concat(token_c_real.c[1].toString()))
+        }
+
+        const transferExtrinsic = api.tx.exchange.removeLiquidity(PoolDetails.assets_b_id,PoolDetails.assets_a_id,token_c_real_result,0,0,intactWalletAddress,next_block)
+        transferExtrinsic.signAndSend(intactWalletAddress, { signer: injector.signer }, ({ events = [],status }) => {
+
+            setOpenRemove(false)
+
+            if (status.isInBlock) {
+                setAwait_pop_up_boxState(true)
+                const liquidity_remove_event_name = 'exchange.LiquidityRemoved'
+
+                events.forEach(({ event: { data, method, section }, phase }) => {
+                    console.log(`${section}.${method}`)
+                    if (liquidity_remove_event_name == `${section}.${method}`){
+                        setPop_up_boxData({
+                            state:true,
+                            type:"Remove liquidity",
+                            hash:""
+                        })
+                        setTimeout(()=>{
+                            setAwait_pop_up_boxState(false)
+                            setSop_up_boxState(true)
+                        },2500)
+
+                    }else {
+                        console.log("错误")
+                    }
+                });
+            } else {
+                console.log(`Current status: ${status.type}`)
+            }
+        }).catch((error: any) => {
+            setSop_up_boxState(true)
+            setPop_up_boxData({
+                state:false,
+                type:"Transaction ",
+                hash:""
+            })
+        });
     }
     if(PoolDetails.assets_a){
         return (
@@ -725,8 +881,7 @@ const Detail = () =>{
                                                     </div>
                                                     <div className="text-white text-sm px-1">
 
-
-                                                        {PoolDetails.your_lp} ({percentage}%)
+                                                        {PoolDetails.your_lp} ≈ ({percentage}%)
                                                     </div>
                                                 </div>
                                             </div>
@@ -838,16 +993,18 @@ const Detail = () =>{
                                                     </div>
                                                     <div className="flex mx-4">
                                                         <input type="text"
-                                                               className="text-xs md:text-sm placeholder-gray-500 bg-[#1F1F1F] rounded-lg p-2 py-3 xl:w-64 text-white    outline-none"
+
+                                                               className={classNames(tokenABalance =='0' && tokenBBalance == "0" ?"xl:w-44":"xl:w-64 ","text-xs md:text-sm placeholder-gray-500 bg-[#1F1F1F] rounded-lg p-2 py-3 text-white border border-W3GInfoBG   hover:border-neutral-600 focus:border-neutral-600  transition duration-300    outline-none")}
                                                                placeholder="0"
+                                                               onInput={(e)=>checkNumber_token_b(e)}
                                                                maxLength={14}
                                                                id="amount_b"
                                                                autoComplete="off"
-                                                               readOnly={true}
+                                                               readOnly={tokenABalance =='0' && tokenBBalance == "0" ? false : true}
                                                         />
-                                                        {/*<button onClick={max_balance_b} className="rounded-lg py-1 px-5 ml-2 bg-gradient-to-r from-W3G1 via-W3G2 to-W3G3 text-sm flex items-center  text-white ">*/}
-                                                        {/*    MAX*/}
-                                                        {/*</button>*/}
+                                                        <button onClick={max_balance_b} className={classNames(tokenABalance =='0'&& tokenBBalance == "0" ?"":"hidden","rounded-lg py-1 px-5 ml-2 bg-gradient-to-r from-W3G1 via-W3G2 to-W3G3 text-sm flex items-center  text-white ")}>
+                                                            MAX
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -929,7 +1086,7 @@ const Detail = () =>{
                                                                className="text-xs md:text-sm placeholder-gray-500 bg-[#1F1F1F] rounded-lg p-2 py-3 w-full text-white   border border-W3GInfoBG   hover:border-neutral-600 focus:border-neutral-600  transition duration-300    outline-none"
                                                                placeholder="0"
                                                                maxLength={21}
-                                                               onInput={checkNumber}
+                                                               onInput={checkNumber_token_c}
                                                                id="amount_c"
                                                                autoComplete="off"
                                                         />
@@ -996,7 +1153,7 @@ const Detail = () =>{
                                                 </button>
                                             </div>
                                             <div className={WalletButtonShow ? "mt-1": "hidden"}>
-                                                <button   className=" lg:mt-0  w-56 px-3 py-2 rounded-lg bg-gradient-to-r from-W3G1 via-W3G2  to-W3G3 text-white">
+                                                <button  onClick={removeLiquidity}  className=" lg:mt-0  w-56 px-3 py-2 rounded-lg bg-gradient-to-r from-W3G1 via-W3G2  to-W3G3 text-white">
                                                     Remove Liquidity
                                                 </button>
                                             </div>

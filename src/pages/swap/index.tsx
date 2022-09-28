@@ -26,6 +26,7 @@ import {evm_address_to_sub_address} from "../../utils/chain/address";
 import {router} from "next/client";
 import {useRouter} from "next/router";
 import {cropData} from "../../utils/math";
+import BigNumber from "bignumber.js";
 
 
 
@@ -65,22 +66,49 @@ const Recent = ()=>{
 
 
     const get_swap_number = async (input_data)=>{
-        const pool = [swapTokenTop.tokenId,swapTokenTail.tokenId]
+        let pool = [swapTokenTop.tokenId,swapTokenTail.tokenId]
+
         const token_number = input_data
-        const result = await substrate_getAmountOutPrice(intactWalletAddress,pool,token_number)
-
+        if(input_data!== ""){
         const api = await chain_api(intactWalletAddress)
-        const accountA_token_balance_decimals = await api.query.tokenFungible.tokens(swapTokenTop.tokenId)
-        const accountB_token_balance_decimals = await api.query.tokenFungible.tokens(swapTokenTail.tokenId)
-        const base = Math.abs(Number(accountA_token_balance_decimals.toJSON().decimals) - Number(accountB_token_balance_decimals.toJSON().decimals))
 
+        const account_token_balanceA_decimals = await api.query.tokenFungible.tokens(swapTokenTop.tokenId)
+        const account_token_balanceB_decimals = await api.query.tokenFungible.tokens(swapTokenTail.tokenId)
 
+        const baseNumberA = Math.pow(10,account_token_balanceA_decimals.toJSON().decimals)
+        const baseNumberB = Math.pow(10,account_token_balanceB_decimals.toJSON().decimals)
+
+        const token_a_real = new BigNumber(token_number).times(BigNumber(baseNumberA))
+        // const token_b_real = new BigNumber(token_b).times(BigNumber(baseNumberB))
+
+        let token_a_real_result
+        let token_b_real_result
+
+        if(token_a_real.c.length ==1 ){
+            const data = token_a_real.c[0]
+            const length = token_a_real.e - data.toString().length
+            let string = ''
+            for (let i = 0 ; i< length+1; i++){
+                string = string +"0"
+            }
+            token_a_real_result = data.toString().concat(string)
+
+        }else {
+            token_a_real_result = api.createType("u128",token_a_real.c[0].toString().concat(token_a_real.c[1].toString()))
+
+        }
+        const result = await substrate_getAmountOutPrice(intactWalletAddress,pool,token_number)
+        // //
+        // //
+            console.log(result.toString())
+        //
+        //
         if(result[1] == undefined){
             setSwapOutPutValue(0)
         }else {
-            setSwapOutPutValue(cropData(Number(result[1])/Math.pow(10,base),4))
+            setSwapOutPutValue(cropData(Number(result[1]),6))
         }
-
+        }
     }
 
     const check = async (e) => {

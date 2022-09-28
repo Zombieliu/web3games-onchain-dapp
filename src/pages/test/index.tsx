@@ -1,6 +1,7 @@
 import React, { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import {CheckIcon, XCircleIcon} from "@heroicons/react/solid";
+import BigNumber from 'bignumber.js';
 
 
 export default function Example() {
@@ -11,12 +12,44 @@ export default function Example() {
         // const a = new_result.splice(0,1)
         // console.log(a)
 
-        const arr = (12.0001.toFixed(6)).toString().split(".");
-        const integer_length = arr[0].length
+        const baseNumberA = Math.pow(10,6)
+        const baseNumberB = Math.pow(10,18)
 
-        console.log(integer_length)
+        const token_a_real = new BigNumber(13937030631738840562)
+        const token_b_real = new BigNumber(13937030631738841562)
+        const a = token_a_real.c[0] +token_a_real.c[1]
+        const b=  token_b_real.c[0] +token_b_real.c[1]
+
+        console.log( token_a_real.c[0],token_a_real.c[1])
+        console.log(token_a_real,token_a_real)
+
+
+        // console.log(Number(token_a_real.toString()),Number(token_b_real.toString()))
         // const token_balance_real_number = (12.000001).toFixed(5-integer_length)
         // console.log(token_balance_real_number)
+        // const account_token_balanceA_decimals = await api.query.tokenFungible.tokens(swapTokenTop.tokenId)
+        // const account_token_balanceB_decimals = await api.query.tokenFungible.tokens(swapTokenTail.tokenId)
+        //
+        // const baseNumberA = Math.pow(10,account_token_balanceA_decimals.toJSON().decimals)
+        // const baseNumberB = Math.pow(10,account_token_balanceB_decimals.toJSON().decimals)
+        //
+        // const token_a_real = new BigNumber(token_number).times(BigNumber(baseNumberA))
+        // // const token_b_real = new BigNumber(token_b).times(BigNumber(baseNumberB))
+        //
+        // let token_a_real_result
+        // let token_b_real_result
+        //
+        // if(token_a_real.c.length ==1 ){
+        //     const data = token_a_real.c[0]
+        //     const length = token_a_real.e - data.toString().length
+        //     let string = ''
+        //     for (let i = 0 ; i< length+1; i++){
+        //         string = string +"0"
+        //     }
+        //     token_a_real_result = data.toString().concat(string)
+        // }else {
+        //     token_a_real_result = api.createType("u128",token_a_real.c[0].toString().concat(token_a_real.c[1].toString()))
+        // }
 
     }
     return (

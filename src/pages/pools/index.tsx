@@ -15,7 +15,7 @@ import {
     SwapTokenTail, SwapTokenTop,
     WalletButtonShowState,
     WalletListShowState,
-    token_pool_pair, TOKENWATCHPOOLPAIR, PopUpBoxInfo, PopUpBoxState,
+    token_pool_pair, TOKENWATCHPOOLPAIR, PopUpBoxInfo, PopUpBoxState, AwaitPopUpBoxState,
 } from '../../jotai';
 import { useRouter } from "next/router";
 import Link from "next/link";
@@ -26,7 +26,7 @@ import TokenList from "../../components/token_lists";
 import SelectTokenTop from "../../components/selecttokentop";
 import SelectTokenTail from "../../components/selecttokentail";
 import {address_slice, evm_address_to_sub_address} from "../../utils/chain/address";
-import {Pop_up_box} from "../../components/pop_up_box";
+import {AwaitPop_Up_box, Pop_up_box} from "../../components/pop_up_box";
 import Heads from "../../components/head";
 import {cropData} from "../../utils/math";
 
@@ -198,8 +198,11 @@ const Pools = () =>{
     const [tokenlist,settokenList] = useAtom(token_list_and_balance)
     // success
 
+    const [,setAwait_pop_up_boxState] = useAtom(AwaitPopUpBoxState)
+
     const [,setPop_up_boxData] =useAtom(PopUpBoxInfo)
     const [,setSop_up_boxState] = useAtom(PopUpBoxState)
+
 
     useEffect(()=>{
         if (router.isReady) {
@@ -255,6 +258,7 @@ const Pools = () =>{
             setSop_up_boxState(true)
         }else{
             const creat_pool_event_name = 'exchange.PoolCreated'
+            const creat_pool_event_name2 = 'system.ExtrinsicFailed'
             const api = await chain_api(intactWalletAddress)
             const injector = await substrate_wallet_injector(intactWalletAddress)
             const token_a = Number(swapTokenTop.tokenId)
@@ -267,18 +271,27 @@ const Pools = () =>{
             }
             const assets_balance_result = await assets_balance()
             const result = await transferExtrinsic.signAndSend(intactWalletAddress, { signer: injector.signer }, ({ events= [],status }) => {
+                setOpenCreate(false)
                 if (status.isInBlock){
-                    console.log(`${status.asInBlock.toString()}`);
+                    setAwait_pop_up_boxState(true)
                     events.forEach(({ event: { data, method, section }, phase }) => {
-                        // console.log('\t', phase.toString(), `: ${section}.${method}`, data.toString());
+                        if(creat_pool_event_name2 == `${section}.${method}`){
+                            setPop_up_boxData({
+                                state:false,
+                                type:"Create Pool",
+                                hash:"",
+                            })
+                                setAwait_pop_up_boxState(false)
+                                setSop_up_boxState(true)
+                        }
                         if (creat_pool_event_name == `${section}.${method}`){
-                            console.log(data.toString());
-                            console.log(data.toString().indexOf(','));
                             const before_pool_id = data.toString()
                             const index = before_pool_id.indexOf(',')
                             const pool_id = before_pool_id.substring(1,index)
                             let before_token_pool_pair = tokenPoolPair
                             let new_token_pool_pair = tokenPoolPair
+                            let new_user_token_pool_pair = token_watchlist_pool_pair
+                            if(swapTokenTop.tokenId > swapTokenTail.tokenId){
                             const input = {
                                 assets_a: swapTokenTop.name,
                                 assets_a_address: assets_balance_result[0],
@@ -296,6 +309,27 @@ const Pools = () =>{
                                 your_lp: "0"
                             }
                             new_token_pool_pair.push(input)
+                                new_user_token_pool_pair.push(input)
+                            }else {
+                                const input = {
+                                    assets_a: swapTokenTail.name ,
+                                    assets_a_address: assets_balance_result[1],
+                                    assets_a_id: swapTokenTail.tokenId  ,
+                                    assets_a_image_url:swapTokenTail.img ,
+                                    assets_b:swapTokenTop.name,
+                                    assets_b_address: assets_balance_result[0],
+                                    assets_b_id: swapTokenTop.tokenId,
+                                    assets_b_image_url:swapTokenTop.img,
+                                    pool_id,
+                                    total_lp: "0",
+                                    tvl: "0",
+                                    volume: "0",
+                                    volume_days: "0",
+                                    your_lp: "0"
+                                }
+                                new_token_pool_pair.push(input)
+                                new_user_token_pool_pair.push(input)
+                            }
                             let fix = before_token_pool_pair.concat(new_token_pool_pair)
                             let new_result = []
                             for ( let item1 of fix){
@@ -310,14 +344,18 @@ const Pools = () =>{
                                 }
                             }
                             setTokenPoolPair(new_result)
+
+                            set_token_watchlist_pool_pair(new_user_token_pool_pair)
                             // success
-                            setOpenCreate(false)
                             setPop_up_boxData({
                                 state:true,
                                 type:"Create Pool",
                                 hash:"",
                             })
-                            setSop_up_boxState(true)
+                            setTimeout(()=>{
+                                setAwait_pop_up_boxState(false)
+                                setSop_up_boxState(true)
+                            },2500)
                         }
                     });
                 }
@@ -325,35 +363,7 @@ const Pools = () =>{
                 alert(error)
             });
         }
-        // clearTimeout(time)
-        // console.log(swapTokenTail.img,);
-        // await axios.post("http://127.0.0.1:7001/api/swap/create_new_pool",{
-        //     pool_id:"0",
-        //     assets_a:swapTokenTop.name,
-        //     assets_b:swapTokenTail.name,
-        //     assets_a_image_url:swapTokenTop.img,
-        //     assets_b_image_url:swapTokenTail.img,
-        //     assets_a_id:"1",
-        //     assets_b_id:"2",
-        //     assets_a_address:"assets_a_address",
-        //     assets_b_address:"assets_b_address",
-        //     tvl:"1231231",
-        //     volume:"231231",
-        //     volume_days:"0",
-        //     total_lp :"0",
-        //     your_lp :"0",
-        // }).then(function (response) {
-        //     setOpenCreate(false)
-        //     setOpenAlert(true)
-        //     time = setTimeout(()=>{
-        //         setOpenAlert(false)
-        //         location.reload()
-        //     },2000)
 
-        // })
-        //   .catch(function (error) {
-        //    alert("Please try again")
-        //   });
     }
 
     const get_token_pool_pair_info = (pages)=>{
@@ -402,6 +412,8 @@ const Pools = () =>{
     // @ts-ignore
     return(
         <div className="bg-W3GBG">
+            <AwaitPop_Up_box/>
+            <Pop_up_box/>
             <Heads/>
             <Header/>
             <div className=" relative pt-16">
