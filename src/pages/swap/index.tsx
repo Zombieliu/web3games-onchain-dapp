@@ -82,7 +82,6 @@ const Recent = ()=>{
         // const token_b_real = new BigNumber(token_b).times(BigNumber(baseNumberB))
 
         let token_a_real_result
-        let token_b_real_result
 
         if(token_a_real.c.length ==1 ){
             const data = token_a_real.c[0]
@@ -97,7 +96,8 @@ const Recent = ()=>{
             token_a_real_result = api.createType("u128",token_a_real.c[0].toString().concat(token_a_real.c[1].toString()))
 
         }
-        const result = await substrate_getAmountOutPrice(intactWalletAddress,pool,token_number)
+        const result = await substrate_getAmountOutPrice(intactWalletAddress,pool,token_a_real_result)
+
         // //
         // //
             console.log(result.toString())
@@ -106,7 +106,7 @@ const Recent = ()=>{
         if(result[1] == undefined){
             setSwapOutPutValue(0)
         }else {
-            setSwapOutPutValue(cropData(Number(result[1]),6))
+            setSwapOutPutValue((parseFloat(String(cropData((result[1]/ baseNumberB),5)))))
         }
         }
     }

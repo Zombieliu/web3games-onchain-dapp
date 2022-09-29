@@ -442,18 +442,18 @@ const Detail = () =>{
         setOpenAdd(false)
         setYourLP("0")
     }
-    const token_balance_check = (value,token_balance,id_name,assets_name,site_id) =>{
-        if (value > token_balance){
-            const button = document.getElementById(id_name);
-            button.innerText = `Insufficient ${assets_name} balance`;
-            (document.getElementById(site_id) as HTMLInputElement).value = value.slice(0,value.length - 1)
-            button.setAttribute('disabled','true');
-        }else{
-            const button = document.getElementById(id_name);
-            button.innerText = `Add Liquidity`;
-            button.removeAttribute('disabled')
-        }
-    }
+    // const token_balance_check = (value,token_balance,id_name,assets_name,site_id) =>{
+    //     if (value > token_balance){
+    //         const button = document.getElementById(id_name);
+    //         button.innerText = `Insufficient ${assets_name} balance`;
+    //         (document.getElementById(site_id) as HTMLInputElement).value = value.slice(0,value.length - 1)
+    //         button.setAttribute('disabled','true');
+    //     }else{
+    //         const button = document.getElementById(id_name);
+    //         button.innerText = `Add Liquidity`;
+    //         button.removeAttribute('disabled')
+    //     }
+    // }
 
     const first_add_liquidity_check = () =>{
         return PoolDetails.total_lp == '0'
@@ -470,40 +470,43 @@ const Detail = () =>{
             value = tokenAAccountBalance;
             (document.getElementById('amount_a') as HTMLInputElement).value = value
         }
-        token_balance_check(value,Number(tokenAAccountBalance),'add_liquidity_button',PoolDetails.assets_a,'amount_a')
+        console.log(value)
+        // token_balance_check(value,Number(tokenAAccountBalance),'add_liquidity_button',PoolDetails.assets_a,'amount_a')
         const result = first_add_liquidity_check()
             if (!result){
-                const amount = await substrate_EstimateOutToken(intactWalletAddress,value,token_a,token_b)
                 const api = await chain_api(intactWalletAddress)
-
-                const result = await api.rpc.exchange.getEstimateOutToken(value,token_a,token_b)
                 const accountA_token_balance_decimals = await api.query.tokenFungible.tokens(token_a)
-                // const result_real = Number(result.toString())/Math.pow(10,accountA_token_balance_decimals.toJSON().decimals)
+                const accountB_token_balance_decimals = await api.query.tokenFungible.tokens(token_b)
 
-                const baseNumber = Math.pow(10,accountA_token_balance_decimals.toJSON().decimals)
+                const baseNumberA = Math.pow(10,accountA_token_balance_decimals.toJSON().decimals)
+                const baseNumberB = Math.pow(10,accountB_token_balance_decimals.toJSON().decimals)
 
-                const result_real = new BigNumber(result / baseNumber)
-
-                let token_real_result
-
-                if(result_real.c.length ==1 ){
-                    const data = result_real.c[0]
-                    const length = result_real.e - data.toString().length
+                const token_a_real = new BigNumber(value).times(BigNumber(baseNumberA))
+                let token_a_real_result
+                if(token_a_real.c.length ==1 ){
+                    const data = token_a_real.c[0]
+                    const length = token_a_real.e - data.toString().length
                     let string = ''
                     for (let i = 0 ; i< length+1; i++){
                         string = string +"0"
                     }
-                    token_real_result = data.toString().concat(string)
+                    token_a_real_result = data.toString().concat(string)
                 }else {
-                    token_real_result = api.createType("u128",result_real.c[0].toString().concat(result_real.c[1].toString()))
+                    token_a_real_result = api.createType("u128",token_a_real.c[0].toString().concat(token_a_real.c[1].toString()))
                 }
 
+                const amount = await substrate_EstimateOutToken(intactWalletAddress,token_a_real_result,token_a,token_b)
+                const token_b_real_result = await api.rpc.exchange.getEstimateOutToken(token_a_real_result,token_a,token_b)
+
+
+                const token_b_result= (parseFloat(String(cropData((token_b_real_result/ baseNumberB),5)))).toString()
+
                 if (typeof amount == 'string'){
-                    (document.getElementById('amount_b') as HTMLInputElement).value = result
-                    const lp_number = await  substrate_getEstimateLpToken(intactWalletAddress,token_b,token_real_result,token_a,value)
+                    (document.getElementById('amount_b') as HTMLInputElement).value = token_b_result
+                    const lp_number = await  substrate_getEstimateLpToken(intactWalletAddress,token_a,token_a_real_result,token_b,token_b_real_result)
                     setYourLP(lp_number)
                 }else{
-                    // console.log(amount);
+
                     (document.getElementById('amount_a') as HTMLInputElement).value = amount[0];
                     (document.getElementById('amount_b') as HTMLInputElement).value = amount[1];
                 }
