@@ -37,7 +37,7 @@ const  Trident = () => {
         //     ]
         // },
         {
-         title: "DeFi",
+         title: "Dex",
          contents: [
              { name: 'Swap', href: '/home', },
              { name: 'Pools ', href: '/pools',},
@@ -126,6 +126,16 @@ const  Trident = () => {
                     ))}
                 </div>
                 <div className={selected.id == 2? "grid grid-cols-3  md:grid-cols-7 ":"hidden"}>
+                    {TestNavigation.map(item=>(
+                        <Link key={item.name} href={item.href}>
+                            <a  className="relative inline-block text-left font-semibold mr-5">
+                                <div className=" py-2.5 text-sm leading-5  rounded-lg text-base font-medium text-gray-100
+                                  focus: ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-90 flex justify-center">
+                                    {item.name}
+                                </div>
+                            </a>
+                        </Link>
+                    ))}
                     {navigation.map(item=>(
                         <Menu as="div" key={item.title} className="relative inline-block text-left font-semibold mr-5">
                             <div>
@@ -159,16 +169,7 @@ const  Trident = () => {
                             </Transition>
                         </Menu>
                     ))}
-                    {TestNavigation.map(item=>(
-                        <Link key={item.name} href={item.href}>
-                            <a  className="relative inline-block text-left font-semibold mr-5">
-                                <div className=" py-2.5 text-sm leading-5  rounded-lg text-base font-medium text-gray-100
-                                  focus: ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-90 flex justify-center">
-                                    {item.name}
-                                </div>
-                            </a>
-                        </Link>
-                    ))}
+
                 </div>
 
 
