@@ -90,45 +90,11 @@ const  Trident = () => {
     if(selected){
         return (
             <div>
-                <div className={selected.id == 1? "grid grid-cols-3  md:grid-cols-7 ":"hidden"}>
-                    {navigation.map(item=>(
-                        <Menu as="div" key={item.title} className="relative inline-block text-left font-semibold mr-5">
-                            <div>
-                                <Menu.Button className=" py-2.5 text-sm leading-5  rounded-lg text-base font-medium text-gray-100
-                                  focus: ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-90 flex justify-center">
-                                    {item.title}      <div><i className="fa fa-angle-down ml-2" aria-hidden="true"></i></div>
-                                </Menu.Button>
-                            </div>
-
-                            <Transition
-                                as={Fragment}
-                                enter="transition ease-out duration-100"
-                                enterFrom="transform opacity-0 scale-95"
-                                enterTo="transform opacity-100 scale-100"
-                                leave="transition ease-in duration-75"
-                                leaveFrom="transform opacity-100 scale-100"
-                                leaveTo="transform opacity-0 scale-95"
-                            >
-                                <Menu.Items className="origin-top-right absolute  mt-1 -mr-10 z-20   border-2 border-gray-800 rounded-md shadow-lg bg-black  focus:outline-none">
-                                    <div className="py-1  text-gray-400">
-                                        {item.contents.map((contents)=>(
-                                            <Menu.Item key={contents.name}>
-                                                <Link href={contents.href}>
-                                                    <a className=" hover:bg-gray-800 hover:text-white  block px-4 py-2 text-sm" >
-                                                        {contents.name}</a>
-                                                </Link>
-                                            </Menu.Item>
-                                        ))}
-                                    </div>
-                                </Menu.Items>
-                            </Transition>
-                        </Menu>
-                    ))}
-                </div>
-                <div className={selected.id == 2? "grid grid-cols-3  md:grid-cols-7 ":"hidden"}>
+                <div className="flex justify-center ">
+                    <div className={selected.id == 2? " ":"hidden"}>
                     {TestNavigation.map(item=>(
                         <Link key={item.name} href={item.href}>
-                            <a  className="relative inline-block text-left font-semibold mr-5">
+                            <a  className="relative inline-block text-left font-semibold mr-10">
                                 <div className=" py-2.5 text-sm leading-5  rounded-lg text-base font-medium text-gray-100
                                   focus: ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-90 flex justify-center">
                                     {item.name}
@@ -136,8 +102,9 @@ const  Trident = () => {
                             </a>
                         </Link>
                     ))}
+                    </div>
                     {navigation.map(item=>(
-                        <Menu as="div" key={item.title} className="relative inline-block text-left font-semibold mr-5">
+                        <Menu as="div" key={item.title} className="relative inline-block text-left font-semibold mr-10">
                             <div>
                                 <Menu.Button className=" py-2.5 text-sm leading-5  rounded-lg text-base font-medium text-gray-100
                                   focus: ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-90 flex justify-center">
