@@ -15,7 +15,7 @@ import {
     SwapTokenTail, SwapTokenTop,
     WalletButtonShowState,
     WalletListShowState,
-    token_pool_pair, TOKENWATCHPOOLPAIR, PopUpBoxInfo, PopUpBoxState, AwaitPopUpBoxState,
+    token_pool_pair, TOKENWATCHPOOLPAIR, PopUpBoxInfo, PopUpBoxState, AwaitPopUpBoxState, W3G_info,AllTokenPoolPair
 } from '../../jotai';
 import { useRouter } from "next/router";
 import Link from "next/link";
@@ -84,6 +84,7 @@ const Pools = () =>{
 
     const [token_watchlist_pool_pair,set_token_watchlist_pool_pair] = useAtom(TOKENWATCHPOOLPAIR)
     const [tokenPoolPair,setTokenPoolPair] = useAtom(token_pool_pair)
+    const[allTokenPoolPair,setAllTokenPoolPair] = useAtom(AllTokenPoolPair)
 
     const [localTokenPoolPair,setLocalTokenPoolPair] = useState([])
     // all pages number
@@ -100,6 +101,8 @@ const Pools = () =>{
 
     const [,setPop_up_boxData] =useAtom(PopUpBoxInfo)
     const [,setSop_up_boxState] = useAtom(PopUpBoxState)
+
+    const [W3GInfo,setW3GInfo] = useAtom(W3G_info)
 
 
     useEffect(()=>{
@@ -137,14 +140,25 @@ const Pools = () =>{
                     console.log(account_token_balance_decimals.toJSON().decimals)
 
                 }
-                console.log(token_list)
                 settokenList(token_list)
+                let { data: { free: previousFree }} = await api.query.system.account(intactWalletAddress);
+                const account_W3G_balance_result = `${previousFree}`
+                const baseNumber = Math.pow(10,18)
+                const W3G_balance_real_number = parseFloat(String(cropData((Number(account_W3G_balance_result) / baseNumber), 4)))
+                const W3G_info = {
+                    tokenId:'0',
+                    img:"/img.png",
+                    title:"W3G",
+                    name:"W3G",
+                    data:`${W3G_balance_real_number}`,
+                }
+
+                setW3GInfo(W3G_info)
             }
             query_token_balance()
         }
     },[router.isReady])
 
-    let time
     const createPool = async ()=>{
         if (swapTokenTop.tokenId === swapTokenTail.tokenId){
             setOpenCreate(false)
@@ -170,8 +184,9 @@ const Pools = () =>{
             const assets_balance_result = await assets_balance()
             const result = await transferExtrinsic.signAndSend(intactWalletAddress, { signer: injector.signer }, ({ events= [],status }) => {
                 setOpenCreate(false)
+                setAwait_pop_up_boxState(true)
                 if (status.isInBlock){
-                    setAwait_pop_up_boxState(true)
+
                     events.forEach(({ event: { data, method, section }, phase }) => {
                         if(creat_pool_event_name2 == `${section}.${method}`){
                             setPop_up_boxData({
@@ -189,6 +204,7 @@ const Pools = () =>{
                             let before_token_pool_pair = tokenPoolPair
                             let new_token_pool_pair = tokenPoolPair
                             let new_user_token_pool_pair = token_watchlist_pool_pair
+                            let new_all_token_pool_pair = allTokenPoolPair
                             if(swapTokenTop.tokenId > swapTokenTail.tokenId){
                             const input = {
                                 assets_a: swapTokenTop.name,
@@ -206,7 +222,8 @@ const Pools = () =>{
                                 volume_days: "0",
                                 your_lp: "0"
                             }
-                            new_token_pool_pair.push(input)
+                            // new_token_pool_pair.push(input)
+                                new_all_token_pool_pair.push(input)
                                 new_user_token_pool_pair.push(input)
                             }else {
                                 const input = {
@@ -225,25 +242,25 @@ const Pools = () =>{
                                     volume_days: "0",
                                     your_lp: "0"
                                 }
-                                new_token_pool_pair.push(input)
+                                // new_token_pool_pair.push(input)
+                                new_all_token_pool_pair.push(input)
                                 new_user_token_pool_pair.push(input)
                             }
-                            let fix = before_token_pool_pair.concat(new_token_pool_pair)
-                            let new_result = []
-                            for ( let item1 of fix){
-                                let flag = true
-                                for(let item2 of new_result){
-                                    if (item1.pool_id == item2.pool_id){
-                                        flag = false
-                                    }
-                                }
-                                if (flag){
-                                    new_result.push(item1)
-                                }
-                            }
-                            setTokenPoolPair(new_result)
-
+                            // let fix = before_token_pool_pair.concat(new_token_pool_pair)
+                            // let new_result = []
+                            // for ( let item1 of fix){
+                            //     let flag = true
+                            //     for(let item2 of new_result){
+                            //         if (item1.pool_id == item2.pool_id){
+                            //             flag = false
+                            //         }
+                            //     }
+                            //     if (flag){
+                            //         new_result.push(item1)
+                            //     }
+                            // }
                             set_token_watchlist_pool_pair(new_user_token_pool_pair)
+                            setAllTokenPoolPair(new_all_token_pool_pair)
                             // success
                             setPop_up_boxData({
                                 state:true,

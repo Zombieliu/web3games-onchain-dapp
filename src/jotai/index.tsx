@@ -17,14 +17,14 @@ const AwaitPopUpBoxState = atom(false)
 const tokenTop={
     tokenId:'0',
     img:"/img.png",
-    title:"wW3G",
+    title:"W3G",
     name:"Select a Token",
     data:"0",
 }
 const tokenTail ={
     tokenId:'0',
     img:"/img.png",
-    title:"wW3G",
+    title:"W3G",
     name:"Select a Token",
     data:"0",
 }
@@ -62,12 +62,11 @@ const AfterSubstrateAddressList = atomWithStorage('AfterSubstrateAddressList',[]
 
 const custom_token_list = atomWithStorage('custom_token_list',[])
 
-const TOKENWATCHPOOLPAIR = atomWithStorage('token_watchlist_pool_pair',[])
-const token_pool_pair = atomWithStorage('token_pool_pair',[
+const TOKENPOOLPAIR =[
     {
         pool_id: "0",
         assets_a: 'USDT',
-        assets_b: "W3G",
+        assets_b: "wW3G",
         assets_a_id: "1",
         assets_b_id: "0",
         assets_a_image_url: "/token/USDT.png",
@@ -83,13 +82,13 @@ const token_pool_pair = atomWithStorage('token_pool_pair',[
     {
         pool_id: "1",
         assets_a: 'USDC',
-        assets_b: "W3G",
+        assets_b: "wW3G",
         assets_a_id: "2",
         assets_b_id: "0",
         assets_a_image_url:"/token/USDC.png",
         assets_b_image_url:"/web3gsmall.png",
-        assets_a_address: "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
-        assets_b_address: "dasdasd",
+        assets_a_address: "{'owner':'5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
+        assets_b_address: "{'owner':'5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
         total_lp: "0",
         tvl: "0",
         volume: "0",
@@ -100,13 +99,13 @@ const token_pool_pair = atomWithStorage('token_pool_pair',[
     {
         pool_id: "2",
         assets_a: 'BUSD',
-        assets_b: "W3G",
+        assets_b: "wW3G",
         assets_a_id: "3",
         assets_b_id: "0",
         assets_a_image_url:"/token/BUSD.png",
         assets_b_image_url:"/web3gsmall.png",
-        assets_a_address: "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
-        assets_b_address: "dasdasd",
+        assets_a_address: "{'owner':'5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
+        assets_b_address: "{'owner':'5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
         total_lp: "0",
         tvl: "0",
         volume: "0",
@@ -116,13 +115,13 @@ const token_pool_pair = atomWithStorage('token_pool_pair',[
     {
         pool_id: "3",
         assets_a: 'BNB',
-        assets_b: "W3G",
+        assets_b: "wW3G",
         assets_a_id: "4",
         assets_b_id: "0",
         assets_a_image_url: "/token/BNB.png",
         assets_b_image_url:"/web3gsmall.png",
-        assets_a_address: "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
-        assets_b_address: "dasdasd",
+        assets_a_address: "{'owner':'5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
+        assets_b_address: "{'owner':'5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
         total_lp: "0",
         tvl: "0",
         volume: "0",
@@ -133,13 +132,13 @@ const token_pool_pair = atomWithStorage('token_pool_pair',[
     {
         pool_id: "4",
         assets_a: 'SOL',
-        assets_b: "W3G",
+        assets_b: "wW3G",
         assets_a_id: "5",
         assets_b_id: "0",
         assets_a_image_url: "/token/SOL.png",
         assets_b_image_url:"/web3gsmall.png",
-        assets_a_address: "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
-        assets_b_address: "dasdasd",
+        assets_a_address: "{'owner':'5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
+        assets_b_address: "{'owner':'5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
         total_lp: "0",
         tvl: "0",
         volume: "0",
@@ -150,20 +149,32 @@ const token_pool_pair = atomWithStorage('token_pool_pair',[
     {
         pool_id: "5",
         assets_a: 'ETH',
-        assets_b: "W3G",
+        assets_b: "wW3G",
         assets_a_id: "6",
         assets_b_id: "0",
         assets_a_image_url: "/token/ETH.png",
         assets_b_image_url:"/web3gsmall.png",
-        assets_a_address: "5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
-        assets_b_address: "dasdasd",
+        assets_a_address: "{'owner':'5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
+        assets_b_address: "{'owner':'5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY",
         total_lp: "0",
         tvl: "0",
         volume: "0",
         volume_days: "0",
         your_lp: "0",
     },
-])
+]
+const AllTokenPoolPair = atomWithStorage("all_token_pool_pair",TOKENPOOLPAIR)
+const TOKENWATCHPOOLPAIR = atomWithStorage('token_watchlist_pool_pair',[])
+const token_pool_pair = atomWithStorage('token_pool_pair',TOKENPOOLPAIR)
+
+const W3G ={
+    tokenId:'0',
+    img:"/img.png",
+    title:"W3G",
+    name:"W3G",
+    data:"0.00",
+}
+const W3G_info = atomWithStorage("W3GInfo",W3G)
 const TokenListAndBalance = [
     {
         tokenId:'0',
@@ -217,7 +228,9 @@ const TokenListAndBalance = [
 ]
 const token_list_and_balance = atomWithStorage('token_list_and_balance',TokenListAndBalance)
 
+const Request_Data = atom(false)
 
 
-export {TokenListAndBalance,AwaitPopUpBoxState,PopUpBoxInfo,PopUpBoxState,Select_TokenTop,Select_TokenTail,Token_Lists,SwapTokenTop,SwapTokenTail,AssetsOpenPopup,WalletListShowState,AccountChooseValue,WalletButtonShowState,WalletAddress,AccountConfigPageState,HiddenClaim,
+
+export {AllTokenPoolPair,W3G_info,Request_Data,TokenListAndBalance,AwaitPopUpBoxState,PopUpBoxInfo,PopUpBoxState,Select_TokenTop,Select_TokenTail,Token_Lists,SwapTokenTop,SwapTokenTail,AssetsOpenPopup,WalletListShowState,AccountChooseValue,WalletButtonShowState,WalletAddress,AccountConfigPageState,HiddenClaim,
    AfterSubstrateAddressList,IntactWalletAddress,NetWorkState,token_list_and_balance,custom_token_list,TOKENWATCHPOOLPAIR,token_pool_pair}

@@ -52,7 +52,6 @@ const token = [
     function sendtoken(){
         let inputValue = (document.getElementById('faucet') as HTMLInputElement).value;
         let check_result = check_address(inputValue);
-        console.log(check_result)
         if (selected.id == check_result) {
             setOpenload(true);
             if (check_result == 1) {

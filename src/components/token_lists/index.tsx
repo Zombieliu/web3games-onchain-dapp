@@ -211,9 +211,7 @@ const Tokens = () =>{
         setCustomTokenList(customTokenList)
 
         for(let x = 0 ; x < tokenList.length; x++){
-            console.log(tokenList[0].name)
             if (tokenList[x].name == e){
-                console.log(x)
             tokenList.splice(x,1)
             }
         }
@@ -256,7 +254,6 @@ const Tokens = () =>{
             data:"0.00",
             allAddress:tokenInfo.allAddress,
         }
-        console.log(input.allAddress)
         list.push(input)
         let fix = before_lost.concat(list)
         let new_result = []
@@ -271,7 +268,6 @@ const Tokens = () =>{
                 new_result.push(item1)
             }
         }
-        console.log(new_result)
         setTokenList(new_result)
         // const before_custom_token = customTokenList.concat()
         const custom_token  = {
@@ -281,8 +277,6 @@ const Tokens = () =>{
             allAddress:tokenInfo.allAddress
         }
 
-
-        console.log(customTokenList)
         if(customTokenList.length !==0 ){
             let State = true
             for(let x=0;x<customTokenList.length ;x++){

@@ -5,10 +5,11 @@ import {
     AccountChooseValue,
     AwaitPopUpBoxState,
     IntactWalletAddress, PopUpBoxInfo, PopUpBoxState,
+    Request_Data,
     Select_TokenTail,
     Select_TokenTop,
     SwapTokenTail,
-    SwapTokenTop, token_list_and_balance,
+    SwapTokenTop, token_list_and_balance, W3G_info,
     WalletButtonShowState, WalletListShowState
 } from "../../jotai";
 import SelectTokenTail from "../../components/selecttokentail";
@@ -27,6 +28,9 @@ import {router} from "next/client";
 import {useRouter} from "next/router";
 import {cropData} from "../../utils/math";
 import BigNumber from "bignumber.js";
+import {balances} from "@polkadot/types/interfaces/definitions";
+import {nToBigInt} from "@polkadot/util";
+const {stringToU8a} = require("@polkadot/util");
 
 
 
@@ -43,6 +47,7 @@ const Recent = ()=>{
     const [WalletButtonShow,]=useAtom(WalletButtonShowState)
     const [,SetOpenWalletListState] = useAtom(WalletListShowState)
     const [swapOutPutValue,setSwapOutPutValue] = useState(0)
+    const [swapTopPutValue,setSwapTopPutValue] =useState(0)
     const [swapTimes,setSwapTimes] = useState(0)
     const [rotate,setRotate] = useState(false)
     const [intactWalletAddress,] = useAtom(IntactWalletAddress)
@@ -52,10 +57,16 @@ const Recent = ()=>{
 
     const [,setAwait_pop_up_boxState] = useAtom(AwaitPopUpBoxState)
 
+    const [requestData,setRequestData] = useAtom(Request_Data)
+
+
+
     const exchange = () =>{
         setRotate(!rotate)
         setSwapTokenTop(swapTokenTail)
-        setSwapTokenTail(swapTokenTop)
+        setSwapTokenTail(swapTokenTop);
+        (document.getElementById('token_input') as any).value = 0
+        setSwapOutPutValue(0)
     }
     const selectTokenTop = () =>{
         setSelectTokenTop(true)
@@ -64,68 +75,62 @@ const Recent = ()=>{
         setSelectTokenTail(true)
     }
 
+    let time
 
     const get_swap_number = async (input_data)=>{
-        let pool = [swapTokenTop.tokenId,swapTokenTail.tokenId]
+        clearTimeout(time)
+        const  pool_a = swapTokenTop.tokenId
+        const  pool_b = swapTokenTail.tokenId
 
         const token_number = input_data
-        if(input_data!== ""){
-        const api = await chain_api(intactWalletAddress)
-
-        const account_token_balanceA_decimals = await api.query.tokenFungible.tokens(swapTokenTop.tokenId)
-        const account_token_balanceB_decimals = await api.query.tokenFungible.tokens(swapTokenTail.tokenId)
-
-        const baseNumberA = Math.pow(10,account_token_balanceA_decimals.toJSON().decimals)
-        const baseNumberB = Math.pow(10,account_token_balanceB_decimals.toJSON().decimals)
-
-        const token_a_real = new BigNumber(token_number).times(BigNumber(baseNumberA))
-        // const token_b_real = new BigNumber(token_b).times(BigNumber(baseNumberB))
-
-        let token_a_real_result
-
-        if(token_a_real.c.length ==1 ){
-            const data = token_a_real.c[0]
-            const length = token_a_real.e - data.toString().length
-            let string = ''
-            for (let i = 0 ; i< length+1; i++){
-                string = string +"0"
+        if(swapTokenTop.tokenId !==swapTokenTail.tokenId){
+            if(input_data!== "" && input_data!== "0"){
+                setRequestData(true)
+                time = setTimeout(async ()=>{
+                    const api = await chain_api(intactWalletAddress)
+                    const account_token_balanceA_decimals = await api.query.tokenFungible.tokens(swapTokenTop.tokenId)
+                    const account_token_balanceB_decimals = await api.query.tokenFungible.tokens(swapTokenTail.tokenId)
+                    const baseNumberA = Math.pow(10, account_token_balanceA_decimals.toJSON().decimals)
+                    const baseNumberB = Math.pow(10, account_token_balanceB_decimals.toJSON().decimals)
+                    const token_a_real = (token_number * baseNumberA)
+                    const result = await substrate_getAmountOutPrice(intactWalletAddress, token_a_real, pool_a, pool_b)
+                    setRequestData(false)
+                    setSwapTopPutValue(token_number)
+                    if(result){
+                    if (result[1] == undefined) {
+                        setSwapOutPutValue(0)
+                    } else {
+                        setSwapOutPutValue((parseFloat(String(cropData((result[1] / baseNumberB), 5)))))
+                    } }
+                },2000)
+            }else {
+                setSwapOutPutValue(0)
             }
-            token_a_real_result = data.toString().concat(string)
 
         }else {
-            token_a_real_result = api.createType("u128",token_a_real.c[0].toString().concat(token_a_real.c[1].toString()))
-
-        }
-        const result = await substrate_getAmountOutPrice(intactWalletAddress,pool,token_a_real_result)
-
-        // //
-        // //
-            console.log(result.toString())
-        //
-        //
-        if(result[1] == undefined){
             setSwapOutPutValue(0)
-        }else {
-            setSwapOutPutValue((parseFloat(String(cropData((result[1]/ baseNumberB),5)))))
         }
-        }
+
     }
 
     const check = async (e) => {
-        e.target.value = e.target.value.toString().match(/^\d+(?:\.\d{0,8})?/)
+        e.target.value = e.target.value.toString().match(/^\d+(?:\.\d{0,6})?/)
         if (e.target.value.indexOf('.') < 0 && e.target.value != '') {
             e.target.value = parseFloat(e.target.value);
         }
-        let input_data = e.target.value.replace(/\D/g, '')
-        if(Number(e.target.value) > Number(swapTokenTop.data)){
-            input_data=  swapTokenTop.data;
-            (document.getElementById('token_input') as HTMLInputElement).value = input_data
+        e.target.value.replace(/\D/g, '')
+        // if(Number(e.target.value) > Number(swapTokenTop.data)){
+        //     e.target.value=  swapTokenTop.data;
+        //     (document.getElementById('token_input') as HTMLInputElement).value = e.target.value
+        //
+        // }
+        // console.log(e.target.value)
 
-        }
-        get_swap_number(input_data)
+        get_swap_number(e.target.value)
     }
 
     const swapnow = async ()=>{
+        if(swapTopPutValue <= Number(swapTokenTop.data)){
         const input = (document.getElementById('token_input') as any).value
         const output = (document.getElementById('token_output') as any).value
         const web3Enable = (await import("@polkadot/extension-dapp")).web3Enable;
@@ -133,17 +138,19 @@ const Recent = ()=>{
         const web3FromAddress = (await import("@polkadot/extension-dapp")).web3FromAddress;
         const injector = await web3FromAddress(intactWalletAddress);
         const api = await chain_api(intactWalletAddress)
-        // const result = await api.rpc.exchange.EstimateOutToken(4000,2,3)
-        // const result2 = await api.rpc.exchange.EstimateLpToken(2,4000,3,result.toString())
-        // console.log(result.toString())
-        // console.log(result2.toString())
+
+        const account_token_balanceA_decimals = await api.query.tokenFungible.tokens(swapTokenTop.tokenId)
+        const baseNumberA = Math.pow(10,account_token_balanceA_decimals.toJSON().decimals)
+        const token_a_real = BigInt(input * baseNumberA)
         const block = await api.rpc.chain.getHeader();
-        const next_block = block.number.toNumber() + 3
-        const transferExtrinsic = api.tx.exchange.swapExactW3gForTokens(input,0,[swapTokenTop.tokenId,swapTokenTail.tokenId],intactWalletAddress,next_block)
+        const next_block = block.number.toNumber() + 4
+        const transferExtrinsic = api.tx.exchange.swapExactTokensForTokens(token_a_real,0,[swapTokenTop.tokenId,swapTokenTail.tokenId],intactWalletAddress,next_block)
+        setAwait_pop_up_boxState(true)
         transferExtrinsic.signAndSend(intactWalletAddress, { signer: injector.signer }, ({ status  }) => {
-            if (status.isInBlock) {
-                setAwait_pop_up_boxState(true)
-            }
+            // if (status.isInBlock) {
+            //
+            // }
+            console.log(status)
             if (status.isFinalized) {
                 // console.log(`Completed at block hash #${status.asInBlock.toString()}`);
                 setPop_up_boxData({
@@ -156,9 +163,6 @@ const Recent = ()=>{
                     setSop_up_boxState(true)
                 },2500)
             }
-            else {
-                console.log(`Current status: ${status.type}`);
-            }
         }).catch((error: any) => {
             console.log(':( transaction failed', error);
             setPop_up_boxData({
@@ -167,7 +171,9 @@ const Recent = ()=>{
                 hash:"",
             })
             setSop_up_boxState(true)
+
         })
+        }
     }
         return (
             <>
@@ -209,6 +215,8 @@ const Recent = ()=>{
                                    placeholder="0.0"
                                    id="token_input"
                                    maxLength={16}
+                                   autoComplete="off"
+
                             />
                         </div>
                         <div className="text-sm mt-2 flex ml-1 text-gray-400">Balance: <div className="">
@@ -271,9 +279,19 @@ const Recent = ()=>{
                         </button>
                     </div>
                     <div className={WalletButtonShow ? "mt-1" : "hidden"}>
-                        <button onClick={swapnow} className="px-24 py-1.5 rounded-lg  font-semibold bg-gradient-to-r from-[#DB5E7F]  via-[#876BD2] to-[#6E93E8] ">
-                            Swap
+                        <button className={classNames(requestData?"hidden":"")}>
+                        <button  className={classNames(swapTopPutValue > Number(swapTokenTop.data)?" cursor-not-allowed from-[#DB5E7F]/60  via-[#876BD2]/60 to-[#6E93E8]/60 w-64 py-1.5 text-gray-400 rounded-lg text-xl font-semibold bg-gradient-to-r":"hidden")}>
+                                Swap
                         </button>
+                            <button onClick={swapnow} className={classNames(swapTopPutValue > Number(swapTokenTop.data)?"hidden":"from-[#DB5E7F]  via-[#876BD2] to-[#6E93E8] w-64 py-1.5  rounded-lg text-xl font-semibold bg-gradient-to-r")}>
+                                Swap
+                            </button>
+                        </button>
+
+                        <button  className={classNames(requestData?"from-[#DB5E7F]/60  via-[#876BD2]/60 to-[#6E93E8]/60 cursor-not-allowed":"hidden","w-64 py-1.5 rounded-lg text-xl font-semibold bg-gradient-to-r")}>
+                                <i className="fa fa-spinner fa-pulse  fa-fw"></i>
+                        </button>
+
                     </div>
                 </div>
             </>
@@ -429,6 +447,8 @@ const Swap = () =>{
     const [tokenlist,settokenList] = useAtom(token_list_and_balance)
     // wallet type
     const [AccountChoose,] = useAtom(AccountChooseValue)
+
+    const [W3GInfo,setW3GInfo] = useAtom(W3G_info)
     useEffect(()=>{
         if (router.isReady) {
             let intactWalletAddress_local = intactWalletAddress
@@ -452,8 +472,20 @@ const Swap = () =>{
                     const token_balance_real_number = parseFloat(String(cropData((token_balance / baseNumber), 4)))
                     token_list[i].data = token_balance_real_number.toString()
                 }
-                console.log(token_list)
                 settokenList(token_list)
+                let { data: { free: previousFree }} = await api.query.system.account(intactWalletAddress);
+                const account_W3G_balance_result = `${previousFree}`
+                const baseNumber = Math.pow(10,18)
+                const W3G_balance_real_number = parseFloat(String(cropData((Number(account_W3G_balance_result) / baseNumber), 4)))
+                const W3G_info = {
+                    tokenId:'0',
+                    img:"/img.png",
+                    title:"W3G",
+                    name:"W3G",
+                    data:`${W3G_balance_real_number}`,
+                }
+
+                setW3GInfo(W3G_info)
             }
             query_token_balance()
         }

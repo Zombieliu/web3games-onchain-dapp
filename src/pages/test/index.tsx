@@ -1,8 +1,7 @@
 import React, { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import {CheckIcon, XCircleIcon} from "@heroicons/react/solid";
-import BigNumber from 'bignumber.js';
-
+import {bnToBn, nToBigInt} from "@polkadot/util";
+import BN from 'bn.js';
 
 export default function Example() {
     const [openAdd,setOpenAdd] = useState(false)
@@ -12,17 +11,12 @@ export default function Example() {
         // const a = new_result.splice(0,1)
         // console.log(a)
 
-        const baseNumberA = Math.pow(10,6)
-        const baseNumberB = Math.pow(10,18)
-
-        const token_a_real = new BigNumber(13937030631738840562)
-        const token_b_real = new BigNumber(13937030631738841562)
-        const a = token_a_real.c[0] +token_a_real.c[1]
-        const b=  token_b_real.c[0] +token_b_real.c[1]
-
-        console.log( token_a_real.c[0],token_a_real.c[1])
-        console.log(token_a_real,token_a_real)
-
+        // var a = new BN('dead', 16);
+        // const  b = new BN('1010101231232132131231231231');
+        //
+        // var res = a.add(b);
+        const b = bnToBn('1010101231232132131231231231')
+        console.log(nToBigInt(b));  // 57047
 
         // console.log(Number(token_a_real.toString()),Number(token_b_real.toString()))
         // const token_balance_real_number = (12.000001).toFixed(5-integer_length)

@@ -19,6 +19,9 @@ const Pop_up_box = () =>{
         if(pop_up_boxState){
             time = setTimeout(()=>{
                 setSop_up_boxState(false)
+               if(pop_up_boxData.state){
+                   location.reload()
+               }
             },5000)
         }
         const Pop_up_box = document.getElementById('SwapSuccessPop_up_box');
@@ -28,6 +31,9 @@ const Pop_up_box = () =>{
         Pop_up_box.onmouseout = function(){
             time = setTimeout(()=>{
                 setSop_up_boxState(false)
+                if(pop_up_boxData.state){
+                    location.reload()
+                }
             },2000)
         }
     },[pop_up_boxState])
@@ -51,24 +57,28 @@ const Pop_up_box = () =>{
                 >
                     <div className=" pointer-events-auto w-full max-w-xs overflow-hidden rounded-lg bg-[#2B2B2B] shadow-lg shadow-[0_2px_16px_-1px_rgb(0,0,0,0.1)] shadow-black">
                         <div className="p-4">
-                            <div className="flex items-start">
+                            <div className="flex items-center">
                                 <img className={pop_up_boxData.state?"w-10  mt-1":"hidden"} src="/successful.svg" alt=""/>
                                 <img className={pop_up_boxData.state?"hidden":"w-10  mt-1"} src="/fail.svg" alt=""/>
                                 <div className="ml-3 w-0 flex-1 pt-0.5 text-white text-sm">
                                     <p className="font-medium">{pop_up_boxData.type} {classNames(pop_up_boxData.state?"Success":"Failed")}</p>
                                     <p className={pop_up_boxData.state?"hidden":"mt-1 "}>Please try again</p>
+                                    <div className={pop_up_boxData.hash == ""? "hidden":""}>
                                     <Link href={`https://explorer-devnet.web3games.org/blocksdetails/${pop_up_boxData.hash}` }>
                                         <a className={pop_up_boxData.type !=="Create TokenList" && pop_up_boxData.type !=="Clear TokenList" && pop_up_boxData.state?"mt-1 underline font-semibold hover:text-blue-400":"hidden"}>
                                         View on Explorer
                                     </a></Link>
 
+                                    </div>
+
                                 </div>
-                                <div className=" flex flex-shrink-0">
+                                <div className="-mt-4 flex flex-shrink-0">
                                     <button
                                         type="button"
                                         className="inline-flex rounded-md  text-white hover:text-gray-500 focus:outline-none "
                                         onClick={() => {
                                             setSop_up_boxState(false)
+                                            location.reload()
                                         }}
                                     >
                                         <i className="fa fa-times" aria-hidden="true"></i>

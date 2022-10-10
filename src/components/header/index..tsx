@@ -155,11 +155,6 @@ const SwitchNetWork = () =>{
     const [selected, setSelected] = useAtom(NetWorkState)
 
     useEffect(()=>{
-        console.log(selected.name)
-
-        const adad = document.getElementById("sss")
-
-        console.log(adad)
 
 
     },[])

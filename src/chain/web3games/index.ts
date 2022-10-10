@@ -1,9 +1,12 @@
 import {cropData} from "../../utils/math";
+import axios from "axios";
 
 const { ApiPromise, WsProvider} = require('@polkadot/api');
-
-
-
+const {stringToU8a,nToBigInt} = require("@polkadot/util");
+import {bnToBn} from "@polkadot/util";
+import {useAtom} from "jotai";
+import {Request_Data} from "../../jotai";
+const JSONBigInt = require('json-bigint');
 const creat_pool_event_name = 'exchange.PoolCreated'
 
 const chain_api = async (intactWalletAddress:string)=>{
@@ -136,30 +139,85 @@ const substrate_wallet_injector = async (intactWalletAddress:string)=>{
 //   });
 // }
 
-const substrate_getAmountOutPrice = async (intactWalletAddress,pool,token_number) => {
-    const api = await chain_api(intactWalletAddress)
-    const value = await api.rpc.exchange.getAmountOutPrice(token_number,pool);
-    api.disconnect()
-    return value
+const substrate_getAmountOutPrice = async (intactWalletAddress,token_number,pool_a,pool_b) => {
+  const data = JSONBigInt.stringify ({
+      "id": 1,
+      "jsonrpc": "2.0",
+      "method": "exchange_getAmountOutPrice",
+      "params": [
+        BigInt(token_number),
+        [BigInt(pool_a),BigInt(pool_b)]
+      ]
+  });
+  const result = await axios(
+      {
+        method: "post",
+        url: 'http://127.0.0.1:9933',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        data
+      }
+  )
+    return result.data.result
 }
 
 const substrate_EstimateOutToken = async (intactWalletAddress,input_number,token_a_id,token_b_id) =>{
-  const api = await chain_api(intactWalletAddress)
-  const result = await api.rpc.exchange.getEstimateOutToken(input_number,token_a_id,token_b_id)
-  const accountA_token_balance_decimals = await api.query.tokenFungible.tokens(token_a_id)
-  const accountB_token_balance_decimals = await api.query.tokenFungible.tokens(token_b_id)
-  const base = Math.abs(Number(accountA_token_balance_decimals.toJSON().decimals) - Number(accountB_token_balance_decimals.toJSON().decimals))
-  const result_real = cropData(Number(result)/Math.pow(10,base),4)
-  await api.disconnect()
-  return result_real.toString()
+  const token_number_result = BigInt(input_number)
+  const token_a = BigInt(token_a_id)
+  const token_b = BigInt(token_b_id)
+
+  const data = JSONBigInt.stringify ({
+    "id": 1,
+    "jsonrpc": "2.0",
+    "method": "exchange_getEstimateOutToken",
+    "params": [
+      token_number_result, token_a,token_b
+    ]
+  });
+  const result = await axios(
+      {
+        method: "post",
+        url: 'http://127.0.0.1:9933',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        data
+      }
+  )
+  return result.data.result
 }
 
 const substrate_getEstimateLpToken = async (intactWalletAddress,token_a,amount_a,token_b,amount_b) =>{
-  const api = await chain_api(intactWalletAddress)
-  const result = await api.rpc.exchange.getEstimateLpToken(token_a,amount_a,token_b,amount_b)
-  api.disconnect()
-  return result.toString()
+  const token_a_id = BigInt(token_a)
+  const amount_a_result = BigInt(amount_a)
+
+  const token_b_id = BigInt((token_b))
+  const amount_b_result = BigInt(amount_b)
+
+  const data = JSONBigInt.stringify ({
+    "id": 1,
+    "jsonrpc": "2.0",
+    "method": "exchange_getEstimateLpToken",
+    "params": [
+      token_a_id, amount_a_result,token_b_id,amount_b_result
+    ]
+  });
+  const result = await axios(
+      {
+        method: "post",
+        url: 'http://127.0.0.1:9933',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        data
+      }
+  )
+  const real_data = (parseFloat(String(cropData((result.data.result / Math.pow(10, 18)),5)))).toString()
+  return real_data
 }
+
+
 
 export{
   chain_api,

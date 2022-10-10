@@ -1,5 +1,12 @@
 import {atom, useAtom} from "jotai";
-import {token_list_and_balance, Select_TokenTail, Select_TokenTop, SwapTokenTail, Token_Lists,} from "../../jotai";
+import {
+    token_list_and_balance,
+    Select_TokenTail,
+    Select_TokenTop,
+    SwapTokenTail,
+    Token_Lists,
+    W3G_info,
+} from "../../jotai";
 import {Dialog, Transition} from "@headlessui/react";
 import React, {Fragment, useEffect,useState} from "react";
 import { BUSD, DAI, USDC, USDT } from "../../assets";
@@ -8,28 +15,6 @@ import axios from "axios";
 import { log } from "console";
 
 
-const bases = [
-    {
-        name:"W3G",
-        img:"/img.png",
-    },
-    {
-        name:"USDT",
-        img:USDT,
-    },
-    {
-        name:"BUSD",
-        img:BUSD,
-    },
-    {
-        name:"USDC",
-        img:USDC
-    },
-    {
-        name:"DAI",
-        img:DAI
-    },
-]
 
 
 const SelectTokenTail = () =>{
@@ -37,6 +22,7 @@ const SelectTokenTail = () =>{
     const [,setSwapTokenTail] = useAtom(SwapTokenTail)
     const [tokenList,] = useAtom(token_list_and_balance)
     const [,setTokenList] = useAtom(Token_Lists)
+    const [W3GInfo,setW3GInfo] = useAtom(W3G_info)
     const openTokenLists = ()=>{
         setSelectTokenTail(false)
         setTokenList(true)
@@ -107,6 +93,17 @@ const SelectTokenTail = () =>{
                                     </div>
                                     <div className="my-5 h-28 pr-4 scrollbar-thin scrollbar-thumb-custom  scrollbar-thumb-rounded-full  overflow-y-scroll">
                                         <div className="flex grid md:grid-cols-2 xl:grid-cols-3  gap-4">
+                                            {/*<div  key={W3GInfo.name} className="rounded-full ">*/}
+                                            {/*    <button onClick={() => select(W3GInfo)} className="flex">*/}
+                                            {/*        <div id={W3GInfo.name} className="flex items-center">*/}
+                                            {/*            <img  className="w-9 mr-1 rounded-full" src={W3GInfo.img} alt=""/>*/}
+                                            {/*            <div className="text-sm ml-1">*/}
+                                            {/*                <div  className="text-white text-left">{W3GInfo.name}</div>*/}
+                                            {/*                <div  className="text-gray-400">$ {W3GInfo.data}</div>*/}
+                                            {/*            </div>*/}
+                                            {/*        </div>*/}
+                                            {/*    </button>*/}
+                                            {/*</div>*/}
                                             {tokenList.map((item=>(
                                                 <div  key={item.name} className="rounded-full ">
                                                     <button onClick={() => select(item)} className="flex">
@@ -119,7 +116,6 @@ const SelectTokenTail = () =>{
                                                             </div>
 
                                                         </div>
-
                                                     </button>
                                                 </div>
                                             )))}
@@ -129,12 +125,27 @@ const SelectTokenTail = () =>{
                                         <div>
                                             Asset
                                         </div>
-
                                         <div>
                                             Balance
                                         </div>
                                     </div>
                                     <div className="overflow-y-auto border-t border-gray-700 h-64 pr-3  scrollbar-thin scrollbar-thumb-custom  scrollbar-thumb-rounded-full  overflow-y-scroll">
+                                        {/*<div key={W3GInfo.name} onClick={() => select(W3GInfo)} className="cursor-pointer flex justify-between mr-2 items-center">*/}
+                                        {/*    <div className="flex my-2">*/}
+                                        {/*        <img className="w-9 rounded-full" src={W3GInfo.img} alt=""/>*/}
+                                        {/*        <div className="ml-1.5">*/}
+                                        {/*            <div className="text-gray-200 text-xs">*/}
+                                        {/*                {W3GInfo.name}*/}
+                                        {/*            </div>*/}
+                                        {/*            <div className="text-gray-400 text-sm">*/}
+                                        {/*                ${W3GInfo.data}*/}
+                                        {/*            </div>*/}
+                                        {/*        </div>*/}
+                                        {/*    </div>*/}
+                                        {/*    <div className="mt-3 text-gray-300">*/}
+                                        {/*        {W3GInfo.data}*/}
+                                        {/*    </div>*/}
+                                        {/*</div>*/}
                                         {tokenList.map(item=>(
                                             <div key={item.name} onClick={() => select(item)} className="cursor-pointer flex justify-between mr-2 items-center">
                                                 <div className="flex my-2">

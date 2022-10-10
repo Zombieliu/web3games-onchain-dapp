@@ -66,7 +66,6 @@ const FunctionList = () =>{
 
 const Account=()=>{
   const Copy=(span)=> {
-    console.log(span)
     let spanText = document.getElementById(span).innerText;
     let oInput = document.createElement('input');
     oInput.value = spanText;
