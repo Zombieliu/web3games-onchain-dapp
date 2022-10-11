@@ -52,7 +52,7 @@ const Login=()=>{
         //open wallet Button
         SetWalletButtonShow(true)
         // refresh page
-        // location.reload();
+        location.reload();
       }
     }else {
       // set account value
@@ -96,6 +96,7 @@ const Login=()=>{
       SetOpenSubstrateAddress(false)
       SetWalletButtonShow(true)
       setWalletAddress(address_slice(substrateAddress))
+      location.reload();
       }
   }
 

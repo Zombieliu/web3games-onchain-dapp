@@ -1,18 +1,20 @@
 import {cropData} from "../../utils/math";
 import axios from "axios";
-
+import {CHAIN_URL,CHAIN_RPC_URL} from "../../constant";
 const { ApiPromise, WsProvider} = require('@polkadot/api');
-const {stringToU8a,nToBigInt} = require("@polkadot/util");
-import {bnToBn} from "@polkadot/util";
-import {useAtom} from "jotai";
-import {Request_Data} from "../../jotai";
+// const {stringToU8a,nToBigInt} = require("@polkadot/util");
+// import {bnToBn} from "@polkadot/util";
+// import {useAtom} from "jotai";
+// import {Request_Data} from "../../jotai";
 const JSONBigInt = require('json-bigint');
-const creat_pool_event_name = 'exchange.PoolCreated'
+// const creat_pool_event_name = 'exchange.PoolCreated'
+
+
 
 const chain_api = async (intactWalletAddress:string)=>{
   const web3Enable = (await import("@polkadot/extension-dapp")).web3Enable;
   await web3Enable('my cool dapp');
-  const provider = new WsProvider('ws://127.0.0.1:9944');
+  const provider = new WsProvider(CHAIN_URL);
   // const provider = new WsProvider('ws://47.243.17.26:9944');
   const api = await ApiPromise.create({
     provider,
@@ -152,7 +154,7 @@ const substrate_getAmountOutPrice = async (intactWalletAddress,token_number,pool
   const result = await axios(
       {
         method: "post",
-        url: 'http://127.0.0.1:9933',
+        url: CHAIN_RPC_URL,
         headers: {
           'Content-Type': 'application/json'
         },
@@ -178,7 +180,7 @@ const substrate_EstimateOutToken = async (intactWalletAddress,input_number,token
   const result = await axios(
       {
         method: "post",
-        url: 'http://127.0.0.1:9933',
+        url: CHAIN_RPC_URL,
         headers: {
           'Content-Type': 'application/json'
         },
@@ -206,7 +208,7 @@ const substrate_getEstimateLpToken = async (intactWalletAddress,token_a,amount_a
   const result = await axios(
       {
         method: "post",
-        url: 'http://127.0.0.1:9933',
+        url: CHAIN_RPC_URL,
         headers: {
           'Content-Type': 'application/json'
         },

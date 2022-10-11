@@ -403,8 +403,8 @@ const Detail = () =>{
                     tvl:result[0].tvl,
                     volume:result[0].volume,
                     volume_days:result[0].volume_days,
-                    total_lp:(parseFloat(String(cropData((total_lp_token_balance_result / Math.pow(10, 18)),5)))).toString(),
-                    your_lp:(parseFloat(String(cropData((user_lp_token_balance_result/Math.pow(10,18)),5)))).toString(),
+                    total_lp:(parseFloat(String(cropData((total_lp_token_balance_result / Math.pow(10, 12)),5)))).toString(),
+                    your_lp:(parseFloat(String(cropData((user_lp_token_balance_result/Math.pow(10,12)),5)))).toString(),
                 }
                 setPoolDetails(poolDetails)
                 setTokenABalance(String(parseFloat(String(cropData(Number((balance.toJSON()[1]) / baseNumberA), 4)))))

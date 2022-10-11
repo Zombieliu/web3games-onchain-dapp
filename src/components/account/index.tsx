@@ -36,10 +36,15 @@ const FunctionList = () =>{
     SetWalletButtonShow(false)
     SetAccountChooseValue(0)
     SetIntactWalletAddress("")
+    location.reload();
   }
   function ChangeWallet() {
     SetOpenWalletListState(true)
-    closewallet()
+    setHidden(true)
+    SetAccountConfig(false)
+    SetWalletButtonShow(false)
+    SetAccountChooseValue(0)
+    SetIntactWalletAddress("")
   }
 
   return (

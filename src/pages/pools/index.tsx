@@ -12,10 +12,18 @@ import {
     IntactWalletAddress,
     Select_TokenTail,
     Select_TokenTop,
-    SwapTokenTail, SwapTokenTop,
+    SwapTokenTail,
+    SwapTokenTop,
     WalletButtonShowState,
     WalletListShowState,
-    token_pool_pair, TOKENWATCHPOOLPAIR, PopUpBoxInfo, PopUpBoxState, AwaitPopUpBoxState, W3G_info,AllTokenPoolPair
+    token_pool_pair,
+    TOKENWATCHPOOLPAIR,
+    PopUpBoxInfo,
+    PopUpBoxState,
+    AwaitPopUpBoxState,
+    W3G_info,
+    AllTokenPoolPair,
+    TokenListAndBalance
 } from '../../jotai';
 import { useRouter } from "next/router";
 import Link from "next/link";
@@ -126,34 +134,38 @@ const Pools = () =>{
 
             //check token balance
             const query_token_balance = async () =>{
-                const api = await chain_api(intactWalletAddress)
-                const times = tokenlist.length
-                let token_list = tokenlist.concat()
-                let token_balance = []
-                for (let i =0;i<times;i++){
-                    const account_token_balance_result = await api.query.tokenFungible.balances(tokenlist[i].tokenId,intactWalletAddress_local);
-                    const account_token_balance_decimals = await api.query.tokenFungible.tokens(tokenlist[i].tokenId)
-                    const baseNumber = Math.pow(10,account_token_balance_decimals.toJSON().decimals)
-                    const token_balance =  Number(account_token_balance_result.toString())
-                    const token_balance_real_number = parseFloat(String(cropData((token_balance / baseNumber), 4)))
-                    token_list[i].data = token_balance_real_number.toString()
-                    console.log(account_token_balance_decimals.toJSON().decimals)
+                if(AccountChoose == 2) {
+                    const api = await chain_api(intactWalletAddress)
+                    const times = tokenlist.length
+                    let token_list = tokenlist.concat()
+                    let token_balance = []
+                    for (let i = 0; i < times; i++) {
+                        const account_token_balance_result = await api.query.tokenFungible.balances(tokenlist[i].tokenId, intactWalletAddress_local);
+                        const account_token_balance_decimals = await api.query.tokenFungible.tokens(tokenlist[i].tokenId)
+                        const baseNumber = Math.pow(10, account_token_balance_decimals.toJSON().decimals)
+                        const token_balance = Number(account_token_balance_result.toString())
+                        const token_balance_real_number = parseFloat(String(cropData((token_balance / baseNumber), 4)))
+                        token_list[i].data = token_balance_real_number.toString()
+                        console.log(account_token_balance_decimals.toJSON().decimals)
 
-                }
-                settokenList(token_list)
-                let { data: { free: previousFree }} = await api.query.system.account(intactWalletAddress);
-                const account_W3G_balance_result = `${previousFree}`
-                const baseNumber = Math.pow(10,18)
-                const W3G_balance_real_number = parseFloat(String(cropData((Number(account_W3G_balance_result) / baseNumber), 4)))
-                const W3G_info = {
-                    tokenId:'0',
-                    img:"/img.png",
-                    title:"W3G",
-                    name:"W3G",
-                    data:`${W3G_balance_real_number}`,
-                }
+                    }
+                    settokenList(token_list)
+                    let {data: {free: previousFree}} = await api.query.system.account(intactWalletAddress);
+                    const account_W3G_balance_result = `${previousFree}`
+                    const baseNumber = Math.pow(10, 18)
+                    const W3G_balance_real_number = parseFloat(String(cropData((Number(account_W3G_balance_result) / baseNumber), 4)))
+                    const W3G_info = {
+                        tokenId: '0',
+                        img: "/img.png",
+                        title: "W3G",
+                        name: "W3G",
+                        data: `${W3G_balance_real_number}`,
+                    }
 
-                setW3GInfo(W3G_info)
+                    setW3GInfo(W3G_info)
+                }else {
+                    settokenList(TokenListAndBalance)
+                }
             }
             query_token_balance()
         }
@@ -267,10 +279,8 @@ const Pools = () =>{
                                 type:"Create Pool",
                                 hash:"",
                             })
-                            setTimeout(()=>{
                                 setAwait_pop_up_boxState(false)
                                 setSop_up_boxState(true)
-                            },2500)
                         }
                     });
                 }

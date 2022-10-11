@@ -9,7 +9,7 @@ import {
     Select_TokenTail,
     Select_TokenTop,
     SwapTokenTail,
-    SwapTokenTop, token_list_and_balance, W3G_info,
+    SwapTokenTop, token_list_and_balance, TokenListAndBalance, W3G_info,
     WalletButtonShowState, WalletListShowState
 } from "../../jotai";
 import SelectTokenTail from "../../components/selecttokentail";
@@ -460,6 +460,7 @@ const Swap = () =>{
 
             //check token balance
             const query_token_balance = async () =>{
+                if(AccountChoose == 2){
                 const api = await chain_api(intactWalletAddress)
                 const times = tokenlist.length
                 let token_list = tokenlist.concat()
@@ -486,6 +487,9 @@ const Swap = () =>{
                 }
 
                 setW3GInfo(W3G_info)
+                }else {
+                    settokenList(TokenListAndBalance)
+                }
             }
             query_token_balance()
         }
