@@ -48,6 +48,18 @@ const  Trident = () => {
              // { name: 'Mint', href: '/defi_mint',}
          ]
         },
+        {
+            title: "Lanuchpad",
+            contents: [
+                { name: 'Home', href: '/launchpad', },
+                { name: 'Next', href: '/nextido',},
+                { name: 'History', href: '/historyido',},
+                // { name: 'Bridge', href: '/bridge',},
+                // { name: 'Farms', href: '/farms',},
+                // { name: 'Staking', href: '/staking',},
+                // { name: 'Mint', href: '/defi_mint',}
+            ]
+        },
         // {
         //     title: "NFT",
         //     contents: [

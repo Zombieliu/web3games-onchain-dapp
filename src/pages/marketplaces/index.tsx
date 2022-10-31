@@ -328,9 +328,9 @@ const MarketPlaces = () =>{
                                     </Link>
                                 </div>
                             </div>
-                            <Featured/>
-                            <Rank/>
-                            <Trending/>
+                            {/*<Featured/>*/}
+                            {/*<Rank/>*/}
+                            {/*<Trending/>*/}
                         </div>
                     </div>
                 </div>
