@@ -101,24 +101,12 @@ const  Trident = () => {
 
     if(selected){
         return (
-            <div>
-                <div className="flex justify-center ">
-                    <div className={selected.id == 2? " ":"hidden"}>
-                    {TestNavigation.map(item=>(
-                        <Link key={item.name} href={item.href}>
-                            <a  className="relative inline-block text-left font-semibold mr-10">
-                                <div className=" py-2.5 text-sm leading-5  rounded-lg text-base font-medium text-gray-100
-                                  focus: ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-90 flex justify-center">
-                                    {item.name}
-                                </div>
-                            </a>
-                        </Link>
-                    ))}
-                    </div>
+            <div className="">
+                <div className="xl:flex justify-center grid grid-cols-2 md:grid-cols-4  ">
                     {navigation.map(item=>(
-                        <Menu as="div" key={item.title} className="relative inline-block text-left font-semibold mr-10">
+                        <Menu as="div" key={item.title} className="relative inline-block text-left font-semibold xl:mr-10">
                             <div>
-                                <Menu.Button className=" py-2.5 text-sm leading-5  rounded-lg text-base font-medium text-gray-100
+                                <Menu.Button className=" py-2.5 text-sm leading-5 w-24 xl:w-full text-center  rounded-lg text-base font-medium text-gray-100
                                   focus: ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-90 flex justify-center">
                                     {item.title}      <div><i className="fa fa-angle-down ml-2" aria-hidden="true"></i></div>
                                 </Menu.Button>
@@ -148,9 +136,19 @@ const  Trident = () => {
                             </Transition>
                         </Menu>
                     ))}
-
-                </div>
-
+                    <div className={selected.id == 2? " ":"hidden"}>
+                        {TestNavigation.map(item=>(
+                            <Link key={item.name} href={item.href}>
+                                <a  className="relative inline-block text-left font-semibold  w-24 xl:w-full text-center">
+                                    <div className=" py-2.5 text-sm leading-5  rounded-lg text-base font-medium text-gray-100
+                                  focus: ring-offset-2 ring-offset-blue-400 ring-white ring-opacity-90 flex justify-center">
+                                        {item.name}
+                                    </div>
+                                </a>
+                            </Link>
+                        ))}
+                    </div>
+                    </div>
 
             </div>
 

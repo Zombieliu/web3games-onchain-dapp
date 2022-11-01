@@ -136,7 +136,7 @@ const token = [
         return true
     }
     return (
-      <div className="mx-auto bg-W3GBG transition duration-700 bg-auto">
+      <div className="mx-auto bg-W3GBG transition duration-700 bg-auto ">
           <Heads/>
           <Header/>
           <div className="hidden xl:block absolute xl:top-14 2xl:top-20 xl:left-44 2xl:left-96">
@@ -155,7 +155,7 @@ const token = [
               <img className={classNames(scroll?" transform ":" transform -translate-y-8",'w-44 transition duration-700 transition delay-150 duration-300') } src="/img/3d-cross.png" alt=""/>
           </div>
 
-          <div className="relative max-w-3xl mx-auto py-32 xl:py-20 2xl:py-36  px-4 ">
+          <div className="relative max-w-3xl mx-auto py-32 xl:py-20 2xl:py-56  px-4 ">
               <div className=" rounded-xl border-2 border-[#333333]   ">
                   <div className="p-10 bg-[#272727]    rounded-xl bg-opacity-50 backdrop-blur-sm ">
                       <div className="mx-auto flex justify-between items-center">
