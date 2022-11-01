@@ -205,7 +205,7 @@ const Details = () =>{
         <div>
             <Heads/>
             <Header/>
-            <div className="relative pt-16">
+            <div className="relative pt-20 bg-W3GTopBG">
                 <div className="absolute inset-x-0 bottom-0    " />
                 <div className=" mx-auto  ">
                     <div className="relative sm:overflow-hidden">
@@ -220,7 +220,7 @@ const Details = () =>{
                         </div>
                     </div>
 
-                    <div className="bg-black bg-opacity-95 ">
+                    <div className="">
                         <div className="max-w-7xl relative px-5 py-16  sm:px-6  mx-auto ">
                            <DetailsTop/>
                             <DetailsTable/>

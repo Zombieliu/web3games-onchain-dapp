@@ -70,9 +70,10 @@ const FunctionList = () =>{
 }
 
 const Account=()=>{
-  const Copy=(span)=> {
-    let spanText = document.getElementById(span).innerText;
-    let oInput = document.createElement('input');
+  const Copy=(span)=>{
+    console.log(span)
+    const spanText = span;
+    const oInput = document.createElement('input');
     oInput.value = spanText;
     document.body.appendChild(oInput);
     oInput.select();
@@ -80,10 +81,9 @@ const Account=()=>{
     oInput.className = 'oInput';
     oInput.style.display = 'none';
     document.body.removeChild(oInput);
-    // if (oInput) {
+    // if(oInput){
     //   setIsOpen(true)
     // }
-
   }
 
   const [AccountConfig,SetAccountConfig] = useAtom(AccountConfigPageState)
@@ -139,10 +139,11 @@ const Account=()=>{
                 </div>
                 </div>
                 <div className="mt-5">
-                  <button  onClick={() => {
-                    // @ts-ignore
-                    Copy(`${intactWalletAddress}`);}} className="bg-gray-600 p-3 text-white rounded-full w-72 md:w-96 bg-gradient-to-r from-[#DA6081] via-[#8D6BCD]  to-[#7092E7]">
-                   <div >
+                  <button
+                      onClick={() => {
+                        // @ts-ignore
+                        Copy(`${intactWalletAddress}`);}} className="bg-gray-600 p-3 text-white rounded-full w-72 md:w-96 bg-gradient-to-r from-[#DA6081] via-[#8D6BCD]  to-[#7092E7]">
+                   <div>
                      {walletAddress}
                    </div>
                   </button>

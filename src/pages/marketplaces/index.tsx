@@ -295,13 +295,13 @@ const Trending = () =>{
 
 const MarketPlaces = () =>{
     return (
-        <div>
+        <div className="bg-W3GTopBG">
             <Heads/>
             <Header/>
-            <div className="relative pt-16">
+            <div className="relative pt-16 ">
                 <div className="absolute inset-x-0 bottom-0    " />
                 <div className=" mx-auto  ">
-                    <div className="bg-black bg-opacity-95 ">
+                    <div className=" bg-opacity-95 ">
                         <div className="max-w-7xl  px-5 py-16  sm:px-6  mx-auto ">
                             <div className="text-white max-w-xl xl:max-w-2xl mx-auto">
                                 <div className="flex justify-center text-gray-200  text-center text-2xl md:text-4xl xl:text-5xl font-semibold" >
