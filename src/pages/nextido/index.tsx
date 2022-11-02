@@ -2,6 +2,7 @@ import Heads from "../../components/head";
 import Header from "../../components/header/index.";
 import React from "react";
 import Tail from "../../components/tail";
+import Link from "next/link";
 
 const Content = () => {
     const project = [
@@ -101,7 +102,8 @@ const Content = () => {
                     </div>
                     <div className="hidden md:grid md:grid-cols-2 xl:grid-cols-3  gap-8 mt-5" >
                         {project.map((item =>(
-                            <div key={item.project_name} className="rounded-lg   ">
+                            <Link key={item.project_name} href={`/launchpad/details/${item.project_name}`}>
+                            <div  className="rounded-lg">
                                 <div className='relative '>
                                     <img className="rounded-lg md:rounded-t-lg w-full h-48"  src={item.project_image_url} alt=""/>
                                     <div className="absolute top-5 right-6 bg-gradient-to-r from-[#4B85DC] to-[#511D94] px-3 py-1.5 rounded-full text-xs">
@@ -143,12 +145,14 @@ const Content = () => {
                                 <div>
                                 </div>
                             </div>
+                            </Link>
                         )))}
                     </div>
 
                     <div className="md:hidden mt-5 grid grid-cols-1 gap-8" >
                         {project.map((item =>(
-                            <div key={item.project_name} className="rounded-lg flex p-1.5 bg-W3GNavigationBorder  ">
+                            <Link key={item.project_name} href={`/launchpad/details/${item.project_name}`}>
+                            <div className="rounded-lg flex p-1.5 bg-W3GNavigationBorder  ">
                                 <div className='relative w-11/12'>
                                     <img className="rounded-lg md:rounded-t-lg  h-40"  src={item.project_image_url} alt=""/>
                                     <div className="absolute top-2 left-1  bg-gradient-to-r from-[#4B85DC] to-[#511D94] px-3 py-1.5 rounded-full text-xs">
@@ -191,6 +195,7 @@ const Content = () => {
                                 <div>
                                 </div>
                             </div>
+                            </Link>
                         )))}
                     </div>
                 </div>
