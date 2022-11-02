@@ -5,6 +5,11 @@ module.exports = {
     darkMode: 'media', // or 'media' or 'class'
     theme: {
         extend: {
+            screens:{
+                "small":"375px",
+                "xs" :"400px",
+
+            },
             fontFamily: {
                 sans: ['Inter var', ...defaultTheme.fontFamily.sans],
             },
@@ -14,7 +19,8 @@ module.exports = {
                 big:'40rem',
             },
             spacing:{
-                '18': '4.5rem',
+                '18':'4.5rem',
+                "85":"21.5rem",
                 '90':"23rem",
                 "97":"28rem",
                 '99': "32rem",
@@ -73,6 +79,11 @@ module.exports = {
                     DEFAULT:'#8861D1',
                     light:"#8861D1",
                     dark:"#8861D1",
+                },
+                multipay:{
+                    DEFAULT:'#CECECE',
+                    light:"#CECECE",
+                    dark:"#CECECE",
                 }
 
             },

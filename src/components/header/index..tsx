@@ -91,6 +91,12 @@ const  Trident = () => {
                 { name: 'Docs', href: 'https://docs.web3games.org/', },
             ]
         },
+        {
+            title: "MultiPay",
+            contents: [
+                { name: 'Home', href: '/multipay', },
+            ]
+        },
 
     ]
 
@@ -102,7 +108,7 @@ const  Trident = () => {
     if(selected){
         return (
             <div className="">
-                <div className="xl:flex justify-center grid grid-cols-2 md:grid-cols-4  ">
+                <div className="xl:flex justify-center grid grid-cols-3 md:grid-cols-5  ">
                     {navigation.map(item=>(
                         <Menu as="div" key={item.title} className="relative inline-block text-left font-semibold xl:mr-10">
                             <div>

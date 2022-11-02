@@ -82,7 +82,7 @@ const Content = () => {
                                         <div className=' flex  mb-3 xl:mb-6'>
                                             Coming Soon:
                                         </div>
-                                        <div className='grid grid-cols-4 gap-4  '>
+                                        <div className='grid grid-cols-4 gap-4 text-xs md:text-base '>
                                             <div className='bg-[#222A35]/40 p-1.5  rounded-lg text-center'>
                                                 <div>
                                                     1
@@ -260,8 +260,8 @@ const Content = () => {
                             <div className="w-full flex xl:hidden relative overflow-x-auto snap-x snap-mandatory mt-5" >
                                 {project.map((item =>(
                                     <Link key={item.project_name} href={`/launchpad/details/${show_project.project_name}`}>
-                                        <div  className="rounded-lg rounded-lg snap-always snap-center md:snap-start  mx-5 mb-3">
-                                            <div className='relative w-96'>
+                                        <div  className="rounded-lg rounded-lg snap-always snap-center md:snap-start mx-5  mb-3">
+                                            <div className='relative small:w-85 xs:w-96'>
                                                 <img className="rounded-t-lg w-full h-48"  src={item.project_image_url} alt=""/>
                                                 <div className="absolute top-5 right-6 bg-gradient-to-r from-[#4B85DC] to-[#511D94] px-3 py-1.5 rounded-full text-xs">
                                                     {item.project_state}
@@ -368,7 +368,7 @@ const Content = () => {
                             <div className="w-full flex xl:hidden relative overflow-x-auto snap-x snap-mandatory mt-5" >
                                 {project.map((item =>(
                                     <div key={item.project_name} className="rounded-lg snap-always snap-center md:snap-start mx-5 mb-3">
-                                        <div className='relative w-96'>
+                                        <div className='relative  small:w-85 xs:w-96 '>
                                             <img className="rounded-t-lg w-full h-48"  src={item.project_image_url} alt=""/>
                                             <div className="absolute top-5 right-6 bg-gradient-to-r from-[#4B85DC] to-[#511D94] px-3 py-1.5 rounded-full text-xs">
                                                 {item.project_state}

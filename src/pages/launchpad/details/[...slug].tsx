@@ -36,7 +36,7 @@ const Content = () =>{
                 <div className=" max-w-7xl mx-auto" >
                     <div className="relative rounded-xl ">
                         <img className="hidden  xl:flex absolute w-full h-full z-10 opacity-80" src="/cryptoempire.png" alt=""/>
-                        <div className='flex flex-col xl:flex-row justify-between  p-5 md:p-10 bg-[#3E4459]/40 rounded-xl  xl:bg-W3GBG  bg-cover	relative'  >
+                        <div className='flex flex-col xl:flex-row justify-between  p-3 md:p-10 bg-[#3E4459]/40 rounded-xl  xl:bg-W3GBG  bg-cover	relative'  >
                             <div className='xl:w-6/12 z-10 xl:mr-10'>
                                 <div className='mb-6'>
                                     <div className="flex xl:block">
@@ -57,7 +57,7 @@ const Content = () =>{
                                     </div>
                                     </div>
                                     <div className="flex justify-between p-2 pr-4 items-center my-2 bg-[#313543] rounded-md">
-                                        <div className="text-sm">
+                                        <div className="text-xs md:text-sm">
                                             0xuhdnUBY049520n9c28fh489ndnX8s034hk234
                                         </div>
                                         <div>
@@ -92,7 +92,7 @@ const Content = () =>{
                                             Not Enrolled
                                         </div>
                                     </div>
-                                    <div className="flex  xl:text-sm mt-2 xl:mt-4 justify-center md:justify-start ">
+                                    <div className="flex  text-sm mt-2 xl:mt-4 justify-center md:justify-start ">
                                         <div className="text-gray-400">
                                             Enrollment closes:
                                         </div>
@@ -134,10 +134,10 @@ const Content = () =>{
                                                             />
                                                         </div>
                                                         <div className="flex ">
-                                                            <div className="rounded-lg py-1 px-3 text-blue-400 bg-[#616884] mr-2">
+                                                            <div className="rounded-lg py-1 px-1 md:px-3 text-blue-400 bg-[#616884] mr-2">
                                                                 MAX
                                                             </div>
-                                                            <div className="rounded-lg py-1 px-3 text-blue-400 bg-[#616884]">
+                                                            <div className="rounded-lg py-1 px-1 md:px-3 text-blue-400 bg-[#616884]">
                                                                 Swap
                                                             </div>
                                                         </div>
@@ -150,13 +150,8 @@ const Content = () =>{
                                                         <div className="flex">
                                                             1 MYRA = 1.0000USDT.e
                                                         </div>
-
                                                     </div>
-
                                                 </div>
-
-
-
                                             </Tab.Panel>
                                             {/*Popular*/}
                                             <Tab.Panel className={classNames('text-gray-300 rounded-xl md:p-1 ')}>
@@ -181,10 +176,7 @@ const Content = () =>{
                                                                 Claim
                                                             </div>
                                                         </div>
-
                                                     </div>
-
-
                                                 </div>
 
                                             </Tab.Panel>
@@ -210,7 +202,7 @@ const Content = () =>{
 
                                         </div>
                                     </div>
-                                    <div className="flex md:text-sm mt-4 items-center justify-center md:justify-start">
+                                    <div className="flex text-sm mt-4 items-center justify-center md:justify-start">
                                         <i className="fa fa-calendar-o mr-1 text-gray-400" aria-hidden="true"></i>
                                         <div className="text-gray-400 mr-0.5">
                                             Token Claim Date:
