@@ -165,7 +165,7 @@ const token = [
                           </div>
                       </div>
                       <div className="text-white mt-5">
-                          This faucet transfers TestToken on Matic testnets and parent chain. Confirm details before submitting.This faucet transfers TestToken on Matic testnets and parent chain. Confirm details before submitting.
+                          This faucet transfers TestToken on Web3Games testnets and parent chain. Confirm details before submitting.This faucet transfers TestToken on Web3Games testnets and parent chain. Confirm details before submitting.
                       </div>
 
                       <div className="mt-10  items-center">
