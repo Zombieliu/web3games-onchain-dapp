@@ -420,12 +420,14 @@ const Content = () => {
 }
 
 const Lanuchpad = () =>{
-    return <div className="bg-W3GBG">
-        <Heads/>
-        <Header/>
-        <Content/>
-        <Tail/>
-    </div>
+    return(
+        <div className="bg-W3GBG">
+            <Heads/>
+            <Header/>
+            <Content/>
+            <Tail/>
+        </div>
+    )
 }
 
 export default Lanuchpad

@@ -277,7 +277,7 @@ const Header = () =>{
                 <Login/>
                 <Account/>
                 <Popover className="relative   ">
-                    <div className="flex  fixed z-20 inset-x-0 bg-black/85 backdrop-blur     transition duration-700 mb-10   justify-between items-center  p-3  lg:justify-end  px-5 md:px-10  ">
+                    <div className="flex  fixed z-20 inset-x-0 bg-black/80 backdrop-blur     transition duration-700 mb-10   justify-between items-center  p-3  lg:justify-end  px-5 md:px-10  ">
                         <div className=" flex w-full justify-between items-center xl:justify-start">
                             {/*Logo */}
                             <div className=" ">

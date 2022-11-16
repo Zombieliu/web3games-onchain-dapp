@@ -415,7 +415,7 @@ const Pools = () =>{
                                         </div>
                                     </div>
 
-                                    <div className="w-full mt-2   ">
+                                    <div className="w-full mt-2   overflow-auto">
                                         <table className="min-w-full divide-y divide-W3GInfoBorderBG">
                                             <thead className=" text-neutral-300 ">
                                             <tr>
@@ -465,7 +465,7 @@ const Pools = () =>{
                                 </div>
                                 {/*TopPools*/}
                                 <div className="text-white mt-10 p-5 rounded-lg bg-W3GInfoBG">
-                                    <div className="flex items-center justify-between">
+                                    <div className="md:flex items-center justify-between">
 
                                     <div className="flex ">
                                         <div className=" ">
@@ -531,7 +531,7 @@ const Pools = () =>{
                                             </div>
 
                                             {/* CheckBox*/}
-                                            <div className="mx-4 flex items-center">
+                                            <div className="mx-4 hidden md:flex items-center">
                                                 <input type="checkbox" className="accent-[#8E6CCD] mx-2" />
                                             <div className="text-gray-500">
                                                 Hide low TVL
@@ -554,8 +554,8 @@ const Pools = () =>{
                                     </div>
                                         </div>
                                     </div>
-                                    <div className="w-full mt-2  mb-12 ">
-                                        <table className="min-w-full divide-y divide-W3GInfoBorderBG">
+                                    <div className="w-full mt-2  mb-12 overflow-auto">
+                                        <table className="min-w-full divide-y divide-W3GInfoBorderBG ">
                                             <thead className=" text-neutral-300 ">
                                             <tr>
                                                 {tokenstitle.map(title => (

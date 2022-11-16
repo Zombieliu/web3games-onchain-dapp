@@ -4,7 +4,7 @@ import Home from "./home";
 
 const IndexPage: NextPage = () => {
   return (
-    <div>
+    <div >
       <Head>
         <title>Web3Games On-Chain | Dapp</title>
         <link rel="icon" href="/web3gsmall.png" />
