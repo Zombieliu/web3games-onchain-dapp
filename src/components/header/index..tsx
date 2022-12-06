@@ -49,7 +49,7 @@ const  Trident = () => {
          ]
         },
         {
-            title: "Lanuchpad",
+            title: "Launchpad",
             contents: [
                 { name: 'Home', href: '/launchpad', },
                 { name: 'Next', href: '/nextido',},
